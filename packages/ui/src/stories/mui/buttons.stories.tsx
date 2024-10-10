@@ -1,15 +1,12 @@
 import { Meta } from "@storybook/react";
+import { Button } from "@mui/material";
 
 const meta: Meta = {
   title: "mui/Buttons",
-
-  parameters: {
-    layout: "centered",
-  },
-  tags: ["autodocs"],
-  argTypes: {},
 };
 
 export default meta;
 
-export const Preview = () => {};
+export const Buttons = () => {
+  return <Button variant="contained">Testing</Button>;
+};
