@@ -45,7 +45,15 @@ export const darkTheme = extendTheme({
 });
 
 function shouldSkipGeneratingVar(keys: string[], value: string | number): boolean {
-  const includeGlobalKeys = ["customShadows", "palette"];
+  const skipGlobalKeys = [
+    "mixins",
+    "overlays",
+    "direction",
+    "breakpoints",
+    "cssVarPrefix",
+    "unstable_sxConfig",
+    "typography",
+  ];
 
-  return !arrayIncludes(includeGlobalKeys, keys[0]);
+  return arrayIncludes(skipGlobalKeys, keys[0]);
 }

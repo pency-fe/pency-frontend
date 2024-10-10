@@ -1,5 +1,6 @@
 "use client";
 
+import "@pency/ui/global.css";
 import { InitThemeProvider } from "@pency/ui";
 
 type Props = {

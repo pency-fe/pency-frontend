@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./global.css": "./src/global.css"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -36,6 +37,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+    "@fontsource/pretendard": "^5.1.0",
     "@mui/material": "^5.16.7",
     "@mui/material-nextjs": "^5.16.6",
     "@pency/util": "workspace:*",
