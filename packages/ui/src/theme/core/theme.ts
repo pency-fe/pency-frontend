@@ -12,11 +12,13 @@ import {
   lightShadows,
   typography,
 } from "./token";
+import { arrayIncludes } from "@pency/util";
 
 const baseTheme = {
   shape: { borderRadius: 8 },
   typography,
   cssVarPrefix: "",
+  shouldSkipGeneratingVar,
 };
 
 const colorSchemes: Partial<Record<SupportedColorScheme, ColorSystemOptions>> = {
@@ -41,3 +43,9 @@ export const darkTheme = extendTheme({
   shadows: darkShadows,
   customShadows: darkCustomShadows,
 });
+
+function shouldSkipGeneratingVar(keys: string[], value: string | number): boolean {
+  const includeGlobalKeys = ["customShadows", "palette"];
+
+  return !arrayIncludes(includeGlobalKeys, keys[0]);
+}
