@@ -1,6 +1,6 @@
 import { Shadows } from "@mui/material";
-import { varAlpha } from "../../../util";
 import { ColorScheme } from "../types";
+import { varAlpha } from "../../../util";
 import { grey, common } from "./palette";
 
 function createShadows(colorScheme: ColorScheme): Shadows {
