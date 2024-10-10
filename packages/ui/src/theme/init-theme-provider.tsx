@@ -1,6 +1,13 @@
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { CssBaseline } from "@mui/material";
-import { ConfigThemeProvider } from "./config-theme-provider";
+import {
+  ATTRIBUTE,
+  COLOR_SCHEME_STORAGE_KEY,
+  ConfigThemeProvider,
+  DEFAULT_MODE,
+  MODE_STORAGE_KEY,
+} from "./config-theme-provider";
+import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
 
 type Props = {
   children: React.ReactNode;
@@ -9,6 +16,12 @@ type Props = {
 export function InitThemeProvider({ children }: Props) {
   return (
     <>
+      <InitColorSchemeScript
+        defaultMode={DEFAULT_MODE}
+        modeStorageKey={MODE_STORAGE_KEY}
+        attribute={ATTRIBUTE}
+        colorSchemeStorageKey={COLOR_SCHEME_STORAGE_KEY}
+      />
       <AppRouterCacheProvider options={{ key: "css" }}>
         <ConfigThemeProvider>
           <CssBaseline />

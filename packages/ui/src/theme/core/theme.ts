@@ -1,4 +1,8 @@
-import { createTheme } from "@mui/material";
+import {
+  ColorSystemOptions,
+  SupportedColorScheme,
+  experimental_extendTheme as extendTheme,
+} from "@mui/material/styles";
 import {
   darkCustomShadows,
   darkPalette,
@@ -12,18 +16,28 @@ import {
 const baseTheme = {
   shape: { borderRadius: 8 },
   typography,
+  cssVarPrefix: "",
 };
 
-export const lightTheme = createTheme({
+const colorSchemes: Partial<Record<SupportedColorScheme, ColorSystemOptions>> = {
+  light: {
+    palette: lightPalette,
+  },
+  dark: {
+    palette: darkPalette,
+  },
+};
+
+export const lightTheme = extendTheme({
   ...baseTheme,
-  palette: lightPalette,
+  colorSchemes,
   shadows: lightShadows,
   customShadows: lightCustomShadows,
 });
 
-export const darkTheme = createTheme({
+export const darkTheme = extendTheme({
   ...baseTheme,
-  palette: darkPalette,
+  colorSchemes,
   shadows: darkShadows,
   customShadows: darkCustomShadows,
 });

@@ -34,11 +34,11 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@pency/util": "workspace:*",
-    "react": "^18.2.0",
-    "@mui/material-nextjs": "^5.16.6",
-    "@mui/material": "^5.16.7",
     "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.13.0"
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^5.16.7",
+    "@mui/material-nextjs": "^5.16.6",
+    "@pency/util": "workspace:*",
+    "react": "^18.2.0"
   }
 }
