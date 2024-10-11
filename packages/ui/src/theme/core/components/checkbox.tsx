@@ -1,8 +1,8 @@
-import type { SvgIconProps } from '@mui/material/SvgIcon';
-import type { Theme, Components } from '@mui/material/styles';
+import type { SvgIconProps } from "@mui/material/SvgIcon";
+import type { Theme, Components } from "@mui/material/styles";
 
-import SvgIcon from '@mui/material/SvgIcon';
-import { checkboxClasses } from '@mui/material/Checkbox';
+import SvgIcon from "@mui/material/SvgIcon";
+import { checkboxClasses } from "@mui/material/Checkbox";
 
 // ----------------------------------------------------------------------
 
@@ -29,12 +29,12 @@ export const CheckboxIndeterminateIcon = (props: SvgIconProps) => (
 
 // ----------------------------------------------------------------------
 
-const MuiCheckbox: Components<Theme>['MuiCheckbox'] = {
+const MuiCheckbox: Components<Theme>["MuiCheckbox"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: {
-    size: 'small',
+    size: "small",
     icon: <CheckboxIcon />,
     checkedIcon: <CheckboxCheckedIcon />,
     indeterminateIcon: <CheckboxIndeterminateIcon />,
@@ -46,7 +46,7 @@ const MuiCheckbox: Components<Theme>['MuiCheckbox'] = {
   styleOverrides: {
     root: ({ ownerState, theme }) => ({
       padding: theme.spacing(1),
-      ...(ownerState.color === 'default' && {
+      ...(ownerState.color === "default" && {
         [`&.${checkboxClasses.checked}`]: { color: theme.vars.palette.text.primary },
       }),
       [`&.${checkboxClasses.disabled}`]: { color: theme.vars.palette.action.disabled },

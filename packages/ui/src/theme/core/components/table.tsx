@@ -1,20 +1,20 @@
-import type { Theme, Components } from '@mui/material/styles';
+import type { Theme, Components } from "@mui/material/styles";
 
-import { tableRowClasses } from '@mui/material/TableRow';
-import { tableCellClasses } from '@mui/material/TableCell';
+import { tableRowClasses } from "@mui/material/TableRow";
+import { tableCellClasses } from "@mui/material/TableCell";
 
-import { varAlpha } from '../../styles';
+import { varAlpha } from "../../../util";
 
 // ----------------------------------------------------------------------
 
-const MuiTableContainer: Components<Theme>['MuiTableContainer'] = {
+const MuiTableContainer: Components<Theme>["MuiTableContainer"] = {
   /** **************************************
    * STYLE
    *************************************** */
   styleOverrides: {
     root: ({ theme }) => ({
-      position: 'relative',
-      scrollbarWidth: 'thin',
+      position: "relative",
+      scrollbarWidth: "thin",
       scrollbarColor: `${varAlpha(theme.vars.palette.text.disabledChannel, 0.4)} ${varAlpha(theme.vars.palette.text.disabledChannel, 0.08)}`,
     }),
   },
@@ -22,18 +22,18 @@ const MuiTableContainer: Components<Theme>['MuiTableContainer'] = {
 
 // ----------------------------------------------------------------------
 
-const MuiTable: Components<Theme>['MuiTable'] = {
+const MuiTable: Components<Theme>["MuiTable"] = {
   /** **************************************
    * STYLE
    *************************************** */
   styleOverrides: {
-    root: ({ theme }) => ({ '--palette-TableCell-border': theme.vars.palette.divider }),
+    root: ({ theme }) => ({ "--palette-TableCell-border": theme.vars.palette.divider }),
   },
 };
 
 // ----------------------------------------------------------------------
 
-const MuiTableRow: Components<Theme>['MuiTableRow'] = {
+const MuiTableRow: Components<Theme>["MuiTableRow"] = {
   /** **************************************
    * STYLE
    *************************************** */
@@ -41,21 +41,21 @@ const MuiTableRow: Components<Theme>['MuiTableRow'] = {
     root: ({ theme }) => ({
       [`&.${tableRowClasses.selected}`]: {
         backgroundColor: varAlpha(theme.vars.palette.primary.darkChannel, 0.04),
-        '&:hover': { backgroundColor: varAlpha(theme.vars.palette.primary.darkChannel, 0.08) },
+        "&:hover": { backgroundColor: varAlpha(theme.vars.palette.primary.darkChannel, 0.08) },
       },
-      '&:last-of-type': { [`& .${tableCellClasses.root}`]: { borderColor: 'transparent' } },
+      "&:last-of-type": { [`& .${tableCellClasses.root}`]: { borderColor: "transparent" } },
     }),
   },
 };
 
 // ----------------------------------------------------------------------
 
-const MuiTableCell: Components<Theme>['MuiTableCell'] = {
+const MuiTableCell: Components<Theme>["MuiTableCell"] = {
   /** **************************************
    * STYLE
    *************************************** */
   styleOverrides: {
-    root: { borderBottomStyle: 'dashed' },
+    root: { borderBottomStyle: "dashed" },
     head: ({ theme }) => ({
       fontSize: 14,
       color: theme.vars.palette.text.secondary,
@@ -72,34 +72,34 @@ const MuiTableCell: Components<Theme>['MuiTableCell'] = {
 
 // ----------------------------------------------------------------------
 
-const MuiTablePagination: Components<Theme>['MuiTablePagination'] = {
+const MuiTablePagination: Components<Theme>["MuiTablePagination"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: {
-    backIconButtonProps: { size: 'small' },
-    nextIconButtonProps: { size: 'small' },
-    slotProps: { select: { name: 'table-pagination-select' } },
+    backIconButtonProps: { size: "small" },
+    nextIconButtonProps: { size: "small" },
+    slotProps: { select: { name: "table-pagination-select" } },
   },
 
   /** **************************************
    * STYLE
    *************************************** */
   styleOverrides: {
-    root: { width: '100%' },
+    root: { width: "100%" },
     toolbar: { height: 64 },
     actions: { marginRight: 8 },
     select: ({ theme }) => ({
       paddingLeft: 8,
-      display: 'flex',
-      alignItems: 'center',
-      '&:focus': { borderRadius: theme.shape.borderRadius },
+      display: "flex",
+      alignItems: "center",
+      "&:focus": { borderRadius: theme.shape.borderRadius },
     }),
     selectIcon: {
       right: 4,
       width: 16,
       height: 16,
-      top: 'calc(50% - 8px)',
+      top: "calc(50% - 8px)",
     },
   },
 };

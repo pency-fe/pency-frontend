@@ -1,10 +1,10 @@
-import type { Theme, Components } from '@mui/material/styles';
+import type { Theme, Components } from "@mui/material/styles";
 
-import { varAlpha } from '../../styles';
+import { varAlpha } from "../../../util";
 
 // ----------------------------------------------------------------------
 
-const MuiPaper: Components<Theme>['MuiPaper'] = {
+const MuiPaper: Components<Theme>["MuiPaper"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
@@ -14,9 +14,9 @@ const MuiPaper: Components<Theme>['MuiPaper'] = {
    * STYLE
    *************************************** */
   styleOverrides: {
-    root: { backgroundImage: 'none' },
+    root: { backgroundImage: "none" },
     outlined: ({ theme }) => ({
-      borderColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.16),
+      borderColor: varAlpha(theme.vars.palette.grey["500Channel"], 0.16),
     }),
   },
 };

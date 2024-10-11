@@ -1,10 +1,10 @@
-import type { SvgIconProps } from '@mui/material/SvgIcon';
-import type { Theme, Components } from '@mui/material/styles';
+import type { SvgIconProps } from "@mui/material/SvgIcon";
+import type { Theme, Components } from "@mui/material/styles";
 
-import { ratingClasses } from '@mui/material/Rating';
-import SvgIcon, { svgIconClasses } from '@mui/material/SvgIcon';
+import { ratingClasses } from "@mui/material/Rating";
+import SvgIcon, { svgIconClasses } from "@mui/material/SvgIcon";
 
-import { varAlpha } from '../../styles';
+import { varAlpha } from "../../../util";
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ export const RatingIcon = (props: SvgIconProps) => (
 
 // ----------------------------------------------------------------------
 
-const MuiRating: Components<Theme>['MuiRating'] = {
+const MuiRating: Components<Theme>["MuiRating"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
@@ -30,7 +30,7 @@ const MuiRating: Components<Theme>['MuiRating'] = {
    *************************************** */
   styleOverrides: {
     root: { [`&.${ratingClasses.disabled}`]: { opacity: 0.48 } },
-    iconEmpty: ({ theme }) => ({ color: varAlpha(theme.vars.palette.grey['500Channel'], 0.48) }),
+    iconEmpty: ({ theme }) => ({ color: varAlpha(theme.vars.palette.grey["500Channel"], 0.48) }),
     sizeSmall: { [`& .${svgIconClasses.root}`]: { width: 20, height: 20 } },
     sizeMedium: { [`& .${svgIconClasses.root}`]: { width: 24, height: 24 } },
     sizeLarge: { [`& .${svgIconClasses.root}`]: { width: 28, height: 28 } },

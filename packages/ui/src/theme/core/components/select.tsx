@@ -1,7 +1,7 @@
-import type { SvgIconProps } from '@mui/material/SvgIcon';
-import type { Theme, Components } from '@mui/material/styles';
+import type { SvgIconProps } from "@mui/material/SvgIcon";
+import type { Theme, Components } from "@mui/material/styles";
 
-import SvgIcon from '@mui/material/SvgIcon';
+import SvgIcon from "@mui/material/SvgIcon";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ const ArrowDownIcon = (props: SvgIconProps) => (
 
 // ----------------------------------------------------------------------
 
-const MuiSelect: Components<Theme>['MuiSelect'] = {
+const MuiSelect: Components<Theme>["MuiSelect"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
@@ -34,14 +34,14 @@ const MuiSelect: Components<Theme>['MuiSelect'] = {
       right: 10,
       width: 18,
       height: 18,
-      top: 'calc(50% - 9px)',
+      top: "calc(50% - 9px)",
     },
   },
 };
 
 // ----------------------------------------------------------------------
 
-const MuiNativeSelect: Components<Theme>['MuiNativeSelect'] = {
+const MuiNativeSelect: Components<Theme>["MuiNativeSelect"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
@@ -55,7 +55,7 @@ const MuiNativeSelect: Components<Theme>['MuiNativeSelect'] = {
       right: 10,
       width: 18,
       height: 18,
-      top: 'calc(50% - 9px)',
+      top: "calc(50% - 9px)",
     },
   },
 };

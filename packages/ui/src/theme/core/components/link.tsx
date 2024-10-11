@@ -1,12 +1,12 @@
-import type { Theme, Components } from '@mui/material/styles';
+import type { Theme, Components } from "@mui/material/styles";
 
 // ----------------------------------------------------------------------
 
-const MuiLink: Components<Theme>['MuiLink'] = {
+const MuiLink: Components<Theme>["MuiLink"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
-  defaultProps: { underline: 'hover' },
+  defaultProps: { underline: "hover" },
 
   /** **************************************
    * STYLE

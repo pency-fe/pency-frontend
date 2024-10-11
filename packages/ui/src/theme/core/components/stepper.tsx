@@ -1,8 +1,8 @@
-import type { Theme, Components } from '@mui/material/styles';
+import type { Theme, Components } from "@mui/material/styles";
 
 // ----------------------------------------------------------------------
 
-const MuiStepConnector: Components<Theme>['MuiStepConnector'] = {
+const MuiStepConnector: Components<Theme>["MuiStepConnector"] = {
   /** **************************************
    * STYLE
    *************************************** */

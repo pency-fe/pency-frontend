@@ -1,10 +1,10 @@
-import type { Theme, Components } from '@mui/material/styles';
+import type { Theme, Components } from "@mui/material/styles";
 
-import { inputLabelClasses } from '@mui/material/InputLabel';
+import { inputLabelClasses } from "@mui/material/InputLabel";
 
 // ----------------------------------------------------------------------
 
-const MuiFormLabel: Components<Theme>['MuiFormLabel'] = {
+const MuiFormLabel: Components<Theme>["MuiFormLabel"] = {
   /** **************************************
    * STYLE
    *************************************** */
@@ -19,7 +19,7 @@ const MuiFormLabel: Components<Theme>['MuiFormLabel'] = {
         [`&.${inputLabelClasses.focused}`]: { color: theme.vars.palette.text.primary },
         [`&.${inputLabelClasses.error}`]: { color: theme.vars.palette.error.main },
         [`&.${inputLabelClasses.disabled}`]: { color: theme.vars.palette.text.disabled },
-        [`&.${inputLabelClasses.filled}`]: { transform: 'translate(12px, 6px) scale(0.75)' },
+        [`&.${inputLabelClasses.filled}`]: { transform: "translate(12px, 6px) scale(0.75)" },
       },
     }),
   },
@@ -27,11 +27,11 @@ const MuiFormLabel: Components<Theme>['MuiFormLabel'] = {
 
 // ----------------------------------------------------------------------
 
-const MuiFormHelperText: Components<Theme>['MuiFormHelperText'] = {
+const MuiFormHelperText: Components<Theme>["MuiFormHelperText"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
-  defaultProps: { component: 'div' },
+  defaultProps: { component: "div" },
 
   /** **************************************
    * STYLE
@@ -41,7 +41,7 @@ const MuiFormHelperText: Components<Theme>['MuiFormHelperText'] = {
 
 // ----------------------------------------------------------------------
 
-const MuiFormControlLabel: Components<Theme>['MuiFormControlLabel'] = {
+const MuiFormControlLabel: Components<Theme>["MuiFormControlLabel"] = {
   /** **************************************
    * STYLE
    *************************************** */

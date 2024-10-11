@@ -1,10 +1,10 @@
-import type { Theme, Components } from '@mui/material/styles';
+import type { Theme, Components } from "@mui/material/styles";
 
-import { menuItem } from '../../styles';
+import { menuItem } from "../mixins";
 
 // ----------------------------------------------------------------------
 
-const MuiMenuItem: Components<Theme>['MuiMenuItem'] = {
+const MuiMenuItem: Components<Theme>["MuiMenuItem"] = {
   /** **************************************
    * STYLE
    *************************************** */

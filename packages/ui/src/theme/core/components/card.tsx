@@ -1,14 +1,14 @@
-import type { Theme, Components } from '@mui/material/styles';
+import type { Theme, Components } from "@mui/material/styles";
 
 // ----------------------------------------------------------------------
 
-const MuiCard: Components<Theme>['MuiCard'] = {
+const MuiCard: Components<Theme>["MuiCard"] = {
   /** **************************************
    * STYLE
    *************************************** */
   styleOverrides: {
     root: ({ theme }) => ({
-      position: 'relative',
+      position: "relative",
       boxShadow: theme.customShadows.card,
       borderRadius: theme.shape.borderRadius * 2,
       zIndex: 0, // Fix Safari overflow: hidden with border radius
@@ -18,13 +18,13 @@ const MuiCard: Components<Theme>['MuiCard'] = {
 
 // ----------------------------------------------------------------------
 
-const MuiCardHeader: Components<Theme>['MuiCardHeader'] = {
+const MuiCardHeader: Components<Theme>["MuiCardHeader"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: {
-    titleTypographyProps: { variant: 'h6' },
-    subheaderTypographyProps: { variant: 'body2', marginTop: '4px' },
+    titleTypographyProps: { variant: "h6" },
+    subheaderTypographyProps: { variant: "body2", marginTop: "4px" },
   },
 
   /** **************************************
@@ -39,7 +39,7 @@ const MuiCardHeader: Components<Theme>['MuiCardHeader'] = {
 
 // ----------------------------------------------------------------------
 
-const MuiCardContent: Components<Theme>['MuiCardContent'] = {
+const MuiCardContent: Components<Theme>["MuiCardContent"] = {
   /** **************************************
    * STYLE
    *************************************** */

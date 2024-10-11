@@ -1,4 +1,5 @@
 import type {} from "@mui/material/themeCssVarsAugmentation";
+import type {} from "@mui/lab/themeAugmentation";
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { CssBaseline } from "@mui/material";

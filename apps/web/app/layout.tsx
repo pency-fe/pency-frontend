@@ -1,7 +1,7 @@
 "use client";
 
-import "@pency/ui/global.css";
 import { InitThemeProvider } from "@pency/ui";
+import "@pency/ui/global.css";
 
 type Props = {
   children: React.ReactNode;

@@ -1,17 +1,17 @@
-import type { Theme, Components } from '@mui/material/styles';
+import type { Theme, Components } from "@mui/material/styles";
 
 // ----------------------------------------------------------------------
 
-const MuiAppBar: Components<Theme>['MuiAppBar'] = {
+const MuiAppBar: Components<Theme>["MuiAppBar"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
-  defaultProps: { color: 'transparent' },
+  defaultProps: { color: "transparent" },
 
   /** **************************************
    * STYLE
    *************************************** */
-  styleOverrides: { root: { boxShadow: 'none' } },
+  styleOverrides: { root: { boxShadow: "none" } },
 };
 
 // ----------------------------------------------------------------------

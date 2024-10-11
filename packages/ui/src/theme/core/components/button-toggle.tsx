@@ -1,13 +1,13 @@
-import type { ToggleButtonProps } from '@mui/material/ToggleButton';
-import type { Theme, CSSObject, Components } from '@mui/material/styles';
+import type { ToggleButtonProps } from "@mui/material/ToggleButton";
+import type { Theme, CSSObject, Components } from "@mui/material/styles";
 
-import { toggleButtonClasses } from '@mui/material/ToggleButton';
+import { toggleButtonClasses } from "@mui/material/ToggleButton";
 
-import { varAlpha } from '../../styles';
+import { varAlpha } from "../../../util";
 
 // ----------------------------------------------------------------------
 
-const COLORS = ['primary', 'secondary', 'info', 'success', 'warning', 'error'] as const;
+const COLORS = ["primary", "secondary", "info", "success", "warning", "error"] as const;
 
 type ColorType = (typeof COLORS)[number];
 
@@ -24,7 +24,7 @@ function styleColors(ownerState: ToggleButtonProps, styles: (val: ColorType) => 
 
 // ----------------------------------------------------------------------
 
-const MuiToggleButton: Components<Theme>['MuiToggleButton'] = {
+const MuiToggleButton: Components<Theme>["MuiToggleButton"] = {
   /** **************************************
    * STYLE
    *************************************** */
@@ -32,18 +32,15 @@ const MuiToggleButton: Components<Theme>['MuiToggleButton'] = {
     root: ({ theme, ownerState }) => {
       const styled = {
         colors: styleColors(ownerState, (color) => ({
-          '&:hover': {
+          "&:hover": {
             borderColor: varAlpha(theme.vars.palette[color].mainChannel, 0.48),
-            backgroundColor: varAlpha(
-              theme.vars.palette[color].mainChannel,
-              theme.vars.palette.action.hoverOpacity
-            ),
+            backgroundColor: varAlpha(theme.vars.palette[color].mainChannel, theme.vars.palette.action.hoverOpacity),
           },
         })),
         selected: {
           [`&.${toggleButtonClasses.selected}`]: {
-            borderColor: 'currentColor',
-            boxShadow: '0 0 0 0.75px currentColor',
+            borderColor: "currentColor",
+            boxShadow: "0 0 0 0.75px currentColor",
           },
         },
         disabled: {
@@ -64,7 +61,7 @@ const MuiToggleButton: Components<Theme>['MuiToggleButton'] = {
 
 // ----------------------------------------------------------------------
 
-const MuiToggleButtonGroup: Components<Theme>['MuiToggleButtonGroup'] = {
+const MuiToggleButtonGroup: Components<Theme>["MuiToggleButtonGroup"] = {
   /** **************************************
    * STYLE
    *************************************** */
@@ -72,11 +69,11 @@ const MuiToggleButtonGroup: Components<Theme>['MuiToggleButtonGroup'] = {
     root: ({ theme }) => ({
       gap: 4,
       padding: 4,
-      border: `solid 1px ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
+      border: `solid 1px ${varAlpha(theme.vars.palette.grey["500Channel"], 0.08)}`,
     }),
     grouped: {
-      [`&.${toggleButtonClasses.root}`]: { border: 'none', borderRadius: 'inherit' },
-      [`&.${toggleButtonClasses.selected}`]: { boxShadow: 'none' },
+      [`&.${toggleButtonClasses.root}`]: { border: "none", borderRadius: "inherit" },
+      [`&.${toggleButtonClasses.selected}`]: { boxShadow: "none" },
     },
   },
 };

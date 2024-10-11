@@ -1,8 +1,8 @@
-import type { Theme, Components } from '@mui/material/styles';
+import type { Theme, Components } from "@mui/material/styles";
 
 // ----------------------------------------------------------------------
 
-const MuiStack: Components<Theme>['MuiStack'] = {
+const MuiStack: Components<Theme>["MuiStack"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */

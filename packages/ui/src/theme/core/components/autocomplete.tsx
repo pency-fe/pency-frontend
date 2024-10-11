@@ -5,7 +5,7 @@ import SvgIcon, { svgIconClasses } from "@mui/material/SvgIcon";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
 
 import { varAlpha } from "../../../util";
-// import { paper, menuItem } from "../../styles";
+import { paper, menuItem } from "../mixins";
 
 // ----------------------------------------------------------------------
 

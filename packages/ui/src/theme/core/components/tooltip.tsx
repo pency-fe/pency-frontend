@@ -1,25 +1,25 @@
-import type { Theme, Components } from '@mui/material/styles';
+import type { Theme, Components } from "@mui/material/styles";
 
-import { tooltipClasses } from '@mui/material/Tooltip';
+import { tooltipClasses } from "@mui/material/Tooltip";
 
-import { stylesMode } from '../../styles';
+import { stylesColorScheme } from "../../../util";
 
 // ----------------------------------------------------------------------
 
-const MuiTooltip: Components<Theme>['MuiTooltip'] = {
+const MuiTooltip: Components<Theme>["MuiTooltip"] = {
   /** **************************************
    * STYLE
    *************************************** */
   styleOverrides: {
     tooltip: ({ theme }) => ({
       backgroundColor: theme.vars.palette.grey[800],
-      [stylesMode.dark]: {
+      [stylesColorScheme.dark]: {
         backgroundColor: theme.vars.palette.grey[700],
       },
     }),
     arrow: ({ theme }) => ({
       color: theme.vars.palette.grey[800],
-      [stylesMode.dark]: {
+      [stylesColorScheme.dark]: {
         color: theme.vars.palette.grey[700],
       },
     }),
