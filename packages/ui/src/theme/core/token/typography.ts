@@ -3,12 +3,17 @@ import { pxToRem, responsiveFontSizes, setFont } from "../../../util";
 
 // ----------------------------------------------------------------------
 
-// [TODO] declare module해야 한다.
-
 declare module "@mui/material/styles" {
+  interface TypographyVariants {
+    fontSecondaryFamily: React.CSSProperties["fontFamily"];
+    fontWeightSemiBold: React.CSSProperties["fontWeight"];
+  }
   interface TypographyVariantsOptions {
     fontSecondaryFamily?: React.CSSProperties["fontFamily"];
     fontWeightSemiBold?: React.CSSProperties["fontWeight"];
+  }
+  interface ThemeVars {
+    typography: Theme["typography"];
   }
 }
 

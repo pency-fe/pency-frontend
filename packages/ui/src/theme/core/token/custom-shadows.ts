@@ -26,12 +26,16 @@ interface CustomShadows {
 }
 
 declare module "@mui/material/styles" {
+  interface Theme {
+    customShadows: CustomShadows;
+  }
   interface ThemeOptions {
     customShadows?: CustomShadows;
   }
+  interface ThemeVars {
+    customShadows: CustomShadows;
+  }
 }
-
-// [TODO] declare module해야 한다.
 
 // ----------------------------------------------------------------------
 
