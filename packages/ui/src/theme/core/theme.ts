@@ -13,9 +13,11 @@ import {
   typography,
 } from "./token";
 import { arrayIncludes } from "@pency/util";
+import { components } from "./components";
 
 const baseTheme = {
   shape: { borderRadius: 8 },
+  components,
   typography,
   cssVarPrefix: "",
   shouldSkipGeneratingVar,

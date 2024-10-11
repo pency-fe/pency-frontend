@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <>
       <h1>Test Page</h1>
-      <Button variant="contained" onClick={() => setMode("system")}>
+      <Button variant="soft" color="success" onClick={() => setMode("system")}>
         system mode
       </Button>
       <Button variant="contained" onClick={() => setMode("light")}>

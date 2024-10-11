@@ -36,13 +36,13 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@pency/util": "workspace:*",
-    "react": "^18.2.0",
-    "@fontsource/pretendard": "^5.1.0",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+    "@fontsource/pretendard": "^5.1.0",
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
-    "@mui/material-nextjs": "^5.16.6"
+    "@mui/material-nextjs": "^5.16.6",
+    "@pency/util": "workspace:*",
+    "react": "^18.2.0"
   }
 }
