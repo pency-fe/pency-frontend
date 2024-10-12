@@ -1,9 +1,7 @@
-import { Box, SxProps } from "@mui/material";
-import { Theme } from "@mui/material/styles";
+import { Box } from "@mui/material";
 import { layoutClasses } from "../classes";
 
 type Props = {
-  sx?: SxProps<Theme>;
   slots?: {
     headerSection?: React.ReactNode;
     sidebarSection?: React.ReactNode;
@@ -18,7 +16,7 @@ export function LayoutSection({ slots, children }: Props) {
       {slots?.sidebarSection ? (
         <>
           {slots?.sidebarSection}
-          <Box className={layoutClasses.hasSidebar} display="flex" flex="1 1 auto" flexDirection="column">
+          <Box className={layoutClasses.hasSidebar} sx={{ display: "flex", flex: "1 1 auto", flexDirection: "column" }}>
             {slots?.headerSection}
             {children}
             {slots?.footerSection}
