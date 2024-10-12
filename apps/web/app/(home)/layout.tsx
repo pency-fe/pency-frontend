@@ -14,7 +14,7 @@ const data: Data = [
       },
       {
         title: "웹소설",
-        icon: <Icon icon="mdi:book-open-page-variant" width="100%" height="100%" style={{ marginTop: "-2px" }} />,
+        icon: <Icon icon="fluent:draw-text-24-filled" width="100%" height="100%" style={{ marginTop: "-2px" }} />,
         href: "/dashboard",
       },
     ],
