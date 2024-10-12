@@ -1,5 +1,5 @@
 import { AppBar, AppBarProps, Box, Container, GlobalStyles, GlobalStylesProps, Toolbar } from "@mui/material";
-import { Breakpoint, CSSObject, useTheme } from "@mui/material/styles";
+import { CSSObject, useTheme } from "@mui/material/styles";
 import { layoutClasses } from "../classes";
 import { useMemo } from "react";
 import { bgBlur } from "../../theme/core/mixins";
@@ -8,24 +8,25 @@ import { useScrollOffSetTop } from "../../hooks";
 
 // ----------------------------------------------------------------------
 
-export const layoutHeaderVars = {
-  blur: "--layout-header-blur",
-  zIndex: "--layout-header-zIndex",
-  "mobile-height": "--layout-header-mobile-height",
-  "desktop-height": "--layout-header-desktop-height",
+export const headerToken = {
+  blur: "--layout-dashboard-header-blur",
+  zIndex: "--layout-dashboard-header-zIndex",
+  mobileHeight: "--layout-dashboard-header-mobile-height",
+  desktopHeight: "--layout-dashboard-header-desktop-height",
 } as const;
 
 const globalStylesProps: GlobalStylesProps["styles"] = {
-  [layoutHeaderVars.blur]: "8px",
-  [layoutHeaderVars.zIndex]: 1100,
-  [layoutHeaderVars["mobile-height"]]: "64px",
-  [layoutHeaderVars["desktop-height"]]: "72px",
+  body: {
+    [headerToken.blur]: "8px",
+    [headerToken.zIndex]: 1100,
+    [headerToken.mobileHeight]: "64px",
+    [headerToken.desktopHeight]: "72px",
+  },
 };
 
 // ----------------------------------------------------------------------
 
 type Props = AppBarProps & {
-  layoutQuery?: Breakpoint;
   disableOffset?: boolean;
   slots?: {
     topArea?: React.ReactNode;
@@ -36,7 +37,7 @@ type Props = AppBarProps & {
   };
 };
 
-export function HeaderSection({ disableOffset, slots }: Props) {
+export function Header({ disableOffset, slots }: Props) {
   const theme = useTheme();
 
   const { offsetTop } = useScrollOffSetTop();
@@ -45,7 +46,7 @@ export function HeaderSection({ disableOffset, slots }: Props) {
     () => ({
       default: {
         minHeight: "auto",
-        height: `var(${layoutHeaderVars["mobile-height"]})`,
+        height: `var(${headerToken.mobileHeight})`,
         transition: theme.transitions.create(["height", "background-color"], {
           easing: theme.transitions.easing.easeInOut,
           duration: theme.transitions.duration.shorter,
@@ -54,7 +55,7 @@ export function HeaderSection({ disableOffset, slots }: Props) {
           minHeight: "auto",
         },
         [theme.breakpoints.up("lg")]: {
-          height: `var(${layoutHeaderVars["desktop-height"]})`,
+          height: `var(${headerToken.desktopHeight})`,
         },
       },
       offset: {
@@ -67,7 +68,7 @@ export function HeaderSection({ disableOffset, slots }: Props) {
   return (
     <>
       <GlobalStyles styles={globalStylesProps} />
-      <AppBar className={layoutClasses.header} sx={{ position: "sticky", zIndex: `var(${layoutHeaderVars.zIndex})` }}>
+      <AppBar className={layoutClasses.header} sx={{ position: "sticky", zIndex: `var(${headerToken.zIndex})` }}>
         {slots?.topArea}
 
         <Toolbar
@@ -78,10 +79,12 @@ export function HeaderSection({ disableOffset, slots }: Props) {
           }}
         >
           <Container
+            maxWidth={false}
             sx={{
               height: 1,
               display: "flex",
               alignItems: "center",
+              px: { ["lg"]: 5 },
             }}
           >
             {slots?.leftArea}
