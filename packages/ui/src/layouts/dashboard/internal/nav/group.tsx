@@ -1,7 +1,6 @@
-import { Data } from "../types";
+import { Data } from "../../types";
 import { NavLi } from "../nav-li";
 import { v4 as uuidv4 } from "uuid";
-import { useMemo } from "react";
 import { NavUl, navUlToken } from "../nav-ul";
 import { NavList } from "./nav-list";
 
@@ -10,8 +9,8 @@ type Props = {
 };
 
 export function Group({ data }: Props) {
-  const renderContent = useMemo(
-    () => (
+  return (
+    <NavLi>
       <NavUl
         sx={(theme) => ({
           [navUlToken.gap]: theme.spacing(0.5),
@@ -21,9 +20,6 @@ export function Group({ data }: Props) {
           <NavList key={uuidv4()} data={item} />
         ))}
       </NavUl>
-    ),
-    [data],
+    </NavLi>
   );
-
-  return <NavLi>{renderContent}</NavLi>;
 }

@@ -22,7 +22,7 @@ export function NavUl({ sx, children }: Props) {
   return (
     <>
       <GlobalStyles styles={globalStylesProps} />
-      <Box component="ul" display="flex" flex="1 1 auto" gap={`var(${navUlToken.gap})`} sx={sx}>
+      <Box component="ul" display="flex" flexDirection="column" flex="1 1 auto" gap={`var(${navUlToken.gap})`} sx={sx}>
         {children}
       </Box>
     </>

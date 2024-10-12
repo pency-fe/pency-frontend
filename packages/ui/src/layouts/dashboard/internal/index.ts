@@ -1,2 +1,2 @@
 export { Nav } from "./nav/nav";
-export * from "./types";
+export * from "../types";

@@ -1,5 +1,6 @@
 import { Box, GlobalStyles, GlobalStylesProps } from "@mui/material";
 import { Data, Nav } from "./internal";
+import { layoutToken } from "./layout";
 
 // ----------------------------------------------------------------------
 
@@ -8,8 +9,6 @@ export const sidebarToken = {
   zIndex: "--layout-dashboard-sidebar-zIndex",
   miniWidth: "--layout-dashboard-sidebar-mini-width",
   width: "--layout-dashboard-sidebar-width",
-  easing: "--layout-dashboard-sidebar-easing",
-  duration: "--layout-dashboard-sidebar-duration",
 } as const;
 
 const globalStylesProps: GlobalStylesProps["styles"] = (theme) => ({
@@ -18,8 +17,6 @@ const globalStylesProps: GlobalStylesProps["styles"] = (theme) => ({
     [sidebarToken.zIndex]: 1101,
     [sidebarToken.miniWidth]: "88px",
     [sidebarToken.width]: "300px",
-    [sidebarToken.easing]: "linear",
-    [sidebarToken.duration]: "120ms",
   },
 });
 
@@ -44,12 +41,13 @@ export function Sidebar({ slots, data }: Props) {
           display: "none",
           position: "fixed",
           flexDirection: "column",
-          bgcolor: sidebarToken.bg,
-          zIndex: sidebarToken.zIndex,
-          width: sidebarToken.width,
+          bgcolor: `var(${sidebarToken.bg})`,
+          zIndex: `var(${sidebarToken.zIndex})`,
+          // [TODO] navMiniWidth도 추가해야 한다.
+          width: `var(${sidebarToken.width})`,
           transition: theme.transitions.create(["width"], {
-            easing: sidebarToken.easing,
-            duration: sidebarToken.duration,
+            easing: `var(${layoutToken.easing})`,
+            duration: `var(${layoutToken.duration})`,
           }),
           [theme.breakpoints.up("lg")]: {
             display: "flex",

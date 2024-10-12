@@ -1,5 +1,5 @@
 import { Box, ButtonBase, GlobalStyles, GlobalStylesProps } from "@mui/material";
-import { Data } from "../types";
+import { Data } from "../../types";
 import { MouseEventHandler, useCallback } from "react";
 
 // ----------------------------------------------------------------------
@@ -40,20 +40,22 @@ type Props = {
 export function NavItem({ data }: Props) {
   const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
-      if (data.path) {
+      if (data.href) {
         e.stopPropagation();
       }
     },
     [data],
   );
+
   return (
     <>
       <GlobalStyles styles={globalStylesProps} />
 
       <ButtonBase
-        onClick={handleClick}
+        href={data.href}
         sx={{
           width: "100%",
+          minHeight: `var(${navItemToken.minHeight})`,
           paddingTop: `var(${navItemToken.pt})`,
           paddingRight: `var(${navItemToken.pr})`,
           paddingBottom: `var(${navItemToken.pb})`,
@@ -85,7 +87,7 @@ export function NavItem({ data }: Props) {
               overflow: "hidden",
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
-              ...theme.typography.body2,
+              ...theme.typography.body1,
               fontWeight: theme.typography.fontWeightMedium,
             })}
           >

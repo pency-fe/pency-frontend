@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { Stack } from "@mui/material";
-import { Data } from "../types";
+import { Data } from "../../types";
 import { NavUl } from "../nav-ul";
 import { Group } from "./group";
 

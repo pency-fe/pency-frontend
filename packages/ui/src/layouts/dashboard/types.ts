@@ -3,6 +3,6 @@ export type Data = Array<{
   items: Array<{
     icon: React.ReactNode;
     title: string;
-    path: string;
+    href: string;
   }>;
 }>;
