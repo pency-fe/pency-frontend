@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "pency-web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,14 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^5.16.7",
     "@pency/ui": "workspace:*",
     "@pency/util": "workspace:*",
     "next": "14.2.6",
     "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "@mui/material": "^5.16.7",
-    "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.13.0"
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
     "@pency/eslint-config": "workspace:*",
@@ -24,6 +24,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vanilla-extract/next-plugin": "^2.4.6",
     "eslint": "^8",
     "eslint-config-next": "14.2.6",
     "typescript": "^5"
