@@ -12,9 +12,9 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export function LayoutSection({ sx, slots, children }: Props) {
+export function LayoutSection({ slots, children }: Props) {
   return (
-    <Box id="root__layout" className={layoutClasses.root} sx={sx}>
+    <Box id="root__layout" className={layoutClasses.root}>
       {slots?.sidebarSection ? (
         <>
           {slots?.sidebarSection}

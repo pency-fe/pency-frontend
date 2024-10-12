@@ -1,5 +1,5 @@
 import { AppBar, AppBarProps, Box, Container, GlobalStyles, GlobalStylesProps, Toolbar } from "@mui/material";
-import { Breakpoint, useTheme } from "@mui/material/styles";
+import { Breakpoint, CSSObject, useTheme } from "@mui/material/styles";
 import { layoutClasses } from "../classes";
 import { useMemo } from "react";
 import { bgBlur } from "../../theme/core/mixins";
@@ -36,12 +36,12 @@ type Props = AppBarProps & {
   };
 };
 
-export function HeaderSection({ layoutQuery = "md", disableOffset, slots }: Props) {
+export function HeaderSection({ disableOffset, slots }: Props) {
   const theme = useTheme();
 
   const { offsetTop } = useScrollOffSetTop();
 
-  const toolbarStyles = useMemo(
+  const toolbarStyles: Record<"default" | "offset", CSSObject> = useMemo(
     () => ({
       default: {
         minHeight: "auto",
@@ -53,7 +53,7 @@ export function HeaderSection({ layoutQuery = "md", disableOffset, slots }: Prop
         [theme.breakpoints.up("sm")]: {
           minHeight: "auto",
         },
-        [theme.breakpoints.up(layoutQuery)]: {
+        [theme.breakpoints.up("lg")]: {
           height: `var(${layoutHeaderVars["desktop-height"]})`,
         },
       },
