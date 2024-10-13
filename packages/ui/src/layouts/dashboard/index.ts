@@ -1,10 +1,8 @@
-import { Layout } from "./layout";
-import { Header } from "./header";
-import { Sidebar } from "./sidebar";
+import { Layout } from "./layout/layout";
+import { Header } from "./header/header";
+import { Sidebar } from "./sidebar/sidebar";
 
 export const DashboardLayout = Object.assign(Layout, {
   Header,
   Sidebar,
 });
-
-export type { Data } from "./types";
