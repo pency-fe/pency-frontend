@@ -15,6 +15,7 @@
     "build-storybook": "storybook build"
   },
   "devDependencies": {
+    "@iconify/react": "^5.0.2",
     "@chromatic-com/storybook": "^1.9.0",
     "@pency/eslint-config": "workspace:*",
     "@pency/typescript-config": "workspace:*",
