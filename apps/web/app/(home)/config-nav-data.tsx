@@ -1,7 +1,7 @@
 import { Iconify } from "@pency/ui/components";
 import { DashboardLayout } from "@pency/ui/layouts";
 
-export const sidebarData: Parameters<typeof DashboardLayout.Sidebar>[0]["data"] = [
+export const navData: Parameters<typeof DashboardLayout.Sidebar>[0]["data"] = [
   {
     id: "platform",
     items: [

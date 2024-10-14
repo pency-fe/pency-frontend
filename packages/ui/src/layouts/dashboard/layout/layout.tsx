@@ -1,4 +1,4 @@
-import { Box, Container, SxProps, useTheme } from "@mui/material";
+import { Box, Container, GlobalStyles, SxProps, useTheme } from "@mui/material";
 import { Theme } from "@mui/material/styles";
 
 export const layoutToken = {
@@ -28,68 +28,76 @@ export function Layout({ slots, sx, children }: Props) {
   const theme = useTheme();
 
   return (
-    <Box
-      sx={{
-        flex: "1 1 auto",
-        display: "flex",
-        flexDirection: "column",
-        minHeight: 1,
-        [layoutToken.header.mobileHeight]: "48px",
-        [layoutToken.header.desktopHeight]: "56px",
-        [layoutToken.sidebar.easing]: "linear",
-        [layoutToken.sidebar.duration]: "120ms",
-        [layoutToken.sidebar.miniWidth]: "88px",
-        [layoutToken.sidebar.width]: "300px",
-        ...sx,
-      }}
-    >
-      {slots.header}
-      {slots.sidebar}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: "1 1 auto",
-          transition: theme.transitions.create(["padding-left"], {
-            easing: `var(${layoutToken.sidebar.easing})`,
-            duration: `var(${layoutToken.sidebar.duration})`,
-          }),
-          [theme.breakpoints.between("sm", "lg")]: {
-            pl: `var(${layoutToken.sidebar.miniWidth})`,
-          },
-          [theme.breakpoints.up("lg")]: {
-            pl: `var(${layoutToken.sidebar.width})`,
+    <>
+      <GlobalStyles
+        styles={{
+          body: {
+            [layoutToken.header.mobileHeight]: "52px",
+            [layoutToken.header.desktopHeight]: "56px",
+            [layoutToken.sidebar.easing]: "linear",
+            [layoutToken.sidebar.duration]: "120ms",
+            [layoutToken.sidebar.miniWidth]: "88px",
+            [layoutToken.sidebar.width]: "300px",
           },
         }}
+      />
+      <Box
+        sx={{
+          flex: "1 1 auto",
+          display: "flex",
+          flexDirection: "column",
+          minHeight: 1,
+          ...sx,
+        }}
       >
+        {slots.header}
+        {slots.sidebar}
         <Box
-          component="main"
           sx={{
             display: "flex",
-            flex: "1 1 auto",
             flexDirection: "column",
-            mt: `var(${layoutToken.header.mobileHeight})`,
-            [theme.breakpoints.up("lg")]: { mt: `var(${layoutToken.header.desktopHeight})` },
+            flex: "1 1 auto",
+            transition: theme.transitions.create(["padding-left"], {
+              easing: `var(${layoutToken.sidebar.easing})`,
+              duration: `var(${layoutToken.sidebar.duration})`,
+            }),
+            [theme.breakpoints.between("sm", "lg")]: {
+              pl: `var(${layoutToken.sidebar.miniWidth})`,
+            },
+            [theme.breakpoints.up("lg")]: {
+              pl: `var(${layoutToken.sidebar.width})`,
+            },
           }}
         >
-          <Container
+          <Box
+            component="main"
             sx={{
               display: "flex",
-              flexDirection: "column",
               flex: "1 1 auto",
-              maxWidth: "lg",
-              pt: theme.spacing(1),
-              pb: theme.spacing(8),
-              [theme.breakpoints.up("lg")]: {
-                px: theme.spacing(5),
-              },
+              flexDirection: "column",
+              mt: `var(${layoutToken.header.mobileHeight})`,
+              [theme.breakpoints.up("lg")]: { mt: `var(${layoutToken.header.desktopHeight})` },
             }}
           >
-            {children}
-          </Container>
+            <Container
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                flex: "1 1 auto",
+                maxWidth: "lg",
+                pt: theme.spacing(1),
+                pb: theme.spacing(8),
+                [theme.breakpoints.up("lg")]: {
+                  px: theme.spacing(5),
+                },
+              }}
+            >
+              {children}
+            </Container>
+          </Box>
+          {slots?.footer}
         </Box>
-        {slots?.footer}
       </Box>
-    </Box>
+    </>
   );
 }

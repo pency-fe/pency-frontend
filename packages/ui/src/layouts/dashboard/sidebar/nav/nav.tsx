@@ -4,8 +4,9 @@ import { NavData, BranchData, LeafData } from "../types";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { varAlpha } from "../../../../util";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Iconify } from "../../../../components";
+import { useBooleanState } from "@pency/util";
 
 const navToken = {
   ul: {
@@ -143,12 +144,9 @@ type BranchProps = {
 function Branch({ data }: BranchProps) {
   const pathname = usePathname();
 
-  const [open, setOpen] = useState(data.items.some((item) => pathname.startsWith(item.href)));
-  const theme = useTheme();
+  const open = useBooleanState(data.items.some((item) => pathname.startsWith(item.href)));
 
-  const handleOpenToggle = useCallback(() => {
-    setOpen(!open);
-  }, [open, setOpen]);
+  const theme = useTheme();
 
   const parentActive = useMemo(() => data.items.some((item) => pathname.startsWith(item.href)), [data, pathname]);
 
@@ -157,19 +155,19 @@ function Branch({ data }: BranchProps) {
       <Leaf
         data={data}
         active={parentActive}
-        arrow={open ? "downward" : "forward"}
+        arrow={open.bool ? "downward" : "forward"}
         sx={{
           mb: `var(${navToken.ul.gap})`,
           ...(!parentActive &&
-            open && {
+            open.bool && {
               [navToken.leaf.color]: theme.vars.palette.text.primary,
               [navToken.leaf.bgcolor]: theme.vars.palette.action.selected,
               [navToken.leaf.hoverBgcolor]: theme.vars.palette.action.selected,
             }),
         }}
-        onClick={handleOpenToggle}
+        onClick={open.toggle}
       />
-      <Collapse in={open} mountOnEnter unmountOnExit>
+      <Collapse in={open.bool} mountOnEnter unmountOnExit>
         <Ul sx={{ pl: `calc(${theme.spacing(1.5)} + var(${navToken.leaf.iconSize}))` }}>
           {data.items.map((item) => (
             <Li key={item.id}>

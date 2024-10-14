@@ -4,9 +4,10 @@ import { Theme, useTheme } from "@mui/material/styles";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { varAlpha } from "../../../../util";
-import { forwardRef, useCallback, useMemo, useRef, useState } from "react";
+import { forwardRef, useEffect, useMemo, useRef } from "react";
 import { paper } from "../../../../theme";
 import { Iconify } from "../../../../components";
+import { useBooleanState } from "@pency/util";
 
 const miniNavToken = {
   ul: {
@@ -15,6 +16,7 @@ const miniNavToken = {
   leaf: {
     color: "--nav-leaf-color",
     bgcolor: "--nav-leaf-bgcolor",
+    activeBgcolor: "--nav-leaf-active-bgcolor",
   },
 } as const;
 
@@ -37,6 +39,7 @@ export function MiniNav({ data, sx }: MiniNavProps) {
         [miniNavToken.ul.gap]: theme.spacing(0.5),
         [miniNavToken.leaf.color]: theme.vars.palette.text.secondary,
         [miniNavToken.leaf.bgcolor]: "transparent",
+        [miniNavToken.leaf.activeBgcolor]: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
         ...sx,
       }}
     >
@@ -134,19 +137,18 @@ type BranchProps = {
 function Branch({ data }: BranchProps) {
   const pathname = usePathname();
 
-  const [open, setOpen] = useState(false);
+  const open = useBooleanState(false);
+
   const parentRef = useRef<HTMLButtonElement | null>(null);
   const theme = useTheme();
 
-  const handleOpen = useCallback(() => {
-    setOpen(true);
-  }, [open, setOpen]);
-
-  const handleClose = useCallback(() => {
-    setOpen(false);
-  }, [open, setOpen]);
-
   const parentActive = useMemo(() => data.items.some((item) => pathname.startsWith(item.href)), [data, pathname]);
+
+  useEffect(() => {
+    if (open.bool) {
+      open.setFalse();
+    }
+  }, [pathname]);
 
   return (
     <>
@@ -157,24 +159,28 @@ function Branch({ data }: BranchProps) {
         arrow="forward"
         sx={{
           ...(!parentActive &&
-            open && {
+            open.bool && {
               [miniNavToken.leaf.color]: theme.vars.palette.text.primary,
               [miniNavToken.leaf.bgcolor]: theme.vars.palette.action.hover,
             }),
+          ...(parentActive &&
+            open.bool && {
+              [miniNavToken.leaf.activeBgcolor]: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
+            }),
         }}
-        onMouseEnter={handleOpen}
-        onMouseLeave={handleClose}
+        onMouseEnter={open.setTrue}
+        onMouseLeave={open.setFalse}
       />
       <Popover
         disableScrollLock
-        open={open}
+        open={open.bool}
         anchorEl={parentRef.current}
         anchorOrigin={{ vertical: "center", horizontal: "right" }}
         transformOrigin={{ vertical: "center", horizontal: "left" }}
         slotProps={{
           paper: {
-            onMouseEnter: handleOpen,
-            onMouseLeave: handleClose,
+            onMouseEnter: open.setTrue,
+            onMouseLeave: open.setFalse,
             sx: {
               px: 0.75,
               boxShadow: "none",
@@ -229,7 +235,7 @@ const Leaf = forwardRef<HTMLButtonElement, LeafProps>(({ data, active, arrow, sx
         textAlign: "center",
         ...(active && {
           color: theme.vars.palette.primary.main,
-          bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
+          bgcolor: `var(${miniNavToken.leaf.activeBgcolor})`,
           "&:hover": {
             bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
           },

@@ -1,8 +1,25 @@
-import { AppBar, AppBarProps, Box, Container, IconButton, Toolbar, useTheme } from "@mui/material";
+import {
+  AppBar,
+  AppBarProps,
+  Box,
+  Container,
+  Drawer,
+  IconButton,
+  Stack,
+  Toolbar,
+  drawerClasses,
+  useTheme,
+} from "@mui/material";
 import { layoutToken } from "../layout";
 import { Iconify } from "../../../components";
+import { NavData } from "../sidebar/types";
+import { useBooleanState } from "@pency/util";
+import { Nav } from "../sidebar";
+import { useCallback, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 type Props = AppBarProps & {
+  data: NavData;
   slots?: {
     left?: React.ReactNode;
     center?: React.ReactNode;
@@ -10,8 +27,30 @@ type Props = AppBarProps & {
   };
 };
 
-export function Header({ slots }: Props) {
+export function Header({ data, slots }: Props) {
+  const pathname = usePathname();
+  const router = useRouter();
   const theme = useTheme();
+  const open = useBooleanState(false);
+
+  const pushHome = useCallback(() => {
+    if (pathname === "/") {
+      router.refresh();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (open.bool) {
+        open.setFalse();
+      }
+    } else {
+      router.push("/");
+    }
+  }, [pathname, open]);
+
+  useEffect(() => {
+    if (open.bool) {
+      open.setFalse();
+    }
+  }, [pathname]);
 
   return (
     <>
@@ -47,23 +86,66 @@ export function Header({ slots }: Props) {
           >
             <IconButton
               sx={{
-                display: "inline-flex",
-                ml: "-8px",
-                mr: "4px",
+                ml: theme.spacing(-1),
+                mr: theme.spacing(0.5),
                 [theme.breakpoints.up("sm")]: {
                   display: "none",
                 },
               }}
+              onClick={open.toggle}
             >
               <Iconify icon="eva:menu-outline" />
             </IconButton>
-            <Iconify icon="icomoon-free:youtube2" sx={{ width: "fit-content", height: "20px" }} />
+
+            <Iconify
+              icon="icomoon-free:youtube2"
+              onClick={pushHome}
+              sx={{ width: "fit-content", height: "24px", overflow: "unset", cursor: "pointer" }}
+            />
+
             {slots?.left}
             <Box sx={{ display: "flex", flex: "1 1 auto", justifyContent: "center" }}>{slots?.center}</Box>
             {slots?.right}
           </Container>
         </Toolbar>
       </AppBar>
+
+      <Drawer
+        open={open.bool}
+        onClose={open.setFalse}
+        sx={{
+          [`& .${drawerClasses.paper}`]: {
+            width: `var(${layoutToken.sidebar.width})`,
+            bgcolor: theme.vars.palette.background.default,
+          },
+        }}
+      >
+        <Stack
+          sx={{
+            flexDirection: "row",
+            alignItems: "center",
+            height: `var(${layoutToken.header.mobileHeight})`,
+            mb: theme.spacing(1),
+            px: theme.spacing(2),
+          }}
+        >
+          <IconButton
+            sx={{
+              ml: theme.spacing(-1),
+              mr: theme.spacing(0.5),
+            }}
+            onClick={open.toggle}
+          >
+            <Iconify icon="eva:menu-outline" />
+          </IconButton>
+          <Iconify
+            icon="icomoon-free:youtube2"
+            onClick={pushHome}
+            sx={{ width: "fit-content", height: "24px", overflow: "unset", cursor: "pointer" }}
+          />
+        </Stack>
+        <Nav data={data} />
+      </Drawer>
     </>
   );
 }

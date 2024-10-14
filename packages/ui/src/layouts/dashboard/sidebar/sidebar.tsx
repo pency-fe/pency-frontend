@@ -24,6 +24,7 @@ export function Sidebar({ data }: Props) {
         flexDirection: "column",
         width: `var(${layoutToken.sidebar.miniWidth})`,
         height: 1,
+        mt: theme.spacing(1),
         bgcolor: theme.vars.palette.background.default,
         transition: theme.transitions.create(["width"], {
           easing: `var(${layoutToken.sidebar.easing})`,
