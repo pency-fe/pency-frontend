@@ -54,7 +54,8 @@ export function Layout({ slots, sx, children }: Props) {
               easing: `var(${layoutToken.sidebar.easing})`,
               duration: `var(${layoutToken.sidebar.duration})`,
             }),
-            pl: `var(${layoutToken.sidebar.width})`,
+            // pl: `var(${layoutToken.sidebar.width})`,
+            pl: `var(${layoutToken.sidebar.miniWidth})`,
           },
         }}
       >

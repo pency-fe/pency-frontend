@@ -8,7 +8,7 @@ export const sidebarData: Parameters<typeof DashboardLayout.Sidebar>[0]["data"] 
       {
         id: "webtoon",
         title: "웹툰",
-        icon: <Icon icon="fluent:draw-image-24-filled" style={{ width: "100%", height: "100%", marginTop: "-2px" }} />,
+        icon: <Icon icon="fluent:draw-image-24-filled" style={{ width: "100%", height: "100%" }} />,
         items: [
           {
             id: "series",
@@ -25,7 +25,7 @@ export const sidebarData: Parameters<typeof DashboardLayout.Sidebar>[0]["data"] 
       {
         id: "webnovel",
         title: "웹소설",
-        icon: <Icon icon="fluent:draw-text-24-filled" style={{ width: "100%", height: "100%", marginTop: "-2px" }} />,
+        icon: <Icon icon="fluent:draw-text-24-filled" style={{ width: "100%", height: "100%" }} />,
         items: [
           {
             id: "series",

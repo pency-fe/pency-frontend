@@ -2,6 +2,7 @@ import { Box, useTheme } from "@mui/material";
 import { Nav } from "./nav";
 import { NavData } from "./types";
 import { layoutToken } from "../layout";
+import { MiniNav } from "./mini-nav";
 
 type Props = {
   data: NavData;
@@ -19,7 +20,8 @@ export function Sidebar({ data }: Props) {
         left: 0,
         display: "none",
         flexDirection: "column",
-        width: `var(${layoutToken.sidebar.width})`,
+        // width: `var(${layoutToken.sidebar.width})`,
+        width: `var(${layoutToken.sidebar.miniWidth})`,
         height: 1,
         bgcolor: theme.vars.palette.background.default,
         transition: theme.transitions.create(["width"], {
@@ -31,7 +33,8 @@ export function Sidebar({ data }: Props) {
         },
       }}
     >
-      <Nav data={data} />
+      {/* <Nav data={data} /> */}
+      <MiniNav data={data} />
     </Box>
   );
 }

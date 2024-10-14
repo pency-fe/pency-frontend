@@ -144,7 +144,7 @@ function Branch({ data }: BranchProps) {
   const [open, setOpen] = useState(data.items.some((item) => pathname.startsWith(item.href)));
   const theme = useTheme();
 
-  const handleOpen = useCallback(() => {
+  const handleOpenToggle = useCallback(() => {
     setOpen(!open);
   }, [open, setOpen]);
 
@@ -165,7 +165,7 @@ function Branch({ data }: BranchProps) {
               [navToken.leaf.hoverActiveBgcolor]: theme.vars.palette.action.selected,
             }),
         }}
-        onClick={handleOpen}
+        onClick={handleOpenToggle}
       />
       <Collapse in={open} mountOnEnter unmountOnExit>
         <Ul sx={{ pl: `calc(${theme.spacing(1.5)} + var(${navToken.leaf.iconSize}))` }}>
@@ -209,10 +209,7 @@ function Leaf({ data, active, arrow, sx, ...rest }: LeafProps) {
       sx={{
         width: "100%",
         minHeight: `var(${navToken.leaf.minHeight})`,
-        pt: theme.spacing(0.5),
-        pr: theme.spacing(1),
-        pb: theme.spacing(0.5),
-        pl: theme.spacing(1.5),
+        padding: theme.spacing(0.5, 1, 0.5, 1.5),
         borderRadius: `${theme.shape.borderRadius}px`,
         bgcolor: `var(${navToken.leaf.bgcolor})`,
         color: `var(${navToken.leaf.color})`,
@@ -235,9 +232,12 @@ function Leaf({ data, active, arrow, sx, ...rest }: LeafProps) {
         <Box
           component="span"
           sx={{
+            flexShrink: 0,
+            display: "inline-flex",
             width: `var(${navToken.leaf.iconSize})`,
             height: `var(${navToken.leaf.iconSize})`,
             margin: theme.spacing(0, 1.5, 0, 0),
+            marginTop: "-2px",
           }}
         >
           {data.icon}
@@ -265,6 +265,8 @@ function Leaf({ data, active, arrow, sx, ...rest }: LeafProps) {
         <Icon
           icon={arrow === "downward" ? "eva:arrow-ios-downward-fill" : "eva:arrow-ios-forward-fill"}
           style={{
+            flexShrink: 0,
+            display: "inline-flex",
             width: "16px",
             height: "16px",
             marginLeft: "6px",
