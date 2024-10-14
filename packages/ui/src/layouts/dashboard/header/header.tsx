@@ -28,21 +28,16 @@ export function Header({ slots }: Props) {
           sx={{
             minHeight: "auto",
             height: `var(${layoutToken.header.mobileHeight})`,
-            transition: theme.transitions.create(["height", "background-color"], {
+            transition: theme.transitions.create(["height"], {
               easing: theme.transitions.easing.easeInOut,
               duration: theme.transitions.duration.shorter,
             }),
+            bgcolor: theme.vars.palette.background.default,
+
             [theme.breakpoints.up("sm")]: {
               minHeight: "auto",
-            },
-            [theme.breakpoints.up("lg")]: {
               height: `var(${layoutToken.header.desktopHeight})`,
             },
-            ...(offsetTop && {
-              backdropFilter: "blur(6px)",
-              WebkitBackdropFilter: "blur(6px)",
-              backgroundColor: varAlpha(theme.vars.palette.background.defaultChannel, 0.8),
-            }),
           }}
         >
           <Container

@@ -315,6 +315,9 @@ function SubLeaf({ data, active, sx }: SubLeafProps) {
         ...(active && {
           color: theme.vars.palette.text.primary,
           bgcolor: theme.vars.palette.action.selected,
+          "&:hover": {
+            bgcolor: theme.vars.palette.action.selected,
+          },
         }),
         ...sx,
       }}

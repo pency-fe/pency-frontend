@@ -30,11 +30,12 @@ export function Layout({ slots, sx, children }: Props) {
   return (
     <Box
       sx={{
-        display: "flex",
         flex: "1 1 auto",
+        display: "flex",
+        flexDirection: "column",
         minHeight: 1,
-        [layoutToken.header.mobileHeight]: "64px",
-        [layoutToken.header.desktopHeight]: "72px",
+        [layoutToken.header.mobileHeight]: "48px",
+        [layoutToken.header.desktopHeight]: "56px",
         [layoutToken.sidebar.easing]: "linear",
         [layoutToken.sidebar.duration]: "120ms",
         [layoutToken.sidebar.miniWidth]: "88px",
@@ -42,6 +43,7 @@ export function Layout({ slots, sx, children }: Props) {
         ...sx,
       }}
     >
+      {slots.header}
       {slots.sidebar}
       <Box
         sx={{
@@ -60,7 +62,6 @@ export function Layout({ slots, sx, children }: Props) {
           },
         }}
       >
-        {slots.header}
         <Box component="main" sx={{ display: "flex", flex: "1 1 auto", flexDirection: "column" }}>
           <Container
             sx={{

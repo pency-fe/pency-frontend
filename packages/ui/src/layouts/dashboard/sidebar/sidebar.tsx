@@ -29,11 +29,13 @@ export function Sidebar({ data }: Props) {
           easing: `var(${layoutToken.sidebar.easing})`,
           duration: `var(${layoutToken.sidebar.duration})`,
         }),
-        [theme.breakpoints.between("sm", "lg")]: {
+        [theme.breakpoints.up("sm")]: {
+          top: `var(${layoutToken.header.desktopHeight})`,
           display: "flex",
           width: `var(${layoutToken.sidebar.miniWidth})`,
         },
         [theme.breakpoints.up("lg")]: {
+          top: `var(${layoutToken.header.desktopHeight})`,
           display: "flex",
           width: `var(${layoutToken.sidebar.width})`,
         },
