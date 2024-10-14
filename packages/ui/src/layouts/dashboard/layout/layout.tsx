@@ -62,7 +62,16 @@ export function Layout({ slots, sx, children }: Props) {
           },
         }}
       >
-        <Box component="main" sx={{ display: "flex", flex: "1 1 auto", flexDirection: "column" }}>
+        <Box
+          component="main"
+          sx={{
+            display: "flex",
+            flex: "1 1 auto",
+            flexDirection: "column",
+            mt: `var(${layoutToken.header.mobileHeight})`,
+            [theme.breakpoints.up("lg")]: { mt: `var(${layoutToken.header.desktopHeight})` },
+          }}
+        >
           <Container
             sx={{
               display: "flex",

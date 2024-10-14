@@ -1,7 +1,6 @@
-import { AppBar, AppBarProps, Box, Container, Toolbar, useTheme } from "@mui/material";
-import { varAlpha } from "../../../util";
-import { useScrollOffSetTop } from "../../../hooks";
+import { AppBar, AppBarProps, Box, Container, IconButton, Toolbar, useTheme } from "@mui/material";
 import { layoutToken } from "../layout";
+import { Iconify } from "../../../components";
 
 type Props = AppBarProps & {
   slots?: {
@@ -13,13 +12,11 @@ type Props = AppBarProps & {
 
 export function Header({ slots }: Props) {
   const theme = useTheme();
-  const { offsetTop } = useScrollOffSetTop();
 
   return (
     <>
       <AppBar
         sx={{
-          position: "sticky",
           zIndex: 1100,
         }}
       >
@@ -46,9 +43,21 @@ export function Header({ slots }: Props) {
               height: 1,
               display: "flex",
               alignItems: "center",
-              px: { ["lg"]: 5 },
             }}
           >
+            <IconButton
+              sx={{
+                display: "inline-flex",
+                ml: "-8px",
+                mr: "4px",
+                [theme.breakpoints.up("sm")]: {
+                  display: "none",
+                },
+              }}
+            >
+              <Iconify icon="eva:menu-outline" />
+            </IconButton>
+            <Iconify icon="icomoon-free:youtube2" sx={{ width: "fit-content", height: "20px" }} />
             {slots?.left}
             <Box sx={{ display: "flex", flex: "1 1 auto", justifyContent: "center" }}>{slots?.center}</Box>
             {slots?.right}

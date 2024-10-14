@@ -2,11 +2,11 @@ import { Box, ButtonBase, ButtonBaseProps, Paper, Popover, Stack, SxProps } from
 import { BranchData, LeafData, NavData } from "../types";
 import { Theme, useTheme } from "@mui/material/styles";
 import { usePathname } from "next/navigation";
-import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { varAlpha } from "../../../../util";
 import { forwardRef, useCallback, useMemo, useRef, useState } from "react";
 import { paper } from "../../../../theme";
+import { Iconify } from "../../../../components";
 
 const miniNavToken = {
   ul: {
@@ -271,9 +271,9 @@ const Leaf = forwardRef<HTMLButtonElement, LeafProps>(({ data, active, arrow, sx
       </Box>
 
       {arrow !== "none" ? (
-        <Icon
+        <Iconify
           icon="eva:arrow-ios-forward-fill"
-          style={{
+          sx={{
             flexShrink: 0,
             position: "absolute",
             top: theme.spacing(1),

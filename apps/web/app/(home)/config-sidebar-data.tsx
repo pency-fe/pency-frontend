@@ -1,5 +1,5 @@
+import { Iconify } from "@pency/ui/components";
 import { DashboardLayout } from "@pency/ui/layouts";
-import { Icon } from "@iconify/react";
 
 export const sidebarData: Parameters<typeof DashboardLayout.Sidebar>[0]["data"] = [
   {
@@ -8,7 +8,7 @@ export const sidebarData: Parameters<typeof DashboardLayout.Sidebar>[0]["data"] 
       {
         id: "webtoon",
         title: "웹툰",
-        icon: <Icon icon="fluent:draw-image-24-filled" style={{ width: "100%", height: "100%" }} />,
+        icon: <Iconify icon="fluent:draw-image-24-filled" />,
         items: [
           {
             id: "series",
@@ -25,7 +25,7 @@ export const sidebarData: Parameters<typeof DashboardLayout.Sidebar>[0]["data"] 
       {
         id: "webnovel",
         title: "웹소설",
-        icon: <Icon icon="fluent:draw-text-24-filled" style={{ width: "100%", height: "100%" }} />,
+        icon: <Iconify icon="fluent:draw-text-24-filled" />,
         items: [
           {
             id: "series",

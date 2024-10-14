@@ -1,11 +1,11 @@
 import { Box, ButtonBase, ButtonBaseProps, Collapse, Stack, SxProps } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
-import { Icon } from "@iconify/react";
 import { NavData, BranchData, LeafData } from "../types";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { varAlpha } from "../../../../util";
 import { useCallback, useMemo, useState } from "react";
+import { Iconify } from "../../../../components";
 
 const navToken = {
   ul: {
@@ -264,9 +264,9 @@ function Leaf({ data, active, arrow, sx, ...rest }: LeafProps) {
         </Box>
       </Box>
       {arrow !== "none" ? (
-        <Icon
+        <Iconify
           icon={arrow === "downward" ? "eva:arrow-ios-downward-fill" : "eva:arrow-ios-forward-fill"}
-          style={{
+          sx={{
             flexShrink: 0,
             display: "inline-flex",
             width: "16px",
