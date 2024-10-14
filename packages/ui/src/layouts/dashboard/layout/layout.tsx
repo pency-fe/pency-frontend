@@ -31,7 +31,6 @@ export function Layout({ slots, sx, children }: Props) {
     <Box
       sx={{
         display: "flex",
-        flexDirection: "column",
         flex: "1 1 auto",
         minHeight: 1,
         [layoutToken.header.mobileHeight]: "64px",
@@ -49,13 +48,15 @@ export function Layout({ slots, sx, children }: Props) {
           display: "flex",
           flexDirection: "column",
           flex: "1 1 auto",
-          [theme.breakpoints.up("lg")]: {
-            transition: theme.transitions.create(["padding-left"], {
-              easing: `var(${layoutToken.sidebar.easing})`,
-              duration: `var(${layoutToken.sidebar.duration})`,
-            }),
-            // pl: `var(${layoutToken.sidebar.width})`,
+          transition: theme.transitions.create(["padding-left"], {
+            easing: `var(${layoutToken.sidebar.easing})`,
+            duration: `var(${layoutToken.sidebar.duration})`,
+          }),
+          [theme.breakpoints.between("sm", "lg")]: {
             pl: `var(${layoutToken.sidebar.miniWidth})`,
+          },
+          [theme.breakpoints.up("lg")]: {
+            pl: `var(${layoutToken.sidebar.width})`,
           },
         }}
       >

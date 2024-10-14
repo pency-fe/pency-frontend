@@ -17,6 +17,7 @@ const navToken = {
     color: "--nav-leaf-color",
     activeColor: "--nav-leaf-active-color",
     bgcolor: "--nav-leaf-bgcolor",
+    hoverBgcolor: "--nav-leaf-hover-bgcolor",
     activeBgcolor: "--nav-leaf-active-bgcolor",
     hoverActiveBgcolor: "--nav-leaf-hover-active-bgcolor",
   },
@@ -41,6 +42,7 @@ export function Nav({ data, sx }: NavProps) {
         [navToken.leaf.color]: theme.vars.palette.text.secondary,
         [navToken.leaf.activeColor]: theme.vars.palette.primary.main,
         [navToken.leaf.bgcolor]: "transparent",
+        [navToken.leaf.hoverBgcolor]: theme.vars.palette.action.hover,
         [navToken.leaf.activeBgcolor]: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
         [navToken.leaf.hoverActiveBgcolor]: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
         ...sx,
@@ -162,7 +164,7 @@ function Branch({ data }: BranchProps) {
             open && {
               [navToken.leaf.color]: theme.vars.palette.text.primary,
               [navToken.leaf.bgcolor]: theme.vars.palette.action.selected,
-              [navToken.leaf.hoverActiveBgcolor]: theme.vars.palette.action.selected,
+              [navToken.leaf.hoverBgcolor]: theme.vars.palette.action.selected,
             }),
         }}
         onClick={handleOpenToggle}
@@ -215,7 +217,7 @@ function Leaf({ data, active, arrow, sx, ...rest }: LeafProps) {
         color: `var(${navToken.leaf.color})`,
         textAlign: "start",
         "&:hover": {
-          bgcolor: theme.vars.palette.action.hover,
+          bgcolor: `var(${navToken.leaf.hoverBgcolor})`,
         },
         ...(active && {
           color: `var(${navToken.leaf.activeColor})`,

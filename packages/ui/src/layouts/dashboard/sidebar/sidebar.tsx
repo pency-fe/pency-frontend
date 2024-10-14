@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { Nav } from "./nav";
 import { NavData } from "./types";
 import { layoutToken } from "../layout";
@@ -10,6 +10,8 @@ type Props = {
 
 export function Sidebar({ data }: Props) {
   const theme = useTheme();
+  const isBetweenSmAndLg = useMediaQuery(theme.breakpoints.between("sm", "lg"));
+  const isLgOrAbove = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <Box
@@ -20,7 +22,6 @@ export function Sidebar({ data }: Props) {
         left: 0,
         display: "none",
         flexDirection: "column",
-        // width: `var(${layoutToken.sidebar.width})`,
         width: `var(${layoutToken.sidebar.miniWidth})`,
         height: 1,
         bgcolor: theme.vars.palette.background.default,
@@ -28,13 +29,18 @@ export function Sidebar({ data }: Props) {
           easing: `var(${layoutToken.sidebar.easing})`,
           duration: `var(${layoutToken.sidebar.duration})`,
         }),
+        [theme.breakpoints.between("sm", "lg")]: {
+          display: "flex",
+          width: `var(${layoutToken.sidebar.miniWidth})`,
+        },
         [theme.breakpoints.up("lg")]: {
           display: "flex",
+          width: `var(${layoutToken.sidebar.width})`,
         },
       }}
     >
-      {/* <Nav data={data} /> */}
-      <MiniNav data={data} />
+      {isBetweenSmAndLg && <MiniNav data={data} />}
+      {isLgOrAbove && <Nav data={data} />}
     </Box>
   );
 }
