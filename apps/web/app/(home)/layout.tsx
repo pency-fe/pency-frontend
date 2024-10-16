@@ -1,11 +1,23 @@
 "use client";
 
-import { HomeLayout } from "../../layout/home";
+import { DashboardLayout } from "@pency/ui/layouts";
+import { Header } from "./header";
+import { Sidebar } from "./sidebar";
 
 type Props = {
   children: React.ReactNode;
 };
 
 export default function Layout({ children }: Props) {
-  return <HomeLayout>{children}</HomeLayout>;
+  return (
+    <DashboardLayout
+      slots={{
+        header: <Header />,
+        sidebar: <Sidebar />,
+        footer: <>Footer</>,
+      }}
+    >
+      {children}
+    </DashboardLayout>
+  );
 }
