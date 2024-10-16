@@ -1,6 +1,6 @@
 import type { Theme, Components } from "@mui/material/styles";
 
-import { menuItem } from "../mixins";
+import { menuItem } from "../../../util";
 
 // ----------------------------------------------------------------------
 

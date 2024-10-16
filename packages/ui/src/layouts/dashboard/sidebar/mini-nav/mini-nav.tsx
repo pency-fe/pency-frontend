@@ -3,9 +3,8 @@ import { BranchData, LeafData, NavData } from "../types";
 import { Theme, useTheme } from "@mui/material/styles";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { varAlpha } from "../../../../util";
+import { hideScrollY, paper, varAlpha } from "../../../../util";
 import { forwardRef, useEffect, useMemo, useRef } from "react";
-import { paper } from "../../../../theme";
 import { Iconify } from "../../../../components";
 import { useBooleanState } from "@pency/util";
 
@@ -36,6 +35,7 @@ export function MiniNav({ data, sx }: MiniNavProps) {
         flex: "1 1 auto",
         px: 0.5,
         pb: 2,
+        ...hideScrollY,
         [miniNavToken.ul.gap]: theme.spacing(0.5),
         [miniNavToken.leaf.color]: theme.vars.palette.text.secondary,
         [miniNavToken.leaf.bgcolor]: "transparent",

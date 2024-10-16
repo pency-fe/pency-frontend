@@ -5,9 +5,9 @@ import { checkboxClasses } from "@mui/material/Checkbox";
 import { menuItemClasses } from "@mui/material/MenuItem";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
 
-// import { CONFIG } from "src/config-global";
-
-import { remToPx, varAlpha, mediaQueries } from "../../util";
+import { remToPx } from "./rem-to-px";
+import { mediaQueries } from "./responsive-font-sizes";
+import { varAlpha } from "./var-alpha";
 
 // ----------------------------------------------------------------------
 
@@ -205,11 +205,6 @@ export function paper({ theme, color, dropdown }: PaperProps) {
       color: color ?? varAlpha(theme.vars.palette.background.paperChannel, 0.9),
       blur: 20,
     }),
-    // backgroundImage: `url(${CONFIG.assetsDir}/assets/core/cyan-blur.png), url(${CONFIG.assetsDir}/assets/core/red-blur.png)`,
-    // backgroundRepeat: "no-repeat, no-repeat",
-    // backgroundPosition: "top right, left bottom",
-    // backgroundSize: "50%, 50%",
-    // ...(theme.direction === "rtl" && { backgroundPosition: "top left, right bottom" }),
     ...(dropdown && {
       padding: theme.spacing(0.5),
       boxShadow: theme.customShadows.dropdown,

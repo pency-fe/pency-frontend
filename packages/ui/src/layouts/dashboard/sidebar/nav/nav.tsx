@@ -3,7 +3,7 @@ import { Theme, useTheme } from "@mui/material/styles";
 import { NavData, BranchData, LeafData } from "../types";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { varAlpha } from "../../../../util";
+import { varAlpha, hideScrollY } from "../../../../util";
 import { useMemo } from "react";
 import { Iconify } from "../../../../components";
 import { useBooleanState } from "@pency/util";
@@ -37,6 +37,7 @@ export function Nav({ data, sx }: NavProps) {
       sx={{
         px: 2,
         flex: "1 1 auto",
+        ...hideScrollY,
         [navToken.ul.gap]: theme.spacing(0.5),
         [navToken.leaf.iconSize]: "24px",
         [navToken.leaf.minHeight]: "44px",

@@ -4,8 +4,7 @@ import type { Theme, Components } from "@mui/material/styles";
 import SvgIcon, { svgIconClasses } from "@mui/material/SvgIcon";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
 
-import { varAlpha } from "../../../util";
-import { paper, menuItem } from "../mixins";
+import { menuItem, paper, varAlpha } from "../../../util";
 
 // ----------------------------------------------------------------------
 

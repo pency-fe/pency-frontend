@@ -1,5 +1,6 @@
 export * from "./create-palette-channel";
 export * from "./hex-to-rgb-channel";
+export * from "./mixins";
 export * from "./px-to-rem";
 export * from "./rem-to-px";
 export * from "./responsive-font-sizes";

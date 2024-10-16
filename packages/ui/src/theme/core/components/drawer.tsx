@@ -1,7 +1,6 @@
 import type { Theme, Components } from "@mui/material/styles";
 
-import { stylesColorScheme, varAlpha } from "../../../util";
-import { paper } from "../mixins";
+import { paper, stylesColorScheme, varAlpha } from "../../../util";
 
 // ----------------------------------------------------------------------
 

@@ -6,6 +6,7 @@
     "./components": "./src/components/index.ts",
     "./layouts": "./src/layouts/index.ts",
     "./theme": "./src/theme/index.ts",
+    "./util": "./src/util/index.ts",
     "./global.css": "./src/global.css"
   },
   "scripts": {
