@@ -172,6 +172,7 @@ function Branch({ data }: BranchProps) {
         onMouseLeave={open.setFalse}
       />
       <Popover
+        aria-hidden={false}
         disableScrollLock
         open={open.bool}
         anchorEl={parentRef.current}

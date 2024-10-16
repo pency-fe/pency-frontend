@@ -1,14 +1,12 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { layoutToken } from "./layout";
+import { MiniNav, Nav } from "../../components";
 
 type Props = {
-  slots: {
-    smUpNav: React.ReactNode;
-    lgUpNav: React.ReactNode;
-  };
+  data: Parameters<typeof Nav>[0]["data"];
 };
 
-export function Sidebar({ slots }: Props) {
+export function Sidebar({ data }: Props) {
   const theme = useTheme();
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
   const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
@@ -38,8 +36,8 @@ export function Sidebar({ slots }: Props) {
         },
       }}
     >
-      {isSmUp && !isLgUp && slots.smUpNav}
-      {isLgUp && slots.lgUpNav}
+      {isSmUp && !isLgUp && <MiniNav data={data} />}
+      {isLgUp && <Nav data={data} />}
     </Box>
   );
 }
