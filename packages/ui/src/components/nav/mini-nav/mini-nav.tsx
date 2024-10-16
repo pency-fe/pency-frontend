@@ -33,7 +33,6 @@ export function MiniNav({ data, sx }: MiniNavProps) {
       component="nav"
       sx={{
         flex: "1 1 auto",
-        px: 0.5,
         pb: 2,
         ...hideScrollY,
         [miniNavToken.ul.gap]: theme.spacing(0.5),

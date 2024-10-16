@@ -35,7 +35,6 @@ export function Nav({ data, sx }: NavProps) {
     <Stack
       component="nav"
       sx={{
-        px: 2,
         flex: "1 1 auto",
         ...hideScrollY,
         [navToken.ul.gap]: theme.spacing(0.5),

@@ -30,9 +30,11 @@ export function Sidebar({ data }: Props) {
           top: `var(${layoutToken.header.upSmHeight})`,
           display: "flex",
           width: `var(${layoutToken.sidebar.upSmWidth})`,
+          px: theme.spacing(0.5),
         },
         [theme.breakpoints.up("lg")]: {
           width: `var(${layoutToken.sidebar.upLgWidth})`,
+          px: theme.spacing(2),
         },
       }}
     >

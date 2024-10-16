@@ -87,9 +87,6 @@ export function Layout({ slots, sx, children }: Props) {
                 maxWidth: "lg",
                 pt: theme.spacing(1),
                 pb: theme.spacing(8),
-                [theme.breakpoints.up("lg")]: {
-                  px: theme.spacing(5),
-                },
               }}
             >
               {children}
