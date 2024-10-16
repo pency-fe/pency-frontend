@@ -3,9 +3,9 @@ import { BranchData, LeafData, NavData } from "../types";
 import { Theme, useTheme } from "@mui/material/styles";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { hideScrollY, paper, varAlpha } from "../../../../util";
+import { hideScrollY, paper, varAlpha } from "../../../util";
 import { forwardRef, useEffect, useMemo, useRef } from "react";
-import { Iconify } from "../../../../components";
+import { Iconify } from "../..";
 import { useBooleanState } from "@pency/util";
 
 const miniNavToken = {

@@ -3,14 +3,14 @@ import { Theme } from "@mui/material/styles";
 
 export const layoutToken = {
   header: {
-    mobileHeight: "--layout-header-mobile-height",
-    desktopHeight: "--layout-header-desktop-height",
+    height: "--layout-header-height",
+    upSmHeight: "--layout-header-up-sm-height",
   },
   sidebar: {
     easing: "--layout-sidebar-easing",
     duration: "--layout-sidebar-duration",
-    miniWidth: "--layout-sidebar-mini-width",
-    width: "--layout-sidebar-width",
+    upSmWidth: "--layout-sidebar-up-sm-width",
+    upLgWidth: "--layout-sidebar-up-lg-width",
   },
 } as const;
 
@@ -32,12 +32,12 @@ export function Layout({ slots, sx, children }: Props) {
       <GlobalStyles
         styles={{
           body: {
-            [layoutToken.header.mobileHeight]: "52px",
-            [layoutToken.header.desktopHeight]: "56px",
+            [layoutToken.header.height]: "52px",
+            [layoutToken.header.upSmHeight]: "56px",
             [layoutToken.sidebar.easing]: "linear",
             [layoutToken.sidebar.duration]: "120ms",
-            [layoutToken.sidebar.miniWidth]: "88px",
-            [layoutToken.sidebar.width]: "300px",
+            [layoutToken.sidebar.upSmWidth]: "88px",
+            [layoutToken.sidebar.upLgWidth]: "300px",
           },
         }}
       />
@@ -61,11 +61,11 @@ export function Layout({ slots, sx, children }: Props) {
               easing: `var(${layoutToken.sidebar.easing})`,
               duration: `var(${layoutToken.sidebar.duration})`,
             }),
-            [theme.breakpoints.between("sm", "lg")]: {
-              pl: `var(${layoutToken.sidebar.miniWidth})`,
+            [theme.breakpoints.up("sm")]: {
+              pl: `var(${layoutToken.sidebar.upSmWidth})`,
             },
             [theme.breakpoints.up("lg")]: {
-              pl: `var(${layoutToken.sidebar.width})`,
+              pl: `var(${layoutToken.sidebar.upLgWidth})`,
             },
           }}
         >
@@ -75,8 +75,8 @@ export function Layout({ slots, sx, children }: Props) {
               display: "flex",
               flex: "1 1 auto",
               flexDirection: "column",
-              mt: `var(${layoutToken.header.mobileHeight})`,
-              [theme.breakpoints.up("lg")]: { mt: `var(${layoutToken.header.desktopHeight})` },
+              mt: `var(${layoutToken.header.height})`,
+              [theme.breakpoints.up("lg")]: { mt: `var(${layoutToken.header.upSmHeight})` },
             }}
           >
             <Container

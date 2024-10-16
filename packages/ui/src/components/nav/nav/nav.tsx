@@ -3,9 +3,9 @@ import { Theme, useTheme } from "@mui/material/styles";
 import { NavData, BranchData, LeafData } from "../types";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { varAlpha, hideScrollY } from "../../../../util";
+import { varAlpha, hideScrollY } from "../../../util";
 import { useMemo } from "react";
-import { Iconify } from "../../../../components";
+import { Iconify } from "../..";
 import { useBooleanState } from "@pency/util";
 
 const navToken = {

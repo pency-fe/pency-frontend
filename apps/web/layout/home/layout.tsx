@@ -1,5 +1,6 @@
 import { DashboardLayout } from "@pency/ui/layouts";
-import { navData } from "./nav-data";
+import { Header } from "./header";
+import { Sidebar } from "./sidebar";
 
 type Props = {
   children: React.ReactNode;
@@ -9,8 +10,8 @@ export function HomeLayout({ children }: Props) {
   return (
     <DashboardLayout
       slots={{
-        header: <DashboardLayout.Header data={navData} />,
-        sidebar: <DashboardLayout.Sidebar data={navData} />,
+        header: <Header />,
+        sidebar: <Sidebar />,
         footer: <>Footer</>,
       }}
     >

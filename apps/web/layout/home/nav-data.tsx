@@ -1,7 +1,6 @@
-import { Iconify } from "@pency/ui/components";
-import { DashboardLayout } from "@pency/ui/layouts";
+import { Iconify, Nav } from "@pency/ui/components";
 
-export const navData: Parameters<typeof DashboardLayout.Sidebar>[0]["data"] = [
+export const navData: Parameters<typeof Nav>[0]["data"] = [
   {
     id: "platform",
     items: [
