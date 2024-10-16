@@ -1,22 +1,11 @@
 "use client";
 
-import { DashboardLayout } from "@pency/ui/layouts";
-import { navData } from "./config-nav-data";
+import { HomeLayout } from "../../layout/home";
 
 type Props = {
   children: React.ReactNode;
 };
 
 export default function Layout({ children }: Props) {
-  return (
-    <DashboardLayout
-      slots={{
-        header: <DashboardLayout.Header data={navData} />,
-        sidebar: <DashboardLayout.Sidebar data={navData} />,
-        footer: <>Footer</>,
-      }}
-    >
-      {children}
-    </DashboardLayout>
-  );
+  return <HomeLayout>{children}</HomeLayout>;
 }
