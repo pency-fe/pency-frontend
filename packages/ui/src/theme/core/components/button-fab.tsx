@@ -2,7 +2,7 @@ import type { Theme, Components, ComponentsVariants } from "@mui/material/styles
 
 import { fabClasses } from "@mui/material/Fab";
 
-import { varAlpha, stylesColorScheme } from "../../../util";
+import { varAlpha, stylesColorScheme } from "@/util";
 
 // ----------------------------------------------------------------------
 

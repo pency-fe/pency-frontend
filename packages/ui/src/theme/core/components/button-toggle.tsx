@@ -3,7 +3,7 @@ import type { Theme, CSSObject, Components } from "@mui/material/styles";
 
 import { toggleButtonClasses } from "@mui/material/ToggleButton";
 
-import { varAlpha } from "../../../util";
+import { varAlpha } from "@/util";
 
 // ----------------------------------------------------------------------
 

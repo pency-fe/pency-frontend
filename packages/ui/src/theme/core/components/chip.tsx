@@ -5,7 +5,7 @@ import type { Theme, CSSObject, Components, ComponentsVariants } from "@mui/mate
 import SvgIcon from "@mui/material/SvgIcon";
 import { chipClasses } from "@mui/material/Chip";
 
-import { stylesColorScheme, varAlpha } from "../../../util";
+import { stylesColorScheme, varAlpha } from "@/util";
 
 // ----------------------------------------------------------------------
 

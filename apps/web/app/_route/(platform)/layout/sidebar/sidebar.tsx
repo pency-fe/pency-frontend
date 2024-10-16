@@ -1,5 +1,5 @@
 import { DashboardLayout } from "@pency/ui/layouts";
-import { navData } from "./nav-data";
+import { navData } from "../nav-data";
 import { useTheme } from "@mui/material";
 
 export function Sidebar() {

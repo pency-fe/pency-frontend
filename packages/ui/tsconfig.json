@@ -1,6 +1,10 @@
 {
   "extends": "@pency/typescript-config/react-library.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "outDir": "dist"
   },
   "include": ["src"],

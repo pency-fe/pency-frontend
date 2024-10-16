@@ -2,7 +2,7 @@ import type { Theme, Components, ComponentsVariants } from "@mui/material/styles
 
 import { avatarGroupClasses } from "@mui/material/AvatarGroup";
 
-import { varAlpha } from "../../../util";
+import { varAlpha } from "@/util";
 
 // ----------------------------------------------------------------------
 

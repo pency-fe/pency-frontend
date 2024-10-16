@@ -1,25 +1,12 @@
-import { DashboardLayout } from "@pency/ui/layouts";
-import { navData } from "./nav-data";
+import { navData } from "../nav-data";
 import { Drawer, IconButton, Stack, drawerClasses, useTheme } from "@mui/material";
 import { useBooleanState } from "@pency/util";
 import { Iconify, Nav } from "@pency/ui/components";
 import { useCallback, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { DashboardLayout } from "@pency/ui/layouts";
 
-export function Header() {
-  return (
-    <DashboardLayout.Header
-      slots={{
-        left: <Left />,
-        right: <Right />,
-      }}
-    />
-  );
-}
-
-// ----------------------------------------------------------------------
-
-function Left() {
+export function Left() {
   const pathname = usePathname();
   const router = useRouter();
   const open = useBooleanState(false);
@@ -103,10 +90,4 @@ function Left() {
       </Drawer>
     </>
   );
-}
-
-// ----------------------------------------------------------------------
-
-function Right() {
-  return <>오른쪽</>;
 }

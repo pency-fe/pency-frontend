@@ -1,4 +1,4 @@
-import { varAlpha } from "../../../util";
+import { varAlpha } from "@/util";
 import { ColorScheme } from "../types";
 import { grey, info, error, common, primary, success, warning, secondary } from "./palette";
 

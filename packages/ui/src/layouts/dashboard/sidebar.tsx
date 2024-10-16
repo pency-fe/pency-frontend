@@ -1,6 +1,6 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { layoutToken } from "./layout";
-import { MiniNav, Nav } from "../../components";
+import { MiniNav, Nav } from "@/components";
 
 type Props = {
   data: Parameters<typeof Nav>[0]["data"];

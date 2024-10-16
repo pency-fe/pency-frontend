@@ -1,5 +1,5 @@
 import { PaletteOptions } from "@mui/material";
-import { createPaletteChannel, varAlpha } from "../../../util";
+import { createPaletteChannel, varAlpha } from "@/util";
 import COLORS from "./colors.json";
 
 // ----------------------------------------------------------------------

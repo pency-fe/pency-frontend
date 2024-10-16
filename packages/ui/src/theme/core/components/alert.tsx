@@ -4,7 +4,7 @@ import type { Theme, CSSObject, Components } from "@mui/material/styles";
 
 import SvgIcon from "@mui/material/SvgIcon";
 import { alertClasses } from "@mui/material/Alert";
-import { stylesColorScheme, varAlpha } from "../../../util";
+import { stylesColorScheme, varAlpha } from "@/util";
 
 // ----------------------------------------------------------------------
 

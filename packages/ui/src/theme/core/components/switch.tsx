@@ -2,7 +2,7 @@ import type { Theme, Components } from "@mui/material/styles";
 
 import { switchClasses } from "@mui/material/Switch";
 
-import { stylesColorScheme, varAlpha } from "../../../util";
+import { stylesColorScheme, varAlpha } from "@/util";
 
 // ----------------------------------------------------------------------
 

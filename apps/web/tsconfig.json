@@ -1,6 +1,10 @@
 {
   "extends": "@pency/typescript-config/nextjs.json",
   "compilerOptions": {
+    "baseUrl": "app/",
+    "paths": {
+      "@/_route/*": ["_route/*"]
+    },
     "plugins": [
       {
         "name": "next"
