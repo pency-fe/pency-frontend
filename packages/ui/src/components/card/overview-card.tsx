@@ -47,7 +47,7 @@ export const OverviewCard = forwardRef<HTMLDivElement, Props>(({ slotProps, ...r
       onPointerLeave={hover.setFalse}
     >
       {/* 카드 버튼 */}
-      {/* <ButtonBase
+      <ButtonBase
         LinkComponent={NextLink}
         disableRipple
         {...slotProps.overlay}
@@ -57,7 +57,7 @@ export const OverviewCard = forwardRef<HTMLDivElement, Props>(({ slotProps, ...r
           zIndex: 1,
           ...slotProps.overlay.sx,
         }}
-      /> */}
+      />
 
       {/* 썸네일 */}
       <Thumbnail {...slotProps.thumbnail} zoom={hover.bool} />
