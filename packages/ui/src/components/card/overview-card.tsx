@@ -6,59 +6,68 @@ import {
   ButtonBase,
   ButtonBaseProps,
   Card,
+  CardProps,
   Link,
   LinkProps,
-  SxProps,
   Typography,
+  TypographyProps,
   useTheme,
 } from "@mui/material";
-import { Theme } from "@mui/material/styles";
 import { maxLine } from "@/util";
 import { Thumbnail } from "../thumbnail";
 import { Label } from "../label";
 import NextLink from "next/link";
+import { useBooleanState } from "@pency/util";
 
 type Props = {
   slotProps: {
-    buttonBase?: ButtonBaseProps;
+    overlay: ButtonBaseProps<"a"> & ButtonBaseProps<"button">;
     thumbnail: ComponentPropsWithRef<typeof Thumbnail>;
     labels?: Array<ComponentPropsWithRef<typeof Label>>;
+    title: TypographyProps;
     profile: {
       avatar: AvatarProps;
       link: LinkProps & ComponentPropsWithRef<typeof NextLink>;
     };
   };
-  title: string;
-  sx?: SxProps<Theme>;
-};
+} & CardProps;
 
-export const OverviewCard = forwardRef<HTMLDivElement, Props>(({ slotProps, title, sx }, ref) => {
+export const OverviewCard = forwardRef<HTMLDivElement, Props>(({ slotProps, ...rest }, ref) => {
   const theme = useTheme();
+  const hover = useBooleanState(false);
 
   const oneLine = useMemo(() => maxLine({ line: 1 }), [theme]);
 
   return (
-    <Card ref={ref} sx={{ width: 1, ...sx }}>
+    <Card
+      ref={ref}
+      {...rest}
+      sx={{ width: 1, ...rest.sx }}
+      onPointerEnter={hover.setTrue}
+      onPointerLeave={hover.setFalse}
+    >
       {/* 카드 버튼 */}
-      <ButtonBase
+      {/* <ButtonBase
+        LinkComponent={NextLink}
         disableRipple
-        {...slotProps.buttonBase}
+        {...slotProps.overlay}
         sx={{
           position: "absolute",
           inset: 0,
-          ...slotProps.buttonBase?.sx,
+          zIndex: 1,
+          ...slotProps.overlay.sx,
         }}
-      />
+      /> */}
 
       {/* 썸네일 */}
-      <Thumbnail {...slotProps.thumbnail} />
+      <Thumbnail {...slotProps.thumbnail} zoom={hover.bool} />
 
       <Box sx={{ px: 1.5, py: 1.5 }}>
         {/* 라벨 */}
         {slotProps.labels && (
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>
             {slotProps.labels.map((labelProps, i) => (
-              <Label key={i} variant="soft" {...labelProps} sx={{ height: 20, fontSize: 11, ...labelProps.sx }} />
+              <Label key={i} variant="soft" {...labelProps} />
             ))}
           </Box>
         )}
@@ -68,8 +77,10 @@ export const OverviewCard = forwardRef<HTMLDivElement, Props>(({ slotProps, titl
           <Link
             component={NextLink}
             {...slotProps.profile.link}
-            sx={{ zIndex: 1, ...slotProps.profile.link.sx }}
-            children={<Avatar sx={{ width: 36, height: 36 }} {...slotProps.profile.avatar} />}
+            sx={{ zIndex: 2, ...slotProps.profile.link.sx }}
+            children={
+              <Avatar {...slotProps.profile.avatar} sx={{ width: 36, height: 36, ...slotProps.profile.avatar.sx }} />
+            }
           />
 
           <Box sx={{ display: "flex", flexDirection: "column", gap: 0.75 }}>
@@ -77,13 +88,13 @@ export const OverviewCard = forwardRef<HTMLDivElement, Props>(({ slotProps, titl
             <Typography
               variant="subtitle2"
               color="inherit"
+              {...slotProps.title}
               sx={{
                 lineHeight: 1,
                 ...oneLine,
+                ...slotProps.title.sx,
               }}
-            >
-              {title}
-            </Typography>
+            />
 
             {/* 이름 */}
             <Link
@@ -93,7 +104,7 @@ export const OverviewCard = forwardRef<HTMLDivElement, Props>(({ slotProps, titl
               color={theme.vars.palette.text.secondary}
               {...slotProps.profile.link}
               sx={{
-                zIndex: 1,
+                zIndex: 2,
                 lineHeight: 1,
                 transition: theme.transitions.create(["color"], {
                   easing: theme.transitions.easing.easeInOut,

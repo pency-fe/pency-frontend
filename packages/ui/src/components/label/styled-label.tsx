@@ -87,8 +87,8 @@ export const StyledLabel = styled(Box)(({
   };
 
   return {
-    height: 24,
-    minWidth: 24,
+    height: 20,
+    minWidth: 20,
     lineHeight: 1,
     cursor: "default",
     alignItems: "center",
