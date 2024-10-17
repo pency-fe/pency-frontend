@@ -16,8 +16,8 @@
     "build-storybook": "storybook build"
   },
   "devDependencies": {
-    "@iconify/react": "^5.0.2",
     "@chromatic-com/storybook": "^1.9.0",
+    "@iconify/react": "^5.0.2",
     "@pency/eslint-config": "workspace:*",
     "@pency/typescript-config": "workspace:*",
     "@storybook/addon-essentials": "^8.3.5",
@@ -34,6 +34,7 @@
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
+    "@types/react-lazy-load-image-component": "^1.6.4",
     "eslint": "^8.57.0",
     "eslint-plugin-storybook": "^0.9.0",
     "storybook": "^8.3.5",
@@ -48,7 +49,8 @@
     "@mui/material-nextjs": "^5.16.6",
     "@pency/util": "workspace:*",
     "framer-motion": "^11.3.29",
+    "next": "14.2.6",
     "react": "^18.2.0",
-    "next": "14.2.6"
+    "react-lazy-load-image-component": "^1.6.2"
   }
 }
