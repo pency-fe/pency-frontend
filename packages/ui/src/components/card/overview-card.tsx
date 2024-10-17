@@ -13,7 +13,7 @@ import {
   TypographyProps,
   useTheme,
 } from "@mui/material";
-import { maxLine } from "@/util";
+import { maxLine, noneUserSelect } from "@/util";
 import { Thumbnail } from "../thumbnail";
 import { Label } from "../label";
 import NextLink from "next/link";
@@ -42,7 +42,7 @@ export const OverviewCard = forwardRef<HTMLDivElement, Props>(({ slotProps, ...r
     <Card
       ref={ref}
       {...rest}
-      sx={{ width: 1, ...rest.sx }}
+      sx={{ width: 1, ...noneUserSelect, ...rest.sx }}
       onPointerEnter={hover.setTrue}
       onPointerLeave={hover.setFalse}
     >

@@ -21,14 +21,21 @@ export const hideScrollX: CSSObject = {
   scrollbarWidth: "none",
   overflowX: "auto",
   "&::-webkit-scrollbar": { display: "none" },
-};
+} as const;
 
 export const hideScrollY: CSSObject = {
   msOverflowStyle: "none",
   scrollbarWidth: "none",
   overflowY: "auto",
   "&::-webkit-scrollbar": { display: "none" },
-};
+} as const;
+
+export const noneUserSelect: CSSObject = {
+  WebkitUserSelect: "none",
+  MozUserSelect: "none",
+  msUserSelect: "none",
+  userSelect: "none",
+} as const;
 
 /**
  * Usage:
