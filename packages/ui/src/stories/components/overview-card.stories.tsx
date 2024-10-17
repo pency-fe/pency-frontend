@@ -32,8 +32,17 @@ export const Preview = () => {
             children: "연재",
           },
         ],
+        profile: {
+          avatar: {
+            src: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
+          },
+          link: {
+            href: "/channel/채널-아이디",
+            children: "김천재의 채널",
+          },
+        },
       }}
-      title="천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍"
+      title="천재 궁수의 스트리밍"
     />
   );
 };
