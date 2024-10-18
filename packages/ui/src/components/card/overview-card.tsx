@@ -1,10 +1,12 @@
-import { ComponentProps, forwardRef, useMemo } from "react";
+import { ReactNode, createContext, forwardRef, useContext, useMemo } from "react";
+import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import {
   Avatar,
   AvatarProps,
   Box,
+  BoxProps,
   ButtonBase,
-  ButtonBaseProps,
+  ButtonProps,
   Card,
   CardProps,
   Link,
@@ -13,113 +15,271 @@ import {
   TypographyProps,
   useTheme,
 } from "@mui/material";
-import { maxLine, noneUserSelect } from "@/util";
-import { Thumbnail } from "../thumbnail";
-import { Label } from "../label";
-import NextLink from "next/link";
+import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
 import { useBooleanState } from "@pency/util";
+import { Label } from "@/components/label";
+import { maxLine, noneUserSelect } from "@/util";
 
-type Props = {
-  slotProps: {
-    overlay: ButtonBaseProps<"a"> & ButtonBaseProps<"button">;
-    thumbnail: ComponentProps<typeof Thumbnail>["slotProps"]["image"];
-    labels?: Array<ComponentProps<typeof Label>>;
-    title: TypographyProps;
-    profile: {
-      avatar: AvatarProps;
-      link: LinkProps & ComponentProps<typeof NextLink>;
-    };
+// ----------------------------------------------------------------------
+
+const OverviewCardValueContext = createContext<{ hover: boolean } | undefined>(undefined);
+
+function useValue(component: string) {
+  const context = useContext(OverviewCardValueContext);
+
+  if (!context) throw new Error(`<${component} />의 부모로 <OverviewCard /> 컴포넌트가 있어야 합니다.`);
+
+  return context;
+}
+
+// ----------------------------------------------------------------------
+
+const OverviewCardActionsContext = createContext<{ setHoverTrue(): void; setHoverFalse(): void } | undefined>(
+  undefined,
+);
+
+function useActions(component: string) {
+  const context = useContext(OverviewCardActionsContext);
+
+  if (!context) throw new Error(`<${component} />의 부모로 <OverviewCard /> 컴포넌트가 있어야 합니다.`);
+
+  return context;
+}
+
+// ----------------------------------------------------------------------
+
+type OverviewCardFnProps = {
+  slots: {
+    overlayButton: ReactNode;
+    thumbnail: ReactNode;
+    labels: ReactNode;
+    avatarLink: ReactNode;
+    title: ReactNode;
+    nameLink: ReactNode;
   };
 } & CardProps;
 
-export const OverviewCard = forwardRef<HTMLDivElement, Props>(({ slotProps, ...rest }, ref) => {
-  const theme = useTheme();
-  const hover = useBooleanState(false);
+const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots, ...rest }, ref) => {
+  const { bool: hover, setTrue: setHoverTrue, setFalse: setHoverFalse } = useBooleanState(false);
 
-  const oneLine = useMemo(() => maxLine({ line: 1 }), [theme]);
+  const value = useMemo(() => ({ hover }), [hover]);
+
+  const actions = useMemo(() => ({ setHoverTrue, setHoverFalse }), []);
 
   return (
-    <Card
+    <OverviewCardValueContext.Provider value={value}>
+      <OverviewCardActionsContext.Provider value={actions}>
+        <Card
+          ref={ref}
+          {...rest}
+          sx={{ width: 1, ...noneUserSelect, ...rest.sx }}
+          onPointerEnter={actions.setHoverTrue}
+          onPointerLeave={actions.setHoverFalse}
+        >
+          {/* 카드 버튼 */}
+          {slots.overlayButton}
+
+          {/* 썸네일 */}
+          {slots.thumbnail}
+
+          <Box sx={{ px: 1.5, py: 1.5 }}>
+            {/* 라벨 */}
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>{slots.labels}</Box>
+
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              {/* 아바타 */}
+              {slots.avatarLink}
+
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 0.75 }}>
+                {/* 타이틀 */}
+                {slots.title}
+
+                {/* 이름 */}
+                {slots.nameLink}
+              </Box>
+            </Box>
+          </Box>
+        </Card>
+      </OverviewCardActionsContext.Provider>
+    </OverviewCardValueContext.Provider>
+  );
+});
+
+// ----------------------------------------------------------------------
+
+type OverlayButtonFnProps = ButtonProps<"button">;
+
+const OverlayButtonFn = forwardRef<HTMLButtonElement, OverlayButtonFnProps>((rest, ref) => {
+  return (
+    <ButtonBase
+      ref={ref}
+      disableRipple
+      {...rest}
+      sx={{
+        position: "absolute",
+        inset: 0,
+        zIndex: 1,
+        ...rest.sx,
+      }}
+    />
+  );
+});
+
+type OverlayAnchorFnProps = ButtonProps<"a"> & NextLinkProps;
+
+const OverlayAnchorFn = forwardRef<HTMLAnchorElement, OverlayAnchorFnProps>((rest, ref) => {
+  return (
+    <ButtonBase
+      ref={ref}
+      LinkComponent={NextLink}
+      disableRipple
+      {...rest}
+      sx={{
+        position: "absolute",
+        inset: 0,
+        zIndex: 1,
+        ...rest.sx,
+      }}
+    />
+  );
+});
+
+// ----------------------------------------------------------------------
+
+type ThumbnailFnProps = Omit<
+  {
+    slots: {
+      image: React.ReactNode;
+    };
+  } & BoxProps,
+  "children"
+>;
+
+const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...rest }, ref) => {
+  return (
+    <Box
       ref={ref}
       {...rest}
-      sx={{ width: 1, ...noneUserSelect, ...rest.sx }}
-      onPointerEnter={hover.setTrue}
-      onPointerLeave={hover.setFalse}
+      sx={{
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 1,
+        overflow: "hidden",
+        ...rest.sx,
+      }}
     >
-      {/* 카드 버튼 */}
-      <ButtonBase
-        LinkComponent={NextLink}
-        disableRipple
-        {...slotProps.overlay}
-        sx={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 1,
-          ...slotProps.overlay.sx,
-        }}
-      />
-
-      {/* 썸네일 */}
-      <Thumbnail zoom={hover.bool} slotProps={{ image: slotProps.thumbnail }} />
-
-      <Box sx={{ px: 1.5, py: 1.5 }}>
-        {/* 라벨 */}
-        {slotProps.labels && (
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>
-            {slotProps.labels.map((labelProps, i) => (
-              <Label key={i} variant="soft" {...labelProps} />
-            ))}
-          </Box>
-        )}
-
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          {/* 아바타 */}
-          <Link
-            component={NextLink}
-            {...slotProps.profile.link}
-            sx={{ zIndex: 2, ...slotProps.profile.link.sx }}
-            children={
-              <Avatar {...slotProps.profile.avatar} sx={{ width: 36, height: 36, ...slotProps.profile.avatar.sx }} />
-            }
-          />
-
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 0.75 }}>
-            {/* 타이틀 */}
-            <Typography
-              variant="subtitle2"
-              color="inherit"
-              {...slotProps.title}
-              sx={{
-                lineHeight: 1,
-                ...oneLine,
-                ...slotProps.title.sx,
-              }}
-            />
-
-            {/* 이름 */}
-            <Link
-              component={NextLink}
-              variant="overline"
-              underline="none"
-              color={theme.vars.palette.text.secondary}
-              {...slotProps.profile.link}
-              sx={{
-                zIndex: 2,
-                lineHeight: 1,
-                transition: theme.transitions.create(["color"], {
-                  easing: theme.transitions.easing.easeInOut,
-                  duration: theme.transitions.duration.shorter,
-                }),
-                ...oneLine,
-                ["&:hover"]: {
-                  color: theme.vars.palette.text.primary,
-                },
-                ...slotProps.profile.link.sx,
-              }}
-            />
-          </Box>
-        </Box>
-      </Box>
-    </Card>
+      {slots.image}
+    </Box>
   );
+});
+
+type ImageFnProps = Omit<BoxProps & LazyLoadImageProps, "children">;
+
+const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>((rest, ref) => {
+  const { hover } = useValue("OverviewCard.Thumbnail.Image");
+  const theme = useTheme();
+
+  return (
+    <Box
+      ref={ref}
+      component={LazyLoadImage}
+      {...rest}
+      sx={{
+        width: 1,
+        objectFit: "cover",
+        transition: theme.transitions.create("transform", {
+          easing: theme.transitions.easing.easeInOut,
+          duration: theme.transitions.duration.shorter,
+        }),
+        ...(hover && {
+          transform: "scale(1.05)",
+        }),
+        ...rest.sx,
+      }}
+    />
+  );
+});
+
+// ----------------------------------------------------------------------
+
+type AvatarLinkFnProps = LinkProps & NextLinkProps;
+
+const AvatarLinkFn = forwardRef<HTMLAnchorElement, AvatarLinkFnProps>((rest, ref) => {
+  return <Link ref={ref} component={NextLink} {...rest} sx={{ zIndex: 2, ...rest.sx }} />;
+});
+
+type AvatarFnProps = AvatarProps;
+
+const AvatarFn = forwardRef<HTMLDivElement, AvatarFnProps>((rest, ref) => {
+  return <Avatar ref={ref} {...rest} sx={{ width: 36, height: 36, ...rest.sx }} />;
+});
+
+// ----------------------------------------------------------------------
+
+type TitleFnProps = TypographyProps;
+
+const TitleFn = forwardRef<HTMLHeadingElement, TitleFnProps>((rest, ref) => {
+  return (
+    <Typography
+      ref={ref}
+      variant="subtitle2"
+      color="inherit"
+      {...rest}
+      sx={{
+        lineHeight: 1,
+        ...maxLine({ line: 1 }),
+        ...rest.sx,
+      }}
+    />
+  );
+});
+
+// ----------------------------------------------------------------------
+
+type NameLinkFnProps = LinkProps & NextLinkProps;
+
+const NameLinkFn = forwardRef<HTMLAnchorElement, NameLinkFnProps>((rest, ref) => {
+  const theme = useTheme();
+
+  return (
+    <Link
+      ref={ref}
+      component={NextLink}
+      variant="overline"
+      underline="none"
+      color={theme.vars.palette.text.secondary}
+      {...rest}
+      sx={{
+        zIndex: 2,
+        lineHeight: 1,
+        transition: theme.transitions.create(["color"], {
+          easing: theme.transitions.easing.easeInOut,
+          duration: theme.transitions.duration.shorter,
+        }),
+        ...maxLine({ line: 1 }),
+        ["&:hover"]: {
+          color: theme.vars.palette.text.primary,
+        },
+        ...rest.sx,
+      }}
+    />
+  );
+});
+
+// ----------------------------------------------------------------------
+
+export const OverviewCard = Object.assign(OverviewCardFn, {
+  OverlayAnchor: OverlayAnchorFn,
+  OverlayButton: OverlayButtonFn,
+  Thumbnail: Object.assign(ThumbnailFn, {
+    Image: ImageFn,
+  }),
+  Label: Label,
+  AvatarLink: Object.assign(AvatarLinkFn, {
+    Avatar: AvatarFn,
+  }),
+  Title: TitleFn,
+  NameLink: NameLinkFn,
 });
