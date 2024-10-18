@@ -1,4 +1,4 @@
-import { ReactNode, createContext, forwardRef, useContext, useMemo } from "react";
+import { ReactElement, createContext, forwardRef, useContext, useMemo } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import {
   Avatar,
@@ -50,12 +50,12 @@ function useActions(component: string) {
 
 type OverviewCardFnProps = {
   slots: {
-    overlayButton: ReactNode;
-    thumbnail: ReactNode;
-    labels: ReactNode;
-    avatarLink: ReactNode;
-    title: ReactNode;
-    nameLink: ReactNode;
+    overlayElement: ReactElement;
+    thumbnail: ReactElement;
+    labels?: ReactElement | null | undefined;
+    avatarLink: ReactElement;
+    title: ReactElement;
+    nameLink: ReactElement;
   };
 } & CardProps;
 
@@ -77,14 +77,14 @@ const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots,
           onPointerLeave={actions.setHoverFalse}
         >
           {/* 카드 버튼 */}
-          {slots.overlayButton}
+          {slots.overlayElement}
 
           {/* 썸네일 */}
           {slots.thumbnail}
 
           <Box sx={{ px: 1.5, py: 1.5 }}>
             {/* 라벨 */}
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>{slots.labels}</Box>
+            {slots.labels && <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>{slots.labels}</Box>}
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               {/* 아바타 */}
@@ -149,13 +149,16 @@ const OverlayAnchorFn = forwardRef<HTMLAnchorElement, OverlayAnchorFnProps>((res
 type ThumbnailFnProps = Omit<
   {
     slots: {
-      image: React.ReactNode;
+      image: ReactElement;
+      topEnds?: ReactElement | null | undefined;
     };
   } & BoxProps,
   "children"
 >;
 
 const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...rest }, ref) => {
+  const theme = useTheme();
+
   return (
     <Box
       ref={ref}
@@ -170,7 +173,23 @@ const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...re
         ...rest.sx,
       }}
     >
+      {/* 이미지 */}
       {slots.image}
+
+      {/* 오른쪽 상단 */}
+      {slots.topEnds && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: theme.spacing(0.75),
+            right: theme.spacing(0.75),
+            display: "flex",
+            gap: theme.spacing(0.5),
+          }}
+        >
+          {slots.topEnds}
+        </Box>
+      )}
     </Box>
   );
 });
@@ -204,10 +223,14 @@ const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>((rest, ref) => {
 
 // ----------------------------------------------------------------------
 
-type AvatarLinkFnProps = LinkProps & NextLinkProps;
+type AvatarLinkFnProps = { slots: { avatar: ReactElement } } & LinkProps & NextLinkProps;
 
-const AvatarLinkFn = forwardRef<HTMLAnchorElement, AvatarLinkFnProps>((rest, ref) => {
-  return <Link ref={ref} component={NextLink} {...rest} sx={{ zIndex: 2, ...rest.sx }} />;
+const AvatarLinkFn = forwardRef<HTMLAnchorElement, AvatarLinkFnProps>(({ slots, ...rest }, ref) => {
+  return (
+    <Link ref={ref} component={NextLink} {...rest} sx={{ zIndex: 2, ...rest.sx }}>
+      {slots.avatar}
+    </Link>
+  );
 });
 
 type AvatarFnProps = AvatarProps;
