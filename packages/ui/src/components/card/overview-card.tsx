@@ -1,4 +1,4 @@
-import { ComponentPropsWithRef, forwardRef, useMemo } from "react";
+import { ComponentProps, forwardRef, useMemo } from "react";
 import {
   Avatar,
   AvatarProps,
@@ -22,12 +22,12 @@ import { useBooleanState } from "@pency/util";
 type Props = {
   slotProps: {
     overlay: ButtonBaseProps<"a"> & ButtonBaseProps<"button">;
-    thumbnail: ComponentPropsWithRef<typeof Thumbnail>;
-    labels?: Array<ComponentPropsWithRef<typeof Label>>;
+    thumbnail: ComponentProps<typeof Thumbnail>["slotProps"]["image"];
+    labels?: Array<ComponentProps<typeof Label>>;
     title: TypographyProps;
     profile: {
       avatar: AvatarProps;
-      link: LinkProps & ComponentPropsWithRef<typeof NextLink>;
+      link: LinkProps & ComponentProps<typeof NextLink>;
     };
   };
 } & CardProps;
@@ -60,7 +60,7 @@ export const OverviewCard = forwardRef<HTMLDivElement, Props>(({ slotProps, ...r
       />
 
       {/* 썸네일 */}
-      <Thumbnail {...slotProps.thumbnail} zoom={hover.bool} />
+      <Thumbnail zoom={hover.bool} slotProps={{ image: slotProps.thumbnail }} />
 
       <Box sx={{ px: 1.5, py: 1.5 }}>
         {/* 라벨 */}

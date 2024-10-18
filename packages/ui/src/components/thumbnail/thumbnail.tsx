@@ -2,14 +2,20 @@ import { Box, BoxProps, useTheme } from "@mui/material";
 import { forwardRef } from "react";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
 
-type Props = { zoom?: boolean } & Omit<BoxProps & LazyLoadImageProps, "children">;
+type Props = {
+  zoom?: boolean;
+  slotProps: {
+    image: Omit<BoxProps & LazyLoadImageProps, "children">;
+  };
+} & BoxProps;
 
-export const Thumbnail = forwardRef<HTMLDivElement, Props>(({ zoom = false, sx, src, alt, ...rest }, ref) => {
+export const Thumbnail = forwardRef<HTMLDivElement, Props>(({ zoom = false, slotProps, ...rest }, ref) => {
   const theme = useTheme();
 
   return (
     <Box
       ref={ref}
+      {...rest}
       sx={{
         position: "relative",
         display: "flex",
@@ -17,14 +23,12 @@ export const Thumbnail = forwardRef<HTMLDivElement, Props>(({ zoom = false, sx, 
         alignItems: "center",
         width: 1,
         overflow: "hidden",
-        ...sx,
+        ...rest.sx,
       }}
-      {...rest}
     >
       <Box
         component={LazyLoadImage}
-        src={src}
-        alt={alt}
+        {...slotProps.image}
         sx={{
           width: 1,
           objectFit: "cover",
@@ -35,6 +39,7 @@ export const Thumbnail = forwardRef<HTMLDivElement, Props>(({ zoom = false, sx, 
           ...(zoom && {
             transform: "scale(1.05)",
           }),
+          ...slotProps.image.sx,
         }}
       />
     </Box>
