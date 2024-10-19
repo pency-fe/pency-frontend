@@ -1,6 +1,9 @@
 import { useCallback, useState } from "react";
 
-/** @tossdocs-ignore */
+/**
+ * @description
+ * https://www.slash.page/ko/libraries/react/react/src/hooks/useBooleanState.i18n
+ */
 export const useBooleanState = (defaultValue = false) => {
   const [bool, setBool] = useState(defaultValue);
 

@@ -2,7 +2,7 @@ import { Iconify, NineteenCircleIcon, OverviewCard } from "@/components";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {
-  title: "components/OverviewCard",
+  title: "components/card/OverviewCard",
 };
 
 export default meta;
