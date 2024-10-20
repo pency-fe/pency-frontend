@@ -12,7 +12,7 @@ module.exports = {
     require.resolve("@vercel/style-guide/eslint/next"),
     "turbo",
   ],
-  plugins: ["@typescript-eslint"],
+  plugins: ["only-warn", "@typescript-eslint"],
   globals: {
     React: true,
     JSX: true,

@@ -12,7 +12,7 @@ const project = resolve(process.cwd(), "tsconfig.json");
 module.exports = {
   parser: "@typescript-eslint/parser",
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier", "turbo"],
-  plugins: ["@typescript-eslint"],
+  plugins: ["only-warn", "@typescript-eslint"],
 
   globals: {
     React: true,

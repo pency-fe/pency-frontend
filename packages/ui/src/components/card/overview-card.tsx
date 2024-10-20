@@ -39,11 +39,11 @@ function useValue(component: string) {
 // );
 
 // function useActions(component: string) {
-//   const context = useContext(OverviewCardActionsContext);
+// const context = useContext(OverviewCardActionsContext);
 
-//   if (!context) throw new Error(`<${component} />의 부모로 <OverviewCard /> 컴포넌트가 있어야 합니다.`);
+// if (!context) throw new Error(`<${component} />의 부모로 <OverviewCard /> 컴포넌트가 있어야 합니다.`);
 
-//   return context;
+// return context;
 // }
 
 // ----------------------------------------------------------------------
