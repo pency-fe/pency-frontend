@@ -1,5 +1,5 @@
 import { ReactElement, forwardRef } from "react";
-import { Box, BoxProps, IconButton, useTheme } from "@mui/material";
+import { Box, BoxProps, Button, IconButton, useTheme } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
@@ -35,9 +35,12 @@ type PrevNavFnProps = {};
 
 const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
   return (
-    <IconButton ref={ref} {...rest}>
-      <EvaArrowIosBackFillIcon />
-    </IconButton>
+    <>
+      <Button size="large">test</Button>
+      <IconButton size="large" ref={ref} {...rest}>
+        <EvaArrowIosBackFillIcon />
+      </IconButton>
+    </>
   );
 });
 
