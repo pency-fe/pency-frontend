@@ -1,4 +1,4 @@
-import { Iconify, Nav } from "@pency/ui/components";
+import { FluentDrawImage24FilledIcon, FluentDrawText24FilledIcon, Nav } from "@pency/ui/components";
 
 export const navData: Parameters<typeof Nav>[0]["data"] = [
   {
@@ -7,7 +7,7 @@ export const navData: Parameters<typeof Nav>[0]["data"] = [
       {
         id: "webtoon",
         title: "웹툰",
-        icon: <Iconify icon="fluent:draw-image-24-filled" />,
+        icon: <FluentDrawImage24FilledIcon />,
         items: [
           {
             id: "series",
@@ -24,7 +24,7 @@ export const navData: Parameters<typeof Nav>[0]["data"] = [
       {
         id: "webnovel",
         title: "웹소설",
-        icon: <Iconify icon="fluent:draw-text-24-filled" />,
+        icon: <FluentDrawText24FilledIcon />,
         items: [
           {
             id: "series",

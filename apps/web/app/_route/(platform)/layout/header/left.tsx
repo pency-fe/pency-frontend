@@ -1,7 +1,7 @@
 import { navData } from "../nav-data";
 import { Drawer, IconButton, Stack, drawerClasses, useTheme } from "@mui/material";
 import { useBooleanState } from "@pency/util";
-import { Iconify, Nav } from "@pency/ui/components";
+import { EvaMenuOutlineIcon, IcomoonFreeYoutube2Icon, Nav } from "@pency/ui/components";
 import { useCallback, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { DashboardLayout } from "@pency/ui/layouts";
@@ -42,11 +42,10 @@ export function Left() {
         }}
         onClick={open.toggle}
       >
-        <Iconify icon="eva:menu-outline" />
+        <EvaMenuOutlineIcon />
       </IconButton>
 
-      <Iconify
-        icon="icomoon-free:youtube2"
+      <IcomoonFreeYoutube2Icon
         onClick={pushHome}
         sx={{ width: "fit-content", height: "24px", overflow: "unset", cursor: "pointer" }}
       />
@@ -77,11 +76,10 @@ export function Left() {
             }}
             onClick={open.toggle}
           >
-            <Iconify icon="eva:menu-outline" />
+            <EvaMenuOutlineIcon />
           </IconButton>
 
-          <Iconify
-            icon="icomoon-free:youtube2"
+          <IcomoonFreeYoutube2Icon
             onClick={pushHome}
             sx={{ width: "fit-content", height: "24px", overflow: "unset", cursor: "pointer" }}
           />

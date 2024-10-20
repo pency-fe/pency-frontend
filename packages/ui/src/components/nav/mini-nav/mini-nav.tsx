@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { hideScrollY, paper, varAlpha } from "@/util";
 import { forwardRef, useEffect, useMemo, useRef } from "react";
-import { Iconify } from "../..";
+import { EvaArrowIosForwardFillIcon } from "../..";
 import { useBooleanState } from "@pency/util";
 
 const miniNavToken = {
@@ -277,8 +277,7 @@ const Leaf = forwardRef<HTMLButtonElement, LeafProps>(({ data, active, arrow, sx
       </Box>
 
       {arrow !== "none" ? (
-        <Iconify
-          icon="eva:arrow-ios-forward-fill"
+        <EvaArrowIosForwardFillIcon
           sx={{
             flexShrink: 0,
             position: "absolute",

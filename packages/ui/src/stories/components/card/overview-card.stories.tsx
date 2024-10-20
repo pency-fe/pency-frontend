@@ -1,4 +1,4 @@
-import { Iconify, NineteenCircleIcon, OverviewCard } from "@/components";
+import { GravityUiCircleCheckFillIcon, NineteenCircleIcon, OverviewCard } from "@/components";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {
@@ -43,7 +43,7 @@ export const PostOverviewCard = () => {
               <OverviewCard.Label
                 variant="soft"
                 color="primary"
-                slots={{ ...(postData.purchased && { startIcon: <Iconify icon="gravity-ui:circle-check-fill" /> }) }}
+                slots={{ ...(postData.purchased && { startIcon: <GravityUiCircleCheckFillIcon /> }) }}
               >
                 {postData.price}P
               </OverviewCard.Label>

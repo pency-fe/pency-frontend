@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { varAlpha, hideScrollY } from "@/util";
 import { useMemo } from "react";
-import { Iconify } from "../..";
+import { EvaArrowIosDownwardFillIcon, EvaArrowIosForwardFillIcon } from "../..";
 import { useBooleanState } from "@pency/util";
 
 const navToken = {
@@ -200,6 +200,16 @@ type LeafProps = {
 
 function Leaf({ data, active, arrow, sx, ...rest }: LeafProps) {
   const theme = useTheme();
+  const iconStyles = useMemo(
+    () => ({
+      flexShrink: 0,
+      display: "inline-flex",
+      width: "16px",
+      height: "16px",
+      marginLeft: "6px",
+    }),
+    [],
+  );
 
   return (
     <ButtonBase
@@ -260,18 +270,8 @@ function Leaf({ data, active, arrow, sx, ...rest }: LeafProps) {
           {data.title}
         </Box>
       </Box>
-      {arrow !== "none" ? (
-        <Iconify
-          icon={arrow === "downward" ? "eva:arrow-ios-downward-fill" : "eva:arrow-ios-forward-fill"}
-          sx={{
-            flexShrink: 0,
-            display: "inline-flex",
-            width: "16px",
-            height: "16px",
-            marginLeft: "6px",
-          }}
-        />
-      ) : null}
+      {arrow !== "none" && arrow === "downward" && <EvaArrowIosDownwardFillIcon sx={iconStyles} />}
+      {arrow !== "none" && arrow === "forward" && <EvaArrowIosForwardFillIcon sx={iconStyles} />}
     </ButtonBase>
   );
 }
