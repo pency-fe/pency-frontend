@@ -11,7 +11,6 @@ type ColorType = (typeof COLORS)[number];
 
 // ----------------------------------------------------------------------
 
-// eslint-disable-next-line no-unused-vars
 function styleColors(ownerState: LinearProgressProps, styles: (val: ColorType) => CSSObject) {
   const outputStyle = COLORS.reduce((acc, color) => {
     if (ownerState.color === color) {

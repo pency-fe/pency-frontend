@@ -7,7 +7,6 @@ import { stylesColorScheme, varAlpha } from "@/util";
 // ----------------------------------------------------------------------
 
 declare module "@mui/material/Slider" {
-  // eslint-disable-next-line no-unused-vars
   interface SliderPropsColorOverrides {
     inherit: true;
   }

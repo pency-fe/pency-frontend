@@ -9,7 +9,6 @@ import { varAlpha, stylesColorScheme } from "@/util";
 
 // NEW VARIANT
 declare module "@mui/material/ButtonGroup" {
-  // eslint-disable-next-line no-unused-vars
   interface ButtonGroupPropsVariantOverrides {
     soft: true;
   }
@@ -19,7 +18,6 @@ const COLORS = ["primary", "secondary", "info", "success", "warning", "error"] a
 
 type ColorType = (typeof COLORS)[number];
 
-// eslint-disable-next-line no-unused-vars
 function styleColors(ownerState: ButtonGroupProps, styles: (val: ColorType) => CSSObject) {
   const outputStyle = COLORS.reduce((acc, color) => {
     if (!ownerState.disabled && ownerState.color === color) {

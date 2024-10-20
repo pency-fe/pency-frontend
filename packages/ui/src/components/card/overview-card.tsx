@@ -34,17 +34,17 @@ function useValue(component: string) {
 
 // ----------------------------------------------------------------------
 
-const OverviewCardActionsContext = createContext<{ setHoverTrue(): void; setHoverFalse(): void } | undefined>(
-  undefined,
-);
+// const OverviewCardActionsContext = createContext<{ setHoverTrue(): void; setHoverFalse(): void } | undefined>(
+//   undefined,
+// );
 
-function useActions(component: string) {
-  const context = useContext(OverviewCardActionsContext);
+// function useActions(component: string) {
+//   const context = useContext(OverviewCardActionsContext);
 
-  if (!context) throw new Error(`<${component} />의 부모로 <OverviewCard /> 컴포넌트가 있어야 합니다.`);
+//   if (!context) throw new Error(`<${component} />의 부모로 <OverviewCard /> 컴포넌트가 있어야 합니다.`);
 
-  return context;
-}
+//   return context;
+// }
 
 // ----------------------------------------------------------------------
 
@@ -68,39 +68,39 @@ const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots,
 
   return (
     <OverviewCardValueContext.Provider value={value}>
-      <OverviewCardActionsContext.Provider value={actions}>
-        <Card
-          ref={ref}
-          {...rest}
-          sx={{ width: 1, ...noneUserSelect, ...rest.sx }}
-          onPointerEnter={actions.setHoverTrue}
-          onPointerLeave={actions.setHoverFalse}
-        >
-          {/* 카드 버튼 */}
-          {slots.overlayElement}
+      {/* <OverviewCardActionsContext.Provider value={actions}> */}
+      <Card
+        ref={ref}
+        {...rest}
+        sx={{ width: 1, ...noneUserSelect, ...rest.sx }}
+        onPointerEnter={actions.setHoverTrue}
+        onPointerLeave={actions.setHoverFalse}
+      >
+        {/* 카드 버튼 */}
+        {slots.overlayElement}
 
-          {/* 썸네일 */}
-          {slots.thumbnail}
+        {/* 썸네일 */}
+        {slots.thumbnail}
 
-          <Box sx={{ px: 1.5, py: 1.5 }}>
-            {/* 라벨 */}
-            {slots.labels && <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>{slots.labels}</Box>}
+        <Box sx={{ px: 1.5, py: 1.5 }}>
+          {/* 라벨 */}
+          {slots.labels && <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>{slots.labels}</Box>}
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              {/* 아바타 */}
-              {slots.avatarLink}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            {/* 아바타 */}
+            {slots.avatarLink}
 
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 0.75 }}>
-                {/* 타이틀 */}
-                {slots.title}
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.75 }}>
+              {/* 타이틀 */}
+              {slots.title}
 
-                {/* 이름 */}
-                {slots.nameLink}
-              </Box>
+              {/* 이름 */}
+              {slots.nameLink}
             </Box>
           </Box>
-        </Card>
-      </OverviewCardActionsContext.Provider>
+        </Box>
+      </Card>
+      {/* </OverviewCardActionsContext.Provider> */}
     </OverviewCardValueContext.Provider>
   );
 });

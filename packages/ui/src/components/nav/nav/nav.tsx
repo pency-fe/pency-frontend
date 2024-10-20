@@ -72,7 +72,6 @@ type UlProps = {
 };
 
 function Ul({ sx, children }: UlProps) {
-  const theme = useTheme();
   return (
     <Box
       component="ul"

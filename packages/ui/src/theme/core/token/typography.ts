@@ -8,6 +8,7 @@ declare module "@mui/material/styles" {
     fontSecondaryFamily: React.CSSProperties["fontFamily"];
     fontWeightSemiBold: React.CSSProperties["fontWeight"];
   }
+
   interface TypographyVariantsOptions {
     fontSecondaryFamily?: React.CSSProperties["fontFamily"];
     fontWeightSemiBold?: React.CSSProperties["fontWeight"];

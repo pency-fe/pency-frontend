@@ -1,4 +1,3 @@
-/** @tossdocs-ignore */
 export interface Storage {
   get(key: string): string | null;
 
@@ -38,7 +37,7 @@ class LocalStorage implements Storage {
       localStorage.setItem(TEST_KEY, "test");
       localStorage.removeItem(TEST_KEY);
       return true;
-    } catch (err) {
+    } catch {
       return false;
     }
   }

@@ -8,7 +8,6 @@ import { varAlpha } from "@/util";
 
 // NEW VARIANT
 declare module "@mui/material/AvatarGroup" {
-  // eslint-disable-next-line no-unused-vars
   interface AvatarGroupPropsVariantOverrides {
     compact: true;
   }

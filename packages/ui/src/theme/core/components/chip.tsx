@@ -28,7 +28,6 @@ export const ChipDeleteIcon = (props: SvgIconProps) => (
 
 // NEW VARIANT
 declare module "@mui/material/Chip" {
-  // eslint-disable-next-line no-unused-vars
   interface ChipPropsVariantOverrides {
     soft: true;
   }
@@ -40,7 +39,6 @@ type ColorType = (typeof COLORS)[number];
 
 // ----------------------------------------------------------------------
 
-// eslint-disable-next-line no-unused-vars
 function styleColors(ownerState: ChipProps, styles: (val: ColorType) => CSSObject) {
   const outputStyle = COLORS.reduce((acc, color) => {
     if (!ownerState.disabled && ownerState.color === color) {

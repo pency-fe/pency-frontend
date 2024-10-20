@@ -5,11 +5,10 @@ import { Components, ComponentsVariants, Theme } from "@mui/material/styles";
 // ----------------------------------------------------------------------
 
 declare module "@mui/material/IconButton" {
-  // eslint-disable-next-line no-unused-vars
   interface IconButtonPropsColorOverrides {
     default: false;
   }
-  // eslint-disable-next-line no-unused-vars
+
   interface IconButtonOwnProps {
     variant?: "contained" | "outlined" | "soft" | "text";
   }

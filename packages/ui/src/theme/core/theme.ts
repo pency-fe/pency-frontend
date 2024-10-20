@@ -46,7 +46,7 @@ export const darkTheme = extendTheme({
   customShadows: darkCustomShadows,
 });
 
-function shouldSkipGeneratingVar(keys: string[], value: string | number): boolean {
+function shouldSkipGeneratingVar(keys: string[]): boolean {
   const skipGlobalKeys = [
     "mixins",
     "overlays",

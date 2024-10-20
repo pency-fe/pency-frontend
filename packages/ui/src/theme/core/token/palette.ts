@@ -9,19 +9,23 @@ declare module "@mui/material/styles/createPalette" {
     whiteChannel: string;
     blackChannel: string;
   }
+
   interface TypeText {
     disabledChannel: string;
   }
+
   interface TypeBackground {
     neutral: string;
     neutralChannel: string;
   }
+
   interface SimplePaletteColorOptions {
     lighter: string;
     darker: string;
     lighterChannel: string;
     darkerChannel: string;
   }
+
   interface PaletteColor {
     lighter: string;
     darker: string;

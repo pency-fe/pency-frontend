@@ -1,5 +1,5 @@
 import { ReactElement, forwardRef } from "react";
-import { Box, BoxProps, Button, IconButton, useTheme } from "@mui/material";
+import { Box, BoxProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
@@ -31,42 +31,12 @@ const BannerCarouselFn = forwardRef<HTMLDivElement, BannerCarouselFnProps>(({ sl
 
 // ----------------------------------------------------------------------
 
-type PrevNavFnProps = {};
+type PrevNavFnProps = IconButtonProps;
 
 const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
   return (
     <>
-      <Button variant="text" size="large">
-        test
-      </Button>
-      <IconButton variant="text" size="large">
-        <EvaArrowIosBackFillIcon />
-      </IconButton>
-
-      <Button variant="text" size="large" color="inherit">
-        test
-      </Button>
-      <IconButton variant="text" size="large" color="inherit">
-        <EvaArrowIosBackFillIcon />
-      </IconButton>
-
-      <Button variant="text" size="large" disabled>
-        test
-      </Button>
-      <IconButton variant="text" size="large" disabled>
-        <EvaArrowIosBackFillIcon />
-      </IconButton>
-
-      <Button variant="text" size="large" color="primary">
-        test
-      </Button>
-      <IconButton variant="text" size="large" color="primary">
-        <EvaArrowIosBackFillIcon />
-      </IconButton>
-      <Button variant="text" size="large" color="primary" disabled>
-        test
-      </Button>
-      <IconButton variant="text" size="large" color="primary" disabled>
+      <IconButton ref={ref} {...rest}>
         <EvaArrowIosBackFillIcon />
       </IconButton>
     </>
@@ -75,7 +45,7 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
 
 // ----------------------------------------------------------------------
 
-type NextNavFnProps = {};
+type NextNavFnProps = IconButtonProps;
 
 const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
   return (
