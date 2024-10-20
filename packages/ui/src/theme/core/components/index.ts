@@ -5,7 +5,9 @@ import { chip } from "./chip";
 import { link } from "./link";
 import { tabs } from "./tabs";
 import { form } from "./form";
+import { iconButton } from "./icon-button";
 import { table } from "./table";
+// eslint-disable-next-line no-redeclare
 import { alert } from "./alert";
 import { stack } from "./stack";
 import { paper } from "./paper";
@@ -49,6 +51,7 @@ export const components = {
   ...card,
   ...link,
   ...form,
+  ...iconButton,
   ...tabs,
   ...chip,
   ...menu,

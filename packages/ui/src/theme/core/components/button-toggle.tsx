@@ -11,6 +11,7 @@ const COLORS = ["primary", "secondary", "info", "success", "warning", "error"] a
 
 type ColorType = (typeof COLORS)[number];
 
+// eslint-disable-next-line no-unused-vars
 function styleColors(ownerState: ToggleButtonProps, styles: (val: ColorType) => CSSObject) {
   const outputStyle = COLORS.reduce((acc, color) => {
     if (!ownerState.disabled && ownerState.color === color) {

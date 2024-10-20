@@ -8,6 +8,7 @@ import { varAlpha, stylesColorScheme } from "@/util";
 
 // NEW VARIANT
 declare module "@mui/material/Fab" {
+  // eslint-disable-next-line no-unused-vars
   interface FabPropsVariantOverrides {
     outlined: true;
     outlinedExtended: true;

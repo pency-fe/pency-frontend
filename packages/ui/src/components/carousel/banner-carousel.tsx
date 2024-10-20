@@ -24,7 +24,7 @@ const BannerCarouselFn = forwardRef<HTMLDivElement, BannerCarouselFnProps>(({ sl
     <Box ref={refs} {...rest} sx={{ position: "relative", overflow: "hidden", ...rest.sx }}>
       <Box sx={{ display: "flex" }}>{slots.slides}</Box>
       {slots.prevNav}
-      {slots.nextNav}
+      {/* {slots.nextNav} */}
     </Box>
   );
 });
@@ -36,8 +36,37 @@ type PrevNavFnProps = {};
 const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
   return (
     <>
-      <Button size="large">test</Button>
-      <IconButton size="large" ref={ref} {...rest}>
+      <Button variant="text" size="large">
+        test
+      </Button>
+      <IconButton variant="text" size="large">
+        <EvaArrowIosBackFillIcon />
+      </IconButton>
+
+      <Button variant="text" size="large" color="inherit">
+        test
+      </Button>
+      <IconButton variant="text" size="large" color="inherit">
+        <EvaArrowIosBackFillIcon />
+      </IconButton>
+
+      <Button variant="text" size="large" disabled>
+        test
+      </Button>
+      <IconButton variant="text" size="large" disabled>
+        <EvaArrowIosBackFillIcon />
+      </IconButton>
+
+      <Button variant="text" size="large" color="primary">
+        test
+      </Button>
+      <IconButton variant="text" size="large" color="primary">
+        <EvaArrowIosBackFillIcon />
+      </IconButton>
+      <Button variant="text" size="large" color="primary" disabled>
+        test
+      </Button>
+      <IconButton variant="text" size="large" color="primary" disabled>
         <EvaArrowIosBackFillIcon />
       </IconButton>
     </>

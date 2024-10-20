@@ -6,6 +6,7 @@ import { badgeClasses } from "@mui/material/Badge";
 
 // NEW VARIANT
 declare module "@mui/material/Badge" {
+  // eslint-disable-next-line no-unused-vars
   interface BadgePropsVariantOverrides {
     alway: true;
     busy: true;

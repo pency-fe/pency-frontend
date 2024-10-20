@@ -8,10 +8,12 @@ import { stylesColorScheme, varAlpha } from "@/util";
 
 // NEW VARIANT
 declare module "@mui/material/Pagination" {
+  // eslint-disable-next-line no-unused-vars
   interface PaginationPropsVariantOverrides {
     soft: true;
   }
 
+  // eslint-disable-next-line no-unused-vars
   interface PaginationPropsColorOverrides {
     info: true;
     success: true;
