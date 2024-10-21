@@ -4,7 +4,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
-import { varAlpha } from "@/util";
+import { stylesColorScheme, varAlpha } from "@/util";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
@@ -114,6 +114,9 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
           ["&:hover"]: {
             bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.8),
           },
+          [stylesColorScheme.light]: {
+            color: theme.vars.palette.common.white,
+          },
           [theme.breakpoints.down("sm")]: {
             display: "none",
           },
@@ -146,6 +149,9 @@ const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
         bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.6),
         ["&:hover"]: {
           bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.8),
+        },
+        [stylesColorScheme.light]: {
+          color: theme.vars.palette.common.white,
         },
         [theme.breakpoints.down("sm")]: {
           display: "none",

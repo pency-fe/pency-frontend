@@ -2,7 +2,7 @@ import { ReactElement, createContext, forwardRef, useContext } from "react";
 import { Box, BoxProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
-import { queriesWithoutMedia, varAlpha } from "@/util";
+import { queriesWithoutMedia, stylesColorScheme, varAlpha } from "@/util";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
@@ -117,6 +117,9 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
           ["&:hover"]: {
             bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.8),
           },
+          [stylesColorScheme.light]: {
+            color: theme.vars.palette.common.white,
+          },
           [theme.breakpoints.down("sm")]: {
             display: "none",
           },
@@ -152,6 +155,9 @@ const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
         bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.6),
         ["&:hover"]: {
           bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.8),
+        },
+        [stylesColorScheme.light]: {
+          color: theme.vars.palette.common.white,
         },
         [theme.breakpoints.down("sm")]: {
           display: "none",

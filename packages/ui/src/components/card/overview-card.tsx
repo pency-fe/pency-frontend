@@ -55,7 +55,7 @@ const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots,
       <Card
         ref={ref}
         {...rest}
-        sx={{ width: 1, ...noneUserSelect, ...rest.sx }}
+        sx={{ width: 1, boxShadow: "none", ...noneUserSelect, ...rest.sx }}
         onMouseEnter={setHoverTrue}
         onMouseLeave={setHoverFalse}
       >
