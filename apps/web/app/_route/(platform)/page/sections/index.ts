@@ -1,1 +1,1 @@
-export const Platform = Object.assign({}, {});
+export * from "./banner-section";
