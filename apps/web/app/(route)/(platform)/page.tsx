@@ -1,5 +1,7 @@
 "use client";
 
-export default function Page() {
-  return Array.from({ length: 100 }).map((v, i) => <p key={i}>home</p>);
+import { Page } from "@/_route/(platform)/page";
+
+export default function PlatformPage() {
+  return <Page />;
 }

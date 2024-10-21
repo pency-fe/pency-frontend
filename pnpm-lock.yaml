@@ -195,6 +195,9 @@ importers:
       '@types/react-lazy-load-image-component':
         specifier: ^1.6.4
         version: 1.6.4
+      embla-carousel:
+        specifier: ^8.3.0
+        version: 8.3.0
       eslint:
         specifier: ^8.57.0
         version: 8.57.1
@@ -3874,7 +3877,6 @@ packages:
 
   /embla-carousel@8.3.0:
     resolution: {integrity: sha512-Ve8dhI4w28qBqR8J+aMtv7rLK89r1ZA5HocwFz6uMB/i5EiC7bGI7y+AM80yAVUJw3qqaZYK7clmZMUR8kM3UA==}
-    dev: false
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
