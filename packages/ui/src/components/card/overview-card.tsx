@@ -34,20 +34,6 @@ function useValue(component: string) {
 
 // ----------------------------------------------------------------------
 
-// const OverviewCardActionsContext = createContext<{ setHoverTrue(): void; setHoverFalse(): void } | undefined>(
-//   undefined,
-// );
-
-// function useActions(component: string) {
-// const context = useContext(OverviewCardActionsContext);
-
-// if (!context) throw new Error(`<${component} />의 부모로 <OverviewCard /> 컴포넌트가 있어야 합니다.`);
-
-// return context;
-// }
-
-// ----------------------------------------------------------------------
-
 type OverviewCardFnProps = {
   slots: {
     overlayElement: ReactElement;
@@ -64,17 +50,14 @@ const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots,
 
   const value = useMemo(() => ({ hover }), [hover]);
 
-  const actions = useMemo(() => ({ setHoverTrue, setHoverFalse }), []);
-
   return (
     <OverviewCardValueContext.Provider value={value}>
-      {/* <OverviewCardActionsContext.Provider value={actions}> */}
       <Card
         ref={ref}
         {...rest}
         sx={{ width: 1, ...noneUserSelect, ...rest.sx }}
-        onPointerEnter={actions.setHoverTrue}
-        onPointerLeave={actions.setHoverFalse}
+        onMouseEnter={setHoverTrue}
+        onMouseLeave={setHoverFalse}
       >
         {/* 카드 버튼 */}
         {slots.overlayElement}
@@ -100,7 +83,6 @@ const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots,
           </Box>
         </Box>
       </Card>
-      {/* </OverviewCardActionsContext.Provider> */}
     </OverviewCardValueContext.Provider>
   );
 });

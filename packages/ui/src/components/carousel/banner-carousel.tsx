@@ -6,6 +6,7 @@ import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-compone
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
 import { varAlpha } from "@/util";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
+import Grid2 from "@mui/material/Unstable_Grid2";
 
 // ----------------------------------------------------------------------
 
@@ -39,13 +40,56 @@ const BannerCarouselFn = forwardRef<HTMLDivElement, BannerCarouselFnProps>(({ sl
     <BannerCarouselActionsContext.Provider value={{ onPrevNavClick, onNextNavClick }}>
       <Box ref={ref} {...rest} sx={{ position: "relative", ...rest.sx }}>
         <Box ref={emblaRef} sx={{ overflow: "hidden" }}>
-          <Box sx={{ display: "flex" }}>{slots.slides}</Box>
+          <Grid2 container sx={{ flexWrap: "nowrap" }}>
+            {slots.slides}
+          </Grid2>
         </Box>
         {slots.prevNav}
         {slots.nextNav}
       </Box>
     </BannerCarouselActionsContext.Provider>
   );
+});
+
+// ----------------------------------------------------------------------
+
+type SlideFnProps = {
+  slots: {
+    image: ReactElement;
+  };
+} & BoxProps;
+
+const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ slots, ...rest }, ref) => {
+  const theme = useTheme();
+
+  return (
+    <Grid2
+      ref={ref}
+      xs={12}
+      sm={8}
+      md={6}
+      lg={6}
+      {...rest}
+      sx={{
+        flexShrink: 0,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        ml: theme.spacing(1.5),
+        borderRadius: theme.spacing(2),
+        overflow: "hidden",
+        ...rest.sx,
+      }}
+    >
+      {slots.image}
+    </Grid2>
+  );
+});
+
+type ImageFnProps = Omit<BoxProps & LazyLoadImageProps, "children">;
+
+const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>((rest, ref) => {
+  return <Box ref={ref} component={LazyLoadImage} {...rest} sx={{ width: 1, objectFit: "cover", ...rest.sx }} />;
 });
 
 // ----------------------------------------------------------------------
@@ -69,6 +113,9 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
           bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.6),
           ["&:hover"]: {
             bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.8),
+          },
+          [theme.breakpoints.down("sm")]: {
+            display: "none",
           },
           ...rest.sx,
         }}
@@ -100,57 +147,15 @@ const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
         ["&:hover"]: {
           bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.8),
         },
+        [theme.breakpoints.down("sm")]: {
+          display: "none",
+        },
         ...rest.sx,
       }}
     >
       <EvaArrowIosForwardFillIcon />
     </IconButton>
   );
-});
-
-// ----------------------------------------------------------------------
-
-type SlideFnProps = {
-  slots: {
-    image: ReactElement;
-  };
-} & BoxProps;
-
-const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ slots, ...rest }, ref) => {
-  const theme = useTheme();
-
-  return (
-    <Box
-      ref={ref}
-      {...rest}
-      sx={{
-        flex: "0 0 100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minWidth: 0,
-        ml: theme.spacing(1),
-        borderRadius: theme.spacing(2),
-        overflow: "hidden",
-        [theme.breakpoints.up("sm")]: {
-          flex: "0 0 75%",
-        },
-        [theme.breakpoints.up("md")]: {
-          flex: "0 0 50%",
-        },
-
-        ...rest.sx,
-      }}
-    >
-      {slots.image}
-    </Box>
-  );
-});
-
-type ImageFnProps = Omit<BoxProps & LazyLoadImageProps, "children">;
-
-const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>((rest, ref) => {
-  return <Box ref={ref} component={LazyLoadImage} {...rest} sx={{ width: 1, objectFit: "cover", ...rest.sx }} />;
 });
 
 // ----------------------------------------------------------------------

@@ -24,6 +24,6 @@ export const Default = () => {
         prevNav: <OverviewCardCarousel.PrevNav />,
         nextNav: <OverviewCardCarousel.NextNav />,
       }}
-    ></OverviewCardCarousel>
+    />
   );
 };

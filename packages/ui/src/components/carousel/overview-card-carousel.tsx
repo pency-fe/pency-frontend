@@ -2,8 +2,9 @@ import { ReactElement, createContext, forwardRef, useContext } from "react";
 import { Box, BoxProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
-import { varAlpha } from "@/util";
+import { queriesWithoutMedia, varAlpha } from "@/util";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
+import Grid2 from "@mui/material/Unstable_Grid2";
 
 // ----------------------------------------------------------------------
 
@@ -44,7 +45,23 @@ type OverviewCardCarouselFnProps = {
 } & BoxProps;
 
 const OverviewCardCarouselFn = forwardRef<HTMLDivElement, OverviewCardCarouselFnProps>(({ slots, ...rest }, ref) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ dragFree: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    breakpoints: {
+      [queriesWithoutMedia.upXs]: {
+        slidesToScroll: 1,
+      },
+      [queriesWithoutMedia.upSm]: {
+        slidesToScroll: 2,
+      },
+      [queriesWithoutMedia.upMd]: {
+        slidesToScroll: 3,
+      },
+      [queriesWithoutMedia.upLg]: {
+        slidesToScroll: 4,
+      },
+    },
+  });
   const { prevNavDisabled, nextNavDisabled, onPrevNavClick, onNextNavClick } = useEmblaPrevNextNav(emblaApi);
 
   return (
@@ -52,13 +69,27 @@ const OverviewCardCarouselFn = forwardRef<HTMLDivElement, OverviewCardCarouselFn
       <OverviewCardCarouselActionsContext.Provider value={{ onPrevNavClick, onNextNavClick }}>
         <Box ref={ref} {...rest} sx={{ position: "relative", ...rest.sx }}>
           <Box ref={emblaRef} sx={{ overflow: "hidden" }}>
-            <Box sx={{ display: "flex" }}>{slots.slides}</Box>
+            <Grid2 container spacing={1.5} sx={{ flexWrap: "nowrap" }}>
+              {slots.slides}
+            </Grid2>
           </Box>
           {slots.prevNav}
           {slots.nextNav}
         </Box>
       </OverviewCardCarouselActionsContext.Provider>
     </OverviewCardCarouselDataContext.Provider>
+  );
+});
+
+// ----------------------------------------------------------------------
+
+type SlideFnProps = BoxProps;
+
+const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ children, ...rest }, ref) => {
+  return (
+    <Grid2 ref={ref} xs={11} sm={6} md={4} lg={3} {...rest} sx={{ flexShrink: 0, ...rest.sx }}>
+      {children}
+    </Grid2>
   );
 });
 
@@ -85,6 +116,9 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
           bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.6),
           ["&:hover"]: {
             bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.8),
+          },
+          [theme.breakpoints.down("sm")]: {
+            display: "none",
           },
           ...(prevNavDisabled && { display: "none" }),
           ...rest.sx,
@@ -119,40 +153,15 @@ const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
         ["&:hover"]: {
           bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.8),
         },
+        [theme.breakpoints.down("sm")]: {
+          display: "none",
+        },
         ...(nextNavDisabled && { display: "none" }),
         ...rest.sx,
       }}
     >
       <EvaArrowIosForwardFillIcon />
     </IconButton>
-  );
-});
-
-// ----------------------------------------------------------------------
-
-type SlideFnProps = BoxProps;
-
-const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ children, ...rest }, ref) => {
-  const theme = useTheme();
-
-  return (
-    <Box
-      ref={ref}
-      {...rest}
-      sx={{
-        flex: "0 0 50%",
-        display: "flex",
-        minWidth: 0,
-        mr: theme.spacing(1),
-        overflow: "hidden",
-        [theme.breakpoints.up("sm")]: {
-          flex: "0 0 25%",
-        },
-        ...rest.sx,
-      }}
-    >
-      {children}
-    </Box>
   );
 });
 
