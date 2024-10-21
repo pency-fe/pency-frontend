@@ -33,7 +33,7 @@ export const PostOverviewCard = () => {
           <OverviewCard.Thumbnail
             slots={{
               image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
-              topEnds: postData.age !== "none" ? <>{postData.age === "NINETEEN" && <NineteenCircleIcon />}</> : null,
+              topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon /> : null,
             }}
           />
         ),
@@ -43,7 +43,7 @@ export const PostOverviewCard = () => {
               <OverviewCard.Label
                 variant="soft"
                 color="primary"
-                slots={{ ...(postData.purchased && { startIcon: <GravityUiCircleCheckFillIcon /> }) }}
+                slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
               >
                 {postData.price}P
               </OverviewCard.Label>
@@ -67,9 +67,11 @@ export const PostOverviewCard = () => {
             }}
           />
         ),
-        title: <OverviewCard.Title>천재 궁수의 스트리밍</OverviewCard.Title>,
+        title: <OverviewCard.Title>{postData.title}</OverviewCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/channel/${postData.channel.channelId}`}>김천재의 채널</OverviewCard.NameLink>
+          <OverviewCard.NameLink href={`/channel/${postData.channel.channelId}`}>
+            {postData.channel.name}
+          </OverviewCard.NameLink>
         ),
       }}
     />
@@ -121,9 +123,11 @@ export const SeriesOverviewCard = () => {
             }}
           />
         ),
-        title: <OverviewCard.Title>천재 궁수의 스트리밍</OverviewCard.Title>,
+        title: <OverviewCard.Title>{seriesData.title}</OverviewCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/channel/${seriesData.channel.channelId}`}>김천재의 채널</OverviewCard.NameLink>
+          <OverviewCard.NameLink href={`/channel/${seriesData.channel.channelId}`}>
+            {seriesData.channel.name}
+          </OverviewCard.NameLink>
         ),
       }}
     />

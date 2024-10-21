@@ -23,8 +23,8 @@ function useActions(component: string) {
 type BannerCarouselFnProps = {
   slots: {
     slides: ReactElement;
-    prevNav?: ReactElement;
-    nextNav?: ReactElement;
+    prevNav?: ReactElement | null;
+    nextNav?: ReactElement | null;
   };
 } & BoxProps;
 

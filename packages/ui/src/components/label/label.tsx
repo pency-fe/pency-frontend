@@ -8,8 +8,8 @@ interface Props extends BoxProps {
   color?: LabelColor;
   variant?: LabelVariant;
   slots?: {
-    startIcon?: React.ReactElement;
-    endIcon?: React.ReactElement;
+    startIcon?: React.ReactElement | null;
+    endIcon?: React.ReactElement | null;
   };
 }
 

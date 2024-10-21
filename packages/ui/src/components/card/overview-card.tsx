@@ -52,7 +52,7 @@ type OverviewCardFnProps = {
   slots: {
     overlayElement: ReactElement;
     thumbnail: ReactElement;
-    labels?: ReactElement | null | undefined;
+    labels?: ReactElement | null;
     avatarLink: ReactElement;
     title: ReactElement;
     nameLink: ReactElement;
@@ -150,7 +150,7 @@ type ThumbnailFnProps = Omit<
   {
     slots: {
       image: ReactElement;
-      topEnds?: ReactElement | null | undefined;
+      topEnds?: ReactElement | null;
     };
   } & BoxProps,
   "children"

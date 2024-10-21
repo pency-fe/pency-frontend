@@ -2,6 +2,7 @@ export * from "./eva-arrow-ios-back-fill-icon";
 export * from "./eva-arrow-ios-downward-fill-icon";
 export * from "./eva-arrow-ios-forward-fill-icon";
 export * from "./eva-menu-outline-icon";
+export * from "./fifteen-circle-icon";
 export * from "./fluent-draw-image-24-filled-icon";
 export * from "./fluent-draw-text-24-filled-icon";
 export * from "./gravity-ui-circle-check-fill-icon";
