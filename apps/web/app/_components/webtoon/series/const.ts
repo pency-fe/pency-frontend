@@ -1,5 +1,5 @@
 export type CompletionState = "SHORT" | "SERIALIZATION" | "COMPLETE" | "BREAK";
-export const COMPLETION_STATE: Record<CompletionState, string> = {
+export const COMPLETION_STATE_LABEL: Record<CompletionState, string> = {
   SHORT: "단편",
   SERIALIZATION: "연재",
   COMPLETE: "완결",

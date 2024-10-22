@@ -1,6 +1,6 @@
 import { Genre, GENRE_LABEL } from "_components/webtoon/const";
 import { forwardRef } from "react";
-import { COMPLETION_STATE, CompletionState } from "../const";
+import { COMPLETION_STATE_LABEL, CompletionState } from "../const";
 import { OverviewCard } from "@pency/ui/components";
 
 type Props = {
@@ -37,7 +37,7 @@ export const WT_Series_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data 
               {GENRE_LABEL[data.genre]}
             </OverviewCard.Label>
             <OverviewCard.Label variant="soft" color="info">
-              {COMPLETION_STATE[data.completionState]}
+              {COMPLETION_STATE_LABEL[data.completionState]}
             </OverviewCard.Label>
           </>
         ),
