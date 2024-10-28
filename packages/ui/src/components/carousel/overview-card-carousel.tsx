@@ -101,6 +101,7 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
   const theme = useTheme();
   const { prevNavDisabled } = useData("BannerCarousel.PrevNav");
   const { onPrevNavClick } = useActions("BannerCarousel.PrevNav");
+
   return (
     <>
       <IconButton

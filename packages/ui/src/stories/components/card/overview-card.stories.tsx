@@ -42,7 +42,7 @@ export const PostOverviewCard = () => {
             {postData.price && (
               <OverviewCard.Label
                 variant="soft"
-                color="primary"
+                color="success"
                 slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
               >
                 {postData.price}P

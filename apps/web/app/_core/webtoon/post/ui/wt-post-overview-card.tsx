@@ -63,7 +63,7 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data },
         labels: (
           <>
             {data.price && (
-              <OverviewCard.Label variant="soft" color="primary" slots={{ startIcon: purchasedIcon }}>
+              <OverviewCard.Label variant="soft" color="success" slots={{ startIcon: purchasedIcon }}>
                 {data.price}P
               </OverviewCard.Label>
             )}
