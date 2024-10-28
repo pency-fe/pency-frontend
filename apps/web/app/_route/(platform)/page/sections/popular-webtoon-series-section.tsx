@@ -1,5 +1,5 @@
 import { OverviewCardCarousel } from "@pency/ui/components";
-import { WT_Series_OverviewCard } from "_components/webtoon";
+import { WT_Series_OverviewCard } from "_core/webtoon";
 
 export function PopularWebtoonSeriesSection() {
   // API 작성

@@ -6,7 +6,7 @@ import {
   OverviewCard,
 } from "@pency/ui/components";
 import { Age, CreationType, CREATION_TYPE_LABEL, Pair, PAIR_LABEL } from "../const";
-import { Genre, GENRE_LABEL } from "_components/webtoon/const";
+import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 
 type Props = {
   data: {
