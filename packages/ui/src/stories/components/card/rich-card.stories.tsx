@@ -18,7 +18,8 @@ export const PostRichCard = () => {
     creationType: "2차창작",
     pair: "BL",
     genre: "액션",
-    title: "천재 궁수의 스트리밍",
+    title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
+    // title: "천재 궁수의 스트리밍",
     channel: {
       channelId: "channel-id-123",
       avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",

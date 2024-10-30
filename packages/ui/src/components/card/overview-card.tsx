@@ -69,11 +69,11 @@ const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots,
           {/* 라벨 */}
           {slots.labels && <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>{slots.labels}</Box>}
 
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1 }}>
             {/* 아바타 */}
             {slots.avatarLink}
 
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.75 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
               {/* 타이틀 */}
               {slots.title}
 
@@ -233,7 +233,6 @@ const TitleFn = forwardRef<HTMLHeadingElement, TitleFnProps>((rest, ref) => {
       color="inherit"
       {...rest}
       sx={{
-        lineHeight: 1,
         ...maxLine({ line: 1 }),
         ...rest.sx,
       }}

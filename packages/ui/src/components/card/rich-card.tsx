@@ -8,7 +8,6 @@ import {
   ButtonBaseProps,
   Card,
   CardProps,
-  easing,
   Link,
   LinkProps,
   Typography,
@@ -58,7 +57,14 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
       <Card
         ref={ref}
         {...rest}
-        sx={{ backgroundColor: "transparent", width: 1, boxShadow: "none", ...noneUserSelect, ...rest.sx }}
+        sx={{
+          backgroundColor: "transparent",
+          width: 1,
+          boxShadow: "none",
+          borderRadius: 0,
+          ...noneUserSelect,
+          ...rest.sx,
+        }}
         onMouseEnter={setHoverTrue}
         onMouseLeave={setHoverFalse}
       >
@@ -69,13 +75,12 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
         <Box sx={{ px: 1.5, py: 1.5 }}>
           {slots.labels && <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>{slots.labels}</Box>}
 
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1 }}>
             {slots.avatarLink}
 
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.75 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
               {slots.title}
-
-              <Box>{slots.nameLink}</Box>
+              {slots.nameLink}
             </Box>
           </Box>
         </Box>
@@ -148,6 +153,7 @@ const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...re
         justifyContent: "center",
         alignItems: "center",
         width: 1,
+        borderRadius: 2,
         overflow: "hidden",
         ...rest.sx,
       }}
@@ -228,8 +234,7 @@ const TitleFn = forwardRef<HTMLHeadingElement, TitleFnProps>((rest, ref) => {
       color="inherit"
       {...rest}
       sx={{
-        lineHeight: 1,
-        ...maxLine({ line: 1 }),
+        ...maxLine({ line: 2 }),
         ...rest.sx,
       }}
     />
