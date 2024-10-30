@@ -1,40 +1,43 @@
-import { ReactElement, createContext, forwardRef, useContext, useMemo } from "react";
-import NextLink, { LinkProps as NextLinkProps } from "next/link";
+import { maxLine, noneUserSelect } from "@/util";
 import {
   Avatar,
   AvatarProps,
   Box,
   BoxProps,
   ButtonBase,
+  ButtonBaseProps,
   Card,
   CardProps,
+  easing,
   Link,
   LinkProps,
   Typography,
   TypographyProps,
   useTheme,
 } from "@mui/material";
-import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
 import { useBooleanState } from "@pency/util";
-import { Label } from "@/components/label";
-import { maxLine, noneUserSelect } from "@/util";
-import { ButtonBaseProps } from "@mui/material";
+import { createContext, forwardRef, ReactElement, useContext, useMemo } from "react";
+import NextLink, { LinkProps as NextLinkProps } from "next/link";
+import { LazyLoadImageProps, LazyLoadImage } from "react-lazy-load-image-component";
+import { Label } from "../label";
 
 // ----------------------------------------------------------------------
 
-const OverviewCardValueContext = createContext<{ hover: boolean } | undefined>(undefined);
+const RichCardValueContext = createContext<{ hover: boolean } | undefined>(undefined);
 
 function useValue(component: string) {
-  const context = useContext(OverviewCardValueContext);
+  const context = useContext(RichCardValueContext);
 
-  if (!context) throw new Error(`<${component} />의 부모로 <OverviewCard /> 컴포넌트가 있어야 합니다.`);
+  if (!context) {
+    throw new Error(`<${component} />의 부모로 <RichCard /> 컴포넌트가 있어야 합니다.`);
+  }
 
   return context;
 }
 
 // ----------------------------------------------------------------------
 
-type OverviewCardFnProps = {
+type RichCardFnProps = {
   slots: {
     overlayElement: ReactElement;
     thumbnail: ReactElement;
@@ -45,13 +48,13 @@ type OverviewCardFnProps = {
   };
 } & CardProps;
 
-const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots, ...rest }, ref) => {
+const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest }, ref) => {
   const { bool: hover, setTrue: setHoverTrue, setFalse: setHoverFalse } = useBooleanState(false);
 
   const value = useMemo(() => ({ hover }), [hover]);
 
   return (
-    <OverviewCardValueContext.Provider value={value}>
+    <RichCardValueContext.Provider value={value}>
       <Card
         ref={ref}
         {...rest}
@@ -59,31 +62,25 @@ const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots,
         onMouseEnter={setHoverTrue}
         onMouseLeave={setHoverFalse}
       >
-        {/* 카드 버튼 */}
         {slots.overlayElement}
 
-        {/* 썸네일 */}
         {slots.thumbnail}
 
         <Box sx={{ px: 1.5, py: 1.5 }}>
-          {/* 라벨 */}
           {slots.labels && <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>{slots.labels}</Box>}
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            {/* 아바타 */}
             {slots.avatarLink}
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: 0.75 }}>
-              {/* 타이틀 */}
               {slots.title}
 
-              {/* 이름 */}
-              {slots.nameLink}
+              <Box>{slots.nameLink}</Box>
             </Box>
           </Box>
         </Box>
       </Card>
-    </OverviewCardValueContext.Provider>
+    </RichCardValueContext.Provider>
   );
 });
 
@@ -155,10 +152,8 @@ const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...re
         ...rest.sx,
       }}
     >
-      {/* 이미지 */}
       {slots.image}
 
-      {/* 오른쪽 상단 */}
       {slots.topEnds && (
         <Box
           sx={{
@@ -275,16 +270,12 @@ const NameLinkFn = forwardRef<HTMLAnchorElement, NameLinkFnProps>((rest, ref) =>
 
 // ----------------------------------------------------------------------
 
-export const OverviewCard = Object.assign(OverviewCardFn, {
+export const RichCard = Object.assign(RichCardFn, {
   OverlayAnchor: OverlayAnchorFn,
   OverlayButton: OverlayButtonFn,
-  Thumbnail: Object.assign(ThumbnailFn, {
-    Image: ImageFn,
-  }),
+  Thumbnail: Object.assign(ThumbnailFn, { Image: ImageFn }),
   Label: Label,
-  AvatarLink: Object.assign(AvatarLinkFn, {
-    Avatar: AvatarFn,
-  }),
+  AvatarLink: Object.assign(AvatarLinkFn, { Avatar: AvatarFn }),
   Title: TitleFn,
   NameLink: NameLinkFn,
 });
