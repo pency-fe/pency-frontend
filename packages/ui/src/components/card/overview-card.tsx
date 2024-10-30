@@ -272,14 +272,6 @@ const NameLinkFn = forwardRef<HTMLAnchorElement, NameLinkFnProps>((rest, ref) =>
 
 // ----------------------------------------------------------------------
 
-type ByLineProps = BoxProps<"span">;
-
-const Byline = forwardRef<HTMLSpanElement, ByLineProps>((rest, ref) => {
-  return <Box component="span" {...rest} />;
-});
-
-// ----------------------------------------------------------------------
-
 export const OverviewCard = Object.assign(OverviewCardFn, {
   OverlayAnchor: OverlayAnchorFn,
   OverlayButton: OverlayButtonFn,

@@ -73,10 +73,14 @@ export const PostRichCard = () => {
         nameLink: (
           <RichCard.NameLink href={`/channel/${postData.channel.channelId}`}>{postData.channel.name}</RichCard.NameLink>
         ),
-        chips: Array.from(postData.keywords, (k) => (
-          // [TODO] 검색 주소 넣기
-          <RichCard.Chip label={k} variant="soft" size="small" href={`/${k}`} />
-        )),
+        chips: (
+          <>
+            {Array.from(postData.keywords, (v, i) => (
+              // [TODO] 검색 주소 넣기
+              <RichCard.Chip key={i} label={v} variant="soft" size="small" href={`/${v}`} />
+            ))}
+          </>
+        ),
       }}
     />
   );

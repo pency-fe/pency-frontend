@@ -21,7 +21,6 @@ import { createContext, forwardRef, ReactElement, useContext, useMemo } from "re
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImageProps, LazyLoadImage } from "react-lazy-load-image-component";
 import { Label } from "../label";
-import zIndex from "@mui/material/styles/zIndex";
 
 // ----------------------------------------------------------------------
 
@@ -88,7 +87,7 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
             </Box>
           </Box>
 
-          {slots.chips && <Box sx={{ display: "flex", flexWrap: "nowrap", marginTop: 1, gap: 1 }}>{slots.chips}</Box>}
+          {slots.chips && <Box sx={{ display: "flex", flexWrap: "nowrap", marginTop: 1.5, gap: 1 }}>{slots.chips}</Box>}
         </Box>
       </Card>
     </RichCardValueContext.Provider>
@@ -239,10 +238,7 @@ const TitleFn = forwardRef<HTMLHeadingElement, TitleFnProps>((rest, ref) => {
       variant="subtitle2"
       color="inherit"
       {...rest}
-      sx={{
-        ...maxLine({ line: 2 }),
-        ...rest.sx,
-      }}
+      sx={[maxLine({ line: 2 }), ...(Array.isArray(rest.sx) ? rest.sx : [rest.sx])]}
     />
   );
 });
@@ -284,7 +280,7 @@ const NameLinkFn = forwardRef<HTMLAnchorElement, NameLinkFnProps>((rest, ref) =>
 type ChipFnProps = ChipProps & NextLinkProps;
 
 const ChipFn = forwardRef<HTMLDivElement, ChipFnProps>((rest, ref) => {
-  return <Chip ref={ref} component={NextLink} clickable {...rest} sx={{ zIndex: 2 }} />;
+  return <Chip ref={ref} component={NextLink} clickable {...rest} sx={{ zIndex: 2, borderRadius: 3, ...rest.sx }} />;
 });
 
 // ----------------------------------------------------------------------
