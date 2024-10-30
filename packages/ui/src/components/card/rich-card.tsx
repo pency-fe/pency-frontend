@@ -1,4 +1,4 @@
-import { maxLine, noneUserSelect } from "@/util";
+import { iconAlignCenter, maxLine, noneUserSelect } from "@/util";
 import {
   Avatar,
   AvatarProps,
@@ -46,11 +46,13 @@ type RichCardFnProps = {
     avatarLink: ReactElement;
     title: ReactElement;
     nameLink: ReactElement;
+    attributes?: ReactElement | null;
     chips?: ReactElement | null;
   };
 } & CardProps;
 
 const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest }, ref) => {
+  const theme = useTheme();
   const { bool: hover, setTrue: setHoverTrue, setFalse: setHoverFalse } = useBooleanState(false);
 
   const value = useMemo(() => ({ hover }), [hover]);
@@ -83,7 +85,21 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
               {slots.title}
-              {slots.nameLink}
+              <Typography
+                variant="overline"
+                sx={{
+                  color: theme.vars.palette.text.secondary,
+                  lineHeight: 1,
+                  "& svg": {
+                    mr: theme.spacing(0.25),
+                    fontSize: "inherit",
+                    ...iconAlignCenter,
+                  },
+                }}
+              >
+                {slots.nameLink}
+                {slots.attributes}
+              </Typography>
             </Box>
           </Box>
 
@@ -254,24 +270,59 @@ const NameLinkFn = forwardRef<HTMLAnchorElement, NameLinkFnProps>((rest, ref) =>
     <Link
       ref={ref}
       component={NextLink}
-      variant="overline"
       underline="none"
-      color={theme.vars.palette.text.secondary}
+      color="inherit"
       {...rest}
       sx={{
+        position: "relative",
         zIndex: 2,
-        lineHeight: 1,
         transition: theme.transitions.create(["color"], {
           easing: theme.transitions.easing.easeInOut,
           duration: theme.transitions.duration.shorter,
         }),
-        ...maxLine({ line: 1 }),
         ["&:hover"]: {
           color: theme.vars.palette.text.primary,
         },
         ...rest.sx,
       }}
     />
+  );
+});
+
+// ----------------------------------------------------------------------
+
+type AttrbuteFnProps = TypographyProps;
+
+const AttributeFn = forwardRef<HTMLSpanElement, AttrbuteFnProps>((rest, ref) => {
+  return (
+    <Typography
+      component="span"
+      variant="inherit"
+      ref={ref}
+      {...rest}
+      sx={{
+        lineHeight: 1,
+        ...rest.sx,
+      }}
+    />
+  );
+});
+
+type DotFnProps = TypographyProps;
+
+const AttributeDotFn = forwardRef<HTMLSpanElement, DotFnProps>((rest, ref) => {
+  const theme = useTheme();
+
+  return (
+    <Typography
+      component="span"
+      variant="inherit"
+      ref={ref}
+      {...rest}
+      sx={{ lineHeight: 1, mx: theme.spacing(0.5), ...rest.sx }}
+    >
+      •
+    </Typography>
   );
 });
 
@@ -293,5 +344,7 @@ export const RichCard = Object.assign(RichCardFn, {
   AvatarLink: Object.assign(AvatarLinkFn, { Avatar: AvatarFn }),
   Title: TitleFn,
   NameLink: NameLinkFn,
+  Attribute: AttributeFn,
+  AttributeDot: AttributeDotFn,
   Chip: ChipFn,
 });

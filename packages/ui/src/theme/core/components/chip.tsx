@@ -130,7 +130,8 @@ const MuiChip: Components<Theme>["MuiChip"] = {
       "&:hover": { opacity: 1, color: "currentColor" },
     },
     sizeMedium: ({ theme }) => ({ borderRadius: theme.shape.borderRadius * 1.25 }),
-    sizeSmall: ({ theme }) => ({ borderRadius: theme.shape.borderRadius }),
+    sizeSmall: ({ theme }) => ({ borderRadius: theme.shape.borderRadius, fontSize: theme.typography.pxToRem(12) }),
+
     /**
      * @variant filled
      */

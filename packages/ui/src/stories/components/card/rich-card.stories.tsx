@@ -1,4 +1,10 @@
-import { GravityUiCircleCheckFillIcon, NineteenCircleIcon, RichCard } from "@/components";
+import {
+  EvaEyeOutlineIcon,
+  EvaHeartOutlineIcon,
+  GravityUiCircleCheckFillIcon,
+  NineteenCircleIcon,
+  RichCard,
+} from "@/components";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {
@@ -25,6 +31,8 @@ export const PostRichCard = () => {
       avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
       name: "김천재의 채널",
     },
+    viewCount: 200,
+    likeCount: 100,
     keywords: ["BL", "**공", "**수", "판타지", "학원물", "고수위", "후방주의", "유혈", "심신미약자_주의"],
   };
   return (
@@ -73,11 +81,24 @@ export const PostRichCard = () => {
         nameLink: (
           <RichCard.NameLink href={`/channel/${postData.channel.channelId}`}>{postData.channel.name}</RichCard.NameLink>
         ),
+        attributes: (
+          <>
+            <RichCard.AttributeDot />
+            <RichCard.Attribute>
+              <EvaEyeOutlineIcon />
+              {postData.viewCount}
+            </RichCard.Attribute>
+            <RichCard.AttributeDot />
+            <RichCard.Attribute>
+              <EvaHeartOutlineIcon />
+              {postData.likeCount}
+            </RichCard.Attribute>
+          </>
+        ),
         chips: (
           <>
-            {Array.from(postData.keywords, (v, i) => (
-              // [TODO] 검색 주소 넣기
-              <RichCard.Chip key={i} label={v} variant="soft" size="small" href={`/${v}`} />
+            {Array.from(postData.keywords, (keyword, i) => (
+              <RichCard.Chip key={i} label={keyword} variant="soft" size="small" href={`/search?keyword=${keyword}`} />
             ))}
           </>
         ),

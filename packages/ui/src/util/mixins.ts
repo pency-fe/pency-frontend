@@ -37,6 +37,12 @@ export const noneUserSelect: CSSObject = {
   userSelect: "none",
 } as const;
 
+// https://blog.prototypr.io/align-svg-icons-to-text-and-say-goodbye-to-font-icons-d44b3d7b26b4
+export const iconAlignCenter: CSSObject = {
+  position: "relative",
+  top: "0.125em",
+};
+
 /**
  * Usage:
  * ...textGradient(`to right, ${theme.vars.palette.text.primary}, ${alpha(theme.vars.palette.text.primary, 0.2)}`
