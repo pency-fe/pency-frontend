@@ -1,10 +1,5 @@
 import { forwardRef, useMemo } from "react";
-import {
-  FifteenCircleIcon,
-  GravityUiCircleCheckFillIcon,
-  NineteenCircleIcon,
-  OverviewCard,
-} from "@pency/ui/components";
+import { GravityUiCircleCheckFillIcon, NineteenCircleIcon, OverviewCard } from "@pency/ui/components";
 import { Age, CreationType, CREATION_TYPE_LABEL, Pair, PAIR_LABEL } from "../const";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 
@@ -29,9 +24,6 @@ type Props = {
 
 export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
   const ageIcon = useMemo(() => {
-    if (data.age === "FIFTEEN") {
-      return <FifteenCircleIcon />;
-    }
     if (data.age === "NINETEEN") {
       return <NineteenCircleIcon />;
     }

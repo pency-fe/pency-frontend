@@ -1,4 +1,4 @@
-export type Age = "ALL" | "FIFTEEN" | "NINETEEN";
+export type Age = "ALL" | "NINETEEN";
 
 export type CreationType = "PRIMARY" | "SECONDARY" | "NARY";
 export const CREATION_TYPE_LABEL: Record<CreationType, string> = {
