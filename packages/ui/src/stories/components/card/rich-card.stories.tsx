@@ -25,6 +25,7 @@ export const PostRichCard = () => {
       avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
       name: "김천재의 채널",
     },
+    keywords: ["BL", "**공", "**수", "판타지", "학원물", "고수위", "후방주의", "유혈", "심신미약자_주의"],
   };
   return (
     <RichCard
@@ -72,6 +73,10 @@ export const PostRichCard = () => {
         nameLink: (
           <RichCard.NameLink href={`/channel/${postData.channel.channelId}`}>{postData.channel.name}</RichCard.NameLink>
         ),
+        chips: Array.from(postData.keywords, (k) => (
+          // [TODO] 검색 주소 넣기
+          <RichCard.Chip label={k} variant="soft" size="small" href={`/${k}`} />
+        )),
       }}
     />
   );

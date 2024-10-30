@@ -8,6 +8,8 @@ import {
   ButtonBaseProps,
   Card,
   CardProps,
+  Chip,
+  ChipProps,
   Link,
   LinkProps,
   Typography,
@@ -19,6 +21,7 @@ import { createContext, forwardRef, ReactElement, useContext, useMemo } from "re
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImageProps, LazyLoadImage } from "react-lazy-load-image-component";
 import { Label } from "../label";
+import zIndex from "@mui/material/styles/zIndex";
 
 // ----------------------------------------------------------------------
 
@@ -44,6 +47,7 @@ type RichCardFnProps = {
     avatarLink: ReactElement;
     title: ReactElement;
     nameLink: ReactElement;
+    chips?: ReactElement | null;
   };
 } & CardProps;
 
@@ -83,6 +87,8 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
               {slots.nameLink}
             </Box>
           </Box>
+
+          {slots.chips && <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>{slots.chips}</Box>}
         </Box>
       </Card>
     </RichCardValueContext.Provider>
@@ -275,6 +281,14 @@ const NameLinkFn = forwardRef<HTMLAnchorElement, NameLinkFnProps>((rest, ref) =>
 
 // ----------------------------------------------------------------------
 
+type ChipFnProps = ChipProps & NextLinkProps;
+
+const ChipFn = forwardRef<HTMLDivElement, ChipFnProps>((rest, ref) => {
+  return <Chip ref={ref} component={NextLink} clickable {...rest} sx={{ zIndex: 2 }} />;
+});
+
+// ----------------------------------------------------------------------
+
 export const RichCard = Object.assign(RichCardFn, {
   OverlayAnchor: OverlayAnchorFn,
   OverlayButton: OverlayButtonFn,
@@ -283,4 +297,5 @@ export const RichCard = Object.assign(RichCardFn, {
   AvatarLink: Object.assign(AvatarLinkFn, { Avatar: AvatarFn }),
   Title: TitleFn,
   NameLink: NameLinkFn,
+  Chip: ChipFn,
 });
