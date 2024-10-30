@@ -232,10 +232,8 @@ const TitleFn = forwardRef<HTMLHeadingElement, TitleFnProps>((rest, ref) => {
       variant="subtitle2"
       color="inherit"
       {...rest}
-      sx={{
-        ...maxLine({ line: 1 }),
-        ...rest.sx,
-      }}
+      // https://mui.com/system/getting-started/the-sx-prop/#passing-the-sx-prop
+      sx={[maxLine({ line: 1 }), ...(Array.isArray(rest.sx) ? rest.sx : [rest.sx])]}
     />
   );
 });
