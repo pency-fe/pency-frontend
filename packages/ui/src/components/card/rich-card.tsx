@@ -88,7 +88,7 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
             </Box>
           </Box>
 
-          {slots.chips && <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>{slots.chips}</Box>}
+          {slots.chips && <Box sx={{ display: "flex", flexWrap: "nowrap", marginTop: 1, gap: 1 }}>{slots.chips}</Box>}
         </Box>
       </Card>
     </RichCardValueContext.Provider>
