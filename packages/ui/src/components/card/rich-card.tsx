@@ -58,7 +58,7 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
       <Card
         ref={ref}
         {...rest}
-        sx={{ width: 1, boxShadow: "none", ...noneUserSelect, ...rest.sx }}
+        sx={{ backgroundColor: "transparent", width: 1, boxShadow: "none", ...noneUserSelect, ...rest.sx }}
         onMouseEnter={setHoverTrue}
         onMouseLeave={setHoverFalse}
       >
