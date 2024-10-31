@@ -1,4 +1,4 @@
-import { iconAlignCenter, maxLine, noneUserSelect } from "@/util";
+import { hideScrollY, iconAlignCenter, maxLine, noneUserSelect } from "@/util";
 import {
   Avatar,
   AvatarProps,
@@ -10,6 +10,8 @@ import {
   CardProps,
   Chip,
   ChipProps,
+  IconButton,
+  IconButtonProps,
   Link,
   LinkProps,
   Typography,
@@ -47,6 +49,7 @@ type RichCardFnProps = {
     title: ReactElement;
     nameLink: ReactElement;
     attributes?: ReactElement | null;
+    menu: ReactElement;
     chips?: ReactElement | null;
   };
 } & CardProps;
@@ -80,30 +83,39 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
         <Box sx={{ px: 1.5, py: 1.5 }}>
           {slots.labels && <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>{slots.labels}</Box>}
 
-          <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1 }}>
-            {slots.avatarLink}
+          <Box sx={{ display: "flex", justifyContent: "space-between", gap: 1 }}>
+            <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1 }}>
+              {slots.avatarLink}
 
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
-              {slots.title}
-              <Typography
-                variant="overline"
-                sx={{
-                  color: theme.vars.palette.text.secondary,
-                  lineHeight: 1,
-                  "& svg": {
-                    mr: theme.spacing(0.25),
-                    fontSize: "inherit",
-                    ...iconAlignCenter,
-                  },
-                }}
-              >
-                {slots.nameLink}
-                {slots.attributes}
-              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
+                {slots.title}
+                <Typography
+                  variant="overline"
+                  sx={{
+                    color: theme.vars.palette.text.secondary,
+                    lineHeight: 1,
+                    "& svg": {
+                      mr: theme.spacing(0.25),
+                      fontSize: "inherit",
+                      ...iconAlignCenter,
+                    },
+                  }}
+                >
+                  {slots.nameLink}
+                  {slots.attributes}
+                </Typography>
+              </Box>
             </Box>
+            {slots.menu}
           </Box>
 
-          {slots.chips && <Box sx={{ display: "flex", flexWrap: "nowrap", marginTop: 1.5, gap: 1 }}>{slots.chips}</Box>}
+          {slots.chips && (
+            <Box
+              sx={{ display: "flex", flexWrap: "nowrap", marginTop: 1.5, gap: 1, overflow: "scroll", ...hideScrollY }}
+            >
+              {slots.chips}
+            </Box>
+          )}
         </Box>
       </Card>
     </RichCardValueContext.Provider>
@@ -291,9 +303,9 @@ const NameLinkFn = forwardRef<HTMLAnchorElement, NameLinkFnProps>((rest, ref) =>
 
 // ----------------------------------------------------------------------
 
-type AttrbuteFnProps = TypographyProps;
+type AttributeFnProps = TypographyProps;
 
-const AttributeFn = forwardRef<HTMLSpanElement, AttrbuteFnProps>((rest, ref) => {
+const AttributeFn = forwardRef<HTMLSpanElement, AttributeFnProps>((rest, ref) => {
   return (
     <Typography
       component="span"
@@ -328,6 +340,14 @@ const AttributeDotFn = forwardRef<HTMLSpanElement, DotFnProps>((rest, ref) => {
 
 // ----------------------------------------------------------------------
 
+type MenuFnProps = IconButtonProps;
+
+const MenuFn = forwardRef<HTMLButtonElement, MenuFnProps>((rest, ref) => {
+  return <IconButton ref={ref} {...rest} sx={{ zIndex: 2, ...rest.sx }} />;
+});
+
+// ----------------------------------------------------------------------
+
 type ChipFnProps = ChipProps & NextLinkProps;
 
 const ChipFn = forwardRef<HTMLDivElement, ChipFnProps>((rest, ref) => {
@@ -346,5 +366,6 @@ export const RichCard = Object.assign(RichCardFn, {
   NameLink: NameLinkFn,
   Attribute: AttributeFn,
   AttributeDot: AttributeDotFn,
+  Menu: MenuFn,
   Chip: ChipFn,
 });

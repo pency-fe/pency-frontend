@@ -8,4 +8,5 @@ export * from "./fluent-draw-image-24-filled-icon";
 export * from "./fluent-draw-text-24-filled-icon";
 export * from "./gravity-ui-circle-check-fill-icon";
 export * from "./icomoon-free-youtube2-icon";
+export * from "./material-symbols-light-more-vert";
 export * from "./nineteen-circle-icon";

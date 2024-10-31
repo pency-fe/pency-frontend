@@ -2,6 +2,7 @@ import {
   EvaEyeOutlineIcon,
   EvaHeartOutlineIcon,
   GravityUiCircleCheckFillIcon,
+  MaterialSymbolsLightMoreVertIcon,
   NineteenCircleIcon,
   RichCard,
 } from "@/components";
@@ -33,7 +34,7 @@ export const PostRichCard = () => {
     },
     viewCount: 200,
     likeCount: 100,
-    keywords: ["BL", "**공", "**수", "판타지", "학원물", "고수위", "후방주의", "유혈", "심신미약자_주의"],
+    keywords: ["BL", "**공", "**수", "판타지", "학원물", "고수위", "후방주의", "유혈"],
   };
   return (
     <RichCard
@@ -95,6 +96,11 @@ export const PostRichCard = () => {
             </RichCard.Attribute>
           </>
         ),
+        menu: (
+          <RichCard.Menu>
+            <MaterialSymbolsLightMoreVertIcon />
+          </RichCard.Menu>
+        ),
         chips: (
           <>
             {Array.from(postData.keywords, (keyword, i) => (
@@ -122,6 +128,9 @@ export const SeriesRichCard = () => {
       avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
       name: "김천재의 채널",
     },
+    likeCount: 100,
+    postCount: 24,
+    keywords: ["BL", "**공", "**수", "판타지", "학원물", "고수위", "후방주의", "유혈"],
   };
   return (
     <RichCard
@@ -157,6 +166,31 @@ export const SeriesRichCard = () => {
           <RichCard.NameLink href={`/channel/${seriesData.channel.channelId}`}>
             {seriesData.channel.name}
           </RichCard.NameLink>
+        ),
+        attributes: (
+          <>
+            <RichCard.AttributeDot />
+            <RichCard.Attribute>
+              <RichCard.Attribute>{`총 ${seriesData.postCount}화`}</RichCard.Attribute>
+            </RichCard.Attribute>
+            <RichCard.AttributeDot />
+            <RichCard.Attribute>
+              <EvaHeartOutlineIcon />
+              {seriesData.likeCount}
+            </RichCard.Attribute>
+          </>
+        ),
+        menu: (
+          <RichCard.Menu>
+            <MaterialSymbolsLightMoreVertIcon />
+          </RichCard.Menu>
+        ),
+        chips: (
+          <>
+            {Array.from(seriesData.keywords, (keyword, i) => (
+              <RichCard.Chip key={i} label={keyword} variant="soft" size="small" href={`/search?keyword=${keyword}`} />
+            ))}
+          </>
         ),
       }}
     />
