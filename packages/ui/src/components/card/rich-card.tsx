@@ -1,4 +1,4 @@
-import { hideScrollY, iconAlignCenter, maxLine, noneUserSelect } from "@/util";
+import { hideScrollY, iconAlignCenter, maxLine } from "@/util";
 import {
   Accordion,
   AccordionDetails,
@@ -77,7 +77,6 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
           width: 1,
           boxShadow: "none",
           borderRadius: 0,
-          ...noneUserSelect,
           ...rest.sx,
         }}
         onMouseEnter={setHoverTrue}
@@ -103,7 +102,6 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
                     lineHeight: 1,
                     "& svg": {
                       mr: theme.spacing(0.25),
-                      fontSize: "inherit",
                       ...iconAlignCenter,
                     },
                   }}
@@ -381,12 +379,10 @@ const AccordionFn = forwardRef<HTMLDivElement, AccordionFnProps>(({ slots, ...re
   return (
     <Accordion
       ref={ref}
-      // disableGutters
       {...rest}
       sx={{
         zIndex: 3,
         backgroundColor: theme.vars.palette.background.paper,
-        ...theme.typography.body2,
         ...rest.sx,
       }}
     >
@@ -406,20 +402,19 @@ const SummaryFn = forwardRef<HTMLDivElement, SummaryFnProps>((rest, ref) => {
       ref={ref}
       {...rest}
       sx={{
-        color: theme.vars.palette.text.secondary,
+        color: theme.vars.palette.text.primary,
         minHeight: "fit-content",
+        ...theme.typography.caption,
         fontWeight: theme.typography.fontWeightMedium,
-        "& svg": {
-          fontSize: "inherit",
-        },
-        "& .MuiAccordionSummary-content": {
-          my: "4px",
-        },
         "&.Mui-expanded": {
           minHeight: "fit-content",
         },
-        "& .MuiAccordionSummary-content.Mui-expanded": {
-          my: "8px",
+
+        "& .MuiAccordionSummary-content": {
+          my: "4px",
+          "&.Mui-expanded": {
+            my: "8px",
+          },
         },
         ...rest.sx,
       }}
@@ -438,6 +433,7 @@ const DetailsFn = forwardRef<HTMLDivElement, DetailsFnProps>((rest, ref) => {
       sx={{
         color: theme.vars.palette.text.secondary,
         pt: 0,
+        ...theme.typography.body2,
         ...rest.sx,
       }}
     />

@@ -25,7 +25,7 @@ type Props = {
 export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
   const ageIcon = useMemo(() => {
     if (data.age === "NINETEEN") {
-      return <NineteenCircleIcon />;
+      return <NineteenCircleIcon fontSize="small" />;
     }
 
     return null;

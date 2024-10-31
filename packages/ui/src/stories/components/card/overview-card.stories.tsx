@@ -33,7 +33,7 @@ export const PostOverviewCard = () => {
           <OverviewCard.Thumbnail
             slots={{
               image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
-              topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon /> : null,
+              topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
             }}
           />
         ),

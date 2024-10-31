@@ -17,7 +17,7 @@ import {
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
 import { useBooleanState } from "@pency/util";
 import { Label } from "@/components/label";
-import { maxLine, noneUserSelect } from "@/util";
+import { maxLine } from "@/util";
 import { ButtonBaseProps } from "@mui/material";
 
 // ----------------------------------------------------------------------
@@ -55,7 +55,7 @@ const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots,
       <Card
         ref={ref}
         {...rest}
-        sx={{ width: 1, boxShadow: "none", ...noneUserSelect, ...rest.sx }}
+        sx={{ width: 1, boxShadow: "none", ...rest.sx }}
         onMouseEnter={setHoverTrue}
         onMouseLeave={setHoverFalse}
       >
