@@ -381,11 +381,11 @@ const AccordionFn = forwardRef<HTMLDivElement, AccordionFnProps>(({ slots, ...re
   return (
     <Accordion
       ref={ref}
-      disableGutters
+      // disableGutters
       {...rest}
       sx={{
         zIndex: 3,
-        backgroundColor: theme.vars.palette.grey[800],
+        backgroundColor: theme.vars.palette.background.paper,
         ...theme.typography.body2,
         ...rest.sx,
       }}
@@ -407,8 +407,19 @@ const SummaryFn = forwardRef<HTMLDivElement, SummaryFnProps>((rest, ref) => {
       {...rest}
       sx={{
         color: theme.vars.palette.text.secondary,
+        minHeight: "fit-content",
+        fontWeight: theme.typography.fontWeightMedium,
         "& svg": {
           fontSize: "inherit",
+        },
+        "& .MuiAccordionSummary-content": {
+          my: "4px",
+        },
+        "&.Mui-expanded": {
+          minHeight: "fit-content",
+        },
+        "& .MuiAccordionSummary-content.Mui-expanded": {
+          my: "8px",
         },
         ...rest.sx,
       }}
@@ -426,6 +437,8 @@ const DetailsFn = forwardRef<HTMLDivElement, DetailsFnProps>((rest, ref) => {
       {...rest}
       sx={{
         color: theme.vars.palette.text.secondary,
+        pt: 0,
+        ...maxLine({ line: 4 }),
         ...rest.sx,
       }}
     />
