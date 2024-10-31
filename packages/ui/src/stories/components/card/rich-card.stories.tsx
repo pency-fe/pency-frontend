@@ -32,8 +32,8 @@ export const PostRichCard = () => {
       avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
       name: "김천재의 채널",
     },
-    viewCount: 200,
     likeCount: 100,
+    createAt: "24.10.31",
     keywords: ["BL", "**공", "**수", "판타지", "학원물", "고수위", "후방주의", "유혈"],
   };
   return (
@@ -86,14 +86,11 @@ export const PostRichCard = () => {
           <>
             <RichCard.AttributeDot />
             <RichCard.Attribute>
-              <EvaEyeOutlineIcon />
-              {postData.viewCount}
-            </RichCard.Attribute>
-            <RichCard.AttributeDot />
-            <RichCard.Attribute>
               <EvaHeartOutlineIcon />
               {postData.likeCount}
             </RichCard.Attribute>
+            <RichCard.AttributeDot />
+            <RichCard.Attribute>{postData.createAt}</RichCard.Attribute>
           </>
         ),
         feedbackButton: (
