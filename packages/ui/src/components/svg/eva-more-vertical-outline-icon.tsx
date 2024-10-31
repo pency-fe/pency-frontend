@@ -7,8 +7,8 @@ import { SvgIcon, SvgIconProps } from "@mui/material";
  */
 export const EvaMoreVerticalOutlineIcon = forwardRef<SVGSVGElement, SvgIconProps>((rest, ref) => (
   <SvgIcon ref={ref} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...rest}>
-    <circle cx="12" cy="12" r="2" fill="currentColor" />
-    <circle cx="12" cy="5" r="2" fill="currentColor" />
-    <circle cx="12" cy="19" r="2" fill="currentColor" />
+    <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+    <circle cx="12" cy="5" r="1.5" fill="currentColor" />
+    <circle cx="12" cy="19" r="1.5" fill="currentColor" />
   </SvgIcon>
 ));
