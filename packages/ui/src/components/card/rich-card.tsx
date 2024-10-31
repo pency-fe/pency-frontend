@@ -49,7 +49,7 @@ type RichCardFnProps = {
     title: ReactElement;
     nameLink: ReactElement;
     attributes?: ReactElement | null;
-    feedbackButton: ReactElement;
+    feedbackButton?: ReactElement | null;
     chips?: ReactElement | null;
   };
 } & CardProps;
