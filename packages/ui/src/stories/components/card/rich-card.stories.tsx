@@ -96,10 +96,10 @@ export const PostRichCard = () => {
             </RichCard.Attribute>
           </>
         ),
-        menu: (
-          <RichCard.Menu>
+        feedbackButton: (
+          <RichCard.FeedbackButton>
             <MaterialSymbolsLightMoreVertIcon />
-          </RichCard.Menu>
+          </RichCard.FeedbackButton>
         ),
         chips: (
           <>
@@ -180,10 +180,10 @@ export const SeriesRichCard = () => {
             </RichCard.Attribute>
           </>
         ),
-        menu: (
-          <RichCard.Menu>
+        feedbackButton: (
+          <RichCard.FeedbackButton>
             <MaterialSymbolsLightMoreVertIcon />
-          </RichCard.Menu>
+          </RichCard.FeedbackButton>
         ),
         chips: (
           <>
