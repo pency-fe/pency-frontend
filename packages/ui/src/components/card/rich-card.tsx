@@ -49,7 +49,7 @@ type RichCardFnProps = {
     title: ReactElement;
     nameLink: ReactElement;
     attributes?: ReactElement | null;
-    menu: ReactElement;
+    feedbackButton: ReactElement;
     chips?: ReactElement | null;
   };
 } & CardProps;
@@ -106,7 +106,7 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
                 </Typography>
               </Box>
             </Box>
-            {slots.menu}
+            {slots.feedbackButton}
           </Box>
 
           {slots.chips && (
@@ -340,9 +340,9 @@ const AttributeDotFn = forwardRef<HTMLSpanElement, DotFnProps>((rest, ref) => {
 
 // ----------------------------------------------------------------------
 
-type MenuFnProps = IconButtonProps;
+type FeedbackButtonFnProps = IconButtonProps;
 
-const MenuFn = forwardRef<HTMLButtonElement, MenuFnProps>((rest, ref) => {
+const FeedbackButtonFn = forwardRef<HTMLButtonElement, FeedbackButtonFnProps>((rest, ref) => {
   return <IconButton ref={ref} {...rest} sx={{ zIndex: 2, ...rest.sx }} />;
 });
 
@@ -366,6 +366,6 @@ export const RichCard = Object.assign(RichCardFn, {
   NameLink: NameLinkFn,
   Attribute: AttributeFn,
   AttributeDot: AttributeDotFn,
-  Menu: MenuFn,
+  FeedbackButton: FeedbackButtonFn,
   Chip: ChipFn,
 });
