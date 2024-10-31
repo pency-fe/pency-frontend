@@ -1,13 +1,11 @@
 import {
-  EvaEyeOutlineIcon,
   EvaHeartOutlineIcon,
   GravityUiCircleCheckFillIcon,
-  MaterialSymbolsLightMoreVertIcon,
-  MingcuteDownLineIcon,
+  EvaMoreVerticalOutlineIcon,
+  EvaChevronDownOutlineIcon,
   NineteenCircleIcon,
   RichCard,
 } from "@/components";
-import { Accordion } from "@mui/material";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {
@@ -97,7 +95,7 @@ export const PostRichCard = () => {
         ),
         feedbackButton: (
           <RichCard.FeedbackButton>
-            <MaterialSymbolsLightMoreVertIcon />
+            <EvaMoreVerticalOutlineIcon />
           </RichCard.FeedbackButton>
         ),
         chips: (
@@ -111,7 +109,9 @@ export const PostRichCard = () => {
           <RichCard.Accordion
             slots={{
               summary: (
-                <RichCard.Accordion.Summary expandIcon={<MingcuteDownLineIcon />}>미리보기</RichCard.Accordion.Summary>
+                <RichCard.Accordion.Summary expandIcon={<EvaChevronDownOutlineIcon />}>
+                  미리보기
+                </RichCard.Accordion.Summary>
               ),
               details: (
                 <RichCard.Accordion.Details>
@@ -196,7 +196,7 @@ export const SeriesRichCard = () => {
         ),
         feedbackButton: (
           <RichCard.FeedbackButton>
-            <MaterialSymbolsLightMoreVertIcon />
+            <EvaMoreVerticalOutlineIcon />
           </RichCard.FeedbackButton>
         ),
         chips: (
