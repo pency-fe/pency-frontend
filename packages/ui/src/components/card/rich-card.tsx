@@ -124,7 +124,7 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
             </Box>
           )}
 
-          {slots.accordion && <Box sx={{ display: "flex", marginTop: 1.5 }}>{slots.accordion}</Box>}
+          {slots.accordion && <Box sx={{ marginTop: 1.5 }}>{slots.accordion}</Box>}
         </Box>
       </Card>
     </RichCardValueContext.Provider>
@@ -364,6 +364,7 @@ const ChipFn = forwardRef<HTMLDivElement, ChipFnProps>((rest, ref) => {
 });
 
 // ----------------------------------------------------------------------
+
 type AccordionFnProps = Omit<
   {
     slots: {
@@ -380,13 +381,12 @@ const AccordionFn = forwardRef<HTMLDivElement, AccordionFnProps>(({ slots, ...re
   return (
     <Accordion
       ref={ref}
+      disableGutters
       {...rest}
       sx={{
         zIndex: 3,
-        display: "flex",
-        flex: "1",
-        flexDirection: "column",
         backgroundColor: theme.vars.palette.grey[800],
+        ...theme.typography.body2,
         ...rest.sx,
       }}
     >
@@ -406,10 +406,10 @@ const SummaryFn = forwardRef<HTMLDivElement, SummaryFnProps>((rest, ref) => {
       ref={ref}
       {...rest}
       sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        flex: "1",
         color: theme.vars.palette.text.secondary,
+        "& svg": {
+          fontSize: "inherit",
+        },
         ...rest.sx,
       }}
     />
