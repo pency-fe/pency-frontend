@@ -1,5 +1,11 @@
 import { hideScrollY, iconAlignCenter, maxLine, noneUserSelect } from "@/util";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionDetailsProps,
+  AccordionProps,
+  AccordionSummary,
+  AccordionSummaryProps,
   Avatar,
   AvatarProps,
   Box,
@@ -51,6 +57,7 @@ type RichCardFnProps = {
     attributes?: ReactElement | null;
     feedbackButton?: ReactElement | null;
     chips?: ReactElement | null;
+    accordion?: ReactElement | null;
   };
 } & CardProps;
 
@@ -116,6 +123,8 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
               {slots.chips}
             </Box>
           )}
+
+          {slots.accordion && <Box sx={{ display: "flex", marginTop: 1.5 }}>{slots.accordion}</Box>}
         </Box>
       </Card>
     </RichCardValueContext.Provider>
@@ -355,6 +364,75 @@ const ChipFn = forwardRef<HTMLDivElement, ChipFnProps>((rest, ref) => {
 });
 
 // ----------------------------------------------------------------------
+type AccordionFnProps = Omit<
+  {
+    slots: {
+      summary: ReactElement;
+      details: ReactElement;
+    };
+  } & AccordionProps,
+  "children"
+>;
+
+const AccordionFn = forwardRef<HTMLDivElement, AccordionFnProps>(({ slots, ...rest }, ref) => {
+  const theme = useTheme();
+
+  return (
+    <Accordion
+      ref={ref}
+      {...rest}
+      sx={{
+        zIndex: 3,
+        display: "flex",
+        flex: "1",
+        flexDirection: "column",
+        backgroundColor: theme.vars.palette.grey[800],
+        ...rest.sx,
+      }}
+    >
+      {slots.summary}
+      {slots.details}
+    </Accordion>
+  );
+});
+
+type SummaryFnProps = AccordionSummaryProps;
+
+const SummaryFn = forwardRef<HTMLDivElement, SummaryFnProps>((rest, ref) => {
+  const theme = useTheme();
+
+  return (
+    <AccordionSummary
+      ref={ref}
+      {...rest}
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        flex: "1",
+        color: theme.vars.palette.text.secondary,
+        ...rest.sx,
+      }}
+    />
+  );
+});
+
+type DetailsFnProps = AccordionDetailsProps;
+
+const DetailsFn = forwardRef<HTMLDivElement, DetailsFnProps>((rest, ref) => {
+  const theme = useTheme();
+  return (
+    <AccordionDetails
+      ref={ref}
+      {...rest}
+      sx={{
+        color: theme.vars.palette.text.secondary,
+        ...rest.sx,
+      }}
+    />
+  );
+});
+
+// ----------------------------------------------------------------------
 
 export const RichCard = Object.assign(RichCardFn, {
   OverlayAnchor: OverlayAnchorFn,
@@ -368,4 +446,5 @@ export const RichCard = Object.assign(RichCardFn, {
   AttributeDot: AttributeDotFn,
   FeedbackButton: FeedbackButtonFn,
   Chip: ChipFn,
+  Accordion: Object.assign(AccordionFn, { Summary: SummaryFn, Details: DetailsFn }),
 });

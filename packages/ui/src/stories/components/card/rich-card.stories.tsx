@@ -3,9 +3,11 @@ import {
   EvaHeartOutlineIcon,
   GravityUiCircleCheckFillIcon,
   MaterialSymbolsLightMoreVertIcon,
+  MingcuteDownLineIcon,
   NineteenCircleIcon,
   RichCard,
 } from "@/components";
+import { Accordion } from "@mui/material";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {
@@ -104,6 +106,21 @@ export const PostRichCard = () => {
               <RichCard.Chip key={i} label={keyword} variant="soft" size="small" href={`/search?keyword=${keyword}`} />
             ))}
           </>
+        ),
+        accordion: (
+          <RichCard.Accordion
+            slots={{
+              summary: (
+                <RichCard.Accordion.Summary expandIcon={<MingcuteDownLineIcon />}>미리보기</RichCard.Accordion.Summary>
+              ),
+              details: (
+                <RichCard.Accordion.Details>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet
+                  blandit leo lobortis eget.
+                </RichCard.Accordion.Details>
+              ),
+            }}
+          />
         ),
       }}
     />
