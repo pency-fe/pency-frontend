@@ -6,6 +6,8 @@ import {
   NineteenCircleIcon,
   RichCard,
 } from "@/components";
+import { maxLine } from "@/util";
+import { Box } from "@mui/material";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {
@@ -113,9 +115,11 @@ export const PostRichCard = () => {
               ),
               details: (
                 <RichCard.Accordion.Details>
-                  선수권 대회 최연소 우승, 양궁 유망주. 승승장구 하는 줄 알았으나 비운의 사고로 다시는 활을 쥘 수 없게
-                  된 몰락한 천재 양궁 선수 유상현! 낙하산으로 들어간 회사에서마저 잘린 그는, 먹고살기 위해 게임
-                  스트리머, 아몬드가 되는데
+                  <Box sx={maxLine({ line: 4 })}>
+                    선수권 대회 최연소 우승, 양궁 유망주. 승승장구 하는 줄 알았으나 비운의 사고로 다시는 활을 쥘 수 없게
+                    된 몰락한 천재 양궁 선수 유상현! 낙하산으로 들어간 회사에서마저 잘린 그는, 먹고살기 위해 게임
+                    스트리머, 아몬드가 되는데
+                  </Box>
                 </RichCard.Accordion.Details>
               ),
             }}

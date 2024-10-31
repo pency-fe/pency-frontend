@@ -438,7 +438,6 @@ const DetailsFn = forwardRef<HTMLDivElement, DetailsFnProps>((rest, ref) => {
       sx={{
         color: theme.vars.palette.text.secondary,
         pt: 0,
-        ...maxLine({ line: 4 }),
         ...rest.sx,
       }}
     />
