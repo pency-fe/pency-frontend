@@ -2,7 +2,7 @@ import {
   EvaHeartOutlineIcon,
   GravityUiCircleCheckFillIcon,
   EvaMoreVerticalOutlineIcon,
-  EvaChevronDownOutlineIcon,
+  MingcuteDownLineIcon,
   NineteenCircleIcon,
   RichCard,
 } from "@/components";
@@ -109,9 +109,7 @@ export const PostRichCard = () => {
           <RichCard.Accordion
             slots={{
               summary: (
-                <RichCard.Accordion.Summary expandIcon={<EvaChevronDownOutlineIcon />}>
-                  미리보기
-                </RichCard.Accordion.Summary>
+                <RichCard.Accordion.Summary expandIcon={<MingcuteDownLineIcon />}>미리보기</RichCard.Accordion.Summary>
               ),
               details: (
                 <RichCard.Accordion.Details>
