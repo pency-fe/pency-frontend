@@ -8,7 +8,7 @@ const MuiMenuItem: Components<Theme>["MuiMenuItem"] = {
   /** **************************************
    * STYLE
    *************************************** */
-  styleOverrides: { root: ({ theme }) => ({ ...menuItem(theme) }) },
+  styleOverrides: { root: ({ theme }) => ({ ...menuItem(theme), minHeight: "auto" }) },
 };
 
 // ----------------------------------------------------------------------

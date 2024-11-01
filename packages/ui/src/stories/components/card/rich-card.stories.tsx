@@ -7,8 +7,9 @@ import {
   RichCard,
 } from "@/components";
 import { maxLine } from "@/util";
-import { Box } from "@mui/material";
+import { Box, Menu, MenuItem } from "@mui/material";
 import { Meta } from "@storybook/react";
+import { MouseEventHandler, useState } from "react";
 
 const meta: Meta = {
   title: "components/card/RichCard",
@@ -16,30 +17,41 @@ const meta: Meta = {
 
 export default meta;
 
+const postData = {
+  postId: "post-id-123",
+  thumbnail:
+    "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+  age: "NINETEEN",
+  price: 300,
+  purchased: true,
+  creationType: "2차창작",
+  pair: "BL",
+  genre: "액션",
+  title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
+  // title: "천재 궁수의 스트리밍",
+  channel: {
+    channelId: "channel-id-123",
+    avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
+    name: "김천재의 채널",
+  },
+  likeCount: 100,
+  createAt: "24.10.31",
+  keywords: ["BL", "**공", "**수", "판타지", "학원물", "고수위", "후방주의", "유혈"],
+  preview:
+    "선수권 대회 최연소 우승, 양궁 유망주.\n\n승승장구 하는 줄 알았으나 비운의 사고로 \n다시는 활을 쥘 수 없게 된 몰락한 천재 양궁 선수 유상현!\n\n낙하산으로 들어간 회사에서마저 잘린 그는,\n먹고살기 위해 게임 스트리머, 아몬드가 되는데...\n\n[활을 선택하셨습니다.]\n\n피융! 푸욱!\n\n[헤드샷!]\n\n“보스 원래 한 방이에요?”\n\n미친 재능이 다시금 빛을 발한다!\n\n28살. 고졸. 백수.\n특기는 양궁.\n\n방송 천재가 되어 돌아온, 그의 유쾌한 반란이 시작된다?!\n\n[천재 궁수의 스트리밍]",
+};
+
 export const PostRichCard = () => {
-  const postData = {
-    postId: "post-id-123",
-    thumbnail:
-      "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
-    age: "NINETEEN",
-    price: 300,
-    purchased: true,
-    creationType: "2차창작",
-    pair: "BL",
-    genre: "액션",
-    title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
-    // title: "천재 궁수의 스트리밍",
-    channel: {
-      channelId: "channel-id-123",
-      avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
-      name: "김천재의 채널",
-    },
-    likeCount: 100,
-    createAt: "24.10.31",
-    keywords: ["BL", "**공", "**수", "판타지", "학원물", "고수위", "후방주의", "유혈"],
-    preview:
-      "선수권 대회 최연소 우승, 양궁 유망주.\n\n승승장구 하는 줄 알았으나 비운의 사고로 \n다시는 활을 쥘 수 없게 된 몰락한 천재 양궁 선수 유상현!\n\n낙하산으로 들어간 회사에서마저 잘린 그는,\n먹고살기 위해 게임 스트리머, 아몬드가 되는데...\n\n[활을 선택하셨습니다.]\n\n피융! 푸욱!\n\n[헤드샷!]\n\n“보스 원래 한 방이에요?”\n\n미친 재능이 다시금 빛을 발한다!\n\n28살. 고졸. 백수.\n특기는 양궁.\n\n방송 천재가 되어 돌아온, 그의 유쾌한 반란이 시작된다?!\n\n[천재 궁수의 스트리밍]",
+  const [feedbackMenuEl, setFeedbackMenuEl] = useState<HTMLElement | null>(null);
+
+  const handleFeedbackButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    setFeedbackMenuEl(e.currentTarget);
   };
+
+  const handleFeedbackMenuClose = () => {
+    setFeedbackMenuEl(null);
+  };
+
   return (
     <RichCard
       slots={{
@@ -98,9 +110,23 @@ export const PostRichCard = () => {
           </>
         ),
         feedbackButton: (
-          <RichCard.FeedbackButton>
-            <EvaMoreVerticalOutlineIcon />
-          </RichCard.FeedbackButton>
+          <>
+            <RichCard.FeedbackButton onClick={handleFeedbackButtonClick}>
+              <EvaMoreVerticalOutlineIcon />
+            </RichCard.FeedbackButton>
+            <Menu
+              anchorOrigin={{ vertical: "top", horizontal: "left" }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
+              disableScrollLock
+              anchorEl={feedbackMenuEl}
+              open={!!feedbackMenuEl}
+              onClose={handleFeedbackMenuClose}
+            >
+              <MenuItem onClick={handleFeedbackMenuClose}>프로필1</MenuItem>
+              <MenuItem onClick={handleFeedbackMenuClose}>프로필2</MenuItem>
+              <MenuItem onClick={handleFeedbackMenuClose}>프로필3</MenuItem>
+            </Menu>
+          </>
         ),
         chips: (
           <>
