@@ -1,15 +1,20 @@
-import { ReactElement, createContext, forwardRef, useContext } from "react";
+import { ReactElement, ReactNode, createContext, forwardRef, useContext } from "react";
 import { Box, BoxProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
 import { noneUserSelect, queriesWithoutMedia, stylesColorScheme, varAlpha } from "@/util";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
 import Grid2, { Grid2Props } from "@mui/material/Unstable_Grid2";
+import { EmblaViewportRefType } from "node_modules/embla-carousel-react";
+import { useCombinedRefs } from "@pency/util";
 
 // ----------------------------------------------------------------------
 
 const OverviewCardCarouselDataContext = createContext<
-  Omit<ReturnType<typeof useEmblaPrevNextNav>, "onPrevNavClick" | "onNextNavClick"> | undefined
+  | (Omit<ReturnType<typeof useEmblaPrevNextNav>, "onPrevNavClick" | "onNextNavClick"> & {
+      emblaRef: EmblaViewportRefType;
+    })
+  | undefined
 >(undefined);
 
 function useData(component: string) {
@@ -37,14 +42,10 @@ function useActions(component: string) {
 // ----------------------------------------------------------------------
 
 type OverviewCardCarouselFnProps = {
-  slots: {
-    slides: ReactElement;
-    prevNav?: ReactElement | null;
-    nextNav?: ReactElement | null;
-  };
-} & BoxProps;
+  children?: ReactNode;
+};
 
-const OverviewCardCarouselFn = forwardRef<HTMLDivElement, OverviewCardCarouselFnProps>(({ slots, ...rest }, ref) => {
+const OverviewCardCarouselFn = ({ children }: OverviewCardCarouselFnProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     breakpoints: {
@@ -65,19 +66,32 @@ const OverviewCardCarouselFn = forwardRef<HTMLDivElement, OverviewCardCarouselFn
   const { prevNavDisabled, nextNavDisabled, onPrevNavClick, onNextNavClick } = useEmblaPrevNextNav(emblaApi);
 
   return (
-    <OverviewCardCarouselDataContext.Provider value={{ prevNavDisabled, nextNavDisabled }}>
+    <OverviewCardCarouselDataContext.Provider value={{ prevNavDisabled, nextNavDisabled, emblaRef }}>
       <OverviewCardCarouselActionsContext.Provider value={{ onPrevNavClick, onNextNavClick }}>
-        <Box ref={ref} {...rest} sx={{ position: "relative", ...rest.sx }}>
-          <Box ref={emblaRef} sx={{ overflow: "hidden" }}>
-            <Grid2 container spacing={1.5} sx={{ flexWrap: "nowrap" }}>
-              {slots.slides}
-            </Grid2>
-          </Box>
-          {slots.prevNav}
-          {slots.nextNav}
-        </Box>
+        {children}
       </OverviewCardCarouselActionsContext.Provider>
     </OverviewCardCarouselDataContext.Provider>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+type ContainerFnProps = {
+  slots: {
+    slides: ReactElement;
+  };
+} & BoxProps;
+
+const ContainerFn = forwardRef<HTMLDivElement, ContainerFnProps>(({ slots, ...rest }, ref) => {
+  const { emblaRef } = useData("OverviewCardCarousel.Container");
+  const refs = useCombinedRefs(emblaRef, ref);
+
+  return (
+    <Box ref={refs} {...rest} sx={{ overflow: "hidden", ...rest.sx }}>
+      <Grid2 container spacing={1.5} sx={{ flexWrap: "nowrap" }}>
+        {slots.slides}
+      </Grid2>
+    </Box>
   );
 });
 
@@ -98,36 +112,12 @@ const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ children, ...rest },
 type PrevNavFnProps = IconButtonProps;
 
 const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
-  const theme = useTheme();
-  const { prevNavDisabled } = useData("BannerCarousel.PrevNav");
-  const { onPrevNavClick } = useActions("BannerCarousel.PrevNav");
+  const { prevNavDisabled } = useData("OverviewCardCarousel.PrevNav");
+  const { onPrevNavClick } = useActions("OverviewCardCarousel.PrevNav");
 
   return (
     <>
-      <IconButton
-        ref={ref}
-        variant="text"
-        disabled={prevNavDisabled}
-        onClick={onPrevNavClick}
-        {...rest}
-        sx={{
-          position: "absolute",
-          top: "calc(50% - 18px)",
-          left: "-18px",
-          bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.6),
-          ["&:hover"]: {
-            bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.8),
-          },
-          [stylesColorScheme.light]: {
-            color: theme.vars.palette.common.white,
-          },
-          [theme.breakpoints.down("sm")]: {
-            display: "none",
-          },
-          ...(prevNavDisabled && { display: "none" }),
-          ...rest.sx,
-        }}
-      >
+      <IconButton ref={ref} variant="outlined" disabled={prevNavDisabled} onClick={onPrevNavClick} {...rest}>
         <EvaArrowIosBackFillIcon />
       </IconButton>
     </>
@@ -139,34 +129,10 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
 type NextNavFnProps = IconButtonProps;
 
 const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
-  const theme = useTheme();
-  const { nextNavDisabled } = useData("BannerCarousel.NextNav");
-  const { onNextNavClick } = useActions("BannerCarousel.NextNav");
+  const { nextNavDisabled } = useData("OverviewCardCarousel.NextNav");
+  const { onNextNavClick } = useActions("OverviewCardCarousel.NextNav");
   return (
-    <IconButton
-      ref={ref}
-      variant="text"
-      disabled={nextNavDisabled}
-      onClick={onNextNavClick}
-      {...rest}
-      sx={{
-        position: "absolute",
-        top: "calc(50% - 18px)",
-        right: "-18px",
-        bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.6),
-        ["&:hover"]: {
-          bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.8),
-        },
-        [stylesColorScheme.light]: {
-          color: theme.vars.palette.common.white,
-        },
-        [theme.breakpoints.down("sm")]: {
-          display: "none",
-        },
-        ...(nextNavDisabled && { display: "none" }),
-        ...rest.sx,
-      }}
-    >
+    <IconButton ref={ref} variant="outlined" disabled={nextNavDisabled} onClick={onNextNavClick} {...rest}>
       <EvaArrowIosForwardFillIcon />
     </IconButton>
   );
@@ -175,6 +141,7 @@ const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
 // ----------------------------------------------------------------------
 
 export const OverviewCardCarousel = Object.assign(OverviewCardCarouselFn, {
+  Container: ContainerFn,
   Slide: SlideFn,
   PrevNav: PrevNavFn,
   NextNav: NextNavFn,

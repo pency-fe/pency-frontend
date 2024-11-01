@@ -10,20 +10,23 @@ export default meta;
 
 export const Default = () => {
   return (
-    <OverviewCardCarousel
-      slots={{
-        slides: (
-          <>
-            {Array.from({ length: 10 }, (_, i) => (
-              <OverviewCardCarousel.Slide key={i}>
-                <PostOverviewCard />
-              </OverviewCardCarousel.Slide>
-            ))}
-          </>
-        ),
-        prevNav: <OverviewCardCarousel.PrevNav />,
-        nextNav: <OverviewCardCarousel.NextNav />,
-      }}
-    />
+    <OverviewCardCarousel>
+      <OverviewCardCarousel.PrevNav />
+      <OverviewCardCarousel.NextNav />
+
+      <OverviewCardCarousel.Container
+        slots={{
+          slides: (
+            <>
+              {Array.from({ length: 10 }, (_, i) => (
+                <OverviewCardCarousel.Slide key={i}>
+                  <PostOverviewCard />
+                </OverviewCardCarousel.Slide>
+              ))}
+            </>
+          ),
+        }}
+      />
+    </OverviewCardCarousel>
   );
 };

@@ -83,7 +83,7 @@ type ContainerFnProps = {
 } & BoxProps;
 
 const ContainerFn = forwardRef<HTMLDivElement, ContainerFnProps>(({ slots, ...rest }, ref) => {
-  const { emblaRef } = useData("RichCardCrousel.Container");
+  const { emblaRef } = useData("RichCardCarousel.Container");
   const refs = useCombinedRefs(emblaRef, ref);
 
   return (
@@ -112,8 +112,8 @@ const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ children, ...rest },
 type PrevNavFnProps = IconButtonProps;
 
 const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
-  const { prevNavDisabled } = useData("BannerCarousel.PrevNav");
-  const { onPrevNavClick } = useActions("BannerCarousel.PrevNav");
+  const { prevNavDisabled } = useData("RichCardCarousel.PrevNav");
+  const { onPrevNavClick } = useActions("RichCardCarousel.PrevNav");
 
   return (
     <>
@@ -129,8 +129,8 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
 type NextNavFnProps = IconButtonProps;
 
 const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
-  const { nextNavDisabled } = useData("BannerCarousel.NextNav");
-  const { onNextNavClick } = useActions("BannerCarousel.NextNav");
+  const { nextNavDisabled } = useData("RichCardCarousel.NextNav");
+  const { onNextNavClick } = useActions("RichCardCarousel.NextNav");
   return (
     <IconButton ref={ref} variant="outlined" disabled={nextNavDisabled} onClick={onNextNavClick} {...rest}>
       <EvaArrowIosForwardFillIcon />
