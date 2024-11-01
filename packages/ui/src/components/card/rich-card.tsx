@@ -86,7 +86,7 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
 
         {slots.thumbnail}
 
-        <Box sx={{ px: 1.5, py: 1.5 }}>
+        <Box sx={{ px: 0.5, py: 1.5 }}>
           {slots.labels && <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>{slots.labels}</Box>}
 
           <Box sx={{ display: "flex", justifyContent: "space-between", gap: 1 }}>
@@ -379,6 +379,7 @@ const AccordionFn = forwardRef<HTMLDivElement, AccordionFnProps>(({ slots, ...re
   return (
     <Accordion
       ref={ref}
+      disableGutters
       {...rest}
       sx={{
         zIndex: 3,
@@ -411,10 +412,7 @@ const SummaryFn = forwardRef<HTMLDivElement, SummaryFnProps>((rest, ref) => {
         },
 
         "& .MuiAccordionSummary-content": {
-          my: "4px",
-          "&.Mui-expanded": {
-            my: "8px",
-          },
+          my: "6px",
         },
         ...rest.sx,
       }}

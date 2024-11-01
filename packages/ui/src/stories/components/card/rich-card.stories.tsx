@@ -7,9 +7,10 @@ import {
   RichCard,
 } from "@/components";
 import { maxLine } from "@/util";
-import { Box, Menu, MenuItem } from "@mui/material";
+import { Box, ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper } from "@mui/material";
+import { useBooleanState } from "@pency/util";
 import { Meta } from "@storybook/react";
-import { MouseEventHandler, useState } from "react";
+import { useRef } from "react";
 
 const meta: Meta = {
   title: "components/card/RichCard",
@@ -42,121 +43,145 @@ const postData = {
 };
 
 export const PostRichCard = () => {
-  const [feedbackMenuEl, setFeedbackMenuEl] = useState<HTMLElement | null>(null);
-
-  const handleFeedbackButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-    setFeedbackMenuEl(e.currentTarget);
-  };
-
-  const handleFeedbackMenuClose = () => {
-    setFeedbackMenuEl(null);
-  };
+  const { bool: isOpenMenu, setFalse: closeMenu, toggle: toggleMenu } = useBooleanState(false);
+  const feedbackButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <RichCard
-      slots={{
-        overlayElement: <RichCard.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
-        thumbnail: (
-          <RichCard.Thumbnail
-            slots={{
-              image: <RichCard.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
-              topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
-            }}
-          />
-        ),
-        labels: (
-          <>
-            {postData.price && (
-              <RichCard.Label
-                variant="soft"
-                color="primary"
-                slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
-              >
-                {postData.price}P
+    <>
+      <RichCard
+        slots={{
+          overlayElement: <RichCard.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+          thumbnail: (
+            <RichCard.Thumbnail
+              slots={{
+                image: <RichCard.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+                topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+              }}
+            />
+          ),
+          labels: (
+            <>
+              {postData.price && (
+                <RichCard.Label
+                  variant="soft"
+                  color="primary"
+                  slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
+                >
+                  {postData.price}P
+                </RichCard.Label>
+              )}
+              <RichCard.Label variant="soft" color="secondary">
+                {postData.creationType}
               </RichCard.Label>
-            )}
-            <RichCard.Label variant="soft" color="secondary">
-              {postData.creationType}
-            </RichCard.Label>
-            <RichCard.Label variant="soft" color="warning">
-              {postData.pair}
-            </RichCard.Label>
-            <RichCard.Label variant="soft" color="warning">
-              {postData.genre}
-            </RichCard.Label>
-          </>
-        ),
-        avatarLink: (
-          <RichCard.AvatarLink
-            href={`/channel/${postData.channel.channelId}`}
-            slots={{
-              avatar: <RichCard.AvatarLink.Avatar src={postData.channel.avatar} />,
-            }}
-          />
-        ),
-        title: <RichCard.Title>{postData.title}</RichCard.Title>,
-        nameLink: (
-          <RichCard.NameLink href={`/channel/${postData.channel.channelId}`}>{postData.channel.name}</RichCard.NameLink>
-        ),
-        attributes: (
-          <>
-            <RichCard.AttributeDot />
-            <RichCard.Attribute>
-              <EvaHeartOutlineIcon />
-              {postData.likeCount}
-            </RichCard.Attribute>
-            <RichCard.AttributeDot />
-            <RichCard.Attribute>{postData.createAt}</RichCard.Attribute>
-          </>
-        ),
-        feedbackButton: (
-          <>
-            <RichCard.FeedbackButton onClick={handleFeedbackButtonClick}>
-              <EvaMoreVerticalOutlineIcon />
-            </RichCard.FeedbackButton>
-            <Menu
-              anchorOrigin={{ vertical: "top", horizontal: "left" }}
-              transformOrigin={{ vertical: "top", horizontal: "right" }}
-              disableScrollLock
-              anchorEl={feedbackMenuEl}
-              open={!!feedbackMenuEl}
-              onClose={handleFeedbackMenuClose}
-            >
-              <MenuItem onClick={handleFeedbackMenuClose}>프로필1</MenuItem>
-              <MenuItem onClick={handleFeedbackMenuClose}>프로필2</MenuItem>
-              <MenuItem onClick={handleFeedbackMenuClose}>프로필3</MenuItem>
-            </Menu>
-          </>
-        ),
-        chips: (
-          <>
-            {Array.from(postData.keywords, (keyword, i) => (
-              <RichCard.Chip key={i} label={keyword} variant="soft" size="small" href={`/search?keyword=${keyword}`} />
-            ))}
-          </>
-        ),
-        accordion: (
-          <RichCard.Accordion
-            slots={{
-              summary: (
-                <RichCard.Accordion.Summary expandIcon={<MingcuteDownLineIcon />}>미리보기</RichCard.Accordion.Summary>
-              ),
-              details: (
-                <RichCard.Accordion.Details>
-                  <Box sx={{ ...maxLine({ line: 4 }) }}>{postData.preview}</Box>
-                </RichCard.Accordion.Details>
-              ),
-            }}
-          />
-        ),
-      }}
-    />
+              <RichCard.Label variant="soft" color="warning">
+                {postData.pair}
+              </RichCard.Label>
+              <RichCard.Label variant="soft" color="warning">
+                {postData.genre}
+              </RichCard.Label>
+            </>
+          ),
+          avatarLink: (
+            <RichCard.AvatarLink
+              href={`/channel/${postData.channel.channelId}`}
+              slots={{
+                avatar: <RichCard.AvatarLink.Avatar src={postData.channel.avatar} />,
+              }}
+            />
+          ),
+          title: <RichCard.Title>{postData.title}</RichCard.Title>,
+          nameLink: (
+            <RichCard.NameLink href={`/channel/${postData.channel.channelId}`}>
+              {postData.channel.name}
+            </RichCard.NameLink>
+          ),
+          attributes: (
+            <>
+              <RichCard.AttributeDot />
+              <RichCard.Attribute>
+                <EvaHeartOutlineIcon />
+                {postData.likeCount}
+              </RichCard.Attribute>
+              <RichCard.AttributeDot />
+              <RichCard.Attribute>{postData.createAt}</RichCard.Attribute>
+            </>
+          ),
+          feedbackButton: (
+            <>
+              <RichCard.FeedbackButton ref={feedbackButtonRef} onClick={toggleMenu}>
+                <EvaMoreVerticalOutlineIcon />
+              </RichCard.FeedbackButton>
+
+              <Popper
+                open={isOpenMenu}
+                anchorEl={feedbackButtonRef.current}
+                placement="left-start"
+                transition
+                modifiers={[{ name: "preventOverflow", enabled: false }]}
+                sx={{ zIndex: 4 }}
+              >
+                {({ TransitionProps, placement }) => (
+                  <ClickAwayListener onClickAway={closeMenu}>
+                    <Grow
+                      {...TransitionProps}
+                      style={{
+                        transformOrigin: placement === "left-start" ? "right top" : "right bottom",
+                      }}
+                    >
+                      <Paper>
+                        <MenuList>
+                          <MenuItem>프로필1</MenuItem>
+                          <MenuItem>프로필2</MenuItem>
+                          <MenuItem>프로필3</MenuItem>
+                          <MenuItem>프로필4</MenuItem>
+                        </MenuList>
+                      </Paper>
+                    </Grow>
+                  </ClickAwayListener>
+                )}
+              </Popper>
+            </>
+          ),
+          chips: (
+            <>
+              {Array.from(postData.keywords, (keyword, i) => (
+                <RichCard.Chip
+                  key={i}
+                  label={keyword}
+                  variant="soft"
+                  size="small"
+                  href={`/search?keyword=${keyword}`}
+                />
+              ))}
+            </>
+          ),
+          accordion: (
+            <RichCard.Accordion
+              slots={{
+                summary: (
+                  <RichCard.Accordion.Summary expandIcon={<MingcuteDownLineIcon />}>
+                    미리보기
+                  </RichCard.Accordion.Summary>
+                ),
+                details: (
+                  <RichCard.Accordion.Details>
+                    <Box sx={{ ...maxLine({ line: 4 }) }}>{postData.preview}</Box>
+                  </RichCard.Accordion.Details>
+                ),
+              }}
+            />
+          ),
+        }}
+      />
+    </>
   );
 };
 
 export const PostRichCards = () => {
   return (
     <>
+      <PostRichCard />
+      <PostRichCard />
       <PostRichCard />
       <PostRichCard />
     </>

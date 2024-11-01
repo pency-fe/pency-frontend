@@ -29,9 +29,9 @@ type Props = {
       name: string;
     };
     likeCount: number;
-    createAt: string;
-    keywords?: string[];
-    preview?: string;
+    createdAt: string;
+    keywords: string[];
+    preview: string;
   };
 };
 
@@ -91,7 +91,7 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, ref
               {data.likeCount}
             </RichCard.Attribute>
             <RichCard.AttributeDot />
-            <RichCard.Attribute>{data.createAt}</RichCard.Attribute>
+            <RichCard.Attribute>{data.createdAt}</RichCard.Attribute>
           </>
         ),
         feedbackButton: (
@@ -101,7 +101,7 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, ref
         ),
         chips: (
           <>
-            {data.keywords
+            {data.keywords.length
               ? Array.from(data.keywords, (keyword, i) => (
                   <RichCard.Chip
                     key={i}
@@ -116,7 +116,7 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, ref
         ),
         accordion: (
           <>
-            {data.preview ? (
+            {data.preview.trim().length ? (
               <RichCard.Accordion
                 slots={{
                   summary: (
