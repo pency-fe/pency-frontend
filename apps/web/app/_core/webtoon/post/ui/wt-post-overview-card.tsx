@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from "react";
+import { forwardRef } from "react";
 import { GravityUiCircleCheckFillIcon, NineteenCircleIcon, OverviewCard } from "@pency/ui/components";
 import { Age, CreationType, CREATION_TYPE_LABEL, Pair, PAIR_LABEL } from "../const";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
@@ -23,22 +23,6 @@ type Props = {
 };
 
 export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
-  const ageIcon = useMemo(() => {
-    if (data.age === "NINETEEN") {
-      return <NineteenCircleIcon fontSize="small" />;
-    }
-
-    return null;
-  }, [data]);
-
-  const purchasedIcon = useMemo(() => {
-    if (data.purchased) {
-      return <GravityUiCircleCheckFillIcon />;
-    }
-
-    return null;
-  }, [data]);
-
   return (
     <OverviewCard
       ref={ref}
@@ -48,14 +32,18 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data },
           <OverviewCard.Thumbnail
             slots={{
               image: <OverviewCard.Thumbnail.Image src={data.thumbnail} sx={{ aspectRatio: "16/9" }} />,
-              topEnds: ageIcon,
+              topEnds: data.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
             }}
           />
         ),
         labels: (
           <>
             {data.price && (
-              <OverviewCard.Label variant="soft" color="success" slots={{ startIcon: purchasedIcon }}>
+              <OverviewCard.Label
+                variant="soft"
+                color="success"
+                slots={{ startIcon: data.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
+              >
                 {data.price}P
               </OverviewCard.Label>
             )}
