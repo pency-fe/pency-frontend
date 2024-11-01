@@ -1,7 +1,7 @@
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { forwardRef } from "react";
 import { COMPLETION_STATE_LABEL, CompletionState } from "../const";
-import { OverviewCard } from "@pency/ui/components";
+import { EvaHeartOutlineIcon, EvaMoreVerticalOutlineIcon, RichCard } from "@pency/ui/components";
 
 type Props = {
   data: {
@@ -15,43 +15,79 @@ type Props = {
       avatar: string;
       name: string;
     };
+    postCount: number;
+    likeCount: number;
+    keywords?: string[];
   };
 };
 
-export const WT_Series_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
+export const WT_Series_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
   return (
-    <OverviewCard
+    <RichCard
       ref={ref}
       slots={{
-        overlayElement: <OverviewCard.OverlayAnchor href={`/webtoon/series/${data.seriesId}`} />,
+        overlayElement: <RichCard.OverlayAnchor href={`/webtoon/series/${data.seriesId}`} />,
         thumbnail: (
-          <OverviewCard.Thumbnail
+          <RichCard.Thumbnail
             slots={{
-              image: <OverviewCard.Thumbnail.Image src={data.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+              image: <RichCard.Thumbnail.Image src={data.thumbnail} sx={{ aspectRatio: "16/9" }} />,
             }}
           />
         ),
         labels: (
           <>
-            <OverviewCard.Label variant="soft" color="warning">
+            <RichCard.Label variant="soft" color="warning">
               {GENRE_LABEL[data.genre]}
-            </OverviewCard.Label>
-            <OverviewCard.Label variant="soft" color="info">
+            </RichCard.Label>
+            <RichCard.Label variant="soft" color="info">
               {COMPLETION_STATE_LABEL[data.completionState]}
-            </OverviewCard.Label>
+            </RichCard.Label>
           </>
         ),
         avatarLink: (
-          <OverviewCard.AvatarLink
+          <RichCard.AvatarLink
             href={`/channel/${data.channel.channelId}`}
             slots={{
-              avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.avatar} />,
+              avatar: <RichCard.AvatarLink.Avatar src={data.channel.avatar} />,
             }}
           />
         ),
-        title: <OverviewCard.Title>{data.title}</OverviewCard.Title>,
+        title: <RichCard.Title>{data.title}</RichCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/channel/${data.channel.channelId}`}>{data.channel.name}</OverviewCard.NameLink>
+          <RichCard.NameLink href={`/channel/${data.channel.channelId}`}>{data.channel.name}</RichCard.NameLink>
+        ),
+        attributes: (
+          <>
+            <RichCard.AttributeDot />
+            <RichCard.Attribute>
+              <RichCard.Attribute>{`총 ${data.postCount}화`}</RichCard.Attribute>
+            </RichCard.Attribute>
+            <RichCard.AttributeDot />
+            <RichCard.Attribute>
+              <EvaHeartOutlineIcon />
+              {data.likeCount}
+            </RichCard.Attribute>
+          </>
+        ),
+        feedbackButton: (
+          <RichCard.FeedbackButton>
+            <EvaMoreVerticalOutlineIcon />
+          </RichCard.FeedbackButton>
+        ),
+        chips: (
+          <>
+            {data.keywords
+              ? Array.from(data.keywords, (keyword, i) => (
+                  <RichCard.Chip
+                    key={i}
+                    label={keyword}
+                    variant="soft"
+                    size="small"
+                    href={`/search?keyword=${keyword}`}
+                  />
+                ))
+              : null}
+          </>
         ),
       }}
     />

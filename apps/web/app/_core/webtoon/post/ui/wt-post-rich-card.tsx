@@ -1,7 +1,16 @@
-import { forwardRef, useMemo } from "react";
-import { GravityUiCircleCheckFillIcon, NineteenCircleIcon, OverviewCard } from "@pency/ui/components";
+import { forwardRef } from "react";
+import {
+  EvaHeartOutlineIcon,
+  EvaMoreVerticalOutlineIcon,
+  GravityUiCircleCheckFillIcon,
+  MingcuteDownLineIcon,
+  NineteenCircleIcon,
+  RichCard,
+} from "@pency/ui/components";
 import { Age, CreationType, CREATION_TYPE_LABEL, Pair, PAIR_LABEL } from "../const";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
+import { Box } from "@mui/material";
+import { maxLine } from "@pency/ui/util";
 
 type Props = {
   data: {
@@ -19,68 +28,111 @@ type Props = {
       avatar: string;
       name: string;
     };
+    likeCount: number;
+    createAt: string;
+    keywords?: string[];
+    preview?: string;
   };
 };
 
-export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
-  const ageIcon = useMemo(() => {
-    if (data.age === "NINETEEN") {
-      return <NineteenCircleIcon fontSize="small" />;
-    }
-
-    return null;
-  }, [data]);
-
-  const purchasedIcon = useMemo(() => {
-    if (data.purchased) {
-      return <GravityUiCircleCheckFillIcon />;
-    }
-
-    return null;
-  }, [data]);
-
+export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
   return (
-    <OverviewCard
+    <RichCard
       ref={ref}
       slots={{
-        overlayElement: <OverviewCard.OverlayAnchor href={`/webtoon/post/${data.postId}`} />,
+        overlayElement: <RichCard.OverlayAnchor href={`/webtoon/post/${data.postId}`} />,
         thumbnail: (
-          <OverviewCard.Thumbnail
+          <RichCard.Thumbnail
             slots={{
-              image: <OverviewCard.Thumbnail.Image src={data.thumbnail} sx={{ aspectRatio: "16/9" }} />,
-              topEnds: ageIcon,
+              image: <RichCard.Thumbnail.Image src={data.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+              topEnds: data.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
             }}
           />
         ),
         labels: (
           <>
             {data.price && (
-              <OverviewCard.Label variant="soft" color="success" slots={{ startIcon: purchasedIcon }}>
+              <RichCard.Label
+                variant="soft"
+                color="success"
+                slots={{ startIcon: data.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
+              >
                 {data.price}P
-              </OverviewCard.Label>
+              </RichCard.Label>
             )}
-            <OverviewCard.Label variant="soft" color="secondary">
+            <RichCard.Label variant="soft" color="secondary">
               {CREATION_TYPE_LABEL[data.creationType]}
-            </OverviewCard.Label>
-            <OverviewCard.Label variant="soft" color="warning">
+            </RichCard.Label>
+            <RichCard.Label variant="soft" color="warning">
               {PAIR_LABEL[data.pair]}
-            </OverviewCard.Label>
-            <OverviewCard.Label variant="soft" color="warning">
+            </RichCard.Label>
+            <RichCard.Label variant="soft" color="warning">
               {GENRE_LABEL[data.genre]}
-            </OverviewCard.Label>
+            </RichCard.Label>
           </>
         ),
         avatarLink: (
-          <OverviewCard.AvatarLink
+          <RichCard.AvatarLink
             href={`/channel/${data.channel.channelId}`}
             slots={{
-              avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.avatar} />,
+              avatar: <RichCard.AvatarLink.Avatar src={data.channel.avatar} />,
             }}
           />
         ),
-        title: <OverviewCard.Title>{data.title}</OverviewCard.Title>,
+        title: <RichCard.Title>{data.title}</RichCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/channel/${data.channel.channelId}`}>{data.channel.name}</OverviewCard.NameLink>
+          <RichCard.NameLink href={`/channel/${data.channel.channelId}`}>{data.channel.name}</RichCard.NameLink>
+        ),
+        attributes: (
+          <>
+            <RichCard.AttributeDot />
+            <RichCard.Attribute>
+              <EvaHeartOutlineIcon />
+              {data.likeCount}
+            </RichCard.Attribute>
+            <RichCard.AttributeDot />
+            <RichCard.Attribute>{data.createAt}</RichCard.Attribute>
+          </>
+        ),
+        feedbackButton: (
+          <RichCard.FeedbackButton>
+            <EvaMoreVerticalOutlineIcon />
+          </RichCard.FeedbackButton>
+        ),
+        chips: (
+          <>
+            {data.keywords
+              ? Array.from(data.keywords, (keyword, i) => (
+                  <RichCard.Chip
+                    key={i}
+                    label={keyword}
+                    variant="soft"
+                    size="small"
+                    href={`/search?keyword=${keyword}`}
+                  />
+                ))
+              : null}
+          </>
+        ),
+        accordion: (
+          <>
+            {data.preview ? (
+              <RichCard.Accordion
+                slots={{
+                  summary: (
+                    <RichCard.Accordion.Summary expandIcon={<MingcuteDownLineIcon />}>
+                      미리보기
+                    </RichCard.Accordion.Summary>
+                  ),
+                  details: (
+                    <RichCard.Accordion.Details>
+                      <Box sx={{ ...maxLine({ line: 4 }) }}>{data.preview}</Box>
+                    </RichCard.Accordion.Details>
+                  ),
+                }}
+              />
+            ) : null}
+          </>
         ),
       }}
     />
