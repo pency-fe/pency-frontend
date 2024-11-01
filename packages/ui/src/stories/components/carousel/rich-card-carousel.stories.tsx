@@ -10,21 +10,24 @@ export default meta;
 
 export const PostRichCardCarousel = () => {
   return (
-    <RichCardCarousel
-      slots={{
-        slides: (
-          <>
-            {Array.from({ length: 10 }, (_, i) => (
-              <RichCardCarousel.Slide key={i}>
-                <PostRichCard />
-              </RichCardCarousel.Slide>
-            ))}
-          </>
-        ),
-        prevNav: <RichCardCarousel.PrevNav />,
-        nextNav: <RichCardCarousel.NextNav />,
-      }}
-    />
+    <RichCardCarousel>
+      <RichCardCarousel.PrevNav />
+      <RichCardCarousel.NextNav />
+
+      <RichCardCarousel.Container
+        slots={{
+          slides: (
+            <>
+              {Array.from({ length: 10 }, (_, i) => (
+                <RichCardCarousel.Slide key={i}>
+                  <PostRichCard />
+                </RichCardCarousel.Slide>
+              ))}
+            </>
+          ),
+        }}
+      />
+    </RichCardCarousel>
   );
 };
 
@@ -32,20 +35,23 @@ export const PostRichCardCarousel = () => {
 
 export const SeriesRichCardCarousel = () => {
   return (
-    <RichCardCarousel
-      slots={{
-        slides: (
-          <>
-            {Array.from({ length: 10 }, (_, i) => (
-              <RichCardCarousel.Slide key={i}>
-                <SeriesRichCard />
-              </RichCardCarousel.Slide>
-            ))}
-          </>
-        ),
-        prevNav: <RichCardCarousel.PrevNav />,
-        nextNav: <RichCardCarousel.NextNav />,
-      }}
-    />
+    <RichCardCarousel>
+      <RichCardCarousel.PrevNav />
+      <RichCardCarousel.NextNav />
+
+      <RichCardCarousel.Container
+        slots={{
+          slides: (
+            <>
+              {Array.from({ length: 10 }, (_, i) => (
+                <RichCardCarousel.Slide key={i}>
+                  <SeriesRichCard />
+                </RichCardCarousel.Slide>
+              ))}
+            </>
+          ),
+        }}
+      />
+    </RichCardCarousel>
   );
 };
