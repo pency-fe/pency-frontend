@@ -9,6 +9,11 @@ export const useEmblaPrevNextNav = (emblaApi: EmblaCarouselType | undefined) => 
     if (!emblaApi) {
       return;
     }
+
+    if (emblaApi.plugins().autoplay) {
+      emblaApi.plugins().autoplay.reset();
+    }
+
     emblaApi.scrollPrev();
   }, [emblaApi]);
 
@@ -16,6 +21,11 @@ export const useEmblaPrevNextNav = (emblaApi: EmblaCarouselType | undefined) => 
     if (!emblaApi) {
       return;
     }
+
+    if (emblaApi.plugins().autoplay) {
+      emblaApi.plugins().autoplay.reset();
+    }
+
     emblaApi.scrollNext();
   }, [emblaApi]);
 
