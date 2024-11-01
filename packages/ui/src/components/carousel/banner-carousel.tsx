@@ -6,7 +6,7 @@ import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-compone
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
 import { stylesColorScheme, varAlpha } from "@/util";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid2, { Grid2Props } from "@mui/material/Unstable_Grid2";
 
 // ----------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ type SlideFnProps = {
   slots: {
     image: ReactElement;
   };
-} & BoxProps;
+} & Grid2Props;
 
 const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ slots, ...rest }, ref) => {
   const theme = useTheme();

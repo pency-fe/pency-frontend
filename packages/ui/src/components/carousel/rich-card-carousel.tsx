@@ -2,8 +2,8 @@ import { createContext, forwardRef, ReactElement, useContext } from "react";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
 import { Box, BoxProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
-import { queriesWithoutMedia, stylesColorScheme, varAlpha } from "@/util";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import { noneUserSelect, queriesWithoutMedia, stylesColorScheme, varAlpha } from "@/util";
+import Grid2, { Grid2Props } from "@mui/material/Unstable_Grid2";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
 
 // ----------------------------------------------------------------------
@@ -83,11 +83,11 @@ const RichCardCarouselFn = forwardRef<HTMLDivElement, RichCardCarouselFnProps>((
 
 // ----------------------------------------------------------------------
 
-type SlideFnProps = BoxProps;
+type SlideFnProps = Grid2Props;
 
 const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ children, ...rest }, ref) => {
   return (
-    <Grid2 ref={ref} xs={11} sm={6} md={4} lg={3} {...rest} sx={{ flexShrink: 0, ...rest.sx }}>
+    <Grid2 ref={ref} xs={11} sm={6} md={4} lg={3} {...rest} sx={{ flexShrink: 0, ...noneUserSelect, ...rest.sx }}>
       {children}
     </Grid2>
   );

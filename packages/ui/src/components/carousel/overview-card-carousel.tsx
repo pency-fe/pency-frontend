@@ -2,9 +2,9 @@ import { ReactElement, createContext, forwardRef, useContext } from "react";
 import { Box, BoxProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
-import { queriesWithoutMedia, stylesColorScheme, varAlpha } from "@/util";
+import { noneUserSelect, queriesWithoutMedia, stylesColorScheme, varAlpha } from "@/util";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid2, { Grid2Props } from "@mui/material/Unstable_Grid2";
 
 // ----------------------------------------------------------------------
 
@@ -83,11 +83,11 @@ const OverviewCardCarouselFn = forwardRef<HTMLDivElement, OverviewCardCarouselFn
 
 // ----------------------------------------------------------------------
 
-type SlideFnProps = BoxProps;
+type SlideFnProps = Grid2Props;
 
 const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ children, ...rest }, ref) => {
   return (
-    <Grid2 ref={ref} xs={11} sm={6} md={4} lg={3} {...rest} sx={{ flexShrink: 0, ...rest.sx }}>
+    <Grid2 ref={ref} xs={11} sm={6} md={4} lg={3} {...rest} sx={{ flexShrink: 0, ...noneUserSelect, ...rest.sx }}>
       {children}
     </Grid2>
   );
