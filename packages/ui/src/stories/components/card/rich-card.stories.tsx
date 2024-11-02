@@ -118,37 +118,33 @@ export const PostRichCard = () => {
               </RichCard.FeedbackButton>
 
               <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
-                {/* <Menux.Item>
+                <Menux.Item>
                   <Menux.Item.Icon>
-                  <EvaBookmarkOutlineIcon />
+                    <EvaBookmarkOutlineIcon />
                   </Menux.Item.Icon>
                   북마크
-                </Menux.Item> */}
+                </Menux.Item>
 
-                <MenuItem>
-                  <ListItemIcon>
-                    <EvaBookmarkOutlineIcon fontSize="small" />
-                  </ListItemIcon>
-                  북마크
-                </MenuItem>
-                <MenuItem>
-                  <ListItemIcon>
-                    <FluentShare24RegularIcon fontSize="small" />
-                  </ListItemIcon>
+                <Menux.Item>
+                  <Menux.Item.Icon>
+                    <FluentShare24RegularIcon />
+                  </Menux.Item.Icon>
                   공유하기
-                </MenuItem>
-                <MenuItem>
-                  <ListItemIcon>
-                    <MaterialSymbolsBlock fontSize="small" />
-                  </ListItemIcon>
-                  차단하기
-                </MenuItem>
-                <MenuItem>
-                  <ListItemIcon>
-                    <MaterialSymbolsReportOutline fontSize="small" />
-                  </ListItemIcon>
+                </Menux.Item>
+
+                <Menux.Item>
+                  <Menux.Item.Icon>
+                    <MaterialSymbolsBlock />
+                  </Menux.Item.Icon>
+                  차단하기{" "}
+                </Menux.Item>
+
+                <Menux.Item>
+                  <Menux.Item.Icon>
+                    <MaterialSymbolsReportOutline />
+                  </Menux.Item.Icon>
                   신고하기
-                </MenuItem>
+                </Menux.Item>
               </Menux>
             </>
           ),

@@ -2,6 +2,10 @@ import {
   ClickAwayListener,
   ClickAwayListenerProps,
   Grow,
+  ListItemIcon,
+  ListItemIconProps,
+  MenuItem,
+  MenuItemProps,
   MenuList,
   Paper,
   Popper,
@@ -11,7 +15,7 @@ import {
 import { forwardRef, ReactNode } from "react";
 import { getTransformOrigin } from "../get-transform-origin";
 
-type MenuxProps = {
+type MenuxFnProps = {
   open: PopperProps["open"];
   anchorEl: PopperProps["anchorEl"];
   placement?: PopperProps["placement"];
@@ -19,7 +23,7 @@ type MenuxProps = {
   children?: ReactNode;
 };
 
-export const Menux = forwardRef<HTMLDivElement, MenuxProps>(
+export const MenuxFn = forwardRef<HTMLDivElement, MenuxFnProps>(
   ({ open, anchorEl, placement = "bottom", onClose, children }, ref) => {
     const theme = useTheme();
 
@@ -47,3 +51,32 @@ export const Menux = forwardRef<HTMLDivElement, MenuxProps>(
 );
 
 // ----------------------------------------------------------------------
+
+type ItemFnProps = MenuItemProps;
+
+const ItemFn = forwardRef<HTMLLIElement, ItemFnProps>((rest, ref) => {
+  return <MenuItem ref={ref} {...rest} />;
+});
+
+// ----------------------------------------------------------------------
+
+type IconFnProps = ListItemIconProps;
+
+const IconFn = forwardRef<HTMLDivElement, IconFnProps>((rest, ref) => {
+  return (
+    <ListItemIcon
+      ref={ref}
+      {...rest}
+      sx={{
+        "& svg": {
+          fontSize: 20,
+        },
+      }}
+    />
+  );
+});
+
+// ----------------------------------------------------------------------
+export const Menux = Object.assign(MenuxFn, {
+  Item: Object.assign(ItemFn, { Icon: IconFn }),
+});
