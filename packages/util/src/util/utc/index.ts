@@ -1,1 +1,1 @@
-export * from "./create-at-utc";
+export * from "./format-relative-time-from-utc";

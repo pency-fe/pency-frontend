@@ -6,11 +6,11 @@ import {
   NineteenCircleIcon,
   RichCard,
 } from "@/components";
-import { Menux } from "@/components/popper";
+import { Menux, useMenuxState } from "@/components/popper";
 import { maxLine } from "@/util";
 
 import { Box, MenuItem } from "@mui/material";
-import { useBooleanState, createdAtUTC } from "@pency/util";
+import { useBooleanState, formatRelativeTimeFromUTC } from "@pency/util";
 
 import { Meta } from "@storybook/react";
 import { useRef } from "react";
@@ -46,19 +46,7 @@ const postData = {
 };
 
 export const PostRichCard = () => {
-  const { bool: isOpenMenu, setFalse: closeMenu, toggle: toggleMenu } = useBooleanState(false);
-  const feedbackButtonRef = useRef<HTMLButtonElement>(null);
-
-  const handleFeedbackButton = () => {
-    toggleMenu();
-  };
-
-  const handleClose = (e: Event) => {
-    if (feedbackButtonRef.current && feedbackButtonRef.current.contains(e.target as HTMLElement)) {
-      return;
-    }
-    closeMenu();
-  };
+  const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
   return (
     <>
@@ -117,21 +105,16 @@ export const PostRichCard = () => {
                 {postData.likeCount}
               </RichCard.Attribute>
               <RichCard.AttributeDot />
-              <RichCard.Attribute>{createdAtUTC(postData.createdAt)}</RichCard.Attribute>
+              <RichCard.Attribute>{formatRelativeTimeFromUTC(postData.createdAt)}</RichCard.Attribute>
             </>
           ),
           feedbackButton: (
             <>
-              <RichCard.FeedbackButton ref={feedbackButtonRef} onClick={handleFeedbackButton}>
+              <RichCard.FeedbackButton ref={anchorRef} onClick={toggle}>
                 <EvaMoreVerticalOutlineIcon />
               </RichCard.FeedbackButton>
 
-              <Menux
-                open={isOpenMenu}
-                anchorEl={feedbackButtonRef.current}
-                placement="left-start"
-                onClose={handleClose}
-              >
+              <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
                 <MenuItem>프로필1</MenuItem>
                 <MenuItem>프로필2</MenuItem>
                 <MenuItem>프로필3</MenuItem>
