@@ -55,7 +55,18 @@ export const MenuxFn = forwardRef<HTMLDivElement, MenuxFnProps>(
 type ItemFnProps = MenuItemProps;
 
 const ItemFn = forwardRef<HTMLLIElement, ItemFnProps>((rest, ref) => {
-  return <MenuItem ref={ref} {...rest} />;
+  return (
+    <MenuItem
+      ref={ref}
+      {...rest}
+      sx={{
+        "& .MuiListItemIcon-root": {
+          minWidth: "30px",
+        },
+        ...rest.sx,
+      }}
+    />
+  );
 });
 
 // ----------------------------------------------------------------------
@@ -68,9 +79,11 @@ const IconFn = forwardRef<HTMLDivElement, IconFnProps>((rest, ref) => {
       ref={ref}
       {...rest}
       sx={{
+        mr: 0,
         "& svg": {
-          fontSize: 20,
+          fontSize: "1.25rem",
         },
+        ...rest.sx,
       }}
     />
   );
