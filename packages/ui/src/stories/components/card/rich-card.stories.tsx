@@ -5,15 +5,14 @@ import {
   MingcuteDownLineIcon,
   NineteenCircleIcon,
   RichCard,
+  useMenuxState,
+  Menux,
 } from "@/components";
-import { Menux, useMenuxState } from "@/components/popper";
 import { maxLine } from "@/util";
 
 import { Box, MenuItem } from "@mui/material";
-import { useBooleanState, formatRelativeTimeFromUTC } from "@pency/util";
-
+import { formatRelativeTimeFromUTC } from "@pency/util";
 import { Meta } from "@storybook/react";
-import { useRef } from "react";
 
 const meta: Meta = {
   title: "components/card/RichCard",
