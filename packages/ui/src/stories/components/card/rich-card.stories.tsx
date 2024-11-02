@@ -14,7 +14,7 @@ import {
 } from "@/components";
 import { maxLine } from "@/util";
 
-import { Box, ListItemIcon, MenuItem } from "@mui/material";
+import { Box, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import { formatRelativeTimeFromUTC } from "@pency/util";
 import { Meta } from "@storybook/react";
 
@@ -118,27 +118,34 @@ export const PostRichCard = () => {
               </RichCard.FeedbackButton>
 
               <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
+                {/* <Menux.Item>
+                  <Menux.Item.Icon>
+                  <EvaBookmarkOutlineIcon />
+                  </Menux.Item.Icon>
+                  북마크
+                </Menux.Item> */}
+
                 <MenuItem>
                   <ListItemIcon>
-                    <EvaBookmarkOutlineIcon fontSize="medium" />
+                    <EvaBookmarkOutlineIcon fontSize="small" />
                   </ListItemIcon>
                   북마크
                 </MenuItem>
                 <MenuItem>
                   <ListItemIcon>
-                    <FluentShare24RegularIcon fontSize="medium" />
+                    <FluentShare24RegularIcon fontSize="small" />
                   </ListItemIcon>
                   공유하기
                 </MenuItem>
                 <MenuItem>
                   <ListItemIcon>
-                    <MaterialSymbolsBlock fontSize="medium" />
+                    <MaterialSymbolsBlock fontSize="small" />
                   </ListItemIcon>
                   차단하기
                 </MenuItem>
                 <MenuItem>
                   <ListItemIcon>
-                    <MaterialSymbolsReportOutline fontSize="medium" />
+                    <MaterialSymbolsReportOutline fontSize="small" />
                   </ListItemIcon>
                   신고하기
                 </MenuItem>
