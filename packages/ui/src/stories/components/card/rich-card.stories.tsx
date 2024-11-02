@@ -6,9 +6,12 @@ import {
   NineteenCircleIcon,
   RichCard,
 } from "@/components";
+import { Menux } from "@/components/popper";
 import { maxLine } from "@/util";
-import { Box, ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper } from "@mui/material";
-import { createdAtUTC, useBooleanState } from "@pency/util";
+
+import { Box, MenuItem } from "@mui/material";
+import { useBooleanState, createdAtUTC } from "@pency/util";
+
 import { Meta } from "@storybook/react";
 import { useRef } from "react";
 
@@ -45,6 +48,18 @@ const postData = {
 export const PostRichCard = () => {
   const { bool: isOpenMenu, setFalse: closeMenu, toggle: toggleMenu } = useBooleanState(false);
   const feedbackButtonRef = useRef<HTMLButtonElement>(null);
+
+  const handleFeedbackButton = () => {
+    toggleMenu();
+  };
+
+  const handleClose = (e: Event) => {
+    if (feedbackButtonRef.current && feedbackButtonRef.current.contains(e.target as HTMLElement)) {
+      return;
+    }
+    closeMenu();
+  };
+
   return (
     <>
       <RichCard
@@ -107,38 +122,21 @@ export const PostRichCard = () => {
           ),
           feedbackButton: (
             <>
-              <RichCard.FeedbackButton ref={feedbackButtonRef} onClick={toggleMenu}>
+              <RichCard.FeedbackButton ref={feedbackButtonRef} onClick={handleFeedbackButton}>
                 <EvaMoreVerticalOutlineIcon />
               </RichCard.FeedbackButton>
 
-              <Popper
+              <Menux
                 open={isOpenMenu}
                 anchorEl={feedbackButtonRef.current}
                 placement="left-start"
-                transition
-                modifiers={[{ name: "preventOverflow", enabled: false }]}
-                sx={{ zIndex: 4 }}
+                onClose={handleClose}
               >
-                {({ TransitionProps, placement }) => (
-                  <ClickAwayListener onClickAway={closeMenu}>
-                    <Grow
-                      {...TransitionProps}
-                      style={{
-                        transformOrigin: placement === "left-start" ? "right top" : "right bottom",
-                      }}
-                    >
-                      <Paper>
-                        <MenuList>
-                          <MenuItem>프로필1</MenuItem>
-                          <MenuItem>프로필2</MenuItem>
-                          <MenuItem>프로필3</MenuItem>
-                          <MenuItem>프로필4</MenuItem>
-                        </MenuList>
-                      </Paper>
-                    </Grow>
-                  </ClickAwayListener>
-                )}
-              </Popper>
+                <MenuItem>프로필1</MenuItem>
+                <MenuItem>프로필2</MenuItem>
+                <MenuItem>프로필3</MenuItem>
+                <MenuItem>프로필4</MenuItem>
+              </Menux>
             </>
           ),
           chips: (
