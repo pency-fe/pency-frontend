@@ -45,7 +45,6 @@ const postData = {
 export const PostRichCard = () => {
   const { bool: isOpenMenu, setFalse: closeMenu, toggle: toggleMenu } = useBooleanState(false);
   const feedbackButtonRef = useRef<HTMLButtonElement>(null);
-  console.log(createdAtUTC(postData.createdAt));
   return (
     <>
       <RichCard
