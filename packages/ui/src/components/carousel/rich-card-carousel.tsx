@@ -1,8 +1,8 @@
 import { createContext, forwardRef, ReactElement, ReactNode, useContext } from "react";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
-import { Box, BoxProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
+import { Box, BoxProps, IconButton, IconButtonProps } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
-import { noneUserSelect, queriesWithoutMedia, stylesColorScheme, varAlpha } from "@/util";
+import { noneUserSelect, queriesWithoutMedia } from "@/util";
 import Grid2, { Grid2Props } from "@mui/material/Unstable_Grid2";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
 import { EmblaViewportRefType } from "node_modules/embla-carousel-react";

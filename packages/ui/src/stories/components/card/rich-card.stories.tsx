@@ -14,7 +14,7 @@ import {
 } from "@/components";
 import { maxLine } from "@/util";
 
-import { Box, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import { Box } from "@mui/material";
 import { formatRelativeTimeFromUTC } from "@pency/util";
 import { Meta } from "@storybook/react";
 
