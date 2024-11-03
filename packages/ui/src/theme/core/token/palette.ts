@@ -32,6 +32,18 @@ declare module "@mui/material/styles/createPalette" {
     lighterChannel: string;
     darkerChannel: string;
   }
+
+  interface Palette {
+    logo: {
+      apple: string;
+    };
+  }
+
+  interface PaletteOptions {
+    logo: {
+      apple: string;
+    };
+  }
 }
 
 declare module "@mui/material/styles" {
@@ -125,6 +137,15 @@ const action = {
   dark: { ...baseAction, active: grey[500] },
 };
 
+const logo = {
+  light: {
+    apple: "#000000",
+  },
+  dark: {
+    apple: "#FFFFFF",
+  },
+};
+
 /*
  * Base palette
  */
@@ -145,6 +166,7 @@ export const lightPalette: PaletteOptions = {
   text: text.light,
   background: background.light,
   action: action.light,
+  logo: logo.light,
   mode: "light",
 };
 
@@ -153,5 +175,6 @@ export const darkPalette: PaletteOptions = {
   text: text.dark,
   background: background.dark,
   action: action.dark,
+  logo: logo.dark,
   mode: "dark",
 };
