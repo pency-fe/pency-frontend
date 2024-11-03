@@ -1,11 +1,37 @@
 "use client";
 
-import { Box, Button, Checkbox, Divider, FormControlLabel, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { BrandAppleIcon, BrandGoogleIcon, BrandNaverIcon, IcOutlineEmailIcon } from "@pency/ui/components";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Signup = () => {
   const theme = useTheme();
+  const [checked, setChecked] = useState(false);
+  const [error, setError] = useState(false);
+  console.log("checked: ", checked);
+
+  const handleCheckedChange = () => {
+    setChecked(!checked);
+    setError(checked);
+  };
+
+  const handleEmailClick = (event: { preventDefault: () => void }) => {
+    if (!checked) {
+      event.preventDefault(); // 페이지 이동 방지
+      setError(true); // 오류 메시지 표시
+    }
+  };
 
   return (
     <Box>
@@ -24,17 +50,24 @@ const Signup = () => {
             네이버 회원가입
           </Button>
 
-          <Button variant="soft" startIcon={<IcOutlineEmailIcon />}>
+          <Button href={"/signup/email"} onClick={handleEmailClick} variant="soft" startIcon={<IcOutlineEmailIcon />}>
             이메일 회원가입
           </Button>
         </Stack>
 
         <Stack spacing={1.5}>
           <Box>
-            <FormControlLabel
-              control={<Checkbox />}
-              label={<Typography variant="body2">만 14세 이상입니다.</Typography>}
-            />
+            <FormControl required error={error} component="fieldset" variant="standard">
+              <FormControlLabel
+                control={<Checkbox checked={checked} onChange={handleCheckedChange} />}
+                label={<Typography variant="body2">만 14세 이상입니다.</Typography>}
+              />
+              {error === true ? (
+                <FormHelperText variant="standard" sx={{ marginTop: 0 }}>
+                  <Typography variant="body2">펜시 가입은 만 14세 이상부터 가능해요.</Typography>
+                </FormHelperText>
+              ) : null}
+            </FormControl>
           </Box>
           <Divider />
           <Stack direction={"row"} spacing={1}>
