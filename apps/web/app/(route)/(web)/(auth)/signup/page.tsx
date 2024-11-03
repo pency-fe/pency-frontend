@@ -42,33 +42,33 @@ const Signup = () => {
               component="a"
               href="/TODO"
               variant="subtitle2"
-              color={theme.palette.text.secondary}
+              color={theme.vars.palette.text.secondary}
               sx={{ textDecoration: "none" }}
             >
               로그인
             </Typography>
-            <Typography variant="subtitle2" color={theme.palette.text.secondary}>
+            <Typography variant="subtitle2" color={theme.vars.palette.text.secondary}>
               ·
             </Typography>
             <Typography
               component="a"
               href="/TODO"
               variant="subtitle2"
-              color={theme.palette.text.secondary}
+              color={theme.vars.palette.text.secondary}
               sx={{ textDecoration: "none" }}
             >
               계정 찾기
             </Typography>
           </Stack>
           <Divider />
-          <Typography variant="subtitle2" color={theme.palette.text.secondary}>
+          <Typography variant="subtitle2" color={theme.vars.palette.text.secondary}>
             SNS로 로그인 및 회원가입 시 펜시의{" "}
             <Typography
               component="a"
               href="/TODO"
               target="_blank"
               variant="subtitle2"
-              color={theme.palette.text.secondary}
+              color={theme.vars.palette.text.secondary}
             >
               이용약관
             </Typography>
@@ -78,7 +78,7 @@ const Signup = () => {
               href="/TODO"
               target="_blank"
               variant="subtitle2"
-              color={theme.palette.text.secondary}
+              color={theme.vars.palette.text.secondary}
             >
               개인정보 수집 및 이용
             </Typography>

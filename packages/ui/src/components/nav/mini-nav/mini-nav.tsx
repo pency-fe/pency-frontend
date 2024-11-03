@@ -315,7 +315,7 @@ function SubLeaf({ data, active, sx }: SubLeafProps) {
         borderRadius: `${theme.shape.borderRadius}px`,
         color: theme.vars.palette.text.secondary,
         "&:hover": {
-          bgcolor: theme.palette.action.hover,
+          bgcolor: theme.vars.palette.action.hover,
         },
         ...(active && {
           color: theme.vars.palette.text.primary,
