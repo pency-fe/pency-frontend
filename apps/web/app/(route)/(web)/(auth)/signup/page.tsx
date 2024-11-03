@@ -12,19 +12,19 @@ const Signup = () => {
       <Stack spacing={4}>
         <Typography variant="h4">펜시 회원가입</Typography>
         <Stack spacing={1}>
-          <Button variant="contained" startIcon={<BrandGoogleIcon />}>
+          <Button variant="soft" startIcon={<BrandGoogleIcon />}>
             구글 회원가입
           </Button>
 
-          <Button variant="contained" startIcon={<BrandAppleIcon />}>
+          <Button variant="soft" startIcon={<BrandAppleIcon />}>
             애플 회원가입
           </Button>
 
-          <Button variant="contained" startIcon={<BrandNaverIcon />}>
+          <Button variant="soft" startIcon={<BrandNaverIcon />}>
             네이버 회원가입
           </Button>
 
-          <Button variant="contained" startIcon={<IcOutlineEmailIcon />}>
+          <Button variant="soft" startIcon={<IcOutlineEmailIcon />}>
             이메일 회원가입
           </Button>
         </Stack>
