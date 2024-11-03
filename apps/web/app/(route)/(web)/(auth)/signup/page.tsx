@@ -13,13 +13,12 @@ import {
   useTheme,
 } from "@mui/material";
 import { BrandAppleIcon, BrandGoogleIcon, BrandNaverIcon, IcOutlineEmailIcon } from "@pency/ui/components";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
-const Signup = () => {
+export default function Page() {
   const theme = useTheme();
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState(false);
-  console.log("checked: ", checked);
 
   const handleCheckedChange = () => {
     setChecked(!checked);
@@ -57,16 +56,15 @@ const Signup = () => {
 
         <Stack spacing={1.5}>
           <Box>
-            <FormControl required error={error} component="fieldset" variant="standard">
+            <FormControl required error={error} component="fieldset">
               <FormControlLabel
                 control={<Checkbox checked={checked} onChange={handleCheckedChange} />}
                 label={<Typography variant="body2">만 14세 이상입니다.</Typography>}
               />
-              {error === true ? (
-                <FormHelperText variant="standard" sx={{ marginTop: 0 }}>
-                  <Typography variant="body2">펜시 가입은 만 14세 이상부터 가능해요.</Typography>
-                </FormHelperText>
-              ) : null}
+
+              <FormHelperText variant="standard" error={error} sx={{ marginTop: 0 }}>
+                <Typography variant="body2">펜시 가입은 만 14세 이상부터 가능해요.</Typography>
+              </FormHelperText>
             </FormControl>
           </Box>
           <Divider />
@@ -98,17 +96,17 @@ const Signup = () => {
             SNS로 로그인 및 회원가입 시 펜시의{" "}
             <Typography
               component="a"
-              href="/TODO"
+              href="/terms"
               target="_blank"
               variant="subtitle2"
               color={theme.vars.palette.text.secondary}
             >
               이용약관
             </Typography>
-            {`과 `}
+            {"과 "}
             <Typography
               component="a"
-              href="/TODO"
+              href="/privacy"
               target="_blank"
               variant="subtitle2"
               color={theme.vars.palette.text.secondary}
@@ -121,6 +119,4 @@ const Signup = () => {
       </Stack>
     </Box>
   );
-};
-
-export default Signup;
+}

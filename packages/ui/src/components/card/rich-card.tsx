@@ -5,6 +5,7 @@ import {
   AccordionDetailsProps,
   AccordionProps,
   AccordionSummary,
+  accordionSummaryClasses,
   AccordionSummaryProps,
   Avatar,
   AvatarProps,
@@ -407,11 +408,8 @@ const SummaryFn = forwardRef<HTMLDivElement, SummaryFnProps>((rest, ref) => {
         minHeight: "fit-content",
         ...theme.typography.caption,
         fontWeight: theme.typography.fontWeightMedium,
-        "&.Mui-expanded": {
-          minHeight: "fit-content",
-        },
 
-        "& .MuiAccordionSummary-content": {
+        [`& .${accordionSummaryClasses.content}`]: {
           my: "6px",
         },
         ...rest.sx,

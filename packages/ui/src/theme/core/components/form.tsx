@@ -1,6 +1,7 @@
 import type { Theme, Components } from "@mui/material/styles";
 
 import { inputLabelClasses } from "@mui/material/InputLabel";
+import { noneUserSelect } from "@/util";
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +46,16 @@ const MuiFormControlLabel: Components<Theme>["MuiFormControlLabel"] = {
   /** **************************************
    * STYLE
    *************************************** */
-  styleOverrides: { label: ({ theme }) => ({ ...theme.typography.body2 }) },
+  styleOverrides: {
+    root: {
+      marginRight: 0,
+    },
+    label: ({ theme }) => ({
+      ...theme.typography.body2,
+      ...noneUserSelect,
+      color: theme.vars.palette.text.secondary,
+    }),
+  },
 };
 
 // ----------------------------------------------------------------------

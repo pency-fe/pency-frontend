@@ -50,6 +50,9 @@ const MuiCheckbox: Components<Theme>["MuiCheckbox"] = {
         [`&.${checkboxClasses.checked}`]: { color: theme.vars.palette.text.primary },
       }),
       [`&.${checkboxClasses.disabled}`]: { color: theme.vars.palette.action.disabled },
+      ...(ownerState.color === "error" && {
+        color: theme.vars.palette.error.main,
+      }),
     }),
   },
 };

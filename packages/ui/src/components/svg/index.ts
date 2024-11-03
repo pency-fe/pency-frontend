@@ -5,6 +5,8 @@ export * from "./eva-arrow-ios-back-fill-icon";
 export * from "./eva-arrow-ios-downward-fill-icon";
 export * from "./eva-arrow-ios-forward-fill-icon";
 export * from "./eva-bookmark-outline-icon";
+export * from "./eva-eye-fill-icon";
+export * from "./eva-eye-off-fill-icon";
 export * from "./eva-heart-outline-icon";
 export * from "./eva-eye-outline-icon";
 export * from "./eva-menu-outline-icon";

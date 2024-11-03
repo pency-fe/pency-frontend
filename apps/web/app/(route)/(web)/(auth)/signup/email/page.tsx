@@ -1,7 +1,133 @@
 "use client";
 
-const SignupEmail = () => {
-  return <div>메일 회원가입</div>;
-};
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+  Link,
+  TextField,
+  useTheme,
+} from "@mui/material";
+import { EvaEyeFillIcon, EvaEyeOffFillIcon } from "@pency/ui/components";
+import { useBooleanState } from "@pency/util";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
 
-export default SignupEmail;
+const schema = z.object({
+  email: z.string().min(1, "이메일 주소를 입력해 주세요.").email("이메일 주소를 정확하게 입력해 주세요."),
+  password: z
+    .string()
+    .min(1, "비밀번호를 입력해 주세요.")
+    .regex(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/,
+      "비밀번호는 영문, 숫자, 특수문자를 모두 포함하여 공백 없이 8~20자로 입력해 주세요.",
+    ),
+  terms: z.boolean().refine((terms) => terms === true),
+  privacy: z.boolean().refine((terms) => terms === true),
+});
+type Schema = z.infer<typeof schema>;
+
+export default function Page() {
+  const { control, handleSubmit } = useForm<Schema>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      email: "",
+      password: "",
+      terms: false,
+      privacy: false,
+    },
+    mode: "onTouched",
+  });
+  const { bool: passwordShow, toggle: togglePasswordShow } = useBooleanState(false);
+  const theme = useTheme();
+
+  const onSubmit = (data: Schema) => {
+    console.log(data);
+  };
+
+  return (
+    <div style={{ margin: "auto" }}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Controller
+          control={control}
+          name="email"
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              {...field}
+              variant="filled"
+              fullWidth
+              type="email"
+              label="이메일"
+              helperText={error?.message}
+              error={!!error}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="password"
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              {...field}
+              variant="filled"
+              fullWidth
+              type={passwordShow ? "text" : "password"}
+              label="비밀번호"
+              autoComplete="on"
+              helperText={
+                error?.message ?? "비밀번호는 영문, 숫자, 특수문자를 모두 포함하여 공백 없이 8~20자로 입력해 주세요."
+              }
+              error={!!error}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={togglePasswordShow}>
+                      {passwordShow ? <EvaEyeFillIcon /> : <EvaEyeOffFillIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="terms"
+          render={({ field, fieldState: { error } }) => (
+            <FormControlLabel
+              label="서비스 약관에 동의합니다."
+              control={<Checkbox {...field} checked={field.value} color={error ? "error" : "primary"} />}
+            />
+          )}
+        />
+        <Link href="/terms" target="_blank" variant="body2" underline="always">
+          내용보기
+        </Link>
+
+        <Controller
+          control={control}
+          name="privacy"
+          render={({ field, fieldState: { error } }) => (
+            <FormControlLabel
+              label="개인정보 수집 및 이용에 동의합니다."
+              control={<Checkbox {...field} checked={field.value} color={error ? "error" : "primary"} />}
+            />
+          )}
+        />
+
+        <Link href="/privacy" target="_blank" variant="body2" underline="always">
+          내용보기
+        </Link>
+
+        <Button type="submit" variant="soft" color="primary" size="large" fullWidth>
+          회원가입
+        </Button>
+      </form>
+    </div>
+  );
+}

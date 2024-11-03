@@ -31,6 +31,10 @@ const MuiInputBase: Components<Theme>["MuiInputBase"] = {
         opacity: 1,
         color: theme.vars.palette.text.disabled,
       },
+      "&:-webkit-autofill": {
+        transitionDelay: "9999s",
+        transitionProperty: "background-color, color",
+      },
     }),
   },
 };
@@ -79,6 +83,13 @@ const MuiOutlinedInput: Components<Theme>["MuiOutlinedInput"] = {
         duration: theme.transitions.duration.shortest,
       }),
     }),
+    input: {
+      "&:-webkit-autofill": {
+        WebkitBoxShadow: "inherit !important",
+        WebkitTextFillColor: "inherit !important",
+        caretColor: "inherit !important",
+      },
+    },
   },
 };
 
@@ -111,6 +122,13 @@ const MuiFilledInput: Components<Theme>["MuiFilledInput"] = {
         backgroundColor: theme.vars.palette.action.disabledBackground,
       },
     }),
+    input: {
+      "&:-webkit-autofill": {
+        WebkitBoxShadow: "inherit !important",
+        WebkitTextFillColor: "inherit !important",
+        caretColor: "inherit !important",
+      },
+    },
   },
 };
 

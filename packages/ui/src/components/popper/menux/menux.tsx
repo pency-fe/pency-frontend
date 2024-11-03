@@ -3,6 +3,7 @@ import {
   ClickAwayListenerProps,
   Grow,
   ListItemIcon,
+  listItemIconClasses,
   ListItemIconProps,
   MenuItem,
   MenuItemProps,
@@ -60,7 +61,7 @@ const ItemFn = forwardRef<HTMLLIElement, ItemFnProps>((rest, ref) => {
       ref={ref}
       {...rest}
       sx={{
-        "& .MuiListItemIcon-root": {
+        [`& .${listItemIconClasses.root}`]: {
           minWidth: "30px",
         },
         ...rest.sx,
