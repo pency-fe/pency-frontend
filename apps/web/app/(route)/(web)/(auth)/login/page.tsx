@@ -8,7 +8,7 @@ export default function Page() {
   const theme = useTheme();
   const router = useRouter();
 
-  const handleLoginClick = (e: { preventDefault: () => void; target: { href: string | URL | undefined } }) => {
+  const handleLoginClick = (e) => {
     e.preventDefault();
 
     if (e.target.href.startsWith("http://localhost:")) {
