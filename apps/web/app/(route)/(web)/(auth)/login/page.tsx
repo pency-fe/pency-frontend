@@ -51,7 +51,7 @@ export default function Page() {
               네이버 로그인
             </Button>
 
-            <Button href="/signup" variant="soft" startIcon={<IcOutlineEmailIcon />} onClick={handleLoginClick}>
+            <Button href="/login" variant="soft" startIcon={<IcOutlineEmailIcon />} onClick={handleLoginClick}>
               이메일 로그인
             </Button>
           </Stack>
