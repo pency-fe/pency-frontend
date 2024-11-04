@@ -27,15 +27,15 @@ export default function Page() {
   const onSubmit = (provider?: "google" | "apple" | "naver") => {
     switch (provider) {
       case "google":
-        router.push("https://www.google.co.kr/");
+        window.open("https://www.google.co.kr/");
         break;
       case "apple":
-        router.push(
+        window.open(
           "https://www.apple.com/kr/store?afid=p238%7CsiADh6hbK-dc_mtid_18707vxu38484_pcrid_719546863096_pgrid_16348496961_pntwk_g_pchan__pexid__ptid_kwd-304236833465_&cid=aos-kr-kwgo-Brand--slid---product-",
         );
         break;
       case "naver":
-        router.push("https://www.naver.com/");
+        window.open("https://www.naver.com/");
         break;
       default:
         router.push("/signup/email");
@@ -51,7 +51,7 @@ export default function Page() {
         <Stack spacing={1}>
           <form noValidate>
             <Stack spacing={1}>
-              <Button variant="soft" startIcon={<BrandGoogleIcon onClick={handleSubmit(() => onSubmit("google"))} />}>
+              <Button variant="soft" startIcon={<BrandGoogleIcon />} onClick={handleSubmit(() => onSubmit("google"))}>
                 구글 회원가입
               </Button>
 
