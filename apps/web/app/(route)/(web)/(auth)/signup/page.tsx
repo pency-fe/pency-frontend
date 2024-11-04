@@ -1,121 +1,124 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Checkbox,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Box, Button, Checkbox, Divider, FormControlLabel, Link, Stack, Typography, useTheme } from "@mui/material";
 import { BrandAppleIcon, BrandGoogleIcon, BrandNaverIcon, IcOutlineEmailIcon } from "@pency/ui/components";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
+
+const schema = z.object({
+  age: z.boolean().refine((age) => age === true),
+});
+type Schema = z.infer<typeof schema>;
 
 export default function Page() {
+  const { control, handleSubmit } = useForm<Schema>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      age: false,
+    },
+    mode: "onTouched",
+  });
+
+  const router = useRouter();
+
+  const onSubmit = (data: Schema, action: string) => {
+    console.log(data);
+    router.push(`signup/${action}`);
+  };
+
   const theme = useTheme();
-  const [checked, setChecked] = useState(false);
-  const [error, setError] = useState(false);
-
-  const handleCheckedChange = () => {
-    setChecked(!checked);
-    setError(checked);
-  };
-
-  const handleEmailClick = (event: { preventDefault: () => void }) => {
-    if (!checked) {
-      event.preventDefault(); // 페이지 이동 방지
-      setError(true); // 오류 메시지 표시
-    }
-  };
 
   return (
     <Box>
       <Stack spacing={4}>
         <Typography variant="h4">펜시 회원가입</Typography>
-        <Stack spacing={1}>
-          <Button variant="soft" startIcon={<BrandGoogleIcon />}>
-            구글 회원가입
-          </Button>
+        <form noValidate>
+          <Stack spacing={1}>
+            <Button
+              variant="soft"
+              startIcon={
+                <BrandGoogleIcon
+                  onClick={handleSubmit((data) => {
+                    onSubmit(data, "google");
+                  })}
+                />
+              }
+            >
+              구글 회원가입
+            </Button>
 
-          <Button variant="soft" startIcon={<BrandAppleIcon />}>
-            애플 회원가입
-          </Button>
+            <Button
+              variant="soft"
+              startIcon={<BrandAppleIcon />}
+              onClick={handleSubmit((data) => {
+                onSubmit(data, "apple");
+              })}
+            >
+              애플 회원가입
+            </Button>
 
-          <Button variant="soft" startIcon={<BrandNaverIcon />}>
-            네이버 회원가입
-          </Button>
+            <Button
+              variant="soft"
+              startIcon={<BrandNaverIcon />}
+              onClick={handleSubmit((data) => {
+                onSubmit(data, "naver");
+              })}
+            >
+              네이버 회원가입
+            </Button>
 
-          <Button href={"/signup/email"} onClick={handleEmailClick} variant="soft" startIcon={<IcOutlineEmailIcon />}>
-            이메일 회원가입
-          </Button>
-        </Stack>
+            <Button
+              variant="soft"
+              startIcon={<IcOutlineEmailIcon />}
+              onClick={handleSubmit((data) => {
+                onSubmit(data, "email");
+              })}
+            >
+              이메일 회원가입
+            </Button>
+          </Stack>
 
-        <Stack spacing={1.5}>
-          <Box>
-            <FormControl required error={error} component="fieldset">
-              <FormControlLabel
-                control={<Checkbox checked={checked} onChange={handleCheckedChange} />}
-                label={<Typography variant="body2">만 14세 이상입니다.</Typography>}
+          <Stack spacing={1.5}>
+            <Box>
+              <Controller
+                control={control}
+                name="age"
+                render={({ field, fieldState: { error } }) => (
+                  <FormControlLabel
+                    label="만 14세 이상입니다."
+                    control={<Checkbox {...field} checked={field.value} color={error ? "error" : "primary"} />}
+                  />
+                )}
               />
-
-              <FormHelperText variant="standard" error={error} sx={{ marginTop: 0 }}>
-                <Typography variant="body2">펜시 가입은 만 14세 이상부터 가능해요.</Typography>
-              </FormHelperText>
-            </FormControl>
-          </Box>
-          <Divider />
-          <Stack direction={"row"} spacing={1}>
-            <Typography
-              component="a"
-              href="/TODO"
-              variant="subtitle2"
-              color={theme.vars.palette.text.secondary}
-              sx={{ textDecoration: "none" }}
-            >
-              로그인
-            </Typography>
+            </Box>
+            <Divider />
+            <Stack direction={"row"} spacing={1}>
+              <Link href="/TODO" variant="subtitle2" color={theme.vars.palette.text.secondary}>
+                로그인
+              </Link>
+              <Typography variant="subtitle2" color={theme.vars.palette.text.secondary}>
+                ·
+              </Typography>
+              <Link href="/TODO" variant="subtitle2" color={theme.vars.palette.text.secondary}>
+                계정 찾기
+              </Link>
+            </Stack>
+            <Divider />
             <Typography variant="subtitle2" color={theme.vars.palette.text.secondary}>
-              ·
-            </Typography>
-            <Typography
-              component="a"
-              href="/TODO"
-              variant="subtitle2"
-              color={theme.vars.palette.text.secondary}
-              sx={{ textDecoration: "none" }}
-            >
-              계정 찾기
+              SNS로 로그인 및 회원가입 시 펜시의{" "}
+              <Link href="/terms" target="_blank" variant="subtitle2" underline="always">
+                이용약관
+              </Link>
+              {"과 "}
+              <Link href="/privacy" target="_blank" variant="subtitle2" underline="always">
+                개인정보 수집 및 이용
+              </Link>
+              에 동의한 것으로 간주합니다.
             </Typography>
           </Stack>
-          <Divider />
-          <Typography variant="subtitle2" color={theme.vars.palette.text.secondary}>
-            SNS로 로그인 및 회원가입 시 펜시의{" "}
-            <Typography
-              component="a"
-              href="/terms"
-              target="_blank"
-              variant="subtitle2"
-              color={theme.vars.palette.text.secondary}
-            >
-              이용약관
-            </Typography>
-            {"과 "}
-            <Typography
-              component="a"
-              href="/privacy"
-              target="_blank"
-              variant="subtitle2"
-              color={theme.vars.palette.text.secondary}
-            >
-              개인정보 수집 및 이용
-            </Typography>
-            에 동의한 것으로 간주합니다.
-          </Typography>
-        </Stack>
+        </form>
       </Stack>
     </Box>
   );

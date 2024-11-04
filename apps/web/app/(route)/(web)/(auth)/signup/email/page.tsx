@@ -12,7 +12,6 @@ import {
   Stack,
   TextField,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { EvaEyeFillIcon, EvaEyeOffFillIcon } from "@pency/ui/components";
 import { useBooleanState } from "@pency/util";
@@ -45,7 +44,6 @@ export default function Page() {
     mode: "onTouched",
   });
   const { bool: passwordShow, toggle: togglePasswordShow } = useBooleanState(false);
-  const theme = useTheme();
 
   const onSubmit = (data: Schema) => {
     console.log(data);
