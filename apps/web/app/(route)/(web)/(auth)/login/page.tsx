@@ -8,6 +8,7 @@ export default function Page() {
   const theme = useTheme();
   const router = useRouter();
 
+  // [TODO]
   const handleLoginClick = (e) => {
     e.preventDefault();
 
