@@ -2,13 +2,16 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Box,
   Button,
   Checkbox,
   FormControlLabel,
   IconButton,
   InputAdornment,
   Link,
+  Stack,
   TextField,
+  Typography,
   useTheme,
 } from "@mui/material";
 import { EvaEyeFillIcon, EvaEyeOffFillIcon } from "@pency/ui/components";
@@ -49,85 +52,99 @@ export default function Page() {
   };
 
   return (
-    <div style={{ margin: "auto" }}>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Controller
-          control={control}
-          name="email"
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              variant="filled"
-              fullWidth
-              type="email"
-              label="이메일"
-              helperText={error?.message}
-              error={!!error}
-            />
-          )}
-        />
+    <Box>
+      <Stack spacing={4}>
+        <Typography variant="h4">이메일 회원가입</Typography>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          <Stack spacing={4}>
+            <Stack spacing={1.5}>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    {...field}
+                    variant="filled"
+                    fullWidth
+                    type="email"
+                    label="이메일"
+                    helperText={error?.message}
+                    error={!!error}
+                  />
+                )}
+              />
 
-        <Controller
-          control={control}
-          name="password"
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              variant="filled"
-              fullWidth
-              type={passwordShow ? "text" : "password"}
-              label="비밀번호"
-              autoComplete="on"
-              helperText={
-                error?.message ?? "비밀번호는 영문, 숫자, 특수문자를 모두 포함하여 공백 없이 8~20자로 입력해 주세요."
-              }
-              error={!!error}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={togglePasswordShow}>
-                      {passwordShow ? <EvaEyeFillIcon /> : <EvaEyeOffFillIcon />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-        />
+              <Controller
+                control={control}
+                name="password"
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    {...field}
+                    variant="filled"
+                    fullWidth
+                    type={passwordShow ? "text" : "password"}
+                    label="비밀번호"
+                    autoComplete="on"
+                    helperText={
+                      error?.message ??
+                      "비밀번호는 영문, 숫자, 특수문자를 모두 포함하여 공백 없이 8~20자로 입력해 주세요."
+                    }
+                    error={!!error}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={togglePasswordShow}>
+                            {passwordShow ? <EvaEyeFillIcon /> : <EvaEyeOffFillIcon />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </Stack>
 
-        <Controller
-          control={control}
-          name="terms"
-          render={({ field, fieldState: { error } }) => (
-            <FormControlLabel
-              label="서비스 약관에 동의합니다."
-              control={<Checkbox {...field} checked={field.value} color={error ? "error" : "primary"} />}
-            />
-          )}
-        />
-        <Link href="/terms" target="_blank" variant="body2" underline="always">
-          내용보기
-        </Link>
+            <Stack>
+              <Stack direction={"row"} gap={1} sx={{ alignItems: "center" }}>
+                <Controller
+                  control={control}
+                  name="terms"
+                  render={({ field, fieldState: { error } }) => (
+                    <FormControlLabel
+                      label="서비스 약관에 동의합니다."
+                      control={<Checkbox {...field} checked={field.value} color={error ? "error" : "primary"} />}
+                    />
+                  )}
+                />
+                <Link href="/terms" target="_blank" variant="body2" underline="always">
+                  내용보기
+                </Link>
+              </Stack>
 
-        <Controller
-          control={control}
-          name="privacy"
-          render={({ field, fieldState: { error } }) => (
-            <FormControlLabel
-              label="개인정보 수집 및 이용에 동의합니다."
-              control={<Checkbox {...field} checked={field.value} color={error ? "error" : "primary"} />}
-            />
-          )}
-        />
+              <Stack direction={"row"} gap={1} sx={{ alignItems: "center" }}>
+                <Controller
+                  control={control}
+                  name="privacy"
+                  render={({ field, fieldState: { error } }) => (
+                    <FormControlLabel
+                      label="개인정보 수집 및 이용에 동의합니다."
+                      control={<Checkbox {...field} checked={field.value} color={error ? "error" : "primary"} />}
+                    />
+                  )}
+                />
 
-        <Link href="/privacy" target="_blank" variant="body2" underline="always">
-          내용보기
-        </Link>
+                <Link href="/privacy" target="_blank" variant="body2" underline="always">
+                  내용보기
+                </Link>
+              </Stack>
+            </Stack>
 
-        <Button type="submit" variant="soft" color="primary" size="large" fullWidth>
-          회원가입
-        </Button>
-      </form>
-    </div>
+            <Button type="submit" variant="soft" color="primary" size="large" fullWidth>
+              회원가입
+            </Button>
+          </Stack>
+        </form>
+      </Stack>
+    </Box>
   );
 }
