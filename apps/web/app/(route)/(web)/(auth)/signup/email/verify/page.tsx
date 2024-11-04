@@ -32,13 +32,11 @@ export default function Page() {
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <Stack spacing={3}>
             <Typography variant="body2" color={theme.vars.palette.text.secondary}>
-              '인증 메일 받기' 버튼을 누르면 등록한 이메일 주소로 인증 메일을 보내드려요. 24시간 안에 링크를 열어 이메일
-              인증을 완료해주세요.
+              등록한 이메일 주소로 인증 메일을 보내드렸어요. 24시간 안에 링크를 열어 이메일 인증을 완료해주세요.
             </Typography>
 
             <Typography variant="body2" color={theme.vars.palette.text.secondary}>
-              인증 메일을 받지 못했거나, 이메일 주소를 바꾸려면 아래 입력 칸에 이메일 주소를 올바르게 입력하고 다시
-              '인증 메일 받기' 버튼을 눌러주세요.
+              인증 메일을 받지 못했을 경우, '인증 메일 재전송' 버튼을 눌러주세요.
             </Typography>
 
             <Controller
@@ -58,7 +56,7 @@ export default function Page() {
             />
 
             <Button type="submit" variant="soft" color="primary" size="large" fullWidth>
-              인증 메일 받기
+              인증 메일 재전송
             </Button>
           </Stack>
         </form>
