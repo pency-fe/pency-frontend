@@ -9,15 +9,7 @@ import { z } from "zod";
 
 const schema = z.object({
   email: z.string().min(1, "이메일 주소를 입력해 주세요.").email("이메일 주소를 정확하게 입력해 주세요."),
-  password: z
-    .string()
-    .min(1, "비밀번호를 입력해 주세요.")
-    .regex(
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/,
-      "비밀번호는 영문, 숫자, 특수문자를 모두 포함하여 공백 없이 8~20자로 입력해 주세요.",
-    ),
-  terms: z.boolean().refine((terms) => terms === true),
-  privacy: z.boolean().refine((terms) => terms === true),
+  password: z.string(),
 });
 type Schema = z.infer<typeof schema>;
 
@@ -27,8 +19,6 @@ export default function Page() {
     defaultValues: {
       email: "",
       password: "",
-      terms: false,
-      privacy: false,
     },
     mode: "onTouched",
   });

@@ -11,7 +11,7 @@ import { Age, CreationType, CREATION_TYPE_LABEL, Pair, PAIR_LABEL } from "../con
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { Box } from "@mui/material";
 import { maxLine } from "@pency/ui/util";
-import { createdAtUTC } from "@pency/util";
+import { formatRelativeTimeFromUTC } from "@pency/util";
 
 type Props = {
   data: {
@@ -92,7 +92,7 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, ref
               {data.likeCount}
             </RichCard.Attribute>
             <RichCard.AttributeDot />
-            <RichCard.Attribute>{createdAtUTC(data.createdAt)}</RichCard.Attribute>
+            <RichCard.Attribute>{formatRelativeTimeFromUTC(data.createdAt)}</RichCard.Attribute>
           </>
         ),
         feedbackButton: (
