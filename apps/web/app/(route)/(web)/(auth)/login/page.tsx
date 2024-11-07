@@ -32,19 +32,19 @@ export default function Page() {
 
           <Stack spacing={1.5}>
             <Stack direction="row" spacing={1}>
-              <Link href="/account/find" variant="subtitle2">
+              <Link component={NextLink} href="/account/find" variant="subtitle2">
                 계정 찾기
               </Link>
               <Typography variant="subtitle2" color={theme.vars.palette.text.secondary}>
                 ·
               </Typography>
-              <Link href="/TODO" variant="subtitle2">
+              <Link component={NextLink} href="/TODO" variant="subtitle2">
                 비밀번호 재설정
               </Link>
               <Typography variant="subtitle2" color={theme.vars.palette.text.secondary}>
                 ·
               </Typography>
-              <Link href="/signup" variant="subtitle2">
+              <Link component={NextLink} href="/signup" variant="subtitle2">
                 회원가입
               </Link>
             </Stack>

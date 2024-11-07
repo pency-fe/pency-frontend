@@ -17,6 +17,7 @@ import { EvaEyeFillIcon, EvaEyeOffFillIcon } from "@pency/ui/components";
 import { useBooleanState } from "@pency/util";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import NextLink from "next/link";
 
 const schema = z.object({
   email: z.string().min(1, "이메일 주소를 입력해 주세요.").email("이메일 주소를 정확하게 입력해 주세요."),
@@ -114,7 +115,7 @@ export default function Page() {
                     />
                   )}
                 />
-                <Link href="/terms" target="_blank" variant="body2" underline="always">
+                <Link component={NextLink} href="/terms" target="_blank" variant="body2" underline="always">
                   내용보기
                 </Link>
               </Stack>
@@ -131,7 +132,7 @@ export default function Page() {
                   )}
                 />
 
-                <Link href="/privacy" target="_blank" variant="body2" underline="always">
+                <Link component={NextLink} href="/privacy" target="_blank" variant="body2" underline="always">
                   내용보기
                 </Link>
               </Stack>

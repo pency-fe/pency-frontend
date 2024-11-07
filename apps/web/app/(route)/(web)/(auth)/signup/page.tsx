@@ -6,6 +6,7 @@ import { BrandAppleIcon, BrandGoogleIcon, BrandNaverIcon, IcOutlineEmailIcon } f
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import NextLink from "next/link";
 
 const schema = z.object({
   age: z.boolean().refine((age) => age === true),
@@ -82,24 +83,38 @@ export default function Page() {
           <Stack spacing={1.5}>
             <Divider />
             <Stack direction="row" spacing={1}>
-              <Link href="/login" variant="subtitle2">
+              <Link component={NextLink} href="/login" variant="subtitle2">
                 로그인
               </Link>
               <Typography variant="subtitle2" color={theme.vars.palette.text.secondary}>
                 ·
               </Typography>
-              <Link href="/account/find" variant="subtitle2">
+              <Link component={NextLink} href="/account/find" variant="subtitle2">
                 계정 찾기
               </Link>
             </Stack>
             <Divider />
             <Typography variant="subtitle2" color={theme.vars.palette.text.secondary}>
               SNS로 로그인 및 회원가입 시 펜시의{" "}
-              <Link href="/terms" target="_blank" variant="subtitle2" underline="always" color="inherit">
+              <Link
+                component={NextLink}
+                href="/terms"
+                target="_blank"
+                variant="subtitle2"
+                underline="always"
+                color="inherit"
+              >
                 이용약관
               </Link>
               {"과 "}
-              <Link href="/privacy" target="_blank" variant="subtitle2" underline="always" color="inherit">
+              <Link
+                component={NextLink}
+                href="/privacy"
+                target="_blank"
+                variant="subtitle2"
+                underline="always"
+                color="inherit"
+              >
                 개인정보 수집 및 이용
               </Link>
               에 동의한 것으로 간주합니다.
