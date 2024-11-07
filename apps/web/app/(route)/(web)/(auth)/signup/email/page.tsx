@@ -56,15 +56,13 @@ export default function Page() {
         router.push(`/signup/email/resend/${data.provisionUserId}`);
       },
       onError: async (error) => {
-        if (error.name === "HTTPError") {
-          const { code } = await error.response.json();
+        const { code } = await error.response.json();
 
-          if (code === "DUPLICATE_EMAIL") {
-            setError("email", {
-              type: "DUPLICATE_EMAIL",
-              message: "다른 계정에서 사용 중인 이메일 주소예요.",
-            });
-          }
+        if (code === "DUPLICATE_EMAIL") {
+          setError("email", {
+            type: "DUPLICATE_EMAIL",
+            message: "다른 계정에서 사용 중인 이메일 주소예요.",
+          });
         }
       },
     });
