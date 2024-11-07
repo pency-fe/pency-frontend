@@ -15,6 +15,8 @@ import {
 } from "@mui/material";
 import { EvaEyeFillIcon, EvaEyeOffFillIcon } from "@pency/ui/components";
 import { useBooleanState } from "@pency/util";
+import { useSignup } from "_core/auth";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import NextLink from "next/link";
@@ -34,7 +36,7 @@ const schema = z.object({
 type Schema = z.infer<typeof schema>;
 
 export default function Page() {
-  const { control, handleSubmit } = useForm<Schema>({
+  const { control, handleSubmit, setError } = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
       email: "",
@@ -45,9 +47,27 @@ export default function Page() {
     mode: "onTouched",
   });
   const { bool: passwordShow, toggle: togglePasswordShow } = useBooleanState(false);
+  const router = useRouter();
+  const { mutate } = useSignup();
 
-  const onSubmit = (data: Schema) => {
-    console.log(data);
+  const onSubmit = async (data: Schema) => {
+    mutate(data, {
+      onSuccess: ({ data }) => {
+        router.push(`/signup/email/resend/${data.provisionUserId}`);
+      },
+      onError: async (error) => {
+        if (error.name === "HTTPError") {
+          const { code } = await error.response.json();
+
+          if (code === "DUPLICATE_EMAIL") {
+            setError("email", {
+              type: "DUPLICATE_EMAIL",
+              message: "다른 계정에서 사용 중인 이메일 주소예요.",
+            });
+          }
+        }
+      },
+    });
   };
 
   return (

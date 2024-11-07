@@ -1,7 +1,7 @@
 "use client";
 
-import { InitThemeProvider } from "@pency/ui/theme";
 import "@pency/ui/global.css";
+import { Providers } from "./providers";
 
 type Props = {
   children: React.ReactNode;
@@ -11,7 +11,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="ko" suppressHydrationWarning>
       <body>
-        <InitThemeProvider>{children}</InitThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
