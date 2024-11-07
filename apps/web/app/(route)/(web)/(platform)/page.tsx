@@ -1,6 +1,4 @@
-"use client";
-
-import { Page } from "@/_route/(platform)/page";
+import { Page } from "@/_route/(web)/(platform)/page";
 
 export default function PlatformPage() {
   return <Page />;

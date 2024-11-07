@@ -1,3 +1,5 @@
+"use client";
+
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { BannerSection, PopularWebtoonSeriesSection } from "./sections";
 import { Button, Stack, Typography, useTheme } from "@mui/material";

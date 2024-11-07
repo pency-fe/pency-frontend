@@ -1,5 +1,4 @@
-"use client";
-
+import { Layout } from "@/_route/(web)/(auth)/layout";
 import "@pency/ui/global.css";
 
 type Props = {
@@ -7,5 +6,5 @@ type Props = {
 };
 
 export default function AuthLayout({ children }: Props) {
-  return <>{children}</>;
+  return <Layout>{children}</Layout>;
 }

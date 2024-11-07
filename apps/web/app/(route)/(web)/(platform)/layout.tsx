@@ -1,6 +1,4 @@
-"use client";
-
-import { Layout } from "@/_route/(platform)/layout";
+import { Layout } from "@/_route/(web)/(platform)/layout";
 
 type Props = {
   children: React.ReactNode;
