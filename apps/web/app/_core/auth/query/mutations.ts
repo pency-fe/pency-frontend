@@ -9,6 +9,6 @@ export const useSignup = () => {
     HTTPError<FailureRes<409, "DUPLICATE_EMAIL">>,
     Parameters<typeof signup>[0]
   >({
-    mutationFn: (req: Parameters<typeof signup>[0]) => signup(req),
+    mutationFn: signup,
   });
 };
