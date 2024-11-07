@@ -108,6 +108,7 @@ const DescriptionFn = () => {
           fullWidth
           multiline
           minRows={5}
+          maxRows={7}
           type="text"
           label="채널 설명"
           helperText={error ? error.message : "최대 200자 이내로 입력해 주세요."}
