@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, InputAdornment, TextField, useTheme } from "@mui/material";
+import { Button, InputAdornment, TextField, Typography, useTheme } from "@mui/material";
 import { ReactNode } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
@@ -62,7 +62,6 @@ const CreateSubmitFn = () => {
 
 const TitleFn = () => {
   const { control } = useFormContext<Schema>();
-  const theme = useTheme();
 
   return (
     <Controller
@@ -80,8 +79,8 @@ const TitleFn = () => {
           error={!!error}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end" sx={{ fontSize: theme.typography.caption }}>
-                {field.value?.length}/45
+              <InputAdornment position="end">
+                <Typography variant="caption">{field.value?.length}/45</Typography>
               </InputAdornment>
             ),
           }}
@@ -95,7 +94,6 @@ const TitleFn = () => {
 
 const DescriptionFn = () => {
   const { control } = useFormContext<Schema>();
-  const theme = useTheme();
 
   return (
     <Controller
@@ -113,10 +111,13 @@ const DescriptionFn = () => {
           label="채널 설명"
           helperText={error ? error.message : "최대 200자 이내로 입력해 주세요."}
           error={!!error}
+          sx={{
+            "& .MuiInputBase-root": { display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 1.5 },
+          }}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end" sx={{ fontSize: theme.typography.caption }}>
-                {field.value?.length}/200
+              <InputAdornment position="end">
+                <Typography variant="caption">{field.value?.length}/200</Typography>
               </InputAdornment>
             ),
           }}
@@ -130,7 +131,6 @@ const DescriptionFn = () => {
 
 const UrlFn = () => {
   const { control } = useFormContext<Schema>();
-  const theme = useTheme();
 
   return (
     <Controller
@@ -149,7 +149,8 @@ const UrlFn = () => {
           InputProps={{
             startAdornment: <InputAdornment position="start">pency.com/@</InputAdornment>,
             endAdornment: (
-              <InputAdornment position="end" sx={{ fontSize: theme.typography.caption }}>
+              <InputAdornment position="end">
+                <Typography variant="caption"></Typography>
                 {field.value?.length}/45
               </InputAdornment>
             ),
