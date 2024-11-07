@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, InputAdornment, TextField, Typography, useTheme } from "@mui/material";
+import { Button, ButtonProps, InputAdornment, inputBaseClasses, TextField, Typography, useTheme } from "@mui/material";
 import { ReactNode } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
@@ -20,17 +20,18 @@ type Schema = z.infer<typeof schema>;
 
 // ----------------------------------------------------------------------
 
-type CH_Create_Form_Fn_Props = {
+type CH_Form_Fn_Props = {
+  defaultValues?: Partial<Schema>;
   children?: ReactNode;
 };
 
-const CH_Create_Form_Fn = ({ children }: CH_Create_Form_Fn_Props) => {
+const CH_Form_Fn = ({ defaultValues = {}, children }: CH_Form_Fn_Props) => {
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
-      title: "",
-      description: "",
-      url: "",
+      title: defaultValues.title ?? "",
+      description: defaultValues.description ?? "",
+      url: defaultValues.url ?? "",
     },
     mode: "onTouched",
   });
@@ -38,7 +39,11 @@ const CH_Create_Form_Fn = ({ children }: CH_Create_Form_Fn_Props) => {
   return <FormProvider {...methods}>{children}</FormProvider>;
 };
 
-const CreateSubmitFn = () => {
+// ----------------------------------------------------------------------
+
+type CreateSubmitFnProps = Omit<ButtonProps, "children">;
+
+const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   const { handleSubmit } = useFormContext();
 
   const onSubmit = (data: Schema) => {
@@ -46,19 +51,11 @@ const CreateSubmitFn = () => {
   };
 
   return (
-    <Button type="submit" variant="contained" color="primary" size="large" onClick={handleSubmit(() => onSubmit)}>
+    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(() => onSubmit)} {...props}>
       새 채널 만들기
     </Button>
   );
 };
-
-// ----------------------------------------------------------------------
-
-// const CH_Update_Form_Fn = () => {};
-
-// const UpdateSubmitFn = () => {};
-
-// ----------------------------------------------------------------------
 
 const TitleFn = () => {
   const { control } = useFormContext<Schema>();
@@ -112,11 +109,15 @@ const DescriptionFn = () => {
           helperText={error ? error.message : "최대 200자 이내로 입력해 주세요."}
           error={!!error}
           sx={{
-            "& .MuiInputBase-root": { display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 1.5 },
+            [`& .${inputBaseClasses.root}`]: {
+              display: "flex",
+              flexDirection: "column",
+              gap: 1.5,
+            },
           }}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
+              <InputAdornment position="end" sx={{ alignSelf: "flex-end" }}>
                 <Typography variant="caption">{field.value?.length}/200</Typography>
               </InputAdornment>
             ),
@@ -150,8 +151,7 @@ const UrlFn = () => {
             startAdornment: <InputAdornment position="start">pency.com/@</InputAdornment>,
             endAdornment: (
               <InputAdornment position="end">
-                <Typography variant="caption"></Typography>
-                {field.value?.length}/45
+                <Typography variant="caption">{field.value?.length}/45</Typography>
               </InputAdornment>
             ),
           }}
@@ -161,11 +161,9 @@ const UrlFn = () => {
   );
 };
 
-export const CH_Create_Form = Object.assign(CH_Create_Form_Fn, {
+export const CH_Form = Object.assign(CH_Form_Fn, {
   Title: TitleFn,
   Description: DescriptionFn,
   Url: UrlFn,
-  SubmitButton: CreateSubmitFn,
+  CreateSubmitButton: CreateSubmitFn,
 });
-
-// export const CH_Update_Form = Object.assign(CH_Update_Form_Fn, {});
