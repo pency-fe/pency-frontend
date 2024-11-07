@@ -60,7 +60,6 @@ export function EmailPage() {
 
         if (code === "DUPLICATE_EMAIL") {
           setError("email", {
-            type: "DUPLICATE_EMAIL",
             message: "다른 계정에서 사용 중인 이메일 주소예요.",
           });
         }
