@@ -10,7 +10,7 @@ const schema = z.object({
 });
 type Schema = z.infer<typeof schema>;
 
-export default function Page() {
+export function VerifyPage() {
   const theme = useTheme();
 
   const { control, handleSubmit } = useForm<Schema>({

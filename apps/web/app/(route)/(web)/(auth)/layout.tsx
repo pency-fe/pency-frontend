@@ -1,10 +1,10 @@
-import { Layout } from "@/_route/(web)/(auth)/layout";
+import { AuthLayout } from "@/_route/(web)/(auth)/layout";
 import "@pency/ui/global.css";
 
 type Props = {
   children: React.ReactNode;
 };
 
-export default function AuthLayout({ children }: Props) {
-  return <Layout>{children}</Layout>;
+export default function Layout({ children }: Props) {
+  return <AuthLayout>{children}</AuthLayout>;
 }

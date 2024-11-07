@@ -35,7 +35,7 @@ const schema = z.object({
 });
 type Schema = z.infer<typeof schema>;
 
-export default function Page() {
+export function EmailPage() {
   const { control, handleSubmit, setError } = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {

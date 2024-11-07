@@ -1,5 +1,5 @@
-"use client";
+import { PostPage } from "@/_route/(web)/(platform)/webnovel/post/page";
 
 export default function Page() {
-  return Array.from({ length: 100 }).map((v, i) => <p key={i}>webnovel post</p>);
+  return <PostPage />;
 }

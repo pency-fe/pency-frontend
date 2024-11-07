@@ -1,5 +1,5 @@
-"use client";
+import { SeriesPage } from "@/_route/(web)/(platform)/webtoon/series/page";
 
 export default function Page() {
-  return Array.from({ length: 100 }).map((v, i) => <p key={i}>webtoon series</p>);
+  return <SeriesPage />;
 }

@@ -1,5 +1,5 @@
-import { Page } from "@/_route/(web)/(platform)/page";
+import { PlatformPage } from "@/_route/(web)/(platform)/page";
 
-export default function PlatformPage() {
-  return <Page />;
+export default function mPage() {
+  return <PlatformPage />;
 }

@@ -6,7 +6,7 @@ import { Button, Stack, Typography, useTheme } from "@mui/material";
 import NextLink from "next/link";
 import { stylesColorScheme } from "@pency/ui/util";
 
-export function Page() {
+export function PlatformPage() {
   const theme = useTheme();
   return (
     <Grid2 container spacing={4} disableEqualOverflow>

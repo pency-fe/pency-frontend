@@ -1,5 +1,5 @@
-"use client";
+import PostPage from "@/_route/(web)/(platform)/webtoon/post/page/page";
 
 export default function Page() {
-  return Array.from({ length: 100 }).map((v, i) => <p key={i}>webtoon post</p>);
+  return <PostPage />;
 }

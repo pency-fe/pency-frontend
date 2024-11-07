@@ -8,7 +8,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export function Layout({ children }: Props) {
+export function PlatformLayout({ children }: Props) {
   return (
     <DashboardLayout
       slots={{
