@@ -1,1 +1,1 @@
-export * from "./[provisionUserId]";
+export * from "./page";

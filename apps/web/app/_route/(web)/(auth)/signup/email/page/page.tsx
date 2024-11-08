@@ -33,6 +33,7 @@ const schema = z.object({
   terms: z.boolean().refine((terms) => terms === true),
   privacy: z.boolean().refine((terms) => terms === true),
 });
+
 type Schema = z.infer<typeof schema>;
 
 export function EmailPage() {

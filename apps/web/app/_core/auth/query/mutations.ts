@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { login, logout, resend, signup, verify } from "./api";
+import { email, login, logout, resend, signup, verify } from "./api";
 import { FailureRes } from "_core/api";
 import { HTTPError } from "ky";
 
@@ -11,6 +11,16 @@ export const useSignup = () => {
   >({
     mutationFn: signup,
   });
+};
+
+// ----------------------------------------------------------------------
+
+export const useEmail = () => {
+  return useMutation<
+    Awaited<ReturnType<typeof email>>,
+    HTTPError<FailureRes<401, "EXPIRED_EMAIL_TOKEN">>,
+    Parameters<typeof email>[0]
+  >({ mutationFn: email });
 };
 
 // ----------------------------------------------------------------------
@@ -51,9 +61,8 @@ export const useLogin = () => {
 
 // ----------------------------------------------------------------------
 
-// [?]
 export const useLogout = () => {
-  return useMutation<Awaited<ReturnType<typeof logout>>, unknown, Parameters<typeof logout>>({
+  return useMutation<Awaited<ReturnType<typeof logout>>, HTTPError, Parameters<typeof logout>>({
     mutationFn: logout,
   });
 };

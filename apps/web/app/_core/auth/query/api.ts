@@ -17,6 +17,18 @@ export const signup = async (req: SignupReq) => {
 
 // ----------------------------------------------------------------------
 
+type EmailReq = {
+  provisionUserId: string;
+};
+
+type EmailRes = SuccessRes<{ email: string }>;
+
+export const email = async (req: EmailReq) => {
+  return await api.get<EmailRes>("auth/signup/email", { searchParams: req.provisionUserId }).json();
+};
+
+// ----------------------------------------------------------------------
+
 type ResendReq = {
   provisionUserId: string;
 };
@@ -24,7 +36,7 @@ type ResendReq = {
 type ResendRes = SuccessRes;
 
 export const resend = async (req: ResendReq) => {
-  return await api.post<ResendRes>(`auth/signup/resend?provisionUserId=${req.provisionUserId}`, { json: req }).json();
+  return await api.post<ResendRes>("auth/signup/resend", { searchParams: req.provisionUserId }).json();
 };
 
 // ----------------------------------------------------------------------
@@ -34,7 +46,7 @@ type VerifyReq = { token: string };
 type VerifyRes = SuccessRes;
 
 export const verify = async (req: VerifyReq) => {
-  return await api.post<VerifyRes>(`auth/signup/verify?token=${req.token}`, { json: req }).json();
+  return await api.post<VerifyRes>("auth/signup/verify", { searchParams: req.token }).json();
 };
 
 // ----------------------------------------------------------------------
@@ -52,7 +64,6 @@ export const login = async (req: LoginReq) => {
 
 // ----------------------------------------------------------------------
 
-// [?]
 type LogoutRes = SuccessRes;
 
 export const logout = async () => {
