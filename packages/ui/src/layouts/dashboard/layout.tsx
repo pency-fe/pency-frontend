@@ -16,9 +16,9 @@ export const layoutToken = {
 
 type Props = {
   slots: {
-    header: React.ReactNode;
-    sidebar: React.ReactNode;
-    footer?: React.ReactNode;
+    header: React.ReactElement;
+    sidebar: React.ReactElement;
+    footer?: React.ReactElement;
   };
   sx?: SxProps<Theme>;
   children?: React.ReactNode;
@@ -54,9 +54,9 @@ export function Layout({ slots, sx, children }: Props) {
         {slots.sidebar}
         <Box
           sx={{
+            flex: "1 1 auto",
             display: "flex",
             flexDirection: "column",
-            flex: "1 1 auto",
             transition: theme.transitions.create(["padding-left"], {
               easing: `var(${layoutToken.sidebar.easing})`,
               duration: `var(${layoutToken.sidebar.duration})`,
@@ -69,29 +69,22 @@ export function Layout({ slots, sx, children }: Props) {
             },
           }}
         >
-          <Box
+          <Container
             component="main"
             sx={{
-              display: "flex",
               flex: "1 1 auto",
+              display: "flex",
               flexDirection: "column",
+              maxWidth: "lg",
+              pt: theme.spacing(1),
+              pb: theme.spacing(8),
               mt: `var(${layoutToken.header.height})`,
               [theme.breakpoints.up("lg")]: { mt: `var(${layoutToken.header.upSmHeight})` },
             }}
           >
-            <Container
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                flex: "1 1 auto",
-                maxWidth: "lg",
-                pt: theme.spacing(1),
-                pb: theme.spacing(8),
-              }}
-            >
-              {children}
-            </Container>
-          </Box>
+            {children}
+          </Container>
+
           {slots?.footer}
         </Box>
       </Box>

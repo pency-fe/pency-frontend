@@ -13,11 +13,7 @@ export function Header({ slots }: Props) {
   const theme = useTheme();
 
   return (
-    <AppBar
-      sx={{
-        zIndex: 1100,
-      }}
-    >
+    <AppBar>
       <Toolbar
         disableGutters
         sx={{

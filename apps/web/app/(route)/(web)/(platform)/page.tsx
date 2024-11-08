@@ -1,5 +1,5 @@
 import { PlatformPage } from "@/_route/(web)/(platform)/page";
 
-export default function mPage() {
+export default function Page() {
   return <PlatformPage />;
 }
