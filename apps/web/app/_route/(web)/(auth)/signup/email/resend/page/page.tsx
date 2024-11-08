@@ -1,32 +1,48 @@
 "use client";
 import { Box, Stack, Typography, TextField, Button } from "@mui/material";
-import { useEmail, useResend } from "_core/auth";
-import { useSearchParams } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { authProvisionUserKeys } from "_core/auth/provision-user";
+import { useRouter, useSearchParams } from "next/navigation";
 
+// [TODO]
+// 0. 회원가입 다시하셈
+// 1. SuccessRes 사라졌음. -> 이제 그냥 응답으로 데이터만 보내줄거임. 없으면 안보내주고. api-doc 최신화 했음. api확인하면 됌
+// 2. HTTPError가 QueryError로 바뀌었음. _core/api.ts 확인 후 mutations보면됌
+// 3. "EXPIRED_EMAIL_TOKEN" 코드 에러는 그냥 not-verify로 이동시켜버림
+// 흠.. Suspense, ErrorBoundary, useSuspense를 사용하면 더 깔끔해 질 것 같지만, 이 페이지에서는 코드 줄수가 적기 때문에 안써도 될 것 같음
 export function ResendPage() {
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const provisionUserId = useSearchParams().get("provisionUserId");
+  const router = useRouter();
 
-    const provisionUserId = useSearchParams().get("provisionUserId");
-    if (provisionUserId) {
-      await handleResendClick({ provisionUserId });
-    }
-  };
+  if (provisionUserId === null || !provisionUserId.length) {
+    router.replace("/");
+    return;
+  }
+
+  const query = useQuery(authProvisionUserKeys.email({ provisionUserId }));
+
+  if (query.isError && query.error.code === "EXPIRED_EMAIL_TOKEN") {
+    router.replace("/signup/email/not-verify");
+    return;
+  }
 
   return (
     <Box>
       <Stack spacing={4}>
         <Typography variant="h4">이메일 인증</Typography>
-        <form onSubmit={handleSubmit} noValidate>
+        <form noValidate>
           <Stack spacing={4}>
-            <TextField variant="filled" fullWidth type="email" label="이메일" value={email} disabled />
+            {query.isPending ? (
+              <>Loading~~</>
+            ) : (
+              <>
+                <TextField variant="filled" fullWidth type="email" label="이메일" value={query.data?.email} disabled />
 
-            {error && <Typography>{error}</Typography>}
-
-            <Button type="submit" variant="soft" color="primary" size="large" fullWidth>
-              인증 메일 재전송
-            </Button>
+                <Button type="submit" variant="soft" color="primary" size="large" fullWidth>
+                  인증 메일 재전송
+                </Button>
+              </>
+            )}
           </Stack>
         </form>
       </Stack>

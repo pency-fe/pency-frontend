@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { EvaEyeFillIcon, EvaEyeOffFillIcon } from "@pency/ui/components";
 import { useBooleanState } from "@pency/util";
-import { useSignup } from "_core/auth";
+import { useSignup } from "_core/auth/provision-user";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -53,13 +53,11 @@ export function EmailPage() {
 
   const onSubmit = async (data: Schema) => {
     mutate(data, {
-      onSuccess: ({ data }) => {
+      onSuccess: (data) => {
         router.push(`/signup/email/resend?provisionUserId=${data.provisionUserId}`);
       },
       onError: async (error) => {
-        const { code } = await error.response.json();
-
-        if (code === "DUPLICATE_EMAIL") {
+        if (error.code === "DUPLICATE_EMAIL") {
           setError("email", {
             message: "다른 계정에서 사용 중인 이메일 주소예요.",
           });

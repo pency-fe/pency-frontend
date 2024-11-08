@@ -3,6 +3,10 @@ import { defaultShouldDehydrateQuery, isServer, QueryClient } from "@tanstack/re
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        retry: false,
+      },
       dehydrate: {
         // include pending queries in dehydration
         shouldDehydrateQuery: (query) => defaultShouldDehydrateQuery(query) || query.state.status === "pending",
