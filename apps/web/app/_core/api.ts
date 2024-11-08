@@ -1,6 +1,7 @@
 import ky from "ky";
 
 export const api = ky.create({
+  credentials: "include",
   prefixUrl: process.env["NEXT_PUBLIC_SERVER_URL"],
 });
 
