@@ -53,7 +53,7 @@ export function EmailPage() {
   const onSubmit = async (data: Schema) => {
     mutate(data, {
       onSuccess: ({ data }) => {
-        router.push(`/signup/email/resend/${data.provisionUserId}`);
+        router.push(`/signup/email/resend?provisionUserId=${data.provisionUserId}`);
       },
       onError: async (error) => {
         const { code } = await error.response.json();
