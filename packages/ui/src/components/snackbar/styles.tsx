@@ -54,7 +54,10 @@ export const StyledToaster = styled(Toaster)(({ theme }) => {
   };
 
   return {
-    width: 300,
+    ["@media (max-width: 600px)"]: {
+      width: "auto",
+    },
+
     [`& .${toasterClasses.toast}`]: {
       gap: 12,
       width: "100%",
