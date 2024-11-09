@@ -8,24 +8,24 @@ export function Sidebar() {
   //     slots={{
   //       nav: (
   //         <Nav slots={{ top: <></>, bottom: <></> }}>
-  //           <Nav.Trunk>
-  //             <Nav.Trunk.Branch>
-  //               <Nav.Trunk.Branch.AnchorLeaf />
-  //               <Nav.Trunk.Branch.AnchorLeaf />
-  //               <Nav.Trunk.Branch.ButtonLeaf />
-  //               <Nav.Trunk.Branch.ButtonLeaf />
-  //             </Nav.Trunk.Branch>
+  //           <Nav.Tree>
+  //             <Nav.Tree.Branch label={} icon={}>
+  //               <Nav.Tree.Branch.AnchorLeaf label={} href="" />
+  //               <Nav.Tree.Branch.AnchorLeaf label={} href="" />
+  //               <Nav.Tree.Branch.ButtonLeaf label={} href="" />
+  //               <Nav.Tree.Branch.ButtonLeaf label={} href="" />
+  //             </Nav.Tree.Branch>
 
-  //             <Nav.Trunk.Branch>
-  //               <Nav.Trunk.Branch.AnchorLeaf />
-  //               <Nav.Trunk.Branch.AnchorLeaf />
-  //               <Nav.Trunk.Branch.ButtonLeaf />
-  //               <Nav.Trunk.Branch.ButtonLeaf />
-  //             </Nav.Trunk.Branch>
+  //             <Nav.Tree.Branch>
+  //               <Nav.Tree.Branch.AnchorLeaf />
+  //               <Nav.Tree.Branch.AnchorLeaf />
+  //               <Nav.Tree.Branch.ButtonLeaf />
+  //               <Nav.Tree.Branch.ButtonLeaf />
+  //             </Nav.Tree.Branch>
 
-  //             <Nav.Trunk.ButtonBranch />
-  //             <Nav.Trunk.AnchorBranch />
-  //           </Nav.Trunk>
+  //             <Nav.Tree.ButtonBranch />
+  //             <Nav.Tree.AnchorBranch />
+  //           </Nav.Tree>
   //         </Nav>
   //       ),
 
