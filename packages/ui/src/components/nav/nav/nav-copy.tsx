@@ -3,7 +3,7 @@ import { hideScrollY, varAlpha } from "@/util";
 import { Box, BoxProps, ButtonBase, ButtonBaseProps, Collapse, Stack, StackProps, useTheme } from "@mui/material";
 import { useBooleanState } from "@pency/util";
 import Link from "next/link";
-import React, { forwardRef, PropsWithoutRef, useMemo } from "react";
+import React, { ComponentProps, createContext, forwardRef, PropsWithoutRef, useContext, useMemo } from "react";
 
 const navToken = {
   ul: {
@@ -30,8 +30,8 @@ type UlProps = PropsWithoutRef<BoxProps<"ul">>;
 const Ul = (props: UlProps) => {
   return (
     <Box
-      {...props}
       component="ul"
+      {...props}
       sx={{
         flex: "1 1 auto",
         display: "flex",
@@ -48,8 +48,8 @@ type LiProps = PropsWithoutRef<BoxProps<"li">>;
 const Li = (props: LiProps) => {
   return (
     <Box
-      {...props}
       component="li"
+      {...props}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -67,21 +67,22 @@ const NavFn = ({ children, ...rest }: NavFnProps) => {
 
   return (
     <Stack
-      {...rest}
       component="nav"
+      {...rest}
       sx={{
         flex: "1 1 auto",
         ...hideScrollY,
         [navToken.ul.gap]: theme.spacing(0.5),
 
         [navToken.branch.iconSize]: "24px",
-        [navToken.leaf.minHeight]: "44px",
-        [navToken.leaf.color]: theme.vars.palette.text.secondary,
-        [navToken.leaf.activeColor]: theme.vars.palette.primary.main,
-        [navToken.leaf.bgcolor]: "transparent",
-        [navToken.leaf.hoverBgcolor]: theme.vars.palette.action.hover,
-        [navToken.leaf.activeBgcolor]: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
-        [navToken.leaf.hoverActiveBgcolor]: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
+        [navToken.branch.minHeight]: "44px",
+        [navToken.branch.padding]: theme.spacing(0.5, 1, 0.5, 1.5),
+        [navToken.branch.borderRadius]: "8px",
+
+        [navToken.leaf.iconSize]: "24px",
+        [navToken.leaf.minHeight]: "36px",
+        [navToken.leaf.padding]: theme.spacing(0.5, 1, 0.5, 1.5),
+        [navToken.leaf.borderRadius]: "8px",
         ...rest.sx,
       }}
     >
@@ -92,17 +93,43 @@ const NavFn = ({ children, ...rest }: NavFnProps) => {
 
 // ----------------------------------------------------------------------
 
-type TreeFnProps = LiProps;
+type TreeFnProps = PropsWithoutRef<LiProps>;
 
-const TreeFn = forwardRef<HTMLLIElement, TreeFnProps>(({ children, ...rest }, ref) => {
+const TreeFn = ({ children, ...rest }: TreeFnProps) => {
   return (
     <Li {...rest}>
       <Ul>{children}</Ul>
     </Li>
   );
-});
+};
 
 // ----------------------------------------------------------------------
+
+const BranchDataContext = createContext<{ active: boolean } | undefined>(undefined);
+
+function useBranchData(component: string) {
+  const context = useContext(BranchDataContext);
+
+  if (!context) throw new Error(`<${component} />의 부모로 <Branch /> 컴포넌트가 있어야 합니다.`);
+
+  return context;
+}
+
+const BranchActionsContext = createContext<
+  | {
+      activate: ReturnType<typeof useBooleanState>["setTrue"];
+      deactivate: ReturnType<typeof useBooleanState>["setFalse"];
+    }
+  | undefined
+>(undefined);
+
+function useBranchActions(component: string) {
+  const context = useContext(BranchActionsContext);
+
+  if (!context) throw new Error(`<${component} />의 부모로 <Branch /> 컴포넌트가 있어야 합니다.`);
+
+  return context;
+}
 
 type BranchFnProps = {
   icon?: React.ReactElement;
@@ -112,8 +139,8 @@ type BranchFnProps = {
 
 const BranchFn = ({ icon, label, children }: BranchFnProps) => {
   const theme = useTheme();
-  const { bool: isOpen } = useBooleanState(false);
-  const { bool: isActive } = useBooleanState(false);
+  const { bool: active, setTrue: activate, setFalse: deactivate } = useBooleanState(false);
+  const { bool: isOpen, toggle: toggleOpen } = useBooleanState(false);
 
   const iconStyles = useMemo(
     () => ({
@@ -127,170 +154,110 @@ const BranchFn = ({ icon, label, children }: BranchFnProps) => {
   );
 
   return (
-    <>
-      <ButtonBase
-        LinkComponent={Link}
-        sx={{
-          width: "100%",
-          minHeight: `var(${navToken.leaf.minHeight})`,
-          padding: theme.spacing(0.5, 1, 0.5, 1.5),
-          borderRadius: `${theme.shape.borderRadius}px`,
-          bgcolor: `var(${navToken.leaf.bgcolor})`,
-          color: `var(${navToken.leaf.color})`,
-          textAlign: "start",
-          "&:hover": {
-            bgcolor: `var(${navToken.leaf.hoverBgcolor})`,
-          },
-          ...(isActive && {
-            color: `var(${navToken.leaf.activeColor})`,
-            bgcolor: `var(${navToken.leaf.activeBgcolor})`,
+    <BranchDataContext.Provider value={{ active }}>
+      <BranchActionsContext.Provider value={{ activate, deactivate }}>
+        <ButtonBase
+          onClick={toggleOpen}
+          sx={{
+            width: "100%",
+            minHeight: `var(${navToken.branch.minHeight})`,
+            padding: `var(${navToken.branch.padding})`,
+            borderRadius: `var(${navToken.branch.borderRadius})`,
+            bgcolor: "transparent",
+            color: theme.vars.palette.text.secondary,
+            textAlign: "start",
             "&:hover": {
-              bgcolor: `var(${navToken.leaf.hoverActiveBgcolor})`,
+              bgcolor: theme.vars.palette.action.hover,
             },
-          }),
-        }}
-      >
-        {icon && (
-          <Box
-            component="span"
-            sx={{
-              flexShrink: 0,
-              display: "inline-flex",
-              margin: theme.spacing(0, 1.5, 0, 0),
-              marginTop: "-2px",
-              "& svg": {
-                width: `var(${navToken.branch.iconSize})`,
-                height: `var(${navToken.branch.iconSize})`,
+            ...(isOpen && {
+              bgcolor: theme.vars.palette.action.selected,
+              color: theme.vars.palette.text.primary,
+              "&:hover": {
+                bgcolor: theme.vars.palette.action.selected,
               },
-            }}
-          >
-            {icon}
-          </Box>
-        )}
+            }),
+            ...(active && {
+              bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
+              color: theme.vars.palette.primary.main,
+              "&:hover": {
+                bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
+              },
+            }),
+          }}
+        >
+          {icon && (
+            <Box
+              component="span"
+              sx={{
+                flexShrink: 0,
+                display: "inline-flex",
+                margin: theme.spacing(0, 1.5, 0, 0),
+                marginTop: "-2px",
+                "& svg": {
+                  width: `var(${navToken.branch.iconSize})`,
+                  height: `var(${navToken.branch.iconSize})`,
+                },
+              }}
+            >
+              {icon}
+            </Box>
+          )}
 
-        <Box component="span" sx={{ minWidth: 0, flex: "1 1 auto" }}>
-          <Box
-            component="span"
-            sx={{
-              width: "100%",
-              maxWidth: "100%",
-              display: "block",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-              ...theme.typography.body1,
-              fontWeight: isActive ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
-            }}
-          >
-            {label}
+          <Box component="span" sx={{ minWidth: 0, flex: "1 1 auto" }}>
+            <Box
+              component="span"
+              sx={{
+                width: "100%",
+                maxWidth: "100%",
+                display: "block",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                ...theme.typography.body1,
+                fontWeight: active ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
+              }}
+            >
+              {label}
+            </Box>
           </Box>
-        </Box>
-        {isOpen ? <EvaArrowIosDownwardFillIcon sx={iconStyles} /> : <EvaArrowIosForwardFillIcon sx={iconStyles} />}
-      </ButtonBase>
+          {isOpen ? <EvaArrowIosDownwardFillIcon sx={iconStyles} /> : <EvaArrowIosForwardFillIcon sx={iconStyles} />}
+        </ButtonBase>
 
-      <Li>
-        <Collapse in={isOpen} mountOnEnter unmountOnExit>
-          <Ul sx={{ pl: `calc(${theme.spacing(1.5)} + var(${navToken.leaf.iconSize}))` }}>{children}</Ul>
-        </Collapse>
-      </Li>
-    </>
+        <Li>
+          <Collapse in={isOpen} mountOnEnter unmountOnExit>
+            <Ul sx={{ pl: `calc(${theme.spacing(1.5)} + var(${navToken.leaf.iconSize}))` }}>{children}</Ul>
+          </Collapse>
+        </Li>
+      </BranchActionsContext.Provider>
+    </BranchDataContext.Provider>
   );
 };
 
 // ----------------------------------------------------------------------
 
-const AnchorLeafFn;
+// type BranchSingleFnProps = {};
 
-const ButtonLeafFn;
-
-// ----------------------------------------------------------------------
-
-const ButtonBranchFn;
-
-const AnchorBranchFn;
+// const BranchSingleFn;
 
 // ----------------------------------------------------------------------
 
-type LeafFnProps = {
-  icon: React.ReactElement;
-  label: string;
-  arrow: "forward" | "downward" | "none";
-} & ButtonBaseProps;
+type LeafFnProps = ;
 
-const Leaf = forwardRef<HTMLButtonElement, LeafFnProps>((props, ref) => {
-  const theme = useTheme();
-  const iconStyles = useMemo(
-    () => ({
-      flexShrink: 0,
-      display: "inline-flex",
-      width: "16px",
-      height: "16px",
-      marginLeft: "6px",
-    }),
-    [],
-  );
-
+const LeafFn = (props: LeafFnProps) => {
   return (
-    <ButtonBase
-      LinkComponent={Link}
-      {...(data.href && { href: data.href })}
-      sx={{
-        width: "100%",
-        minHeight: `var(${navToken.leaf.minHeight})`,
-        padding: theme.spacing(0.5, 1, 0.5, 1.5),
-        borderRadius: `${theme.shape.borderRadius}px`,
-        bgcolor: `var(${navToken.leaf.bgcolor})`,
-        color: `var(${navToken.leaf.color})`,
-        textAlign: "start",
-        "&:hover": {
-          bgcolor: `var(${navToken.leaf.hoverBgcolor})`,
-        },
-        ...(active && {
-          color: `var(${navToken.leaf.activeColor})`,
-          bgcolor: `var(${navToken.leaf.activeBgcolor})`,
-          "&:hover": {
-            bgcolor: `var(${navToken.leaf.hoverActiveBgcolor})`,
-          },
-        }),
-        ...sx,
-      }}
-      {...rest}
-    >
-      {data.icon ? (
-        <Box
-          component="span"
-          sx={{
-            flexShrink: 0,
-            display: "inline-flex",
-            width: `var(${navToken.leaf.iconSize})`,
-            height: `var(${navToken.leaf.iconSize})`,
-            margin: theme.spacing(0, 1.5, 0, 0),
-            marginTop: "-2px",
-          }}
-        >
-          {data.icon}
-        </Box>
-      ) : null}
-
-      <Box component="span" sx={{ minWidth: 0, flex: "1 1 auto" }}>
-        <Box
-          component="span"
-          sx={{
-            width: "100%",
-            maxWidth: "100%",
-            display: "block",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis",
-            ...theme.typography.body1,
-            fontWeight: active ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
-          }}
-        >
-          {data.title}
-        </Box>
-      </Box>
-      {arrow !== "none" && arrow === "downward" && <EvaArrowIosDownwardFillIcon sx={iconStyles} />}
-      {arrow !== "none" && arrow === "forward" && <EvaArrowIosForwardFillIcon sx={iconStyles} />}
+    <ButtonBase>
+      <Link></Link>
     </ButtonBase>
   );
+};
+
+// ----------------------------------------------------------------------
+
+export const Nav = Object.assign(NavFn, {
+  Tree: Object.assign(TreeFn, {
+    Branch: Object.assign(BranchFn, {
+      Leaf: LeafFn,
+    }),
+    // BranchSingle: BranchSingleFn,
+  }),
 });
