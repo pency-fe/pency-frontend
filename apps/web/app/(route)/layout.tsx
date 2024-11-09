@@ -2,7 +2,7 @@
 
 import "@pency/ui/global.css";
 import { Providers } from "./providers";
-import { Snackbar, toast } from "@pency/ui/components";
+import { Snackbar } from "@pency/ui/components";
 
 type Props = {
   children: React.ReactNode;

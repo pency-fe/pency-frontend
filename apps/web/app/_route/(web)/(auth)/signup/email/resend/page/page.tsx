@@ -4,7 +4,6 @@ import { toast } from "@pency/ui/components";
 import { useQuery } from "@tanstack/react-query";
 import { authProvisionUserKeys, useResend } from "_core/auth/provision-user";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 
 // [TODO]
 // 0. 회원가입 다시하셈
