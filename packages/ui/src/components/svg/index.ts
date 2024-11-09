@@ -25,3 +25,4 @@ export * from "./solar-check-circle-bold-icon";
 export * from "./solar-danger-bold-icon";
 export * from "./solar-danger-triangle-bold-icon";
 export * from "./solar-info-circle-bold-icon";
+export * from "./tabler-layout-dashboard-filled-icon";

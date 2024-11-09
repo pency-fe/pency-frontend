@@ -1,206 +1,138 @@
-import { Box, ButtonBase, ButtonBaseProps, Collapse, Stack, SxProps } from "@mui/material";
-import { Theme, useTheme } from "@mui/material/styles";
-import { NavData, BranchData, LeafData } from "../types";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import { varAlpha, hideScrollY } from "@/util";
-import { useMemo } from "react";
-import { EvaArrowIosDownwardFillIcon, EvaArrowIosForwardFillIcon } from "../..";
+import { EvaArrowIosDownwardFillIcon, EvaArrowIosForwardFillIcon } from "@/components/svg";
+import { hideScrollY, varAlpha } from "@/util";
+import {
+  Box,
+  BoxProps,
+  Button,
+  ButtonBase,
+  ButtonBaseProps,
+  ButtonProps,
+  Collapse,
+  Stack,
+  StackProps,
+  useTheme,
+} from "@mui/material";
 import { useBooleanState } from "@pency/util";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React, { PropsWithoutRef, useMemo } from "react";
 
 const navToken = {
   ul: {
     gap: "--nav-ul-gap",
   },
+  branch: {
+    iconSize: "--nav-branch-icon-size",
+    minHeight: "--nav-branch-min-heihgt",
+    padding: "--nav-branch-padding",
+    borderRadius: "--nav-branch-border-radius",
+  },
   leaf: {
     iconSize: "--nav-leaf-icon-size",
-    minHeight: "--nav-leaf-height",
-    color: "--nav-leaf-color",
-    activeColor: "--nav-leaf-active-color",
-    bgcolor: "--nav-leaf-bgcolor",
-    hoverBgcolor: "--nav-leaf-hover-bgcolor",
-    activeBgcolor: "--nav-leaf-active-bgcolor",
-    hoverActiveBgcolor: "--nav-leaf-hover-active-bgcolor",
+    minHeight: "--nav-leaf-min-heihgt",
+    padding: "--nav-leaf-padding",
+    borderRadius: "--nav-leaf-border-radius",
   },
 } as const;
 
-type NavProps = {
-  data: NavData;
-  sx?: SxProps<Theme>;
+// ----------------------------------------------------------------------
+
+type UlProps = PropsWithoutRef<BoxProps<"ul">>;
+
+const Ul = (props: UlProps) => {
+  return (
+    <Box
+      component="ul"
+      {...props}
+      sx={{
+        flex: "1 1 auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: `var(${navToken.ul.gap})`,
+        ...props.sx,
+      }}
+    />
+  );
 };
 
-export function Nav({ data, sx }: NavProps) {
+type LiProps = PropsWithoutRef<BoxProps<"li">>;
+
+const Li = (props: LiProps) => {
+  return (
+    <Box
+      component="li"
+      {...props}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        ...props.sx,
+      }}
+    />
+  );
+};
+
+// ----------------------------------------------------------------------
+
+type NavFnProps = PropsWithoutRef<StackProps>;
+const NavFn = ({ children, ...rest }: NavFnProps) => {
   const theme = useTheme();
+
   return (
     <Stack
       component="nav"
+      {...rest}
       sx={{
         flex: "1 1 auto",
         ...hideScrollY,
         [navToken.ul.gap]: theme.spacing(0.5),
+
+        [navToken.branch.iconSize]: "24px",
+        [navToken.branch.minHeight]: "44px",
+        [navToken.branch.padding]: theme.spacing(0.5, 1, 0.5, 1.5),
+        [navToken.branch.borderRadius]: "8px",
+
         [navToken.leaf.iconSize]: "24px",
-        [navToken.leaf.minHeight]: "44px",
-        [navToken.leaf.color]: theme.vars.palette.text.secondary,
-        [navToken.leaf.activeColor]: theme.vars.palette.primary.main,
-        [navToken.leaf.bgcolor]: "transparent",
-        [navToken.leaf.hoverBgcolor]: theme.vars.palette.action.hover,
-        [navToken.leaf.activeBgcolor]: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
-        [navToken.leaf.hoverActiveBgcolor]: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
-        ...sx,
+        [navToken.leaf.minHeight]: "36px",
+        [navToken.leaf.padding]: theme.spacing(0.5, 1, 0.5, 1.5),
+        [navToken.leaf.borderRadius]: "8px",
+        ...rest.sx,
       }}
     >
-      <Ul>
-        {data.map((group) => (
-          <Li key={group.id}>
-            <Ul>
-              {group.items.map((item) => (
-                <Trunk key={item.id} data={item} />
-              ))}
-            </Ul>
-          </Li>
-        ))}
-      </Ul>
+      <Ul>{children}</Ul>
     </Stack>
   );
-}
+};
 
 // ----------------------------------------------------------------------
 
-type UlProps = {
-  sx?: SxProps<Theme>;
-  children?: React.ReactNode;
-};
+type TreeFnProps = PropsWithoutRef<LiProps>;
 
-function Ul({ sx, children }: UlProps) {
+const TreeFn = ({ children, ...rest }: TreeFnProps) => {
+  const theme = useTheme();
   return (
-    <Box
-      component="ul"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        flex: "1 1 auto",
-        gap: `var(${navToken.ul.gap})`,
-        ...sx,
-      }}
-    >
-      {children}
-    </Box>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-type LiProps = {
-  sx?: SxProps<Theme>;
-  children?: React.ReactNode;
-};
-
-function Li({ sx, children }: LiProps) {
-  return (
-    <Box
-      component="li"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        ...sx,
-      }}
-    >
-      {children}
-    </Box>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-type TrunkProps = {
-  data: BranchData | LeafData;
-};
-
-function Trunk({ data }: TrunkProps) {
-  const pathname = usePathname();
-
-  return (
-    <Li>
-      {isLeafData(data) ? (
-        <Leaf data={data} active={pathname.startsWith(data.href)} arrow="none" />
-      ) : (
-        <Branch data={data} />
-      )}
+    <Li {...rest}>
+      <Ul sx={{ gap: theme.spacing(0.75) }}>{children}</Ul>
     </Li>
   );
-}
-
-function isLeafData(data: LeafData | BranchData): data is LeafData {
-  return (data as LeafData).href !== undefined;
-}
-
-// ----------------------------------------------------------------------
-
-type BranchProps = {
-  data: BranchData;
 };
 
-function Branch({ data }: BranchProps) {
-  const pathname = usePathname();
-
-  const open = useBooleanState(data.items.some((item) => pathname.startsWith(item.href)));
-
-  const theme = useTheme();
-
-  const parentActive = useMemo(() => data.items.some((item) => pathname.startsWith(item.href)), [data, pathname]);
-
-  return (
-    <>
-      <Leaf
-        data={data}
-        active={parentActive}
-        arrow={open.bool ? "downward" : "forward"}
-        sx={{
-          mb: `var(${navToken.ul.gap})`,
-          ...(!parentActive &&
-            open.bool && {
-              [navToken.leaf.color]: theme.vars.palette.text.primary,
-              [navToken.leaf.bgcolor]: theme.vars.palette.action.selected,
-              [navToken.leaf.hoverBgcolor]: theme.vars.palette.action.selected,
-            }),
-        }}
-        onClick={open.toggle}
-      />
-      <Collapse in={open.bool} mountOnEnter unmountOnExit>
-        <Ul sx={{ pl: `calc(${theme.spacing(1.5)} + var(${navToken.leaf.iconSize}))` }}>
-          {data.items.map((item) => (
-            <Li key={item.id}>
-              <Leaf
-                data={item}
-                active={pathname.startsWith(item.href)}
-                arrow="none"
-                sx={{
-                  [navToken.leaf.minHeight]: "36px",
-                  [navToken.leaf.activeColor]: theme.vars.palette.text.primary,
-                  [navToken.leaf.activeBgcolor]: theme.vars.palette.action.selected,
-                  [navToken.leaf.hoverActiveBgcolor]: theme.vars.palette.action.selected,
-                }}
-              />
-            </Li>
-          ))}
-        </Ul>
-      </Collapse>
-    </>
-  );
-}
-
 // ----------------------------------------------------------------------
 
-type LeafProps = {
-  data: Omit<LeafData, "href"> & Partial<Pick<LeafData, "href">>;
-  active: boolean;
-  arrow: "forward" | "downward" | "none";
-  sx?: SxProps<Theme>;
-} & ButtonBaseProps;
+type BranchFnProps = {
+  icon?: React.ReactElement;
+  label: string;
+  startsWith: string;
+  children?: React.ReactNode;
+};
 
-function Leaf({ data, active, arrow, sx, ...rest }: LeafProps) {
+const BranchFn = ({ icon, label, startsWith, children }: BranchFnProps) => {
+  const pathname = usePathname();
+  const { bool: isOpen, toggle: toggleOpen } = useBooleanState(pathname.startsWith(startsWith));
   const theme = useTheme();
-  const iconStyles = useMemo(
+
+  const active = useMemo(() => pathname.startsWith(startsWith), [startsWith, pathname]);
+
+  const arrowIconStyles = useMemo(
     () => ({
       flexShrink: 0,
       display: "inline-flex",
@@ -212,66 +144,281 @@ function Leaf({ data, active, arrow, sx, ...rest }: LeafProps) {
   );
 
   return (
-    <ButtonBase
-      LinkComponent={Link}
-      {...(data.href && { href: data.href })}
-      sx={{
-        width: "100%",
-        minHeight: `var(${navToken.leaf.minHeight})`,
-        padding: theme.spacing(0.5, 1, 0.5, 1.5),
-        borderRadius: `${theme.shape.borderRadius}px`,
-        bgcolor: `var(${navToken.leaf.bgcolor})`,
-        color: `var(${navToken.leaf.color})`,
-        textAlign: "start",
-        "&:hover": {
-          bgcolor: `var(${navToken.leaf.hoverBgcolor})`,
-        },
-        ...(active && {
-          color: `var(${navToken.leaf.activeColor})`,
-          bgcolor: `var(${navToken.leaf.activeBgcolor})`,
+    <Li>
+      <ButtonBase
+        onClick={toggleOpen}
+        sx={{
+          minHeight: `var(${navToken.branch.minHeight})`,
+          padding: `var(${navToken.branch.padding})`,
+          borderRadius: `var(${navToken.branch.borderRadius})`,
+          bgcolor: "transparent",
+          color: theme.vars.palette.text.secondary,
+          textAlign: "start",
           "&:hover": {
-            bgcolor: `var(${navToken.leaf.hoverActiveBgcolor})`,
+            bgcolor: theme.vars.palette.action.hover,
           },
-        }),
-        ...sx,
-      }}
-      {...rest}
-    >
-      {data.icon ? (
-        <Box
-          component="span"
-          sx={{
-            flexShrink: 0,
-            display: "inline-flex",
-            width: `var(${navToken.leaf.iconSize})`,
-            height: `var(${navToken.leaf.iconSize})`,
-            margin: theme.spacing(0, 1.5, 0, 0),
-            marginTop: "-2px",
-          }}
-        >
-          {data.icon}
-        </Box>
-      ) : null}
+          ...(isOpen && {
+            bgcolor: theme.vars.palette.action.selected,
+            color: theme.vars.palette.text.primary,
+            "&:hover": {
+              bgcolor: theme.vars.palette.action.selected,
+            },
+          }),
+          ...(active && {
+            bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
+            color: theme.vars.palette.primary.main,
+            "&:hover": {
+              bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
+            },
+          }),
+        }}
+      >
+        {icon && (
+          <Box
+            component="span"
+            sx={{
+              flexShrink: 0,
+              display: "inline-flex",
+              margin: theme.spacing(0, 1.5, 0, 0),
+              marginTop: "-2px",
+              "& svg": {
+                width: `var(${navToken.branch.iconSize})`,
+                height: `var(${navToken.branch.iconSize})`,
+              },
+            }}
+          >
+            {icon}
+          </Box>
+        )}
 
-      <Box component="span" sx={{ minWidth: 0, flex: "1 1 auto" }}>
-        <Box
-          component="span"
-          sx={{
-            width: "100%",
-            maxWidth: "100%",
-            display: "block",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis",
-            ...theme.typography.body1,
-            fontWeight: active ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
-          }}
-        >
-          {data.title}
+        <Box component="span" sx={{ minWidth: 0, flex: "1 1 auto" }}>
+          <Box
+            component="span"
+            sx={{
+              display: "block",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              ...theme.typography.body1,
+              fontWeight: active ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
+            }}
+          >
+            {label}
+          </Box>
         </Box>
-      </Box>
-      {arrow !== "none" && arrow === "downward" && <EvaArrowIosDownwardFillIcon sx={iconStyles} />}
-      {arrow !== "none" && arrow === "forward" && <EvaArrowIosForwardFillIcon sx={iconStyles} />}
-    </ButtonBase>
+        {isOpen ? (
+          <EvaArrowIosDownwardFillIcon sx={arrowIconStyles} />
+        ) : (
+          <EvaArrowIosForwardFillIcon sx={arrowIconStyles} />
+        )}
+      </ButtonBase>
+
+      <Collapse in={isOpen} mountOnEnter unmountOnExit sx={{ mt: `var(${navToken.ul.gap})` }}>
+        <Ul sx={{ pl: `calc(${theme.spacing(1.5)} + var(${navToken.leaf.iconSize}))` }}>{children}</Ul>
+      </Collapse>
+    </Li>
   );
-}
+};
+
+// ----------------------------------------------------------------------
+
+type BranchAnchorFnProps = <C extends "a" | typeof Link>(
+  props: ButtonBaseProps<
+    C,
+    {
+      component?: C;
+      href: string;
+      icon?: React.ReactElement;
+      label: string;
+    }
+  >,
+) => JSX.Element;
+
+const BranchAnchorFn: BranchAnchorFnProps = ({ icon, label, href, ...rest }) => {
+  const pathname = usePathname();
+  const { bool: isOpen, toggle: toggleOpen } = useBooleanState(pathname.startsWith(href));
+  const theme = useTheme();
+
+  const active = useMemo(() => pathname.startsWith(href), [href, pathname]);
+
+  return (
+    <Li>
+      <ButtonBase
+        onClick={toggleOpen}
+        sx={{
+          minHeight: `var(${navToken.branch.minHeight})`,
+          padding: `var(${navToken.branch.padding})`,
+          borderRadius: `var(${navToken.branch.borderRadius})`,
+          bgcolor: "transparent",
+          color: theme.vars.palette.text.secondary,
+          textAlign: "start",
+          "&:hover": {
+            bgcolor: theme.vars.palette.action.hover,
+          },
+          ...(active && {
+            bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
+            color: theme.vars.palette.primary.main,
+            "&:hover": {
+              bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
+            },
+          }),
+        }}
+      >
+        {icon && (
+          <Box
+            component="span"
+            sx={{
+              flexShrink: 0,
+              display: "inline-flex",
+              margin: theme.spacing(0, 1.5, 0, 0),
+              marginTop: "-2px",
+              "& svg": {
+                width: `var(${navToken.branch.iconSize})`,
+                height: `var(${navToken.branch.iconSize})`,
+              },
+            }}
+          >
+            {icon}
+          </Box>
+        )}
+
+        <Box component="span" sx={{ minWidth: 0, flex: "1 1 auto" }}>
+          <Box
+            component="span"
+            sx={{
+              display: "block",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              ...theme.typography.body1,
+              fontWeight: active ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
+            }}
+          >
+            {label}
+          </Box>
+        </Box>
+      </ButtonBase>
+    </Li>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+type LeafAnchorFnType = <C extends "a" | typeof Link>(
+  props: ButtonBaseProps<
+    C,
+    {
+      component?: C;
+      href: string;
+      icon?: React.ReactElement;
+      label: string;
+    }
+  >,
+) => JSX.Element;
+
+const LeafAnchorFn: LeafAnchorFnType = ({ icon, label, href, ...rest }) => {
+  const pathname = usePathname();
+  const theme = useTheme();
+
+  const active = useMemo(() => pathname.startsWith(href), [href, pathname]);
+
+  return (
+    <Li>
+      <ButtonBase
+        href={href}
+        {...rest}
+        sx={{
+          minHeight: `var(${navToken.leaf.minHeight})`,
+          padding: `var(${navToken.leaf.padding})`,
+          borderRadius: `var(${navToken.leaf.borderRadius})`,
+          bgcolor: "transparent",
+          color: theme.vars.palette.text.secondary,
+          textAlign: "start",
+          "&:hover": {
+            bgcolor: theme.vars.palette.action.hover,
+          },
+          ...(active && {
+            bgcolor: theme.vars.palette.action.selected,
+            color: theme.vars.palette.text.primary,
+            "&:hover": {
+              bgcolor: theme.vars.palette.action.selected,
+            },
+          }),
+        }}
+      >
+        {icon && (
+          <Box
+            component="span"
+            sx={{
+              flexShrink: 0,
+              display: "inline-flex",
+              margin: theme.spacing(0, 1.5, 0, 0),
+              marginTop: "-2px",
+              "& svg": {
+                width: `var(${navToken.leaf.iconSize})`,
+                height: `var(${navToken.leaf.iconSize})`,
+              },
+            }}
+          >
+            {icon}
+          </Box>
+        )}
+
+        <Box component="span" sx={{ minWidth: 0, flex: "1 1 auto" }}>
+          <Box
+            component="span"
+            sx={{
+              display: "block",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              ...theme.typography.body1,
+              fontWeight: active ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
+            }}
+          >
+            {label}
+          </Box>
+        </Box>
+      </ButtonBase>
+    </Li>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+type LeafButtonFnProps = ButtonProps;
+
+const LeafButtonFn = ({ children, sx, ...rest }: LeafButtonFnProps) => {
+  return (
+    <Li>
+      <Button
+        variant="contained"
+        color="primary"
+        {...rest}
+        sx={{
+          minHeight: `var(${navToken.leaf.minHeight})`,
+          padding: `var(${navToken.leaf.padding})`,
+          borderRadius: `var(${navToken.leaf.borderRadius})`,
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
+          ...sx,
+        }}
+      >
+        {children}
+      </Button>
+    </Li>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+export const Nav = Object.assign(NavFn, {
+  Tree: Object.assign(TreeFn, {
+    Branch: Object.assign(BranchFn, {
+      LeafAnchor: LeafAnchorFn,
+      LeafButton: LeafButtonFn,
+    }),
+    BranchAnchor: BranchAnchorFn,
+  }),
+});

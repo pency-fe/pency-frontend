@@ -2,7 +2,8 @@
 
 import { DashboardLayout } from "@pency/ui/layouts";
 import { Header } from "./header";
-import { Sidebar } from "./sidebar";
+import { navData } from "./nav-data";
+import { PlatformNav } from "./platform-nav";
 
 type Props = {
   children: React.ReactNode;
@@ -13,7 +14,14 @@ export function PlatformLayout({ children }: Props) {
     <DashboardLayout
       slots={{
         header: <Header />,
-        sidebar: <Sidebar />,
+        sidebar: (
+          <DashboardLayout.Sidebar
+            data={navData}
+            slots={{
+              nav: <PlatformNav />,
+            }}
+          />
+        ),
         footer: <>Footer</>,
       }}
     >

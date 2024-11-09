@@ -4,9 +4,12 @@ import { MiniNav, Nav } from "@/components";
 
 type Props = {
   data: Parameters<typeof Nav>[0]["data"];
+  slots: {
+    nav: React.ReactElement;
+  };
 };
 
-export function Sidebar({ data }: Props) {
+export function Sidebar({ data, slots }: Props) {
   const theme = useTheme();
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
   const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
@@ -39,7 +42,7 @@ export function Sidebar({ data }: Props) {
       }}
     >
       {isSmUp && !isLgUp && <MiniNav data={data} />}
-      {isLgUp && <Nav data={data} />}
+      {isLgUp && slots.nav}
     </Box>
   );
 }

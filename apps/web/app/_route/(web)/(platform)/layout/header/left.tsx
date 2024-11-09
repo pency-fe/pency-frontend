@@ -1,10 +1,10 @@
-import { navData } from "../nav-data";
 import { Drawer, IconButton, Stack, drawerClasses, useTheme } from "@mui/material";
 import { useBooleanState } from "@pency/util";
-import { EvaMenuOutlineIcon, IcomoonFreeYoutube2Icon, Nav } from "@pency/ui/components";
+import { EvaMenuOutlineIcon, IcomoonFreeYoutube2Icon } from "@pency/ui/components";
 import { useCallback, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { DashboardLayout } from "@pency/ui/layouts";
+import { PlatformNav } from "../platform-nav";
 
 export function Left() {
   const pathname = usePathname();
@@ -84,7 +84,7 @@ export function Left() {
             sx={{ width: "fit-content", height: "24px", overflow: "unset", cursor: "pointer" }}
           />
         </Stack>
-        <Nav data={navData} />
+        <PlatformNav />
       </Drawer>
     </>
   );

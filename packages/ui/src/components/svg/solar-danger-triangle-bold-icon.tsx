@@ -1,21 +1,13 @@
 import { forwardRef } from "react";
-import { SvgIcon, SvgIconProps, useTheme } from "@mui/material";
+import { SvgIcon, SvgIconProps } from "@mui/material";
 
 /**
  * @description
  * https://icon-sets.iconify.design/solar/danger-triangle-bold/
  */
 export const SolarDangerTriangleBoldIcon = forwardRef<SVGSVGElement, SvgIconProps>((rest, ref) => {
-  const theme = useTheme();
-
   return (
-    <SvgIcon
-      ref={ref}
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      {...rest}
-      sx={{ fill: theme.vars.palette.logo.apple }}
-    >
+    <SvgIcon ref={ref} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...rest}>
       <path
         fill="currentColor"
         fill-rule="evenodd"
