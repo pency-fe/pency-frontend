@@ -15,13 +15,6 @@ export default function RootLayout({ children }: Props) {
         <Providers>
           {children}
           <Snackbar />
-          <button
-            onClick={() => {
-              toast("hihi");
-            }}
-          >
-            hihi
-          </button>
         </Providers>
       </body>
     </html>

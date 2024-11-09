@@ -1,9 +1,10 @@
 "use client";
 import { Box, Stack, Typography, TextField, Button } from "@mui/material";
+import { toast } from "@pency/ui/components";
 import { useQuery } from "@tanstack/react-query";
 import { authProvisionUserKeys, useResend } from "_core/auth/provision-user";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // [TODO]
 // 0. 회원가입 다시하셈
@@ -12,7 +13,6 @@ import { useEffect, useState } from "react";
 // 3. "EXPIRED_EMAIL_TOKEN" 코드 에러는 그냥 not-verify로 이동시켜버림
 // 흠.. Suspense, ErrorBoundary, useSuspense를 사용하면 더 깔끔해 질 것 같지만, 이 페이지에서는 코드 줄수가 적기 때문에 안써도 될 것 같음
 export function ResendPage() {
-  const [message, setMessage] = useState("");
   const provisionUserId = useSearchParams().get("provisionUserId");
   const router = useRouter();
   const { mutate } = useResend();
@@ -32,25 +32,22 @@ export function ResendPage() {
   const handleResendClick = (data: { provisionUserId: string }) => {
     mutate(data, {
       onSuccess: () => {
-        setMessage("인증 메일이 재전송됐어요. 메일을 확인해주세요.");
+        toast.success("인증 메일이 재전송됐어요. 메일을 확인해주세요.");
+        return;
       },
       onError: (error) => {
-        if (error.code === "EXCEEDED_EMAIL_SEND") {
-          setMessage(error.message);
+        if (error.code === "EXPIRED_EMAIL_TOKEN") {
+          toast.error(error.message);
+          return;
         }
 
-        if (error.code === "EXPIRED_EMAIL_TOKEN") {
-          setMessage(error.message);
+        if (error.code === "EXCEEDED_EMAIL_SEND") {
+          toast.warning(error.message);
+          return;
         }
       },
     });
   };
-
-  // useEffect(() => {
-  //   if (provisionUserId === null || !provisionUserId.length) {
-  //     router.replace("/");
-  //   }
-  // }, [provisionUserId, router]);
 
   return (
     <Box>
@@ -68,8 +65,6 @@ export function ResendPage() {
             ) : (
               <>
                 <TextField variant="filled" fullWidth type="email" label="이메일" value={query.data?.email} disabled />
-
-                {message && <Typography>{message}</Typography>}
 
                 <Button
                   type="submit"
