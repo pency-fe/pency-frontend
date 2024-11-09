@@ -2,6 +2,7 @@
 
 import "@pency/ui/global.css";
 import { Providers } from "./providers";
+import { Snackbar, toast } from "@pency/ui/components";
 
 type Props = {
   children: React.ReactNode;
@@ -11,7 +12,17 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="ko" suppressHydrationWarning>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <Snackbar />
+          <button
+            onClick={() => {
+              toast("hihi");
+            }}
+          >
+            hihi
+          </button>
+        </Providers>
       </body>
     </html>
   );

@@ -2,9 +2,14 @@
 
 import Portal from "@mui/material/Portal";
 
-import { Iconify } from "../iconify";
 import { StyledToaster } from "./styles";
 import { toasterClasses } from "./classes";
+import {
+  SolarCheckCircleBoldIcon,
+  SolarDangerBoldIcon,
+  SolarDangerTriangleBoldIcon,
+  SolarInfoCircleBoldIcon,
+} from "../svg";
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +22,8 @@ export function Snackbar() {
         closeButton
         offset={16}
         visibleToasts={4}
-        position="top-right"
+        duration={1000000}
+        position="bottom-center"
         className={toasterClasses.root}
         toastOptions={{
           unstyled: true,
@@ -42,10 +48,10 @@ export function Snackbar() {
         }}
         icons={{
           loading: <span className={toasterClasses.loadingIcon} />,
-          info: <Iconify className={toasterClasses.iconSvg} icon="solar:info-circle-bold" />,
-          success: <Iconify className={toasterClasses.iconSvg} icon="solar:check-circle-bold" />,
-          warning: <Iconify className={toasterClasses.iconSvg} icon="solar:danger-triangle-bold" />,
-          error: <Iconify className={toasterClasses.iconSvg} icon="solar:danger-bold" />,
+          info: <SolarInfoCircleBoldIcon className={toasterClasses.iconSvg} />,
+          success: <SolarCheckCircleBoldIcon className={toasterClasses.iconSvg} />,
+          warning: <SolarDangerTriangleBoldIcon className={toasterClasses.iconSvg} />,
+          error: <SolarDangerBoldIcon className={toasterClasses.iconSvg} />,
         }}
       />
     </Portal>
