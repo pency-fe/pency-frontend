@@ -2,11 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, IconButton, InputAdornment, Link, Stack, TextField, Typography, useTheme } from "@mui/material";
-import { EvaEyeFillIcon, EvaEyeOffFillIcon } from "@pency/ui/components";
+import { EvaEyeFillIcon, EvaEyeOffFillIcon, toast } from "@pency/ui/components";
 import { useBooleanState } from "@pency/util";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import NextLink from "next/link";
+import { useLogin } from "_core/auth/user";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   email: z.string().min(1, "이메일 주소를 입력해 주세요.").email("이메일 주소를 정확하게 입력해 주세요."),
@@ -15,6 +17,10 @@ const schema = z.object({
 type Schema = z.infer<typeof schema>;
 
 export function EmailPage() {
+  const { mutate } = useLogin();
+
+  const router = useRouter();
+
   const { control, handleSubmit } = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -25,8 +31,24 @@ export function EmailPage() {
   });
   const { bool: passwordShow, toggle: togglePasswordShow } = useBooleanState(false);
 
-  const onSubmit = (data: Schema) => {
-    console.log(data);
+  const onSubmit = async (data: Schema) => {
+    mutate(data, {
+      onSuccess: () => {
+        router.push("/");
+        toast.success("로그인에 성공했어요.");
+      },
+      onError: async (error) => {
+        if (error.code === "UNVERIFIED_EMAIL") {
+          toast.warning(error.message);
+          return;
+        }
+
+        if (error.code === "INVALID_LOGIN") {
+          toast.error(error.message);
+          return;
+        }
+      },
+    });
   };
 
   const theme = useTheme();
@@ -78,7 +100,7 @@ export function EmailPage() {
             />
 
             <Button type="submit" variant="soft" color="primary" size="large" fullWidth>
-              회원가입
+              로그인
             </Button>
           </Stack>
         </form>
