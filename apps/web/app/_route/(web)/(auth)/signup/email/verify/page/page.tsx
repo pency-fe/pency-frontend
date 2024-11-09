@@ -1,9 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Stack, TextField, Typography, useTheme } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
 
 export function VerifyPage() {
   const theme = useTheme();
