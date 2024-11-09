@@ -21,3 +21,7 @@ export * from "./material-symbols-block-icon";
 export * from "./material-symbols-report-outline-icon";
 export * from "./mingcute-down-line-icon";
 export * from "./nineteen-circle-icon";
+export * from "./solar-check-circle-bold-icon";
+export * from "./solar-danger-bold-icon";
+export * from "./solar-danger-triangle-bold-icon";
+export * from "./solar-info-circle-bold-icon";
