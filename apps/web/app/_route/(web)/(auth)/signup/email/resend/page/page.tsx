@@ -1,19 +1,16 @@
 "use client";
-import { Box, Stack, Typography, TextField, Button } from "@mui/material";
+import { Box, Stack, Typography, TextField, Button, useTheme } from "@mui/material";
 import { toast } from "@pency/ui/components";
 import { useQuery } from "@tanstack/react-query";
 import { authProvisionUserKeys, useResend } from "_core/auth/provision-user";
 import { useRouter, useSearchParams } from "next/navigation";
 
-// [TODO]
-// 0. 회원가입 다시하셈
-// 1. SuccessRes 사라졌음. -> 이제 그냥 응답으로 데이터만 보내줄거임. 없으면 안보내주고. api-doc 최신화 했음. api확인하면 됌
-// 2. HTTPError가 QueryError로 바뀌었음. _core/api.ts 확인 후 mutations보면됌
-// 3. "EXPIRED_EMAIL_TOKEN" 코드 에러는 그냥 not-verify로 이동시켜버림
-// 흠.. Suspense, ErrorBoundary, useSuspense를 사용하면 더 깔끔해 질 것 같지만, 이 페이지에서는 코드 줄수가 적기 때문에 안써도 될 것 같음
 export function ResendPage() {
-  const provisionUserId = useSearchParams().get("provisionUserId");
+  const theme = useTheme();
+
   const router = useRouter();
+
+  const provisionUserId = useSearchParams().get("provisionUserId");
   const { mutate } = useResend();
 
   if (provisionUserId === null || !provisionUserId.length) {
@@ -63,6 +60,14 @@ export function ResendPage() {
               <>Loading~~</>
             ) : (
               <>
+                <Typography variant="body2" color={theme.vars.palette.text.secondary}>
+                  등록한 이메일 주소로 인증 메일을 보내드렸어요. 24시간 안에 링크를 열어 이메일 인증을 완료해주세요.
+                </Typography>
+
+                <Typography variant="body2" color={theme.vars.palette.text.secondary}>
+                  인증 메일을 받지 못했을 경우, '인증 메일 재전송' 버튼을 눌러주세요.
+                </Typography>
+
                 <TextField variant="filled" fullWidth type="email" label="이메일" value={query.data?.email} disabled />
 
                 <Button
