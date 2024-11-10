@@ -1,14 +1,12 @@
 "use client";
 
-import { Button, CircularProgress, Stack, Typography, useTheme } from "@mui/material";
+import { CircularProgress, Stack, Typography } from "@mui/material";
 import { toast } from "@pency/ui/components";
 import { useVerify } from "_core/auth/provision-user";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function VerifyPage() {
-  const [isLoading, setIsLoading] = useState(true);
-
   const router = useRouter();
   const token = useSearchParams().get("token");
   const { mutate } = useVerify();
@@ -30,16 +28,11 @@ export function VerifyPage() {
           return;
         }
       },
-      onSettled: () => {
-        setIsLoading(false);
-      },
     });
   };
 
   useEffect(() => {
-    if (isLoading) {
-      mutation({ token });
-    }
+    mutation({ token });
   }, []);
 
   return (
