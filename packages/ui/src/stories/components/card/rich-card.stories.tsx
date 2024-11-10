@@ -136,7 +136,7 @@ export const PostRichCard = () => {
                   <Menux.Item.Icon>
                     <MaterialSymbolsBlock />
                   </Menux.Item.Icon>
-                  차단하기{" "}
+                  차단하기
                 </Menux.Item>
 
                 <Menux.Item>
