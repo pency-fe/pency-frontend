@@ -55,7 +55,7 @@ export function Left() {
         onClose={open.setFalse}
         sx={{
           [`& .${drawerClasses.paper}`]: {
-            width: `var(${DashboardLayout.token.sidebar.upLgWidth})`,
+            width: `var(${DashboardLayout.Sidebar.token.upLgWidth})`,
             bgcolor: theme.vars.palette.background.default,
           },
         }}
@@ -64,7 +64,7 @@ export function Left() {
           sx={{
             flexDirection: "row",
             alignItems: "center",
-            height: `var(${DashboardLayout.token.header.height})`,
+            height: `var(${DashboardLayout.Header.token.height})`,
             mb: theme.spacing(1),
             px: theme.spacing(2),
           }}
