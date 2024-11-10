@@ -11,6 +11,7 @@ export default function Right() {
   const pathname = usePathname();
 
   useEffect(() => {
+    console.log("??");
     if (pathname.startsWith("/login")) {
       setLink("회원가입");
       setHref("/signup");
@@ -22,7 +23,7 @@ export default function Right() {
       setHref("/login");
       return;
     }
-  }, [pathname]);
+  }, [pathname.startsWith("/login"), pathname.startsWith("/signup")]);
 
   return (
     <Link component={NextLink} href={href}>
