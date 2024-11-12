@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, ButtonProps, InputAdornment, inputBaseClasses, TextField, Typography } from "@mui/material";
 import { ReactNode } from "react";
