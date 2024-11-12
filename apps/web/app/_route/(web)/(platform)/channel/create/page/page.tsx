@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Stack, Typography, useTheme } from "@mui/material";
-import { CH_Form } from "_core/channel/boundary/ch-form";
+import { CH_Create_Form } from "_core/channel/boundary/ch-form";
 
 export function CreatePage() {
   const theme = useTheme();
@@ -11,20 +11,20 @@ export function CreatePage() {
       <Typography variant="h4">새 채널 만들기</Typography>
       <form noValidate>
         <Stack spacing={3}>
-          <CH_Form>
+          <CH_Create_Form>
             <Box sx={{ backgroundColor: theme.vars.palette.background.paper, padding: 3, borderRadius: 2 }}>
               <Stack spacing={4}>
-                <CH_Form.Title />
-                <CH_Form.Description />
-                <CH_Form.Url />
+                <CH_Create_Form.Title />
+                <CH_Create_Form.Description />
+                <CH_Create_Form.Url />
               </Stack>
             </Box>
-            <CH_Form.CreateSubmitButton
+            <CH_Create_Form.CreateSubmitButton
               sx={{
                 alignSelf: "flex-end",
               }}
             />
-          </CH_Form>
+          </CH_Create_Form>
         </Stack>
       </form>
     </Stack>

@@ -33,5 +33,5 @@ type GetMeRes =
     };
 
 export const getMe = async (options?: Options) => {
-  return await api.get<GetMeRes>("user/me", options).json();
+  return await api.get<GetMeRes>("auth/me", options).json();
 };

@@ -4,12 +4,12 @@ import { Options } from "ky";
 
 // ----------------------------------------------------------------------
 
-export const userKeys = {
-  all: ["user"],
+export const authUserKeys = {
+  all: ["auth", "user"],
   me: (options?: Options) =>
     queryOptions<Awaited<ReturnType<typeof getMe>>>({
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
-      queryKey: [...userKeys.all, "me"],
+      queryKey: [...authUserKeys.all, "me"],
       queryFn: () => getMe(options),
     }),
 };

@@ -11,7 +11,7 @@ const schema = z.object({
   description: z.string().max(200, "최대 200자 이내로 입력해 주세요.").optional(),
   url: z
     .string()
-    .regex(/^[a-z0-9-]+$/, "URL은 영문 소문자, 숫자, 대시(-)만 입력할 수 있어요.")
+    .regex(/^(?!-)[a-z0-9]+(-[a-z0-9]+)*(?<!-)$/, "URL은 영문 소문자, 숫자, 대시(-)만 입력할 수 있어요.")
     .min(6, "최소 6자 이상 입력해 주세요.")
     .max(45, "최대 45자 이내로 입력해 주세요."),
 });
@@ -20,18 +20,37 @@ type Schema = z.infer<typeof schema>;
 
 // ----------------------------------------------------------------------
 
-type CH_Form_Fn_Props = {
-  defaultValues?: Partial<Schema>;
+type CH_Create_Form_Fn_Props = {
   children?: ReactNode;
 };
 
-const CH_Form_Fn = ({ defaultValues = {}, children }: CH_Form_Fn_Props) => {
+const CH_Create_Form_Fn = ({ children }: CH_Create_Form_Fn_Props) => {
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
-      title: defaultValues.title ?? "",
-      description: defaultValues.description ?? "",
-      url: defaultValues.url ?? "",
+      title: "",
+      description: "",
+      url: "",
+    },
+    mode: "onTouched",
+  });
+
+  return <FormProvider {...methods}>{children}</FormProvider>;
+};
+
+// ----------------------------------------------------------------------
+
+type CH_Update_Form_Fn_Props = {
+  children?: ReactNode;
+};
+
+const CH_Update_Form_Fn = ({ children }: CH_Update_Form_Fn_Props) => {
+  const methods = useForm<Schema>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      title: "",
+      description: "",
+      url: "",
     },
     mode: "onTouched",
   });
@@ -56,6 +75,24 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
     </Button>
   );
 };
+
+type UpdateSubmitFnProps = Omit<ButtonProps, "children">;
+
+const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
+  const { handleSubmit } = useFormContext();
+
+  const onSubmit = (data: Schema) => {
+    console.log(data);
+  };
+
+  return (
+    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(() => onSubmit)} {...props}>
+      새 채널 만들기
+    </Button>
+  );
+};
+
+// ----------------------------------------------------------------------
 
 const TitleFn = () => {
   const { control } = useFormContext<Schema>();
@@ -161,9 +198,16 @@ const UrlFn = () => {
   );
 };
 
-export const CH_Form = Object.assign(CH_Form_Fn, {
+export const CH_Create_Form = Object.assign(CH_Create_Form_Fn, {
   Title: TitleFn,
   Description: DescriptionFn,
   Url: UrlFn,
   CreateSubmitButton: CreateSubmitFn,
+});
+
+export const CH_Update_Form = Object.assign(CH_Update_Form_Fn, {
+  Title: TitleFn,
+  Description: DescriptionFn,
+  Url: UrlFn,
+  UpdateSubmitButton: UpdateSubmitFn,
 });

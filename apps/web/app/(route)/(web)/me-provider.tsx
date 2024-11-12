@@ -3,7 +3,7 @@
 import { createContext, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getMe } from "_core/auth/user/query/api";
-import { userKeys } from "_core/auth/user";
+import { authUserKeys } from "_core/auth/user";
 
 const MeContext = createContext<Awaited<ReturnType<typeof getMe>> | undefined>(undefined);
 
@@ -20,7 +20,7 @@ type MeProviderProps = {
 };
 
 export function MeProvider({ children }: MeProviderProps) {
-  const { data } = useQuery(userKeys.me());
+  const { data } = useQuery(authUserKeys.me());
 
   return <MeContext.Provider value={data}>{children}</MeContext.Provider>;
 }
