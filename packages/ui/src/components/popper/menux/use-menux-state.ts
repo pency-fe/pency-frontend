@@ -1,3 +1,5 @@
+"use client";
+
 import { useBooleanState } from "@pency/util";
 import { useCallback, useRef } from "react";
 

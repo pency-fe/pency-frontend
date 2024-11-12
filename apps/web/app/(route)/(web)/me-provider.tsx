@@ -1,9 +1,9 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
-import { userKeys } from "../query";
-import { getMe } from "../query/api";
+import { useQuery } from "@tanstack/react-query";
+import { getMe } from "_core/user/query/api";
+import { userKeys } from "_core/user";
 
 const MeContext = createContext<Awaited<ReturnType<typeof getMe>> | undefined>(undefined);
 
@@ -20,11 +20,7 @@ type MeProviderProps = {
 };
 
 export function MeProvider({ children }: MeProviderProps) {
-  const query = useQuery(userKeys.me());
+  const { data } = useQuery(userKeys.me());
 
-  if (query.isPending) {
-    return;
-  }
-
-  return <MeContext.Provider value={query.data}>{children}</MeContext.Provider>;
+  return <MeContext.Provider value={data}>{children}</MeContext.Provider>;
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { forwardRef } from "react";
 import { COMPLETION_STATE_LABEL, CompletionState } from "../const";

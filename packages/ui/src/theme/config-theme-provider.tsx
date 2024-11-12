@@ -1,3 +1,5 @@
+"use client";
+
 import { Experimental_CssVarsProvider as CssVarsProvider, useColorScheme } from "@mui/material/styles";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { darkTheme, lightTheme, ColorScheme } from "./core";

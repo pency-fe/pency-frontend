@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, forwardRef, ReactElement, ReactNode, useContext } from "react";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
 import { Box, BoxProps, IconButton, IconButtonProps } from "@mui/material";

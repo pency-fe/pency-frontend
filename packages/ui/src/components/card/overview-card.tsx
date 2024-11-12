@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactElement, createContext, forwardRef, useContext, useMemo } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import {

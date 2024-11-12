@@ -1,3 +1,5 @@
+"use client";
+
 import { StyledToaster } from "./styles";
 import { toasterClasses } from "./classes";
 import {

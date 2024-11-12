@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef, useMemo } from "react";
 import type { BoxProps } from "@mui/material/Box";
 import { Box, useTheme } from "@mui/material";

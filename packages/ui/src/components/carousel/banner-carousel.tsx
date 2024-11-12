@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactElement, createContext, forwardRef, useContext } from "react";
 import { Box, BoxProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";

@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, GlobalStyles, useMediaQuery, useTheme } from "@mui/material";
 import { MiniNav, Nav } from "@/components";
 import { Header } from "./header";

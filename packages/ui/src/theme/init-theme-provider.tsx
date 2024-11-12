@@ -1,3 +1,5 @@
+"use client";
+
 import type {} from "@mui/material/themeCssVarsAugmentation";
 import type {} from "@mui/lab/themeAugmentation";
 

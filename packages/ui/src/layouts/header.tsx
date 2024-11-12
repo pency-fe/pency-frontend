@@ -1,3 +1,5 @@
+"use client";
+
 import { AppBar, AppBarProps, Box, Container, GlobalStyles, Toolbar, useTheme } from "@mui/material";
 
 const token = {

@@ -1,4 +1,5 @@
 import { api } from "_core/api";
+import { Options } from "ky";
 
 type GetMeRes =
   | {
@@ -12,8 +13,8 @@ type GetMeRes =
       isLoggedIn: false;
     };
 
-export const getMe = async () => {
-  return await api.get<GetMeRes>("user/me").json();
+export const getMe = async (options?: Options) => {
+  return await api.get<GetMeRes>("user/me", options).json();
 };
 
 // ----------------------------------------------------------------------

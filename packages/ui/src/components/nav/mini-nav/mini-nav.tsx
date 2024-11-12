@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, ButtonBase, ButtonBaseProps, Paper, Popover, Stack, SxProps } from "@mui/material";
 import { BranchData, LeafData, NavData } from "../types";
 import { Theme, useTheme } from "@mui/material/styles";

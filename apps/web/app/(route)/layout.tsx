@@ -1,7 +1,6 @@
-"use client";
-
 import "@pency/ui/global.css";
-import { Providers } from "./providers";
+import { InitQueryClientProvider } from "./init-query-client-provider";
+import { InitThemeProvider } from "@pency/ui/theme";
 import { Snackbar } from "@pency/ui/components";
 
 type Props = {
@@ -12,10 +11,12 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="ko" suppressHydrationWarning>
       <body>
-        <Providers>
-          {children}
-          <Snackbar />
-        </Providers>
+        <InitQueryClientProvider>
+          <InitThemeProvider>
+            {children}
+            <Snackbar />
+          </InitThemeProvider>
+        </InitQueryClientProvider>
       </body>
     </html>
   );

@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Container, SxProps, useTheme } from "@mui/material";
 import { Theme } from "@mui/material/styles";
 import { Header } from "../header";
