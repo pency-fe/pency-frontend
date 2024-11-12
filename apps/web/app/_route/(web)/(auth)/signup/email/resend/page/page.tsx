@@ -14,14 +14,14 @@ export function ResendPage() {
   const { mutate } = useResend();
 
   if (provisionUserId === null || !provisionUserId.length) {
-    router.replace("/");
+    router.push("/");
     return;
   }
 
   const query = useQuery(authProvisionUserKeys.email({ provisionUserId }));
 
   if (query.isError && query.error.code === "EXPIRED_EMAIL_TOKEN") {
-    router.replace("/signup/email/not-verify");
+    router.push("/signup/email/not-verify");
     return;
   }
 

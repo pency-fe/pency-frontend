@@ -40,6 +40,8 @@ export function EmailPage() {
       onError: async (error) => {
         if (error.code === "UNVERIFIED_EMAIL") {
           toast.warning(error.message);
+          // [?]
+          router.push(`/signup/email/resend?provisionUserId=${error.data?.provisionUserId}`);
           return;
         }
 

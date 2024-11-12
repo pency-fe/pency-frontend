@@ -18,6 +18,7 @@ export function Right() {
   return (
     <Stack flexDirection="row" alignItems="center" spacing={1}>
       <TextField
+        placeholder="검색어를 입력해 주세요."
         variant="filled"
         InputProps={{
           endAdornment: (

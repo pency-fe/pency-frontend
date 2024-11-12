@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "@mui/material";
+import { Button, Link } from "@mui/material";
 import { usePathname } from "next/navigation";
 import NextLink from "next/link";
 import { useEffect, useState } from "react";
@@ -26,8 +26,11 @@ export default function Right() {
   }, [pathname.startsWith("/login"), pathname.startsWith("/signup")]);
 
   return (
-    <Link component={NextLink} href={href}>
+    // <Link component={NextLink} href={href}>
+    //   {link}
+    // </Link>
+    <Button LinkComponent={NextLink} href={href} variant="text" size="large">
       {link}
-    </Link>
+    </Button>
   );
 }

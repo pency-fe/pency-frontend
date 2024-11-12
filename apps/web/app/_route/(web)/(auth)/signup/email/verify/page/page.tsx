@@ -12,19 +12,19 @@ export function VerifyPage() {
   const { mutate } = useVerify();
 
   if (token === null || !token.length) {
-    router.replace("/signup/email/not-verify");
+    router.push("/signup/email/not-verify");
     return;
   }
 
   const mutation = (data: { token: string }) => {
     mutate(data, {
       onSuccess: () => {
-        router.replace("/");
+        router.push("/");
         toast.success("인증을 완료했어요.");
       },
       onError: (error) => {
         if (error.code === "EXPIRED_EMAIL_TOKEN") {
-          router.replace("/signup/email/not-verify");
+          router.push("/signup/email/not-verify");
           return;
         }
       },
