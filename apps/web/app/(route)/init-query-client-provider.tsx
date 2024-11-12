@@ -1,11 +1,11 @@
 "use client";
 
 // QueryClientProvider는 내부적으로 useContext를 사용하므로, 최상단에 "use client"를 추가해야 합니다.
-import { isServer, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { isServer, matchQuery, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function makeQueryClient() {
-  return new QueryClient({
+  const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
@@ -14,6 +14,24 @@ function makeQueryClient() {
       },
     },
   });
+
+  queryClient.getMutationCache().config.onSuccess = (_data, _variables, _context, mutation) => {
+    queryClient.invalidateQueries({
+      predicate: (query) =>
+        mutation.meta?.invalidates?.some((queryKey) => {
+          return matchQuery({ queryKey }, query);
+        }) ?? false,
+    });
+
+    return queryClient.invalidateQueries(
+      {
+        predicate: (query) => mutation.meta?.awaits?.some((queryKey) => matchQuery({ queryKey }, query)) ?? false,
+      },
+      { cancelRefetch: false },
+    );
+  };
+
+  return queryClient;
 }
 
 let browserQueryClient: QueryClient | undefined = undefined;

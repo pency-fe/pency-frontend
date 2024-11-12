@@ -1,4 +1,14 @@
+import { QueryKey } from "@tanstack/react-query";
 import ky, { HTTPError } from "ky";
+
+declare module "@tanstack/react-query" {
+  interface Register {
+    mutationMeta: {
+      invalidates?: Array<QueryKey>;
+      awaits?: Array<QueryKey>;
+    };
+  }
+}
 
 export const api = ky.create({
   credentials: "include",
