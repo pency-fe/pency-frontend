@@ -47,8 +47,8 @@ export function EmailPage() {
     mode: "onTouched",
   });
   const { bool: passwordShow, toggle: togglePasswordShow } = useBooleanState(false);
-  const router = useRouter();
   const { mutate } = useSignup();
+  const router = useRouter();
 
   const onSubmit = async (data: Schema) => {
     mutate(data, {

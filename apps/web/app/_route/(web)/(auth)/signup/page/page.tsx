@@ -24,6 +24,7 @@ export function SignupPage() {
   });
 
   const router = useRouter();
+  const theme = useTheme();
 
   const onSubmit = (provider?: "google" | "apple" | "naver") => {
     switch (provider) {
@@ -42,8 +43,6 @@ export function SignupPage() {
         router.push("/signup/email");
     }
   };
-
-  const theme = useTheme();
 
   return (
     <Stack spacing={4}>

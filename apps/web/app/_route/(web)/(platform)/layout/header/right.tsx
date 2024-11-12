@@ -9,9 +9,12 @@ import {
   useTheme,
 } from "@mui/material";
 import { IcRoundSearchIcon, Menux, MingcuteNotificationLineIcon, useMenuxState } from "@pency/ui/components";
+import { useMeValue } from "_core/user";
 
 export function Right() {
   const theme = useTheme();
+  const me = useMeValue();
+  console.log(me);
 
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
 

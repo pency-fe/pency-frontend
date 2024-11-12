@@ -7,7 +7,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 export function ResendPage() {
   const theme = useTheme();
-
   const router = useRouter();
 
   const provisionUserId = useSearchParams().get("provisionUserId");
