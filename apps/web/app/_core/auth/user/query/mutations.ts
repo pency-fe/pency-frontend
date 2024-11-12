@@ -5,7 +5,8 @@ import { FailureRes, QueryError } from "_core/api";
 export const useLogin = () => {
   return useMutation<
     Awaited<ReturnType<typeof login>>,
-    QueryError<FailureRes<401, "INVALID_LOGIN" | "UNVERIFIED_EMAIL">>,
+    | QueryError<FailureRes<401, "INVALID_LOGIN">>
+    | QueryError<FailureRes<401, "UNVERIFIED_EMAIL", { provisionUserId: string }>>,
     Parameters<typeof login>[0]
   >({
     mutationFn: login,
