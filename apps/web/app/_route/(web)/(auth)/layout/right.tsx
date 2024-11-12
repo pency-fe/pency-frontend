@@ -29,7 +29,7 @@ export default function Right() {
     // <Link component={NextLink} href={href}>
     //   {link}
     // </Link>
-    <Button LinkComponent={NextLink} href={href} variant="text" size="large">
+    <Button LinkComponent={NextLink} href={href} variant="text" size="medium">
       {link}
     </Button>
   );
