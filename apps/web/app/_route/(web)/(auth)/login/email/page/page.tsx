@@ -39,13 +39,13 @@ export function EmailPage() {
       },
       onError: async (error) => {
         if (error.code === "UNVERIFIED_EMAIL") {
-          toast.warning(error.message);
+          toast.warning("이메일 인증이 완료되지 않았어요.");
           router.push(`/signup/email/resend?provisionUserId=${error.data.provisionUserId}`);
           return;
         }
 
         if (error.code === "INVALID_LOGIN") {
-          toast.error(error.message);
+          toast.error("이메일 또는 비밀번호를 잘못 입력했어요.");
           return;
         }
       },

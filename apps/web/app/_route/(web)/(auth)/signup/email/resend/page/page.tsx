@@ -32,12 +32,12 @@ export function ResendPage() {
       },
       onError: (error) => {
         if (error.code === "EXPIRED_EMAIL_TOKEN") {
-          toast.error(error.message);
+          toast.error("이메일 인증번호가 만료됐어요.");
           return;
         }
 
         if (error.code === "EXCEEDED_EMAIL_SEND") {
-          toast.warning(error.message);
+          toast.warning("이미 메일을 전송했어요. 1분에 한번만 가능해요.");
           return;
         }
       },
