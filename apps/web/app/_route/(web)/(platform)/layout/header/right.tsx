@@ -1,6 +1,7 @@
 import { useMeValue } from "(route)/(web)/me-provider";
 import {
   Avatar,
+  Button,
   ButtonBase,
   IconButton,
   InputAdornment,
@@ -10,6 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { IcRoundSearchIcon, Menux, MingcuteNotificationLineIcon, useMenuxState } from "@pency/ui/components";
+import NextLink from "next/link";
 
 export function Right() {
   const theme = useTheme();
@@ -47,48 +49,59 @@ export function Right() {
       >
         <IcRoundSearchIcon />
       </IconButton>
-
-      <IconButton>
-        <MingcuteNotificationLineIcon />
-      </IconButton>
-
-      <Avatar
-        component={ButtonBase}
-        ref={anchorRef}
-        src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-        onClick={toggle}
-        sx={{ width: 24, height: 24 }}
-      />
-
-      <Menux open={isOpen} anchorEl={anchorRef.current} placement="bottom-end" onClose={close}>
-        <Menux.Item>
-          <Menux.Item.Icon>
+      {me.isLoggedIn ? (
+        <>
+          {" "}
+          <IconButton>
             <MingcuteNotificationLineIcon />
-          </Menux.Item.Icon>
-          북마크
-        </Menux.Item>
+          </IconButton>
+          <Avatar
+            component={ButtonBase}
+            ref={anchorRef}
+            src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+            onClick={toggle}
+            sx={{ width: 24, height: 24 }}
+          />
+          <Menux open={isOpen} anchorEl={anchorRef.current} placement="bottom-end" onClose={close}>
+            <Menux.Item>
+              <Menux.Item.Icon>
+                <MingcuteNotificationLineIcon />
+              </Menux.Item.Icon>
+              북마크
+            </Menux.Item>
 
-        <Menux.Item>
-          <Menux.Item.Icon>
-            <MingcuteNotificationLineIcon />
-          </Menux.Item.Icon>
-          공유하기
-        </Menux.Item>
+            <Menux.Item>
+              <Menux.Item.Icon>
+                <MingcuteNotificationLineIcon />
+              </Menux.Item.Icon>
+              공유하기
+            </Menux.Item>
 
-        <Menux.Item>
-          <Menux.Item.Icon>
-            <MingcuteNotificationLineIcon />
-          </Menux.Item.Icon>
-          차단하기
-        </Menux.Item>
+            <Menux.Item>
+              <Menux.Item.Icon>
+                <MingcuteNotificationLineIcon />
+              </Menux.Item.Icon>
+              차단하기
+            </Menux.Item>
 
-        <Menux.Item>
-          <Menux.Item.Icon>
-            <MingcuteNotificationLineIcon />
-          </Menux.Item.Icon>
-          신고하기
-        </Menux.Item>
-      </Menux>
+            <Menux.Item>
+              <Menux.Item.Icon>
+                <MingcuteNotificationLineIcon />
+              </Menux.Item.Icon>
+              신고하기
+            </Menux.Item>
+          </Menux>
+        </>
+      ) : (
+        <>
+          <Button LinkComponent={NextLink} href="/login" variant="text" size="medium">
+            로그인
+          </Button>
+          <Button LinkComponent={NextLink} href="/signup" variant="text" size="medium" color="primary">
+            회원가입
+          </Button>
+        </>
+      )}
     </Stack>
   );
 }
