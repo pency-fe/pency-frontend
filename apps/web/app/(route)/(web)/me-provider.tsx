@@ -2,8 +2,8 @@
 
 import { createContext, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getMe } from "_core/user/query/api";
-import { userKeys } from "_core/user";
+import { getMe } from "_core/auth/user/query/api";
+import { userKeys } from "_core/auth/user";
 
 const MeContext = createContext<Awaited<ReturnType<typeof getMe>> | undefined>(undefined);
 
