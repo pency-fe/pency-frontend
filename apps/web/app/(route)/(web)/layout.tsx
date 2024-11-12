@@ -6,10 +6,10 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function Layout({ children }: Props) {
+export default async function Layout({ children }: Props) {
   const queryClient = getQueryClient();
 
-  queryClient.prefetchQuery(userKeys.me());
+  await queryClient.prefetchQuery(userKeys.me());
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
