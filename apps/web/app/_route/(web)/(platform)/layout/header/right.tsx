@@ -13,6 +13,8 @@ import {
 import { IcRoundSearchIcon, Menux, MingcuteNotificationLineIcon, useMenuxState } from "@pency/ui/components";
 import NextLink from "next/link";
 
+// ----------------------------------------------------------------------
+
 export function Right() {
   const theme = useTheme();
   const me = useMeValue();
@@ -51,7 +53,6 @@ export function Right() {
       </IconButton>
       {me.isLoggedIn ? (
         <>
-          {" "}
           <IconButton>
             <MingcuteNotificationLineIcon />
           </IconButton>

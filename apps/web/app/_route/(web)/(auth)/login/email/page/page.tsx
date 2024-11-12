@@ -10,11 +10,15 @@ import NextLink from "next/link";
 import { useLogin } from "_core/auth/user";
 import { useRouter } from "next/navigation";
 
+// ----------------------------------------------------------------------
+
 const schema = z.object({
   email: z.string().min(1, "이메일 주소를 입력해 주세요.").email("이메일 주소를 정확하게 입력해 주세요."),
   password: z.string(),
 });
 type Schema = z.infer<typeof schema>;
+
+// ----------------------------------------------------------------------
 
 export function EmailPage() {
   const { mutate } = useLogin();
