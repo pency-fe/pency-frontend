@@ -18,18 +18,18 @@ export function SeriesPage() {
           setState(e.target.value);
         }}
       >
-        <Grid2 container columnSpacing={1}>
-          <Grid2 xs={1.5}>
+        <Grid2 container spacing={1} sx={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(100px, 100px))" }}>
+          <Grid2>
             <RadioButton value="action1" fullWidth>
               오리지널
             </RadioButton>
           </Grid2>
-          <Grid2 xs={1.5}>
+          <Grid2>
             <RadioButton value="action2" fullWidth>
               1차창작
             </RadioButton>
           </Grid2>
-          <Grid2 xs={1.5}>
+          <Grid2>
             <RadioButton value="action3" fullWidth>
               N차창작
             </RadioButton>
