@@ -32,7 +32,9 @@ const BodyFn = (props: BoxProps) => {
         flex: 1,
         overflowY: "auto",
         px: "16px",
-        [theme.breakpoints.up("sm")]: { px: "20px" },
+        py: "16px",
+        [theme.breakpoints.up("sm")]: { px: "20px", py: "20px" },
+
         ...props.sx,
       }}
     />
