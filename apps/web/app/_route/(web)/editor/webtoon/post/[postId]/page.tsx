@@ -6,7 +6,9 @@ import {
   Button,
   Dialog,
   DialogActions,
+  dialogClasses,
   DialogContent,
+  DialogTitle,
   IconButton,
   Toolbar,
   Typography,
@@ -57,7 +59,7 @@ export function PostIdPage() {
     setOpen(false);
   };
 
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
 
   const { handleSubmit } = useForm<Schema>({
     resolver: zodResolver(schema),
@@ -86,17 +88,45 @@ export function PostIdPage() {
         발행
       </Button>
 
-      <Dialog maxWidth="md" fullScreen={fullScreen} open={open} onClose={handleClose}>
-        <AppBar sx={{ position: "relative" }}>
-          <Toolbar>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              발행 옵션
-            </Typography>
-            <IconButton edge="start" color="inherit" onClick={handleClose} size="large">
-              <MaterialSymbolsCloseIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        fullScreen={!isUpSm}
+        sx={{
+          ...(isUpSm && {
+            [`& .${dialogClasses.paper}`]: {
+              maxWidth: "700px",
+              height: "620px",
+              maxHeight: 1,
+            },
+          }),
+        }}
+      >
+        <DialogTitle>
+          발행 옵션
+          <IconButton edge="start" color="inherit" onClick={handleClose}>
+            <MaterialSymbolsCloseIcon />
+          </IconButton>
+        </DialogTitle>
+        {/* <Toolbar
+          sx={{
+            minHeight: "auto",
+            height: "52px",
+            [theme.breakpoints.up("sm")]: {
+              minHeight: "auto",
+              height: "56px",
+            },
+          }}
+        >
+          <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+            발행 옵션
+          </Typography>
+          <IconButton edge="start" color="inherit" onClick={handleClose}>
+            <MaterialSymbolsCloseIcon />
+          </IconButton>
+        </Toolbar> */}
+
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)} noValidate></form>
         </DialogContent>
