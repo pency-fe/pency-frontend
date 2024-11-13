@@ -71,10 +71,9 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   const router = useRouter();
   const { mutate } = useChannelCreate();
 
-  const { handleSubmit } = useFormContext<Schema>();
+  const { handleSubmit, setError } = useFormContext<Schema>();
 
   const onSubmit = (data: Schema) => {
-    console.log("??");
     mutate(data, {
       onSuccess: (data) => {
         router.push(`/@${data.url}`);
@@ -82,7 +81,9 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
       },
       onError: async (error) => {
         if (error.code === "DUPLICATE_URL") {
-          toast.error("중복된 URL이에요.");
+          setError("url", {
+            message: "중복된 URL이에요.",
+          });
         }
       },
     });
