@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, IconButton, InputAdornment, Link, Stack, TextField, Typography, useTheme } from "@mui/material";
+import { Button, IconButton, InputAdornment, Link, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { EvaEyeFillIcon, EvaEyeOffFillIcon, toast } from "@pency/ui/components";
 import { useBooleanState } from "@pency/util";
 import { Controller, useForm } from "react-hook-form";
@@ -21,9 +21,9 @@ type Schema = z.infer<typeof schema>;
 // ----------------------------------------------------------------------
 
 export function EmailPage() {
-  const { mutate } = useLogin();
-
   const router = useRouter();
+
+  const { mutate } = useLogin();
 
   const { control, handleSubmit } = useForm<Schema>({
     resolver: zodResolver(schema),

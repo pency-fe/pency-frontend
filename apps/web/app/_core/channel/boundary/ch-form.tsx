@@ -5,6 +5,9 @@ import { Button, ButtonProps, InputAdornment, inputBaseClasses, TextField, Typog
 import { ReactNode } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
+import { useChannelCreate } from "../query";
+import { toast } from "@pency/ui/components";
+import { useRouter } from "next/navigation";
 
 // ----------------------------------------------------------------------
 
@@ -65,14 +68,28 @@ const CH_Update_Form_Fn = ({ children }: CH_Update_Form_Fn_Props) => {
 type CreateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const CreateSubmitFn = (props: CreateSubmitFnProps) => {
-  const { handleSubmit } = useFormContext();
+  const router = useRouter();
+  const { mutate } = useChannelCreate();
+
+  const { handleSubmit } = useFormContext<Schema>();
 
   const onSubmit = (data: Schema) => {
-    console.log(data);
+    console.log("??");
+    mutate(data, {
+      onSuccess: (data) => {
+        router.push(`/@${data.url}`);
+        toast.success("새 채널을 만들었어요.");
+      },
+      onError: async (error) => {
+        if (error.code === "DUPLICATE_URL") {
+          toast.error("중복된 URL이에요.");
+        }
+      },
+    });
   };
 
   return (
-    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(() => onSubmit)} {...props}>
+    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(onSubmit)} {...props}>
       새 채널 만들기
     </Button>
   );
@@ -81,7 +98,7 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
 type UpdateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
-  const { handleSubmit } = useFormContext();
+  const { handleSubmit } = useFormContext<Schema>();
 
   const onSubmit = (data: Schema) => {
     console.log(data);
@@ -89,7 +106,7 @@ const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
 
   return (
     <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(() => onSubmit)} {...props}>
-      새 채널 만들기
+      채널 수정하기
     </Button>
   );
 };

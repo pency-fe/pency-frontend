@@ -8,11 +8,15 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import NextLink from "next/link";
 
+// ----------------------------------------------------------------------
+
 const schema = z.object({
   age: z.boolean().refine((age) => age === true),
 });
 
 type Schema = z.infer<typeof schema>;
+
+// ----------------------------------------------------------------------
 
 export function SignupPage() {
   const { control, handleSubmit } = useForm<Schema>({
