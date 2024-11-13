@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, ButtonProps, useRadioGroup, useTheme } from "@mui/material";
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useCallback } from "react";
 
 type RadioButtonProps = ButtonProps & { value: string };
 
@@ -11,9 +11,12 @@ export function RadioButton({ value, children, ...rest }: RadioButtonProps) {
 
   if (!radioGroup) throw new Error("<RadioButton />의 부모로 <RadioGroup /> 컴포넌트가 있어야 합니다.");
 
-  const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-    radioGroup.onChange(e as unknown as React.ChangeEvent<HTMLInputElement>, value);
-  };
+  const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      radioGroup.onChange(e as unknown as React.ChangeEvent<HTMLInputElement>, value);
+    },
+    [radioGroup, value],
+  );
   return (
     <Button
       color={value === radioGroup.value ? "primary" : "inherit"}

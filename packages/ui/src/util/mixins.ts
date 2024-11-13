@@ -239,7 +239,7 @@ export function menuItem(theme: Theme) {
     [`&.${menuItemClasses.selected}`]: {
       fontWeight: theme.typography.fontWeightSemiBold,
       backgroundColor: theme.vars.palette.action.selected,
-      "&:hover": { backgroundColor: theme.vars.palette.action.hover },
+      "&:hover": { backgroundColor: theme.vars.palette.action.selected },
     },
     [`& .${checkboxClasses.root}`]: {
       padding: theme.spacing(0.5),
