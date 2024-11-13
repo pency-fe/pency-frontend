@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, ButtonProps, useRadioGroup, useTheme } from "@mui/material";
 import { MouseEventHandler } from "react";
 

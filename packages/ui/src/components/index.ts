@@ -1,5 +1,6 @@
 export * from "./card";
 export * from "./carousel";
+export * from "./dialog/form-dialog";
 export * from "./label";
 export * from "./nav";
 export * from "./radio-button";

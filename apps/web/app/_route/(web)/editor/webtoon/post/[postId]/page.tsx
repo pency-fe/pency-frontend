@@ -1,21 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  AppBar,
-  Button,
-  Dialog,
-  DialogActions,
-  dialogClasses,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import { MaterialSymbolsCloseIcon } from "@pency/ui/components";
+import { Button, dialogClasses, IconButton, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { FormDialog, MaterialSymbolsCloseIcon } from "@pency/ui/components";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -88,7 +75,7 @@ export function PostIdPage() {
         발행
       </Button>
 
-      <Dialog
+      <FormDialog
         open={open}
         onClose={handleClose}
         fullWidth
@@ -103,39 +90,26 @@ export function PostIdPage() {
           }),
         }}
       >
-        <DialogTitle>
-          발행 옵션
-          <IconButton edge="start" color="inherit" onClick={handleClose}>
-            <MaterialSymbolsCloseIcon />
-          </IconButton>
-        </DialogTitle>
-        {/* <Toolbar
-          sx={{
-            minHeight: "auto",
-            height: "52px",
-            [theme.breakpoints.up("sm")]: {
-              minHeight: "auto",
-              height: "56px",
-            },
-          }}
-        >
-          <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+        <FormDialog.Header>
+          <Typography sx={{ flex: 1 }} variant="h6">
             발행 옵션
           </Typography>
-          <IconButton edge="start" color="inherit" onClick={handleClose}>
+
+          <IconButton edge="end" color="inherit" onClick={handleClose}>
             <MaterialSymbolsCloseIcon />
           </IconButton>
-        </Toolbar> */}
+        </FormDialog.Header>
 
-        <DialogContent>
+        <FormDialog.Body>
           <form onSubmit={handleSubmit(onSubmit)} noValidate></form>
-        </DialogContent>
-        <DialogActions>
+        </FormDialog.Body>
+
+        <FormDialog.Footer>
           <Button type="submit" variant="soft" color="primary" size="medium">
             발행
           </Button>
-        </DialogActions>
-      </Dialog>
+        </FormDialog.Footer>
+      </FormDialog>
     </>
   );
 }
