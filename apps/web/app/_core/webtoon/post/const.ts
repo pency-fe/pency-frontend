@@ -4,12 +4,12 @@ export const AGE_LABEL: Record<Age, string> = {
   NINETEEN: "성인",
 } as const;
 
-export type CreationType = "PRIMARY" | "SECONDARY" | "NARY";
-export const CREATION_TYPE_LABEL: Record<CreationType, string> = {
-  PRIMARY: "오리지널",
-  SECONDARY: "2차창작",
-  NARY: "N차창작",
-} as const;
+export enum CREATION_TYPE_LABEL {
+  PRIMARY = "오리지널",
+  SECONDARY = "2차창작",
+  NARY = "N차창작",
+}
+export type CreationType = keyof typeof CREATION_TYPE_LABEL;
 
 export type Pair = "HL" | "BL" | "GL" | "NONE";
 export const PAIR_LABEL: Record<Pair, string> = {
