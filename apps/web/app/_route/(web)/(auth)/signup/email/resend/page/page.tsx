@@ -8,9 +8,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 export function ResendPage() {
   const theme = useTheme();
   const router = useRouter();
-
-  const provisionUserId = useSearchParams().get("provisionUserId");
   const { mutate } = useResend();
+  const provisionUserId = useSearchParams().get("provisionUserId");
 
   if (provisionUserId === null || !provisionUserId.length) {
     router.push("/");
@@ -27,18 +26,15 @@ export function ResendPage() {
   const handleResendClick = (data: { provisionUserId: string }) => {
     mutate(data, {
       onSuccess: () => {
-        toast.success("인증 메일이 재전송됐어요. 메일을 확인해주세요.");
-        return;
+        toast.success("인증 메일을 재전송했어요.");
       },
       onError: (error) => {
         if (error.code === "EXPIRED_EMAIL_TOKEN") {
-          toast.error("이메일 인증번호가 만료됐어요.");
-          return;
+          router.push("/signup/email/not-verify");
         }
 
         if (error.code === "EXCEEDED_EMAIL_SEND") {
           toast.warning("이미 메일을 전송했어요. 1분에 한번만 가능해요.");
-          return;
         }
       },
     });
@@ -61,6 +57,7 @@ export function ResendPage() {
           <Typography variant="body2" color={theme.vars.palette.text.secondary}>
             인증 메일을 받지 못했을 경우, '인증 메일 재전송' 버튼을 눌러주세요.
           </Typography>
+
           {query.isPending ? (
             <>
               <Skeleton animation="wave" height={54} />

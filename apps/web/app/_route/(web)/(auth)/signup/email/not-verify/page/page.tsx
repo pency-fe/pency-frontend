@@ -13,7 +13,7 @@ export function NotVerifyPage() {
         인증번호가 만료되어 이메일 인증에 실패했어요.
       </Typography>
 
-      <Button LinkComponent={NextLink} href="/" variant="soft" color="primary" size="large" fullWidth>
+      <Button LinkComponent={NextLink} href="/" variant="soft" color="primary" size="large">
         펜시 홈으로 가기
       </Button>
     </Stack>
