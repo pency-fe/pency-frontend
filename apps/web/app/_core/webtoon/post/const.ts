@@ -1,4 +1,8 @@
 export type Age = "ALL" | "NINETEEN";
+export const AGE_LABEL: Record<Age, string> = {
+  ALL: "전체",
+  NINETEEN: "성인",
+} as const;
 
 export type CreationType = "PRIMARY" | "SECONDARY" | "NARY";
 export const CREATION_TYPE_LABEL: Record<CreationType, string> = {
@@ -9,8 +13,8 @@ export const CREATION_TYPE_LABEL: Record<CreationType, string> = {
 
 export type Pair = "HL" | "BL" | "GL" | "NONE";
 export const PAIR_LABEL: Record<Pair, string> = {
+  NONE: "없음",
   HL: "HL",
   BL: "BL",
   GL: "GL",
-  NONE: "없음",
 } as const;
