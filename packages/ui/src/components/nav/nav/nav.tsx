@@ -236,9 +236,9 @@ type BranchAnchorFnProps = <C extends "a" | typeof Link>(
   >,
 ) => JSX.Element;
 
-const BranchAnchorFn: BranchAnchorFnProps = ({ icon, label, href, ...rest }) => {
+const BranchAnchorFn: BranchAnchorFnProps = ({ icon, label, href }) => {
   const pathname = usePathname();
-  const { bool: isOpen, toggle: toggleOpen } = useBooleanState(pathname.startsWith(href));
+  const { toggle: toggleOpen } = useBooleanState(pathname.startsWith(href));
   const theme = useTheme();
 
   const active = useMemo(() => pathname.startsWith(href), [href, pathname]);
