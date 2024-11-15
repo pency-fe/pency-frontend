@@ -13,12 +13,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Age, AGE_LABEL, CREATION_TYPE_LABEL, CreationType, Pair, PAIR_LABEL } from "../const";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries, zodObjectKeys } from "@pency/util";
-import { RadioMenuItem } from "@pency/ui/components";
+import { RadioButton } from "@pency/ui/components";
 
 // ----------------------------------------------------------------------
 
@@ -115,7 +115,7 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   };
 
   return (
-    <Button type="submit" variant="soft" color="primary" onClick={handleSubmit(onSubmit)} {...props}>
+    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(onSubmit)} {...props}>
       발행
     </Button>
   );
@@ -153,23 +153,14 @@ const TitleFn = () => {
           {...field}
           variant="outlined"
           fullWidth
-          multiline
-          maxRows={3}
           type="text"
           label="포스트 제목"
           required
           helperText={error ? error.message : "최대 100자 아내로 입력해 주세요."}
           error={!!error}
-          sx={{
-            [`& .${inputBaseClasses.root}`]: {
-              display: "flex",
-              flexDirection: "column",
-              gap: 1.5,
-            },
-          }}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end" sx={{ alignSelf: "flex-end" }}>
+              <InputAdornment position="end">
                 <Typography variant="caption">{field.value?.length}/100</Typography>
               </InputAdornment>
             ),
@@ -184,7 +175,7 @@ const TitleFn = () => {
 
 const CreationTypeFn = () => {
   const { control } = useFormContext<Schema>();
-  const creationType = objectEntries(CREATION_TYPE_LABEL);
+  const entries = useMemo(() => objectEntries(CREATION_TYPE_LABEL), []);
 
   return (
     <Controller
@@ -192,17 +183,12 @@ const CreationTypeFn = () => {
       name="creationType"
       render={({ field }) => (
         <Stack spacing={1}>
-          <Typography>창작 유형</Typography>
-          <RadioGroup
-            value={field.value}
-            onChange={(e) => {
-              field.onChange(e.target.value as CreationType);
-            }}
-          >
+          <Typography variant="subtitle2">창작 유형</Typography>
+          <RadioGroup {...field}>
             <Grid container spacing={1}>
-              {Array.from(creationType, ([key, value]) => (
+              {entries.map(([value, label]) => (
                 <Grid item>
-                  <RadioMenuItem value={key}>{value}</RadioMenuItem>
+                  <RadioButton value={value}>{label}</RadioButton>
                 </Grid>
               ))}
             </Grid>
@@ -225,7 +211,7 @@ const PairFn = () => {
       name="pair"
       render={({ field }) => (
         <Stack spacing={1}>
-          <Typography>페어</Typography>
+          <Typography variant="subtitle2">페어</Typography>
           <RadioGroup
             value={field.value}
             onChange={(e) => {
@@ -235,7 +221,7 @@ const PairFn = () => {
             <Grid container spacing={1}>
               {Array.from(pair, ([key, value]) => (
                 <Grid item>
-                  <RadioMenuItem value={key}>{value}</RadioMenuItem>
+                  <RadioButton value={key}>{value}</RadioButton>
                 </Grid>
               ))}
             </Grid>
@@ -258,7 +244,7 @@ const GenreFn = () => {
       name="genre"
       render={({ field }) => (
         <Stack spacing={1}>
-          <Typography>장르</Typography>
+          <Typography variant="subtitle2">장르</Typography>
           <RadioGroup
             value={field.value}
             onChange={(e) => {
@@ -274,7 +260,7 @@ const GenreFn = () => {
                     textAlign: "center", // 옵션: 중앙 정렬
                   }}
                 >
-                  <RadioMenuItem value={key}>{value}</RadioMenuItem>
+                  <RadioButton value={key}>{value}</RadioButton>
                 </Grid>
               ))}
             </Grid>
@@ -288,13 +274,13 @@ const GenreFn = () => {
 // ----------------------------------------------------------------------
 
 const KeywordsFn = () => {
-  return <Typography>키워드(배열)</Typography>;
+  return <Typography variant="subtitle2">키워드(배열)</Typography>;
 };
 
 // ----------------------------------------------------------------------
 
 const KeywordFn = () => {
-  return <Typography>키워드</Typography>;
+  return <Typography variant="subtitle2">키워드</Typography>;
 };
 
 // ----------------------------------------------------------------------
@@ -309,7 +295,7 @@ const AgeFn = () => {
       name="age"
       render={({ field }) => (
         <Stack spacing={1}>
-          <Typography>연령</Typography>
+          <Typography variant="subtitle2">연령</Typography>
           <RadioGroup
             value={field.value}
             onChange={(e) => {
@@ -319,7 +305,7 @@ const AgeFn = () => {
             <Grid container spacing={1}>
               {Array.from(age, ([key, value]) => (
                 <Grid item>
-                  <RadioMenuItem value={key}>{value}</RadioMenuItem>
+                  <RadioButton value={key}>{value}</RadioButton>
                 </Grid>
               ))}
             </Grid>
@@ -413,12 +399,12 @@ const PrecautionsFn = () => {
 // ----------------------------------------------------------------------
 
 const SeriesFn = () => {
-  return <Typography>시리즈</Typography>;
+  return <Typography variant="subtitle2">시리즈</Typography>;
 };
 
 // ----------------------------------------------------------------------
 const ThumbnailFn = () => {
-  return <Typography>썸네일</Typography>;
+  return <Typography variant="subtitle2">썸네일</Typography>;
 };
 
 // ----------------------------------------------------------------------

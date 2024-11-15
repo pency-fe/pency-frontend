@@ -21,6 +21,13 @@ export function PostIdLayout({ children }: Props) {
           />
         ),
       }}
+      slotProps={{
+        container: {
+          sx: {
+            maxWidth: "740px",
+          },
+        },
+      }}
     >
       {children}
     </SimpleLayout>

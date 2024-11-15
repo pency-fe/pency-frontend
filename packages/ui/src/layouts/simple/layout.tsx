@@ -1,16 +1,19 @@
 "use client";
 
-import { Box, Container, useTheme } from "@mui/material";
+import { Box, Container, ContainerProps, useTheme } from "@mui/material";
 import { Header } from "../header";
 
 type Props = {
   slots: {
     header: React.ReactElement;
   };
+  slotProps?: {
+    container?: ContainerProps;
+  };
   children?: React.ReactNode;
 };
 
-export function Layout({ slots, children }: Props) {
+export function Layout({ slots, slotProps, children }: Props) {
   const theme = useTheme();
 
   return (
@@ -25,6 +28,7 @@ export function Layout({ slots, children }: Props) {
       {slots.header}
 
       <Container
+        {...slotProps?.container}
         component="main"
         sx={{
           flex: "1 1 auto",
@@ -34,6 +38,7 @@ export function Layout({ slots, children }: Props) {
           pt: theme.spacing(1),
           mt: `var(${Header.token.height})`,
           [theme.breakpoints.up("lg")]: { maxWidth: "448px", mt: `var(${Header.token.upSmHeight})` },
+          ...slotProps?.container?.sx,
         }}
       >
         {children}
