@@ -27,7 +27,7 @@ const schema = z.object({
   title: z.string().min(1, "제목을 입력해 주세요.").max(100, "제목은 100자 이내로 입력해 주세요."),
   creationType: z.enum(zodObjectKeys(CREATION_TYPE_LABEL)),
   pair: z.enum(zodObjectKeys(PAIR_LABEL)),
-  genre: z.enum(["", ...zodObjectKeys(GENRE_LABEL)]).refine((value) => value === "", {
+  genre: z.enum(zodObjectKeys(GENRE_LABEL), {
     message: "장르를 선택해 주세요.",
   }),
   age: z.enum(zodObjectKeys(AGE_LABEL)),
@@ -84,7 +84,7 @@ const WT_Post_Update_Form_Fn = ({ children }: WT_Post_Update_Form_Fn_Props) => {
       title: "",
       creationType: "PRIMARY",
       pair: "NONE",
-      genre: "",
+      genre: undefined,
       age: "ALL",
       keywords: [],
       keyword: "",
@@ -247,7 +247,7 @@ const GenreFn = () => {
             label="장르"
             defaultValue=""
             required
-            helperText="장르를 선택해 주세요"
+            helperText={error ? error.message : ""}
             error={!!error}
           >
             {entries.map(([value, label]) => (
