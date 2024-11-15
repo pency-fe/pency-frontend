@@ -1,13 +1,24 @@
 "use client";
 
 import { z } from "zod";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
-import { Button, ButtonProps } from "@mui/material";
+import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
+import {
+  Button,
+  ButtonProps,
+  Grid,
+  InputAdornment,
+  inputBaseClasses,
+  RadioGroup,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { ReactNode } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../const";
-import { GENRE_LABEL } from "_core/webtoon/const";
-import { zodObjectKeys } from "@pency/util";
+import { Age, AGE_LABEL, CREATION_TYPE_LABEL, CreationType, Pair, PAIR_LABEL } from "../const";
+import { Genre, GENRE_LABEL } from "_core/webtoon/const";
+import { objectEntries, zodObjectKeys } from "@pency/util";
+import { RadioMenuItem } from "@pency/ui/components";
 
 // ----------------------------------------------------------------------
 
@@ -104,7 +115,7 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   };
 
   return (
-    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(onSubmit)} {...props}>
+    <Button type="submit" variant="soft" color="primary" onClick={handleSubmit(onSubmit)} {...props}>
       발행
     </Button>
   );
@@ -130,23 +141,315 @@ const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
 
 // ----------------------------------------------------------------------
 
-// ----------------------------------------------------------------------
+const TitleFn = () => {
+  const { control } = useFormContext<Schema>();
+
+  return (
+    <Controller
+      control={control}
+      name="title"
+      render={({ field, fieldState: { error } }) => (
+        <TextField
+          {...field}
+          variant="outlined"
+          fullWidth
+          multiline
+          maxRows={3}
+          type="text"
+          label="포스트 제목"
+          required
+          helperText={error ? error.message : "최대 100자 아내로 입력해 주세요."}
+          error={!!error}
+          sx={{
+            [`& .${inputBaseClasses.root}`]: {
+              display: "flex",
+              flexDirection: "column",
+              gap: 1.5,
+            },
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end" sx={{ alignSelf: "flex-end" }}>
+                <Typography variant="caption">{field.value?.length}/100</Typography>
+              </InputAdornment>
+            ),
+          }}
+        />
+      )}
+    />
+  );
+};
 
 // ----------------------------------------------------------------------
-// ----------------------------------------------------------------------
-// ----------------------------------------------------------------------
-// ----------------------------------------------------------------------
-// ----------------------------------------------------------------------
-// ----------------------------------------------------------------------
-// ----------------------------------------------------------------------
+
+const CreationTypeFn = () => {
+  const { control } = useFormContext<Schema>();
+  const creationType = objectEntries(CREATION_TYPE_LABEL);
+
+  return (
+    <Controller
+      control={control}
+      name="creationType"
+      render={({ field }) => (
+        <Stack spacing={1}>
+          <Typography>창작 유형</Typography>
+          <RadioGroup
+            value={field.value}
+            onChange={(e) => {
+              field.onChange(e.target.value as CreationType);
+            }}
+          >
+            <Grid container spacing={1}>
+              {Array.from(creationType, ([key, value]) => (
+                <Grid item>
+                  <RadioMenuItem value={key}>{value}</RadioMenuItem>
+                </Grid>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Stack>
+      )}
+    />
+  );
+};
 
 // ----------------------------------------------------------------------
+
+const PairFn = () => {
+  const { control } = useFormContext<Schema>();
+  const pair = objectEntries(PAIR_LABEL);
+
+  return (
+    <Controller
+      control={control}
+      name="pair"
+      render={({ field }) => (
+        <Stack spacing={1}>
+          <Typography>페어</Typography>
+          <RadioGroup
+            value={field.value}
+            onChange={(e) => {
+              field.onChange(e.target.value as Pair);
+            }}
+          >
+            <Grid container spacing={1}>
+              {Array.from(pair, ([key, value]) => (
+                <Grid item>
+                  <RadioMenuItem value={key}>{value}</RadioMenuItem>
+                </Grid>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Stack>
+      )}
+    />
+  );
+};
+
+// ----------------------------------------------------------------------
+
+const GenreFn = () => {
+  const { control } = useFormContext<Schema>();
+  const genre = objectEntries(GENRE_LABEL);
+
+  return (
+    <Controller
+      control={control}
+      name="genre"
+      render={({ field }) => (
+        <Stack spacing={1}>
+          <Typography>장르</Typography>
+          <RadioGroup
+            value={field.value}
+            onChange={(e) => {
+              field.onChange(e.target.value as Genre);
+            }}
+          >
+            <Grid container spacing={1}>
+              {Array.from(genre, ([key, value]) => (
+                <Grid
+                  item
+                  sx={{
+                    minWidth: 80, // 최소 너비를 120px로 설정
+                    textAlign: "center", // 옵션: 중앙 정렬
+                  }}
+                >
+                  <RadioMenuItem value={key}>{value}</RadioMenuItem>
+                </Grid>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Stack>
+      )}
+    />
+  );
+};
+
+// ----------------------------------------------------------------------
+
+const KeywordsFn = () => {
+  return <Typography>키워드(배열)</Typography>;
+};
+
+// ----------------------------------------------------------------------
+
+const KeywordFn = () => {
+  return <Typography>키워드</Typography>;
+};
+
+// ----------------------------------------------------------------------
+
+const AgeFn = () => {
+  const { control } = useFormContext<Schema>();
+  const age = objectEntries(AGE_LABEL);
+
+  return (
+    <Controller
+      control={control}
+      name="age"
+      render={({ field }) => (
+        <Stack spacing={1}>
+          <Typography>연령</Typography>
+          <RadioGroup
+            value={field.value}
+            onChange={(e) => {
+              field.onChange(e.target.value as Age);
+            }}
+          >
+            <Grid container spacing={1}>
+              {Array.from(age, ([key, value]) => (
+                <Grid item>
+                  <RadioMenuItem value={key}>{value}</RadioMenuItem>
+                </Grid>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Stack>
+      )}
+    />
+  );
+};
+
+// ----------------------------------------------------------------------
+
+const AuthorTalkFn = () => {
+  const { control } = useFormContext<Schema>();
+
+  return (
+    <Controller
+      control={control}
+      name="authorTalk"
+      render={({ field, fieldState: { error } }) => (
+        <TextField
+          {...field}
+          variant="outlined"
+          fullWidth
+          multiline
+          maxRows={5}
+          type="text"
+          label="작가의 말"
+          helperText={error ? error.message : "최대 200자 아내로 입력해 주세요."}
+          error={!!error}
+          sx={{
+            [`& .${inputBaseClasses.root}`]: {
+              display: "flex",
+              flexDirection: "column",
+              gap: 1.5,
+            },
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end" sx={{ alignSelf: "flex-end" }}>
+                <Typography variant="caption">{field.value?.length}/200</Typography>
+              </InputAdornment>
+            ),
+          }}
+        />
+      )}
+    />
+  );
+};
+
+// ----------------------------------------------------------------------
+
+const PrecautionsFn = () => {
+  const { control } = useFormContext<Schema>();
+
+  return (
+    <Controller
+      control={control}
+      name="precautions"
+      render={({ field, fieldState: { error } }) => (
+        <TextField
+          {...field}
+          variant="outlined"
+          fullWidth
+          multiline
+          maxRows={5}
+          type="text"
+          label="읽기 전 주의사항"
+          helperText={error ? error.message : "최대 200자 아내로 입력해 주세요."}
+          error={!!error}
+          sx={{
+            [`& .${inputBaseClasses.root}`]: {
+              display: "flex",
+              flexDirection: "column",
+              gap: 1.5,
+            },
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end" sx={{ alignSelf: "flex-end" }}>
+                <Typography variant="caption">{field.value?.length}/200</Typography>
+              </InputAdornment>
+            ),
+          }}
+        />
+      )}
+    />
+  );
+};
+
+// ----------------------------------------------------------------------
+
+const SeriesFn = () => {
+  return <Typography>시리즈</Typography>;
+};
+
+// ----------------------------------------------------------------------
+const ThumbnailFn = () => {
+  return <Typography>썸네일</Typography>;
+};
+
+// ----------------------------------------------------------------------
+
 export const WT_Post_Create_Form = Object.assign(WT_Post_Create_Form_Fn, {
   CreateSubmitButton: CreateSubmitFn,
+  Title: TitleFn,
+  CreationType: CreationTypeFn,
+  Pair: PairFn,
+  Genre: GenreFn,
+  Age: AgeFn,
+  Keywords: KeywordsFn,
+  Keyword: KeywordFn,
+  AuthorTalk: AuthorTalkFn,
+  Precautions: PrecautionsFn,
+  Series: SeriesFn,
+  Thumbnail: ThumbnailFn,
 });
 
 // ----------------------------------------------------------------------
 
 export const WT_Post_Update_Form = Object.assign(WT_Post_Update_Form_Fn, {
   UpdateSubmitButton: UpdateSubmitFn,
+  Title: TitleFn,
+  CreationType: CreationTypeFn,
+  Pair: PairFn,
+  Genre: GenreFn,
+  Age: AgeFn,
+  Keywords: KeywordsFn,
+  Keyword: KeywordFn,
+  AuthorTalk: AuthorTalkFn,
+  Precautions: PrecautionsFn,
+  Series: SeriesFn,
 });
