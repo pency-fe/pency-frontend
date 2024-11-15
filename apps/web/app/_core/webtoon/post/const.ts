@@ -1,20 +1,20 @@
-export enum AGE_LABEL {
-  ALL = "전체",
-  NINETEEN = "성인",
-}
-export type Age = keyof typeof AGE_LABEL;
+export type Age = "ALL" | "NINETEEN";
+export const AGE_LABEL: Record<Age, string> = {
+  ALL: "전체",
+  NINETEEN: "성인",
+} as const;
 
-export enum CREATION_TYPE_LABEL {
-  PRIMARY = "오리지널",
-  SECONDARY = "2차창작",
-  NARY = "N차창작",
-}
-export type CreationType = keyof typeof CREATION_TYPE_LABEL;
+export type CreationType = "PRIMARY" | "SECONDARY" | "NARY";
+export const CREATION_TYPE_LABEL: Record<CreationType, string> = {
+  PRIMARY: "오리지널",
+  SECONDARY: "2차창작",
+  NARY: "N차창작",
+};
 
-export enum PAIR_LABEL {
-  NONE = "없음",
-  HL = "HL",
-  BL = "BL",
-  GL = "GL",
-}
-export type Pair = keyof typeof PAIR_LABEL;
+export type Pair = "NONE" | "HL" | "BL" | "GL";
+export const PAIR_LABEL: Record<Pair, string> = {
+  NONE: "없음",
+  HL: "HL",
+  BL: "BL",
+  GL: "GL",
+} as const;
