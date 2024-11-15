@@ -203,7 +203,7 @@ const CreationTypeFn = () => {
 
 const PairFn = () => {
   const { control } = useFormContext<Schema>();
-  const pair = objectEntries(PAIR_LABEL);
+  const entries = objectEntries(PAIR_LABEL);
 
   return (
     <Controller
@@ -212,16 +212,11 @@ const PairFn = () => {
       render={({ field }) => (
         <Stack spacing={1}>
           <Typography variant="subtitle2">페어</Typography>
-          <RadioGroup
-            value={field.value}
-            onChange={(e) => {
-              field.onChange(e.target.value as Pair);
-            }}
-          >
+          <RadioGroup {...field}>
             <Grid container spacing={1}>
-              {Array.from(pair, ([key, value]) => (
+              {entries.map(([value, label]) => (
                 <Grid item>
-                  <RadioButton value={key}>{value}</RadioButton>
+                  <RadioButton value={value}>{label}</RadioButton>
                 </Grid>
               ))}
             </Grid>
@@ -236,7 +231,7 @@ const PairFn = () => {
 
 const GenreFn = () => {
   const { control } = useFormContext<Schema>();
-  const genre = objectEntries(GENRE_LABEL);
+  const entries = objectEntries(GENRE_LABEL);
 
   return (
     <Controller
@@ -252,15 +247,14 @@ const GenreFn = () => {
             }}
           >
             <Grid container spacing={1}>
-              {Array.from(genre, ([key, value]) => (
+              {entries.map(([value, label]) => (
                 <Grid
                   item
                   sx={{
-                    minWidth: 80, // 최소 너비를 120px로 설정
-                    textAlign: "center", // 옵션: 중앙 정렬
+                    minWidth: 80,
                   }}
                 >
-                  <RadioButton value={key}>{value}</RadioButton>
+                  <RadioButton value={value}>{label}</RadioButton>
                 </Grid>
               ))}
             </Grid>
@@ -287,7 +281,7 @@ const KeywordFn = () => {
 
 const AgeFn = () => {
   const { control } = useFormContext<Schema>();
-  const age = objectEntries(AGE_LABEL);
+  const entries = objectEntries(AGE_LABEL);
 
   return (
     <Controller
@@ -303,9 +297,9 @@ const AgeFn = () => {
             }}
           >
             <Grid container spacing={1}>
-              {Array.from(age, ([key, value]) => (
+              {entries.map(([value, label]) => (
                 <Grid item>
-                  <RadioButton value={key}>{value}</RadioButton>
+                  <RadioButton value={value}>{label}</RadioButton>
                 </Grid>
               ))}
             </Grid>
