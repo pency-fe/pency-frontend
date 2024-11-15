@@ -8,6 +8,7 @@ import {
   Grid,
   InputAdornment,
   inputBaseClasses,
+  MenuItem,
   RadioGroup,
   Stack,
   TextField,
@@ -15,8 +16,8 @@ import {
 } from "@mui/material";
 import { ReactNode, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Age, AGE_LABEL, CREATION_TYPE_LABEL, CreationType, Pair, PAIR_LABEL } from "../const";
-import { Genre, GENRE_LABEL } from "_core/webtoon/const";
+import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../const";
+import { GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries, zodObjectKeys } from "@pency/util";
 import { RadioButton } from "@pency/ui/components";
 
@@ -26,7 +27,7 @@ const schema = z.object({
   title: z.string().min(1, "제목을 입력해 주세요.").max(100, "제목은 100자 이내로 입력해 주세요."),
   creationType: z.enum(zodObjectKeys(CREATION_TYPE_LABEL)),
   pair: z.enum(zodObjectKeys(PAIR_LABEL)),
-  genre: z.enum(["", ...zodObjectKeys(GENRE_LABEL)]).refine((value) => value !== "", {
+  genre: z.enum(["", ...zodObjectKeys(GENRE_LABEL)]).refine((value) => value === "", {
     message: "장르를 선택해 주세요.",
   }),
   age: z.enum(zodObjectKeys(AGE_LABEL)),
@@ -83,7 +84,7 @@ const WT_Post_Update_Form_Fn = ({ children }: WT_Post_Update_Form_Fn_Props) => {
       title: "",
       creationType: "PRIMARY",
       pair: "NONE",
-      genre: undefined,
+      genre: "",
       age: "ALL",
       keywords: [],
       keyword: "",
@@ -237,28 +238,24 @@ const GenreFn = () => {
     <Controller
       control={control}
       name="genre"
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <Stack spacing={1}>
-          <Typography variant="subtitle2">장르</Typography>
-          <RadioGroup
-            value={field.value}
-            onChange={(e) => {
-              field.onChange(e.target.value as Genre);
-            }}
+          <TextField
+            {...field}
+            id="outlined-select-currency"
+            select
+            label="장르"
+            defaultValue=""
+            required
+            helperText="장르를 선택해 주세요"
+            error={!!error}
           >
-            <Grid container spacing={1}>
-              {entries.map(([value, label]) => (
-                <Grid
-                  item
-                  sx={{
-                    minWidth: 80,
-                  }}
-                >
-                  <RadioButton value={value}>{label}</RadioButton>
-                </Grid>
-              ))}
-            </Grid>
-          </RadioGroup>
+            {entries.map(([value, label]) => (
+              <MenuItem key={value} value={value}>
+                {label}
+              </MenuItem>
+            ))}
+          </TextField>
         </Stack>
       )}
     />
@@ -290,12 +287,7 @@ const AgeFn = () => {
       render={({ field }) => (
         <Stack spacing={1}>
           <Typography variant="subtitle2">연령</Typography>
-          <RadioGroup
-            value={field.value}
-            onChange={(e) => {
-              field.onChange(e.target.value as Age);
-            }}
-          >
+          <RadioGroup {...field}>
             <Grid container spacing={1}>
               {entries.map(([value, label]) => (
                 <Grid item>

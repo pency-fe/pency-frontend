@@ -119,7 +119,6 @@ export default function Right() {
                     <Stack spacing={4}>
                       <WT_Post_Create_Form.CreationType />
                       <WT_Post_Create_Form.Pair />
-                      <WT_Post_Create_Form.Genre />
                       <WT_Post_Create_Form.Keywords />
                     </Stack>
                   )}

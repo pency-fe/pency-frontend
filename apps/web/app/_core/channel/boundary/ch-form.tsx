@@ -125,7 +125,6 @@ const TitleFn = () => {
         <TextField
           {...field}
           variant="outlined"
-          fullWidth
           type="text"
           label="채널 제목"
           required

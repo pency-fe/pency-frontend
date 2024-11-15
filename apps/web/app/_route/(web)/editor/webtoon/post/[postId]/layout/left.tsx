@@ -9,10 +9,7 @@ export default function Left() {
   };
 
   return (
-    <IconButton
-      onClick={handleHomeClick}
-      sx={{ width: "fit-content", height: "24px", overflow: "unset", cursor: "pointer" }}
-    >
+    <IconButton onClick={handleHomeClick} sx={{ width: "24px", height: "24px", overflow: "unset", cursor: "pointer" }}>
       <EvaArrowIosBackFillIcon />
     </IconButton>
   );
