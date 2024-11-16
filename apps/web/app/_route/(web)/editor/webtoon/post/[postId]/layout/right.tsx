@@ -7,6 +7,8 @@ import {
   IconButton,
   RadioGroup,
   Stack,
+  Tab,
+  Tabs,
   Typography,
   useMediaQuery,
   useTheme,
@@ -14,7 +16,7 @@ import {
 import { FormDialog, MaterialSymbolsCloseIcon, RadioMenuItem } from "@pency/ui/components";
 import { useBooleanState } from "@pency/util";
 import { useWTPostFormContext, WT_Post_Create_Form } from "_core/webtoon/post";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -58,13 +60,27 @@ export default function Right() {
         }}
       >
         <FormDialog.Header>
-          <Typography sx={{ flex: 1 }} variant="h6">
-            발행 옵션
-          </Typography>
+          {isUpSm ? (
+            <>
+              <Typography sx={{ flex: 1 }} variant="h6">
+                발행 옵션
+              </Typography>
 
-          <IconButton edge="end" color="inherit" onClick={closeDialog}>
-            <MaterialSymbolsCloseIcon />
-          </IconButton>
+              <IconButton edge="end" color="inherit" onClick={closeDialog}>
+                <MaterialSymbolsCloseIcon />
+              </IconButton>
+            </>
+          ) : (
+            <>
+              <Stack spacing={2} flexDirection="row" alignItems="center" flexGrow={1}>
+                <IconButton edge="end" color="inherit" onClick={closeDialog}>
+                  <MaterialSymbolsCloseIcon />
+                </IconButton>
+                <Typography variant="h6">발행 옵션</Typography>
+              </Stack>
+              <WT_Post_Create_Form.CreateSubmitButton />
+            </>
+          )}
         </FormDialog.Header>
 
         <FormDialog.Body
@@ -73,32 +89,56 @@ export default function Right() {
             [theme.breakpoints.up("sm")]: { py: 0 },
           }}
         >
-          <Grid container sx={{ width: 1, height: 1 }}>
+          <Grid container direction={isUpSm ? "row" : "column"} sx={{ width: 1, height: 1 }}>
             <Grid
               item
-              xs={3}
+              xs={isUpSm ? 3 : 0.5}
               sx={{
                 height: 1,
-                pr: "20px",
-                py: "20px",
-                border: 0,
-                borderRightWidth: "thin",
-                borderStyle: "solid",
-                borderColor: theme.vars.palette.divider,
-                overflow: "hidden scroll",
+                [theme.breakpoints.up("sm")]: {
+                  pr: "20px",
+                  py: "20px",
+                  border: 0,
+                  borderRightWidth: "thin",
+                  borderStyle: "solid",
+                  borderColor: theme.vars.palette.divider,
+                  overflow: "hidden scroll",
+                },
+                width: 1,
               }}
             >
-              <RadioGroup
-                value={state}
-                onChange={(e) => {
-                  setState(e.target.value);
-                }}
-              >
-                <RadioMenuItem value="publish">발행</RadioMenuItem>
-                <RadioMenuItem value="keyword">키워드</RadioMenuItem>
-                <RadioMenuItem value="public">공개 범위</RadioMenuItem>
-                <RadioMenuItem value="notification">공지사항</RadioMenuItem>
-              </RadioGroup>
+              {isUpSm ? (
+                <RadioGroup
+                  value={state}
+                  onChange={(e) => {
+                    setState(e.target.value);
+                  }}
+                >
+                  <RadioMenuItem value="publish">발행</RadioMenuItem>
+                  <RadioMenuItem value="keyword">키워드</RadioMenuItem>
+                  <RadioMenuItem value="public">공개 범위</RadioMenuItem>
+                  <RadioMenuItem value="notification">공지사항</RadioMenuItem>
+                </RadioGroup>
+              ) : (
+                <Tabs
+                  value={state}
+                  onChange={(e: SyntheticEvent, value: string) => {
+                    setState(value);
+                  }}
+                  variant="scrollable"
+                  scrollButtons={false}
+                >
+                  <Tab label="발행" value="publish" />
+                  <Tab label="키워드" value="keyword" />
+                  <Tab label="공개 범위" value="public" />
+                  <Tab label="공지사항" value="notification" />
+                  <Tab label="공지사항" value="notification" />
+                  <Tab label="공지사항" value="notification" />
+                  <Tab label="공지사항" value="notification" />
+                  <Tab label="공지사항" value="notification" />
+                  <Tab label="공지사항" value="notification" />
+                </Tabs>
+              )}
             </Grid>
 
             <Grid item xs={9} sx={{ height: 1, pl: "20px", py: "20px", overflow: "hidden scroll" }}>
@@ -130,9 +170,13 @@ export default function Right() {
           </Grid>
         </FormDialog.Body>
 
-        <FormDialog.Footer>
-          <WT_Post_Create_Form.CreateSubmitButton />
-        </FormDialog.Footer>
+        {isUpSm ? (
+          <FormDialog.Footer>
+            <WT_Post_Create_Form.CreateSubmitButton />
+          </FormDialog.Footer>
+        ) : (
+          ""
+        )}
       </FormDialog>
     </>
   );
