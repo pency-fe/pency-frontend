@@ -9,6 +9,7 @@ import {
   Stack,
   Tab,
   Tabs,
+  tabsClasses,
   Typography,
   useMediaQuery,
   useTheme,
@@ -54,7 +55,8 @@ export default function Right() {
       </Button>
 
       <FormDialog
-        open={dialogShow}
+        // open={dialogShow}
+        open
         onClose={closeDialog}
         fullWidth
         fullScreen={!isUpSm}
@@ -141,9 +143,10 @@ export default function Right() {
                   }}
                   variant="scrollable"
                   scrollButtons={false}
+                  sx={{ [`& .${tabsClasses.flexContainer}`]: { gap: 1.5 } }}
                 >
                   {objectEntries(NAV_VALUE_LABEL).map(([value, label]) => (
-                    <Tab label={label} value={value} key={value} />
+                    <Tab label={label} value={value} key={value} wrapped />
                   ))}
                 </Tabs>
               )}

@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import {
+  Box,
   Button,
   ButtonProps,
   Grid,
@@ -13,6 +14,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { ReactNode, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -394,7 +396,42 @@ const SeriesFn = () => {
 
 // ----------------------------------------------------------------------
 const ThumbnailFn = () => {
-  return <Typography variant="subtitle2">썸네일</Typography>;
+  const theme = useTheme();
+
+  return (
+    <Stack spacing={1}>
+      <Typography variant="subtitle2">썸네일</Typography>
+      <Stack spacing={1}>
+        <Box
+          sx={{
+            aspectRatio: 16 / 9,
+            minWidth: 240,
+            maxWidth: 480,
+            width: "100%",
+            [theme.breakpoints.up("sm")]: {},
+            borderWidth: 1,
+            borderStyle: "solid",
+            borderColor: theme.vars.palette.divider,
+            borderRadius: 2,
+          }}
+        />
+        <Stack direction="row" alignItems="center" width="100%" minWidth={240} maxWidth={480}>
+          {/* 썸네일 업로드 후, 숨기기 */}
+          <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
+            썸네일을 업로드 해주세요.
+          </Typography>
+          {/* 썸네일 업로드 전, 숨기기 */}
+          <Button variant="text" sx={{ mr: 1 }}>
+            삭제
+          </Button>
+          {/* 썸네일 업로드 후, "변경"으로 라벨 변경 */}
+          <Button variant="soft" color="primary">
+            업로드
+          </Button>
+        </Stack>
+      </Stack>
+    </Stack>
+  );
 };
 
 // ----------------------------------------------------------------------
