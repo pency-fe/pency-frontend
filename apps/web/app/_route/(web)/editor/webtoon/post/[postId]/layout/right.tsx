@@ -14,15 +14,24 @@ import {
   useTheme,
 } from "@mui/material";
 import { FormDialog, MaterialSymbolsCloseIcon, RadioMenuItem } from "@pency/ui/components";
-import { useBooleanState } from "@pency/util";
+import { objectEntries, useBooleanState } from "@pency/util";
 import { useWTPostFormContext, WT_Post_Create_Form } from "_core/webtoon/post";
-import { SyntheticEvent, useState } from "react";
+import { useState } from "react";
 
 // ----------------------------------------------------------------------
 
+type NavValue = "publish" | "keyword" | "public" | "notification";
+
+const NAV_VALUE_LABEL: Record<NavValue, string> = {
+  publish: "발행",
+  keyword: "키워드",
+  public: "공개 범위",
+  notification: "공지사항",
+} as const;
+
 export default function Right() {
   const theme = useTheme();
-  const [state, setState] = useState("publish");
+  const [navValue, setNavValue] = useState<NavValue>("publish");
 
   const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -50,13 +59,13 @@ export default function Right() {
         fullWidth
         fullScreen={!isUpSm}
         sx={{
-          ...(isUpSm && {
+          [theme.breakpoints.up("sm")]: {
             [`& .${dialogClasses.paper}`]: {
               maxWidth: "700px",
               height: "620px",
               maxHeight: 1,
             },
-          }),
+          },
         }}
       >
         <FormDialog.Header>
@@ -72,30 +81,35 @@ export default function Right() {
             </>
           ) : (
             <>
-              <Stack spacing={2} flexDirection="row" alignItems="center" flexGrow={1}>
-                <IconButton edge="end" color="inherit" onClick={closeDialog}>
-                  <MaterialSymbolsCloseIcon />
-                </IconButton>
-                <Typography variant="h6">발행 옵션</Typography>
-              </Stack>
-              <WT_Post_Create_Form.CreateSubmitButton />
+              <IconButton edge="end" color="inherit" onClick={closeDialog}>
+                <MaterialSymbolsCloseIcon />
+              </IconButton>
+              <Typography variant="h6" sx={{ ml: theme.spacing(2) }}>
+                발행 옵션
+              </Typography>
+
+              <WT_Post_Create_Form.CreateSubmitButton sx={{ ml: "auto" }} />
             </>
           )}
         </FormDialog.Header>
 
         <FormDialog.Body
           sx={{
-            py: 0,
+            pt: 0,
             [theme.breakpoints.up("sm")]: { py: 0 },
           }}
         >
-          <Grid container direction={isUpSm ? "row" : "column"} sx={{ width: 1, height: 1 }}>
+          <Grid
+            container
+            sx={{ gap: theme.spacing(2), [theme.breakpoints.up("sm")]: { width: 1, height: 1, gap: theme.spacing(0) } }}
+          >
             <Grid
               item
-              xs={isUpSm ? 3 : 0.5}
+              xs={12}
+              sm={3}
               sx={{
-                height: 1,
                 [theme.breakpoints.up("sm")]: {
+                  height: 1,
                   pr: "20px",
                   py: "20px",
                   border: 0,
@@ -104,63 +118,62 @@ export default function Right() {
                   borderColor: theme.vars.palette.divider,
                   overflow: "hidden scroll",
                 },
-                width: 1,
               }}
             >
               {isUpSm ? (
                 <RadioGroup
-                  value={state}
+                  value={navValue}
                   onChange={(e) => {
-                    setState(e.target.value);
+                    setNavValue(e.target.value as NavValue);
                   }}
                 >
-                  <RadioMenuItem value="publish">발행</RadioMenuItem>
-                  <RadioMenuItem value="keyword">키워드</RadioMenuItem>
-                  <RadioMenuItem value="public">공개 범위</RadioMenuItem>
-                  <RadioMenuItem value="notification">공지사항</RadioMenuItem>
+                  {objectEntries(NAV_VALUE_LABEL).map(([value, label]) => (
+                    <RadioMenuItem value={value} key={value}>
+                      {label}
+                    </RadioMenuItem>
+                  ))}
                 </RadioGroup>
               ) : (
                 <Tabs
-                  value={state}
-                  onChange={(e: SyntheticEvent, value: string) => {
-                    setState(value);
+                  value={navValue}
+                  onChange={(_, value) => {
+                    setNavValue(value as NavValue);
                   }}
                   variant="scrollable"
                   scrollButtons={false}
                 >
-                  <Tab label="발행" value="publish" />
-                  <Tab label="키워드" value="keyword" />
-                  <Tab label="공개 범위" value="public" />
-                  <Tab label="공지사항" value="notification" />
-                  <Tab label="공지사항" value="notification" />
-                  <Tab label="공지사항" value="notification" />
-                  <Tab label="공지사항" value="notification" />
-                  <Tab label="공지사항" value="notification" />
-                  <Tab label="공지사항" value="notification" />
+                  {objectEntries(NAV_VALUE_LABEL).map(([value, label]) => (
+                    <Tab label={label} value={value} key={value} />
+                  ))}
                 </Tabs>
               )}
             </Grid>
 
-            <Grid item xs={9} sx={{ height: 1, pl: "20px", py: "20px", overflow: "hidden scroll" }}>
-              {state === "publish" && (
+            <Grid
+              item
+              xs={12}
+              sm={9}
+              sx={{ [theme.breakpoints.up("sm")]: { height: 1, pl: "20px", py: "20px", overflow: "hidden scroll" } }}
+            >
+              {navValue === "publish" && (
                 <Stack spacing={4}>
                   <WT_Post_Create_Form.Series />
                   <WT_Post_Create_Form.Thumbnail />
                 </Stack>
               )}
-              {state === "keyword" && (
+              {navValue === "keyword" && (
                 <Stack spacing={4}>
                   <WT_Post_Create_Form.CreationType />
                   <WT_Post_Create_Form.Pair />
                   <WT_Post_Create_Form.Keywords />
                 </Stack>
               )}
-              {state === "public" && (
+              {navValue === "public" && (
                 <Stack spacing={4}>
                   <WT_Post_Create_Form.Age />
                 </Stack>
               )}
-              {state === "notification" && (
+              {navValue === "notification" && (
                 <Stack spacing={4}>
                   <WT_Post_Create_Form.AuthorTalk />
                   <WT_Post_Create_Form.Precautions />
@@ -170,12 +183,10 @@ export default function Right() {
           </Grid>
         </FormDialog.Body>
 
-        {isUpSm ? (
+        {isUpSm && (
           <FormDialog.Footer>
             <WT_Post_Create_Form.CreateSubmitButton />
           </FormDialog.Footer>
-        ) : (
-          ""
         )}
       </FormDialog>
     </>
