@@ -37,6 +37,9 @@ export function Layout({ slots, slotProps, children }: Props) {
           maxWidth: "448px",
           pt: theme.spacing(1),
           mt: `var(${Header.token.height})`,
+          [theme.breakpoints.up("sm")]: {
+            px: 0,
+          },
           [theme.breakpoints.up("lg")]: { maxWidth: "448px", mt: `var(${Header.token.upSmHeight})` },
           ...slotProps?.container?.sx,
         }}

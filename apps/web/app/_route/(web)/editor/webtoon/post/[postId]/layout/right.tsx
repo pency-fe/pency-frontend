@@ -55,8 +55,7 @@ export default function Right() {
       </Button>
 
       <FormDialog
-        // open={dialogShow}
-        open
+        open={dialogShow}
         onClose={closeDialog}
         fullWidth
         fullScreen={!isUpSm}
@@ -83,10 +82,10 @@ export default function Right() {
             </>
           ) : (
             <>
-              <IconButton edge="end" color="inherit" onClick={closeDialog}>
+              <IconButton color="inherit" onClick={closeDialog}>
                 <MaterialSymbolsCloseIcon />
               </IconButton>
-              <Typography variant="h6" sx={{ ml: theme.spacing(2) }}>
+              <Typography variant="h6" sx={{ ml: theme.spacing(1) }}>
                 발행 옵션
               </Typography>
 
@@ -143,10 +142,15 @@ export default function Right() {
                   }}
                   variant="scrollable"
                   scrollButtons={false}
-                  sx={{ [`& .${tabsClasses.flexContainer}`]: { gap: 1.5 } }}
+                  sx={{ [`& .${tabsClasses.flexContainer}`]: { gap: 2 } }}
                 >
                   {objectEntries(NAV_VALUE_LABEL).map(([value, label]) => (
-                    <Tab label={label} value={value} key={value} wrapped />
+                    <Tab
+                      label={<Typography variant="subtitle2">{label}</Typography>}
+                      value={value}
+                      key={value}
+                      wrapped
+                    />
                   ))}
                 </Tabs>
               )}

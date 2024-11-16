@@ -320,7 +320,7 @@ const AuthorTalkFn = () => {
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
-          variant="outlined"
+          variant="filled"
           fullWidth
           multiline
           maxRows={5}
@@ -337,7 +337,7 @@ const AuthorTalkFn = () => {
           }}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end" sx={{ alignSelf: "flex-end" }}>
+              <InputAdornment position="end" sx={{ alignSelf: "flex-end", mb: 1 }}>
                 <Typography variant="caption">{field.value?.length}/200</Typography>
               </InputAdornment>
             ),
@@ -360,7 +360,7 @@ const PrecautionsFn = () => {
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
-          variant="outlined"
+          variant="filled"
           fullWidth
           multiline
           maxRows={5}
@@ -377,7 +377,7 @@ const PrecautionsFn = () => {
           }}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end" sx={{ alignSelf: "flex-end" }}>
+              <InputAdornment position="end" sx={{ alignSelf: "flex-end", mb: 1 }}>
                 <Typography variant="caption">{field.value?.length}/200</Typography>
               </InputAdornment>
             ),
@@ -405,17 +405,13 @@ const ThumbnailFn = () => {
         <Box
           sx={{
             aspectRatio: 16 / 9,
-            minWidth: 240,
-            maxWidth: 480,
-            width: "100%",
-            [theme.breakpoints.up("sm")]: {},
             borderWidth: 1,
             borderStyle: "solid",
             borderColor: theme.vars.palette.divider,
-            borderRadius: 2,
+            borderRadius: 1,
           }}
         />
-        <Stack direction="row" alignItems="center" width="100%" minWidth={240} maxWidth={480}>
+        <Stack direction="row" alignItems="center">
           {/* 썸네일 업로드 후, 숨기기 */}
           <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
             추천 비율(16:9) / 최대 50MB의 이미지 파일
