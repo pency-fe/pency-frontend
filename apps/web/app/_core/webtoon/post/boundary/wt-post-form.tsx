@@ -418,7 +418,7 @@ const ThumbnailFn = () => {
         <Stack direction="row" alignItems="center" width="100%" minWidth={240} maxWidth={480}>
           {/* 썸네일 업로드 후, 숨기기 */}
           <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
-            썸네일을 업로드 해주세요.
+            추천 비율(16:9) / 최대 50MB의 이미지 파일
           </Typography>
           {/* 썸네일 업로드 전, 숨기기 */}
           <Button variant="text" sx={{ mr: 1 }}>
