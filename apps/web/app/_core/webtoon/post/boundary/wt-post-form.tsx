@@ -1,13 +1,11 @@
 "use client";
 
-import { Schema, z } from "zod";
+import { z } from "zod";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import {
   Button,
   ButtonProps,
-  dialogClasses,
   Grid,
-  IconButton,
   InputAdornment,
   inputBaseClasses,
   MenuItem,
@@ -15,15 +13,13 @@ import {
   Stack,
   TextField,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
-import { objectEntries, useBooleanState, zodObjectKeys } from "@pency/util";
-import { FormDialog, MaterialSymbolsCloseIcon, RadioButton, RadioMenuItem } from "@pency/ui/components";
+import { objectEntries, zodObjectKeys } from "@pency/util";
+import { RadioButton } from "@pency/ui/components";
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +43,10 @@ const schema = z.object({
 });
 
 type Schema = z.infer<typeof schema>;
+
+// ----------------------------------------------------------------------
+
+export const useWTPostFormContext = () => useFormContext<Schema>();
 
 // ----------------------------------------------------------------------
 
@@ -104,139 +104,6 @@ const WT_Post_Update_Form_Fn = ({ children }: WT_Post_Update_Form_Fn_Props) => {
 
 // ----------------------------------------------------------------------
 
-type ValidateSubmitFnProps = Omit<ButtonProps, "children">;
-
-const ValidateSubmitFn = (props: ValidateSubmitFnProps) => {
-  const theme = useTheme();
-  const [state, setState] = useState("publish");
-
-  const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
-
-  const { trigger } = useFormContext<Schema>();
-  const { bool: dialogShow, setTrue: openDialog, setFalse: closeDialog } = useBooleanState(false);
-
-  const handleClickOpen = async () => {
-    const isValidate = await trigger(["title", "genre"]);
-    if (isValidate) {
-      openDialog();
-    } else {
-      return;
-    }
-  };
-
-  const handleClose = () => {
-    closeDialog();
-  };
-
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-      }}
-      noValidate
-    >
-      <Button type="submit" variant="contained" onClick={handleClickOpen}>
-        발행
-      </Button>
-
-      <FormDialog
-        open={dialogShow}
-        onClose={handleClose}
-        fullWidth
-        fullScreen={!isUpSm}
-        sx={{
-          ...(isUpSm && {
-            [`& .${dialogClasses.paper}`]: {
-              maxWidth: "700px",
-              height: "620px",
-              maxHeight: 1,
-            },
-          }),
-        }}
-      >
-        <FormDialog.Header>
-          <Typography sx={{ flex: 1 }} variant="h6">
-            발행 옵션
-          </Typography>
-
-          <IconButton edge="end" color="inherit" onClick={handleClose}>
-            <MaterialSymbolsCloseIcon />
-          </IconButton>
-        </FormDialog.Header>
-
-        <FormDialog.Body
-          sx={{
-            py: 0,
-            [theme.breakpoints.up("sm")]: { py: 0 },
-          }}
-        >
-          <Grid container sx={{ width: 1, height: 1 }}>
-            <Grid
-              item
-              xs={3}
-              sx={{
-                height: 1,
-                pr: "20px",
-                py: "20px",
-                border: 0,
-                borderRightWidth: "thin",
-                borderStyle: "solid",
-                borderColor: theme.vars.palette.divider,
-                overflow: "hidden scroll",
-              }}
-            >
-              <RadioGroup
-                value={state}
-                onChange={(e) => {
-                  setState(e.target.value);
-                }}
-              >
-                <RadioMenuItem value="publish">발행</RadioMenuItem>
-                <RadioMenuItem value="keyword">키워드</RadioMenuItem>
-                <RadioMenuItem value="public">공개 범위</RadioMenuItem>
-                <RadioMenuItem value="notification">공지사항</RadioMenuItem>
-              </RadioGroup>
-            </Grid>
-
-            <Grid item xs={9} sx={{ height: 1, pl: "20px", py: "20px", overflow: "hidden scroll" }}>
-              {state === "publish" && (
-                <Stack spacing={4}>
-                  <WT_Post_Create_Form.Series />
-                  <WT_Post_Create_Form.Thumbnail />
-                </Stack>
-              )}
-              {state === "keyword" && (
-                <Stack spacing={4}>
-                  <WT_Post_Create_Form.CreationType />
-                  <WT_Post_Create_Form.Pair />
-                  <WT_Post_Create_Form.Keywords />
-                </Stack>
-              )}
-              {state === "public" && (
-                <Stack spacing={4}>
-                  <WT_Post_Create_Form.Age />
-                </Stack>
-              )}
-              {state === "notification" && (
-                <Stack spacing={4}>
-                  <WT_Post_Create_Form.AuthorTalk />
-                  <WT_Post_Create_Form.Precautions />
-                </Stack>
-              )}
-            </Grid>
-          </Grid>
-        </FormDialog.Body>
-
-        <FormDialog.Footer>
-          <WT_Post_Create_Form.CreateSubmitButton />
-        </FormDialog.Footer>
-      </FormDialog>
-    </form>
-  );
-};
-
-// ----------------------------------------------------------------------
-
 type CreateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const CreateSubmitFn = (props: CreateSubmitFnProps) => {
@@ -246,7 +113,7 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   const {
     handleSubmit,
     //  setError
-  } = useFormContext<Schema>();
+  } = useWTPostFormContext();
 
   const onSubmit = (data: Schema) => {
     console.log("data: ", data);
@@ -264,7 +131,7 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
 type UpdateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
-  const { handleSubmit } = useFormContext<Schema>();
+  const { handleSubmit } = useWTPostFormContext();
 
   const onSubmit = (data: Schema) => {
     console.log(data);
@@ -280,7 +147,7 @@ const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
 // ----------------------------------------------------------------------
 
 const TitleFn = () => {
-  const { control } = useFormContext<Schema>();
+  const { control } = useWTPostFormContext();
 
   return (
     <Controller
@@ -312,7 +179,7 @@ const TitleFn = () => {
 // ----------------------------------------------------------------------
 
 const CreationTypeFn = () => {
-  const { control } = useFormContext<Schema>();
+  const { control } = useWTPostFormContext();
   const entries = useMemo(() => objectEntries(CREATION_TYPE_LABEL), []);
 
   return (
@@ -340,7 +207,7 @@ const CreationTypeFn = () => {
 // ----------------------------------------------------------------------
 
 const PairFn = () => {
-  const { control } = useFormContext<Schema>();
+  const { control } = useWTPostFormContext();
   const entries = objectEntries(PAIR_LABEL);
 
   return (
@@ -368,7 +235,7 @@ const PairFn = () => {
 // ----------------------------------------------------------------------
 
 const GenreFn = () => {
-  const { control } = useFormContext<Schema>();
+  const { control } = useWTPostFormContext();
   const entries = objectEntries(GENRE_LABEL);
 
   return (
@@ -414,7 +281,7 @@ const KeywordFn = () => {
 // ----------------------------------------------------------------------
 
 const AgeFn = () => {
-  const { control } = useFormContext<Schema>();
+  const { control } = useWTPostFormContext();
   const entries = objectEntries(AGE_LABEL);
 
   return (
@@ -442,7 +309,7 @@ const AgeFn = () => {
 // ----------------------------------------------------------------------
 
 const AuthorTalkFn = () => {
-  const { control } = useFormContext<Schema>();
+  const { control } = useWTPostFormContext();
 
   return (
     <Controller
@@ -482,7 +349,7 @@ const AuthorTalkFn = () => {
 // ----------------------------------------------------------------------
 
 const PrecautionsFn = () => {
-  const { control } = useFormContext<Schema>();
+  const { control } = useWTPostFormContext();
 
   return (
     <Controller
@@ -533,7 +400,6 @@ const ThumbnailFn = () => {
 // ----------------------------------------------------------------------
 
 export const WT_Post_Create_Form = Object.assign(WT_Post_Create_Form_Fn, {
-  ValidateSubmitButton: ValidateSubmitFn,
   CreateSubmitButton: CreateSubmitFn,
   Title: TitleFn,
   CreationType: CreationTypeFn,
@@ -546,12 +412,12 @@ export const WT_Post_Create_Form = Object.assign(WT_Post_Create_Form_Fn, {
   Precautions: PrecautionsFn,
   Series: SeriesFn,
   Thumbnail: ThumbnailFn,
+  useWTPostFormContext,
 });
 
 // ----------------------------------------------------------------------
 
 export const WT_Post_Update_Form = Object.assign(WT_Post_Update_Form_Fn, {
-  ValidateSubmitButton: ValidateSubmitFn,
   UpdateSubmitButton: UpdateSubmitFn,
   Title: TitleFn,
   CreationType: CreationTypeFn,
