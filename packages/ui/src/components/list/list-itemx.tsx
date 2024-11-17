@@ -37,6 +37,15 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...re
         "&:hover": {
           bgColor: theme.vars.palette.action.hover,
         },
+        [theme.breakpoints.up("sm")]: {
+          height: "70px",
+        },
+        [theme.breakpoints.up("md")]: {
+          height: "80px",
+        },
+        [theme.breakpoints.up("lg")]: {
+          height: "90px",
+        },
         ...rest.sx,
       }}
     >
