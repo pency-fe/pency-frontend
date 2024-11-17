@@ -19,7 +19,7 @@ import { Label } from "../label";
 
 // ----------------------------------------------------------------------
 
-type ListCardFnProps = {
+type ListItemxFnProps = {
   slots: {
     overlayElement: ReactElement;
     thumbnail: ReactElement;
@@ -27,13 +27,13 @@ type ListCardFnProps = {
     title: ReactElement;
     attribute?: ReactElement | null;
   };
-} & CardProps;
+} & BoxProps;
 
-const ListCardFn = forwardRef<HTMLDivElement, ListCardFnProps>(({ slots, ...rest }, ref) => {
+const ListCardFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...rest }, ref) => {
   const theme = useTheme();
 
   return (
-    <Card
+    <Box
       ref={ref}
       {...rest}
       sx={{
@@ -43,9 +43,7 @@ const ListCardFn = forwardRef<HTMLDivElement, ListCardFnProps>(({ slots, ...rest
         width: 1,
         height: "60px",
         padding: "4px",
-        bgColor: "transparent",
         borderRadius: 1,
-        boxShadow: "none",
         "&:hover": {
           bgColor: theme.vars.palette.action.hover,
         },
@@ -62,7 +60,7 @@ const ListCardFn = forwardRef<HTMLDivElement, ListCardFnProps>(({ slots, ...rest
         {slots.title}
         {slots.attribute}
       </Box>
-    </Card>
+    </Box>
   );
 });
 
