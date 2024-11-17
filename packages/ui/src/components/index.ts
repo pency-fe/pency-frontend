@@ -3,6 +3,7 @@ export * from "./carousel";
 export * from "./dialog";
 export * from "./item";
 export * from "./label";
+export * from "./list";
 export * from "./nav";
 export * from "./radio-button";
 export * from "./snackbar";

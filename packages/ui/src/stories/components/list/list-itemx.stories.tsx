@@ -1,8 +1,8 @@
-import { EvaHeartOutlineIcon, ListCard, NineteenCircleIcon } from "@/components";
+import { EvaHeartOutlineIcon, ListItemx, NineteenCircleIcon } from "@/components";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {
-  title: "components/card/ListCard",
+  title: "components/list/ListItemx",
 };
 
 export default meta;
@@ -20,33 +20,33 @@ const postData = {
   likeCount: 100,
 };
 
-export const PostListCard = () => {
+export const PostListItemx = () => {
   return (
     <>
-      <ListCard
+      <ListItemx
         slots={{
-          overlayElement: <ListCard.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+          overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
           thumbnail: (
-            <ListCard.Thumbnail
+            <ListItemx.Thumbnail
               slots={{
-                image: <ListCard.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+                image: <ListItemx.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
                 topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
               }}
             />
           ),
           order: (
-            <ListCard.Order variant="soft" color="info">
+            <ListItemx.Order variant="soft" color="info">
               1
-            </ListCard.Order>
+            </ListItemx.Order>
           ),
-          title: <ListCard.Title>{postData.title}</ListCard.Title>,
+          title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
           attribute: (
-            <ListCard.Attribute>
+            <ListItemx.Attribute>
               {postData.channel.name}
-              <ListCard.Attribute.Dot />
+              <ListItemx.Attribute.Dot />
               <EvaHeartOutlineIcon />
               {postData.likeCount}
-            </ListCard.Attribute>
+            </ListItemx.Attribute>
           ),
         }}
       />
@@ -54,20 +54,20 @@ export const PostListCard = () => {
   );
 };
 
-export const PostListCards = () => {
+export const PostListItemxs = () => {
   return (
     <>
-      <PostListCard />
-      <PostListCard />
-      <PostListCard />
-      <PostListCard />
+      <PostListItemx />
+      <PostListItemx />
+      <PostListItemx />
+      <PostListItemx />
     </>
   );
 };
 
 // ----------------------------------------------------------------------
 
-export const SeriesListCard = () => {
+export const SeriesListItemx = () => {
   const seriesData = {
     seriesId: "series-id-123",
     thumbnail:
@@ -85,29 +85,29 @@ export const SeriesListCard = () => {
     keywords: ["BL", "**공", "**수", "판타지", "학원물", "고수위", "후방주의", "유혈"],
   };
   return (
-    <ListCard
+    <ListItemx
       slots={{
-        overlayElement: <ListCard.OverlayAnchor href={`/webtoon/series/${seriesData.seriesId}`} />,
+        overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/series/${seriesData.seriesId}`} />,
         thumbnail: (
-          <ListCard.Thumbnail
+          <ListItemx.Thumbnail
             slots={{
-              image: <ListCard.Thumbnail.Image src={seriesData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+              image: <ListItemx.Thumbnail.Image src={seriesData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
             }}
           />
         ),
         order: (
-          <ListCard.Order variant="soft" color="info">
+          <ListItemx.Order variant="soft" color="info">
             1
-          </ListCard.Order>
+          </ListItemx.Order>
         ),
 
-        title: <ListCard.Title>{seriesData.title}</ListCard.Title>,
+        title: <ListItemx.Title>{seriesData.title}</ListItemx.Title>,
         attribute: (
-          <ListCard.Attribute>
+          <ListItemx.Attribute>
             {postData.channel.name}
-            <ListCard.Attribute.Dot />
+            <ListItemx.Attribute.Dot />
             {`총 ${seriesData.postCount}화`}
-          </ListCard.Attribute>
+          </ListItemx.Attribute>
         ),
       }}
     />
