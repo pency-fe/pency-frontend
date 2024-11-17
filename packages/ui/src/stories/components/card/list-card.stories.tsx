@@ -30,27 +30,23 @@ export const PostListCard = () => {
             <ListCard.Thumbnail
               slots={{
                 image: <ListCard.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
-                topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+                topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
               }}
             />
           ),
-          rank: (
-            <>
-              <ListCard.Rank variant="soft" color="primary">
-                1
-              </ListCard.Rank>
-            </>
+          order: (
+            <ListCard.Order variant="soft" color="info">
+              1
+            </ListCard.Order>
           ),
           title: <ListCard.Title>{postData.title}</ListCard.Title>,
-          name: <ListCard.Name>{postData.channel.name}</ListCard.Name>,
-          attributes: (
-            <>
-              <ListCard.AttributeDot />
-              <ListCard.Attribute>
-                <EvaHeartOutlineIcon />
-                {postData.likeCount}
-              </ListCard.Attribute>
-            </>
+          attribute: (
+            <ListCard.Attribute>
+              {postData.channel.name}
+              <ListCard.Attribute.Dot />
+              <EvaHeartOutlineIcon />
+              {postData.likeCount}
+            </ListCard.Attribute>
           ),
         }}
       />
@@ -99,23 +95,19 @@ export const SeriesListCard = () => {
             }}
           />
         ),
-        rank: (
-          <>
-            <ListCard.Rank variant="soft" color="primary">
-              1
-            </ListCard.Rank>
-          </>
+        order: (
+          <ListCard.Order variant="soft" color="info">
+            1
+          </ListCard.Order>
         ),
 
         title: <ListCard.Title>{seriesData.title}</ListCard.Title>,
-        name: <ListCard.Name>{seriesData.channel.name}</ListCard.Name>,
-        attributes: (
-          <>
-            <ListCard.AttributeDot />
-            <ListCard.Attribute>
-              <ListCard.Attribute>{`총 ${seriesData.postCount}화`}</ListCard.Attribute>
-            </ListCard.Attribute>
-          </>
+        attribute: (
+          <ListCard.Attribute>
+            {postData.channel.name}
+            <ListCard.Attribute.Dot />
+            {`총 ${seriesData.postCount}화`}
+          </ListCard.Attribute>
         ),
       }}
     />
