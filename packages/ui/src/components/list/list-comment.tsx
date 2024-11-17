@@ -11,6 +11,7 @@ import {
   IconButtonProps,
   Link,
   LinkProps,
+  Stack,
   Typography,
   TypographyProps,
   useTheme,
@@ -28,34 +29,33 @@ type ListCommentFnProps = {
     nameLink: ReactElement;
     createdAt: ReactElement;
     comment: ReactElement;
-    like: ReactElement;
-    reply: ReactElement;
+    likeButton: ReactElement;
+    replyButton?: ReactElement | null;
     feedbackButton: ReactElement;
   };
 } & BoxProps;
 
 const ListCommentFn = forwardRef<HTMLDivElement, ListCommentFnProps>(({ slots, ...rest }, ref) => {
-  const theme = useTheme();
-
   return (
-    <Box ref={ref} {...rest} sx={{ display: "flex", alignItems: "flex-start", gap: 1, width: 1, px: 2 }}>
+    <Box ref={ref} {...rest} sx={{ display: "flex", alignItems: "flex-start", gap: 1, width: 1, ...rest.sx }}>
       {slots.avatarLink}
 
-      <Box sx={{ display: "flex", flexDirection: "column", width: 1 }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: "6px" }}>
+      <Stack sx={{ flexGrow: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center", mb: "6px" }}>
           {slots.nameLink}
+          {/* [TODO] 라벨 추가 */}
           {slots.createdAt}
         </Box>
         {slots.comment}
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
-            {slots.like}
-            {slots.reply}
+          <Box sx={{ display: "flex", gap: 0.75 }}>
+            {slots.likeButton}
+            {slots.replyButton}
           </Box>
 
           {slots.feedbackButton}
         </Box>
-      </Box>
+      </Stack>
     </Box>
   );
 });
@@ -66,7 +66,7 @@ type AvatarLinkFnProps = { slots: { avatar: ReactElement } } & LinkProps & NextL
 
 const AvatarLinkFn = forwardRef<HTMLAnchorElement, AvatarLinkFnProps>(({ slots, ...rest }, ref) => {
   return (
-    <Link ref={ref} component={NextLink} {...rest} sx={{ ...rest.sx }}>
+    <Link ref={ref} component={NextLink} {...rest} sx={rest.sx}>
       {slots.avatar}
     </Link>
   );
@@ -89,12 +89,11 @@ const NameLinkFn = forwardRef<HTMLAnchorElement, NameLinkFnProps>((rest, ref) =>
     <Link
       ref={ref}
       component={NextLink}
-      variant="overline"
+      variant="subtitle1"
       underline="none"
       color={theme.vars.palette.text.primary}
       {...rest}
       sx={{
-        ...theme.typography.subtitle1,
         lineHeight: 1,
         ...maxLine({ line: 1 }),
         ...rest.sx,
@@ -116,8 +115,7 @@ const CreatedAtFn = forwardRef<HTMLHeadingElement, CreatedAtFnProps>((rest, ref)
       variant="caption"
       color={theme.vars.palette.text.secondary}
       {...rest}
-      // https://mui.com/system/getting-started/the-sx-prop/#passing-the-sx-prop
-      sx={[maxLine({ line: 1 }), ...(Array.isArray(rest.sx) ? rest.sx : [rest.sx])]}
+      sx={[{ ml: "auto", ...maxLine({ line: 1 }) }, ...(Array.isArray(rest.sx) ? rest.sx : [rest.sx])]}
     />
   );
 });
@@ -127,24 +125,22 @@ const CreatedAtFn = forwardRef<HTMLHeadingElement, CreatedAtFnProps>((rest, ref)
 type CommentFnProps = TypographyProps;
 
 const CommentFn = forwardRef<HTMLHeadingElement, CommentFnProps>((rest, ref) => {
-  return <Typography ref={ref} variant="caption" {...rest} sx={{ mb: 1, ...rest.sx }} />;
+  return <Typography ref={ref} variant="body2" {...rest} sx={{ mb: 1, ...rest.sx }} />;
 });
 
 // ----------------------------------------------------------------------
 
-type LikeFnProps = ButtonProps;
+type LikeButtonFnProps = ButtonProps;
 
-const LikeFn = forwardRef<HTMLButtonElement, LikeFnProps>((rest, ref) => {
-  return (
-    <Button variant="text" size="small" startIcon={<EvaHeartOutlineIcon />} ref={ref} {...rest} sx={{ ...rest.sx }} />
-  );
+const LikeButtonFn = forwardRef<HTMLButtonElement, LikeButtonFnProps>((rest, ref) => {
+  return <Button variant="text" size="small" startIcon={<EvaHeartOutlineIcon />} ref={ref} {...rest} sx={rest.sx} />;
 });
 
 // ----------------------------------------------------------------------
 
-type ReplyFnProps = ButtonProps;
+type ReplyButtonFnProps = ButtonProps;
 
-const ReplyFn = forwardRef<HTMLButtonElement, ReplyFnProps>((rest, ref) => {
+const ReplyButtonFn = forwardRef<HTMLButtonElement, ReplyButtonFnProps>((rest, ref) => {
   return (
     <Button
       variant="text"
@@ -152,7 +148,7 @@ const ReplyFn = forwardRef<HTMLButtonElement, ReplyFnProps>((rest, ref) => {
       startIcon={<MaterialSymbolsChatBubbleOutlineIcon />}
       ref={ref}
       {...rest}
-      sx={{ ...rest.sx }}
+      sx={rest.sx}
     />
   );
 });
@@ -162,7 +158,7 @@ const ReplyFn = forwardRef<HTMLButtonElement, ReplyFnProps>((rest, ref) => {
 type FeedbackButtonFnProps = IconButtonProps;
 
 const FeedbackButtonFn = forwardRef<HTMLButtonElement, FeedbackButtonFnProps>((rest, ref) => {
-  return <IconButton ref={ref} {...rest} size="small" sx={{ ...rest.sx }} />;
+  return <IconButton ref={ref} {...rest} size="small" sx={rest.sx} />;
 });
 
 // ----------------------------------------------------------------------
@@ -173,7 +169,7 @@ export const ListComment = Object.assign(ListCommentFn, {
   NameLink: NameLinkFn,
   CreatedAt: CreatedAtFn,
   Comment: CommentFn,
-  Like: LikeFn,
-  Reply: ReplyFn,
+  LikeButton: LikeButtonFn,
+  ReplyButton: ReplyButtonFn,
   FeedbackButton: FeedbackButtonFn,
 });

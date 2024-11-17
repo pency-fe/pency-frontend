@@ -5,7 +5,8 @@ import { Box, BoxProps, ButtonBase, ButtonBaseProps, Typography, TypographyProps
 import { forwardRef, ReactElement } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
-import { Label } from "../label";
+import { Label } from "../../label";
+import { listItemxClasses } from "./list-itemx-classes";
 
 // ----------------------------------------------------------------------
 
@@ -24,9 +25,11 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...re
 
   return (
     <Box
+      className={listItemxClasses.root}
       ref={ref}
       {...rest}
       sx={{
+        position: "relative",
         display: "flex",
         alignItems: "center",
         gap: 1,
@@ -35,16 +38,7 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...re
         padding: "4px",
         borderRadius: 1,
         "&:hover": {
-          bgColor: theme.vars.palette.action.hover,
-        },
-        [theme.breakpoints.up("sm")]: {
-          height: "70px",
-        },
-        [theme.breakpoints.up("md")]: {
-          height: "80px",
-        },
-        [theme.breakpoints.up("lg")]: {
-          height: "90px",
+          bgcolor: theme.vars.palette.action.hover,
         },
         ...rest.sx,
       }}
@@ -72,7 +66,7 @@ const OverlayButtonFn = forwardRef<HTMLButtonElement, OverlayButtonFnProps>((res
     <ButtonBase
       ref={ref}
       disableRipple
-      {...ref}
+      {...rest}
       sx={{
         position: "absolute",
         inset: 0,

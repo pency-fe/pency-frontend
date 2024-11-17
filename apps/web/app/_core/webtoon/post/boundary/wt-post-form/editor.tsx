@@ -4,39 +4,26 @@ import {
   closestCenter,
   DndContext,
   DragEndEvent,
-  DraggableSyntheticListeners,
   DragOverlay,
   DragStartEvent,
-  KeyboardSensor,
+  MeasuringStrategy,
   MouseSensor,
   TouchSensor,
+  useDndContext,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import { useWTPostFormContext } from "./wt-post-form";
-import {
-  arrayMove,
-  horizontalListSortingStrategy,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-} from "@dnd-kit/sortable";
-import { useId, useRef, useState } from "react";
-import { Box, BoxProps, Grid, IconButton, Portal, useTheme } from "@mui/material";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { CSS } from "@dnd-kit/utilities";
-import { NimbusDragDotsIcon } from "@pency/ui/components";
-import { stylesColorScheme, varAlpha } from "@pency/ui/util";
-import TouchRipple, { TouchRippleActions } from "@mui/material/ButtonBase/TouchRipple";
-import { useRipple } from "@pency/ui/hooks";
+import { arrayMove, horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
+import { useEffect, useId, useRef, useState } from "react";
+import { Grid, Portal } from "@mui/material";
+import { SortableCut } from "./sortable-cut";
+import { Cut } from "./cut";
+import { SortableCutManager } from "./sortable-cut-manager";
 
 const EditorFn = () => {
   const { getValues, setValue } = useWTPostFormContext();
-  const sensors = useSensors(
-    useSensor(MouseSensor),
-    useSensor(TouchSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
-  );
+  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
   const [activeCut, setActiveCut] = useState<string | null>(null);
   const id = useId();
 
@@ -59,16 +46,22 @@ const EditorFn = () => {
     <DndContext
       id={id}
       sensors={sensors}
-      collisionDetection={closestCenter}
+      // collisionDetection={closestCenter}
+      measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
+      <Remeasure items={getValues("content")} />
       <SortableContext items={getValues("content")} strategy={horizontalListSortingStrategy}>
-        <Grid container wrap="nowrap" sx={{ width: 1, overflowX: "auto", gap: 1 }}>
-          {getValues("content").map((src) => (
-            <SortableCut key={src} src={src} />
-          ))}
-        </Grid>
+        <SortableCutManager>
+          <Grid container wrap="nowrap" sx={{ width: 1, overflowX: "auto", gap: 1, padding: "4px", ml: "-4px" }}>
+            {getValues("content").map((src) => (
+              <Grid key={src} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
+                <SortableCut src={src} />
+              </Grid>
+            ))}
+          </Grid>
+        </SortableCutManager>
       </SortableContext>
       <Portal>
         <DragOverlay>{activeCut && <Cut src={activeCut} />}</DragOverlay>
@@ -77,117 +70,23 @@ const EditorFn = () => {
   );
 };
 
-// ----------------------------------------------------------------------
+function Remeasure({ items }) {
+  const context = useDndContext();
+  const contextRef = useRef(context);
 
-// zustand 이용하기
+  console.log(items);
 
-type SortableCutManagerProps = {};
+  useEffect(() => {
+    contextRef.current = context;
+  }, [context]);
 
-const SortableCutManager = () => {};
+  useEffect(() => {
+    contextRef.current?.measureDroppableContainers([...contextRef.current.droppableContainers.keys()]);
+  }, [items]);
 
-// ----------------------------------------------------------------------
-
-type SortableCutProps = { src: string };
-
-const SortableCut = ({ src }: SortableCutProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: src,
-  });
-  const ripple = useRipple();
-
-  // console.log(listeners);
-  // {onMouseDown: ƒ, onTouchStart: ƒ, onKeyDown: ƒ}
-  return (
-    <Grid
-      item
-      xs={3.5}
-      sm={2.5}
-      ref={setNodeRef}
-      {...attributes}
-      tabIndex={-1}
-      onMouseDown={ripple.start}
-      onMouseUp={ripple.stop}
-      sx={{
-        flexShrink: 0,
-        position: "relative",
-        borderRadius: 1,
-        overflow: "hidden",
-        cursor: "pointer",
-        WebkitTapHighlightColor: "transparent",
-        transform: CSS.Transform.toString(transform),
-        transition,
-      }}
-    >
-      <TouchRipple ref={ripple.ref} center={false} style={{ zIndex: 1 }} />
-      <Cut
-        src={src}
-        listeners={listeners}
-        sx={{
-          opacity: isDragging ? 0.24 : 1,
-        }}
-      />
-    </Grid>
-  );
-};
+  return <></>;
+}
 
 // ----------------------------------------------------------------------
-
-type CutProps = {
-  src: string;
-  listeners?: DraggableSyntheticListeners;
-} & BoxProps;
-
-const Cut = ({ src, listeners, ...rest }: CutProps) => {
-  const theme = useTheme();
-
-  return (
-    <Box
-      {...rest}
-      sx={{
-        position: "relative",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 1,
-        overflow: "hidden",
-        transition: theme.transitions.create(["opacity"], {
-          easing: theme.transitions.easing.easeInOut,
-          duration: theme.transitions.duration.shorter,
-        }),
-        ...rest.sx,
-      }}
-    >
-      <IconButton
-        {...listeners}
-        tabIndex={-1}
-        disableRipple
-        disableFocusRipple
-        disableTouchRipple
-        size="small"
-        variant="text"
-        sx={{
-          position: "absolute",
-          top: theme.spacing(0.25),
-          right: theme.spacing(0.25),
-          bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.6),
-          ["&:hover"]: {
-            bgcolor: varAlpha(theme.vars.palette.grey["800Channel"], 0.6),
-          },
-          [stylesColorScheme.light]: {
-            color: theme.vars.palette.common.white,
-          },
-        }}
-      >
-        <NimbusDragDotsIcon />
-      </IconButton>
-
-      <Box component={LazyLoadImage} src={src} sx={{ objectFit: "cover", aspectRatio: "1" }} />
-    </Box>
-  );
-};
-
-// ----------------------------------------------------------------------
-
-const CutViewerFn = () => {};
 
 export const Editor = Object.assign(EditorFn);

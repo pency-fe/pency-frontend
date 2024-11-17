@@ -42,8 +42,8 @@ export const Default = () => {
           ),
           createdAt: <ListComment.CreatedAt>{formatRelativeTimeFromUTC(commentData.createdAt)}</ListComment.CreatedAt>,
           comment: <ListComment.Comment>{commentData.comment}</ListComment.Comment>,
-          like: <ListComment.Like>{commentData.likeCount}</ListComment.Like>,
-          reply: <ListComment.Reply>{commentData.replyCount}</ListComment.Reply>,
+          likeButton: <ListComment.LikeButton>{commentData.likeCount}</ListComment.LikeButton>,
+          replyButton: <ListComment.ReplyButton>{commentData.replyCount}</ListComment.ReplyButton>,
           feedbackButton: (
             <ListComment.FeedbackButton>
               <EvaMoreVerticalOutlineIcon />
