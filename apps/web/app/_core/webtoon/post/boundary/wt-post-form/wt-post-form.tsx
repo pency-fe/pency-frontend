@@ -18,20 +18,22 @@ import {
 } from "@mui/material";
 import { ReactNode, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../const";
+import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries, zodObjectKeys } from "@pency/util";
 import { RadioButton } from "@pency/ui/components";
+import { Editor } from "./editor";
 
 // ----------------------------------------------------------------------
 
 const schema = z.object({
   title: z.string().min(1, "제목을 입력해 주세요.").max(100, "제목은 100자 이내로 입력해 주세요."),
-  creationType: z.enum(zodObjectKeys(CREATION_TYPE_LABEL)),
-  pair: z.enum(zodObjectKeys(PAIR_LABEL)),
   genre: z.enum(zodObjectKeys(GENRE_LABEL), {
     message: "장르를 선택해 주세요.",
   }),
+  content: z.array(z.string().url()).min(1).max(100),
+  creationType: z.enum(zodObjectKeys(CREATION_TYPE_LABEL)),
+  pair: z.enum(zodObjectKeys(PAIR_LABEL)),
   age: z.enum(zodObjectKeys(AGE_LABEL)),
   keywords: z.array(z.string()).max(10, "키워드는 최대 10개 이내로 입력해 주세요.").optional(),
   keyword: z
@@ -61,9 +63,14 @@ const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
     resolver: zodResolver(schema),
     defaultValues: {
       title: "",
+      genre: undefined,
+      content: [
+        "https://glyph.pub/images/24/02/v/v8/v8nl9bz93rbol9lf.jpg",
+        "https://glyph.pub/images/24/02/u/u3/u3603si0i06hows9.jpg",
+        "https://glyph.pub/images/24/02/e/eb/ebo089j0ujdxb85t.jpg",
+      ],
       creationType: "PRIMARY",
       pair: "NONE",
-      genre: undefined,
       age: "ALL",
       keywords: [],
       keyword: "",
@@ -435,9 +442,10 @@ const ThumbnailFn = () => {
 export const WT_Post_Create_Form = Object.assign(WT_Post_Create_Form_Fn, {
   CreateSubmitButton: CreateSubmitFn,
   Title: TitleFn,
+  Genre: GenreFn,
+  Editor: Editor,
   CreationType: CreationTypeFn,
   Pair: PairFn,
-  Genre: GenreFn,
   Age: AgeFn,
   Keywords: KeywordsFn,
   Keyword: KeywordFn,
@@ -453,9 +461,10 @@ export const WT_Post_Create_Form = Object.assign(WT_Post_Create_Form_Fn, {
 export const WT_Post_Update_Form = Object.assign(WT_Post_Update_Form_Fn, {
   UpdateSubmitButton: UpdateSubmitFn,
   Title: TitleFn,
+  Genre: GenreFn,
+  Editor: Editor,
   CreationType: CreationTypeFn,
   Pair: PairFn,
-  Genre: GenreFn,
   Age: AgeFn,
   Keywords: KeywordsFn,
   Keyword: KeywordFn,

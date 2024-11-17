@@ -15,8 +15,8 @@ export function PostIdPage() {
         <Stack spacing={4}>
           <WT_Post_Create_Form.Title />
           <WT_Post_Create_Form.Genre />
-          <Typography>미리보기</Typography>
           <Typography>에디터</Typography>
+          <WT_Post_Create_Form.Editor />
         </Stack>
       </Stack>
     </>
