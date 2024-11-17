@@ -23,7 +23,7 @@ type ListCardFnProps = {
   slots: {
     overlayElement: ReactElement;
     thumbnail: ReactElement;
-    order: ReactElement;
+    order?: ReactElement | null;
     title: ReactElement;
     attribute?: ReactElement | null;
   };
@@ -43,11 +43,11 @@ const ListCardFn = forwardRef<HTMLDivElement, ListCardFnProps>(({ slots, ...rest
         width: 1,
         height: "60px",
         padding: "4px",
-        backgroundColor: "transparent",
+        bgColor: "transparent",
         borderRadius: 1,
         boxShadow: "none",
         "&:hover": {
-          backgroundColor: theme.vars.palette.action.hover,
+          bgColor: theme.vars.palette.action.hover,
         },
         ...rest.sx,
       }}
