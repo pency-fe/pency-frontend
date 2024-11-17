@@ -100,7 +100,7 @@ const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ children, ...rest },
           ref={ref}
           xs={11}
           sm={6}
-          md={6}
+          md={4}
           lg={4}
           {...rest}
           sx={{ flexShrink: 0, ...noneUserSelect, ...rest.sx }}

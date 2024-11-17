@@ -12,8 +12,8 @@ const postData = {
   thumbnail:
     "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
   age: "NINETEEN",
-  title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
-  // title: "천재 궁수의 스트리밍",
+  // title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
+  title: "천재 궁수의 스트리밍",
   channel: {
     name: "김천재의 채널",
   },
