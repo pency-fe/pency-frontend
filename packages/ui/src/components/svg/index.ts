@@ -19,6 +19,7 @@ export * from "./ic-outline-email-icon";
 export * from "./ic-round-search-icon";
 export * from "./icomoon-free-youtube2-icon";
 export * from "./material-symbols-block-icon";
+export * from "./material-symbols-chat-bubble-outline";
 export * from "./material-symbols-close-icon";
 export * from "./material-symbols-report-outline-icon";
 export * from "./mingcute-down-line-icon";
