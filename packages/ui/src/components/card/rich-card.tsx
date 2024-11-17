@@ -319,9 +319,9 @@ const AttributeFn = forwardRef<HTMLSpanElement, AttributeFnProps>((rest, ref) =>
   return (
     <Typography
       component="span"
-      variant="inherit"
       ref={ref}
       {...rest}
+      variant="inherit"
       sx={{
         lineHeight: 1,
         ...rest.sx,
