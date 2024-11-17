@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useState } from "react";
 import { createStore, useStore } from "zustand";
 import { useWTPostFormContext } from "./wt-post-form";
 import { arrayMove } from "@dnd-kit/sortable";
+import { Button } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
@@ -64,18 +65,19 @@ export const SortableCutManager = ({ children }: SortableCutManagerProps) => {
     const newIndex = oldIndex - 1;
     console.log(oldIndex, newIndex);
 
-    if (newIndex === -1 || newIndex === 0) {
+    if (newIndex === -1) {
       return;
     }
 
     setValue("content", arrayMove(getValues("content"), oldIndex, newIndex));
+    console.log(getValues("content"));
   };
 
   // const moveCutRight = useCallback(() => {}, []);
 
   return (
     <>
-      {activeCut && <button onClick={() => moveCutLeft(activeCut)}>left</button>}
+      {activeCut && <Button onClick={() => moveCutLeft(activeCut)}>left</Button>}
 
       <ActiveCutContext.Provider value={activeCutStore}>
         <CutHandlerContext.Provider value={{ moveCutLeft }}>{children}</CutHandlerContext.Provider>

@@ -9,20 +9,20 @@ import {
   MeasuringStrategy,
   MouseSensor,
   TouchSensor,
-  useDndContext,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import { useWTPostFormContext } from "./wt-post-form";
 import { arrayMove, horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import { useEffect, useId, useRef, useState } from "react";
+import { useId, useState } from "react";
 import { Grid, Portal } from "@mui/material";
 import { SortableCut } from "./sortable-cut";
 import { Cut } from "./cut";
 import { SortableCutManager } from "./sortable-cut-manager";
 
 const EditorFn = () => {
-  const { getValues, setValue } = useWTPostFormContext();
+  const { getValues, setValue, watch } = useWTPostFormContext();
+  const content = watch("content");
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
   const [activeCut, setActiveCut] = useState<string | null>(null);
   const id = useId();
@@ -46,13 +46,12 @@ const EditorFn = () => {
     <DndContext
       id={id}
       sensors={sensors}
-      // collisionDetection={closestCenter}
+      collisionDetection={closestCenter}
       measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <Remeasure items={getValues("content")} />
-      <SortableContext items={getValues("content")} strategy={horizontalListSortingStrategy}>
+      <SortableContext items={content} strategy={horizontalListSortingStrategy}>
         <SortableCutManager>
           <Grid container wrap="nowrap" sx={{ width: 1, overflowX: "auto", gap: 1, padding: "4px", ml: "-4px" }}>
             {getValues("content").map((src) => (
@@ -69,23 +68,6 @@ const EditorFn = () => {
     </DndContext>
   );
 };
-
-function Remeasure({ items }) {
-  const context = useDndContext();
-  const contextRef = useRef(context);
-
-  console.log(items);
-
-  useEffect(() => {
-    contextRef.current = context;
-  }, [context]);
-
-  useEffect(() => {
-    contextRef.current?.measureDroppableContainers([...contextRef.current.droppableContainers.keys()]);
-  }, [items]);
-
-  return <></>;
-}
 
 // ----------------------------------------------------------------------
 
