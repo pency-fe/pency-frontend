@@ -42,7 +42,7 @@ export const Default = () => {
             </ListComment.NameLink>
           ),
           label: (
-            <ListComment.Label variant="soft" color="success">
+            <ListComment.Label variant="soft" color="info">
               {commentData.label}
             </ListComment.Label>
           ),

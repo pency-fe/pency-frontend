@@ -96,6 +96,7 @@ const NameLinkFn = forwardRef<HTMLAnchorElement, NameLinkFnProps>((rest, ref) =>
       color={theme.vars.palette.text.primary}
       {...rest}
       sx={{
+        mr: 1,
         lineHeight: 1,
         ...maxLine({ line: 1 }),
         ...rest.sx,
