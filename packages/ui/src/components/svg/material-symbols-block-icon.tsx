@@ -5,7 +5,7 @@ import { SvgIcon, SvgIconProps } from "@mui/material";
  * @description
  * https://icon-sets.iconify.design/material-symbols/block/
  */
-export const MaterialSymbolsBlock = forwardRef<SVGSVGElement, SvgIconProps>((rest, ref) => (
+export const MaterialSymbolsBlockIcon = forwardRef<SVGSVGElement, SvgIconProps>((rest, ref) => (
   <SvgIcon ref={ref} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...rest}>
     <path
       fill="currentColor"

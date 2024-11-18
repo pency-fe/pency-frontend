@@ -5,7 +5,7 @@ import { SvgIcon, SvgIconProps } from "@mui/material";
  * @description
  * https://icon-sets.iconify.design/material-symbols/report-outline/
  */
-export const MaterialSymbolsReportOutline = forwardRef<SVGSVGElement, SvgIconProps>((rest, ref) => (
+export const MaterialSymbolsReportOutlineIcon = forwardRef<SVGSVGElement, SvgIconProps>((rest, ref) => (
   <SvgIcon ref={ref} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...rest}>
     <path
       fill="currentColor"

@@ -1,10 +1,6 @@
 import { forwardRef } from "react";
 import { SvgIcon, SvgIconProps, useTheme } from "@mui/material";
 
-/**
- * @description
- * https://icon-sets.iconify.design/eva/arrow-ios-back-fill/
- */
 export const BrandAppleIcon = forwardRef<SVGSVGElement, SvgIconProps>((rest, ref) => {
   const theme = useTheme();
 
