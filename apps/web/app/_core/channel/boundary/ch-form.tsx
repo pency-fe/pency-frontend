@@ -96,6 +96,8 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   );
 };
 
+// ----------------------------------------------------------------------
+
 type UpdateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
