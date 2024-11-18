@@ -1,32 +1,29 @@
-import { UniqueIdentifier } from "@dnd-kit/core";
-import { createContext, useCallback, useContext, useState } from "react";
+"use client";
+
+import { createContext, RefObject, useContext, useState } from "react";
 import { createStore, useStore } from "zustand";
-import { useWTPostFormContext } from "./wt-post-form";
-import { arrayMove } from "@dnd-kit/sortable";
-import { Button } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
-type ActiveCutStore = {
-  activeCut: string | null;
-  handleActiveCut: (cut: string) => void;
+type ActiveCutRefStore = {
+  activeCutRef: RefObject<HTMLElement> | null;
+  toggleActiveCutRef: (ref: RefObject<HTMLElement>) => void;
 };
 
-const createActiveCutStore = () => {
-  return createStore<ActiveCutStore>()((set) => ({
-    activeCut: null,
-    handleActiveCut: (cut) => {
-      set(({ activeCut }) => ({
-        activeCut: cut !== activeCut ? cut : null,
-      }));
+const createActiveCutRefStore = () => {
+  return createStore<ActiveCutRefStore>()((set) => ({
+    activeCutRef: null,
+    onKeyDown: null,
+    toggleActiveCutRef: (ref) => {
+      set((state) => ({ activeCutRef: ref !== state.activeCutRef ? ref : null }));
     },
   }));
 };
 
-const ActiveCutContext = createContext<ReturnType<typeof createActiveCutStore> | undefined>(undefined);
+const ActiveCutRefContext = createContext<ReturnType<typeof createActiveCutRefStore> | undefined>(undefined);
 
-export function useActiveCutContext<T>(selector: (state: ActiveCutStore) => T): T {
-  const context = useContext(ActiveCutContext);
+export function useActiveCutRefContext<T>(selector: (state: ActiveCutRefStore) => T): T {
+  const context = useContext(ActiveCutRefContext);
 
   if (!context) throw new Error(`부모로 <SortableCutManager /> 컴포넌트가 있어야 합니다.`);
 
@@ -56,32 +53,17 @@ type SortableCutManagerProps = {
 };
 
 export const SortableCutManager = ({ children }: SortableCutManagerProps) => {
-  const [activeCutStore] = useState(createActiveCutStore);
-  const activeCut = useStore(activeCutStore, (state) => state.activeCut);
-  const { getValues, setValue } = useWTPostFormContext();
+  const [activeCutRefStore] = useState(createActiveCutRefStore);
+  const activeCutRef = useStore(activeCutRefStore, (state) => state.activeCutRef);
 
-  const moveCutLeft: CutHandler["moveCutLeft"] = (cut: string) => {
-    const oldIndex = getValues("content").findIndex((item) => item === cut);
-    const newIndex = oldIndex - 1;
-    console.log(oldIndex, newIndex);
-
-    if (newIndex === -1) {
-      return;
-    }
-
-    setValue("content", arrayMove(getValues("content"), oldIndex, newIndex));
-    console.log(getValues("content"));
-  };
-
-  // const moveCutRight = useCallback(() => {}, []);
+  const moveCutLeft: CutHandler["moveCutLeft"] = (cut: string) => {};
 
   return (
     <>
-      {activeCut && <Button onClick={() => moveCutLeft(activeCut)}>left</Button>}
-
-      <ActiveCutContext.Provider value={activeCutStore}>
+      <ActiveCutRefContext.Provider value={activeCutRefStore}>
         <CutHandlerContext.Provider value={{ moveCutLeft }}>{children}</CutHandlerContext.Provider>
-      </ActiveCutContext.Provider>
+      </ActiveCutRefContext.Provider>
+      {/* {activeCutRef && <Button onClick={() => moveCutLeft(activeCut)}>left</Button>} */}
     </>
   );
 };

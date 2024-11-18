@@ -6,7 +6,6 @@ import {
   DragEndEvent,
   DragOverlay,
   DragStartEvent,
-  MeasuringStrategy,
   MouseSensor,
   TouchSensor,
   useSensor,
@@ -14,18 +13,16 @@ import {
 } from "@dnd-kit/core";
 import { useWTPostFormContext } from "./wt-post-form";
 import { arrayMove, horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import { useId, useState } from "react";
+import { useState } from "react";
 import { Grid, Portal } from "@mui/material";
 import { SortableCut } from "./sortable-cut";
 import { Cut } from "./cut";
 import { SortableCutManager } from "./sortable-cut-manager";
 
 const EditorFn = () => {
-  const { getValues, setValue, watch } = useWTPostFormContext();
-  const content = watch("content");
+  const { getValues, setValue } = useWTPostFormContext();
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
   const [activeCut, setActiveCut] = useState<string | null>(null);
-  const id = useId();
 
   function handleDragStart({ active }: DragStartEvent) {
     setActiveCut(active.id as string);
@@ -44,14 +41,13 @@ const EditorFn = () => {
 
   return (
     <DndContext
-      id={id}
+      id="wt-post-form-editor"
       sensors={sensors}
       collisionDetection={closestCenter}
-      measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={content} strategy={horizontalListSortingStrategy}>
+      <SortableContext items={getValues("content")} strategy={horizontalListSortingStrategy}>
         <SortableCutManager>
           <Grid container wrap="nowrap" sx={{ width: 1, overflowX: "auto", gap: 1, padding: "4px", ml: "-4px" }}>
             {getValues("content").map((src) => (
@@ -62,6 +58,7 @@ const EditorFn = () => {
           </Grid>
         </SortableCutManager>
       </SortableContext>
+
       <Portal>
         <DragOverlay>{activeCut && <Cut src={activeCut} />}</DragOverlay>
       </Portal>

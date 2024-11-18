@@ -1,3 +1,5 @@
+"use client";
+
 import { DraggableSyntheticListeners } from "@dnd-kit/core";
 import { Box, BoxProps, IconButton, Skeleton, useTheme } from "@mui/material";
 import { NimbusDragDotsIcon } from "@pency/ui/components";
