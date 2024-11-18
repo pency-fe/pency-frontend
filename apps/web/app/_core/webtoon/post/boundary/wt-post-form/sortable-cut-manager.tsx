@@ -1,5 +1,7 @@
 "use client";
 
+import { Button, IconButton, Stack } from "@mui/material";
+import { MingcuteDelete3LineIcon } from "@pency/ui/components";
 import { createContext, RefObject, useContext, useState } from "react";
 import { createStore, useStore } from "zustand";
 
@@ -56,14 +58,24 @@ export const SortableCutManager = ({ children }: SortableCutManagerProps) => {
   const [activeCutRefStore] = useState(createActiveCutRefStore);
   const activeCutRef = useStore(activeCutRefStore, (state) => state.activeCutRef);
 
-  const moveCutLeft: CutHandler["moveCutLeft"] = (cut: string) => {};
-
   return (
     <>
-      <ActiveCutRefContext.Provider value={activeCutRefStore}>
-        <CutHandlerContext.Provider value={{ moveCutLeft }}>{children}</CutHandlerContext.Provider>
-      </ActiveCutRefContext.Provider>
-      {/* {activeCutRef && <Button onClick={() => moveCutLeft(activeCut)}>left</Button>} */}
+      <Stack flexDirection="row" sx={{ mb: 1 }}>
+        {activeCutRef && (
+          <>
+            <Button variant="soft">여기서부터 유료</Button>
+            <IconButton variant="soft">
+              <MingcuteDelete3LineIcon />
+            </IconButton>
+          </>
+        )}
+
+        <Button variant="soft" color="primary" sx={{ ml: "auto" }}>
+          이미지 추가
+        </Button>
+      </Stack>
+
+      <ActiveCutRefContext.Provider value={activeCutRefStore}>{children}</ActiveCutRefContext.Provider>
     </>
   );
 };

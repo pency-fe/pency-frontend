@@ -14,7 +14,7 @@ import {
 import { useWTPostFormContext } from "./wt-post-form";
 import { arrayMove, horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { useState } from "react";
-import { Grid, Portal } from "@mui/material";
+import { Box, Grid, Portal, Stack } from "@mui/material";
 import { SortableCut } from "./sortable-cut";
 import { Cut } from "./cut";
 import { SortableCutManager } from "./sortable-cut-manager";
@@ -40,29 +40,31 @@ const EditorFn = () => {
   }
 
   return (
-    <DndContext
-      id="wt-post-form-editor"
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext items={getValues("content")} strategy={horizontalListSortingStrategy}>
+    <Stack>
+      <DndContext
+        id="wt-post-form-editor"
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
         <SortableCutManager>
-          <Grid container wrap="nowrap" sx={{ width: 1, overflowX: "auto", gap: 1, padding: "4px", ml: "-4px" }}>
-            {getValues("content").map((src) => (
-              <Grid key={src} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
-                <SortableCut src={src} />
-              </Grid>
-            ))}
-          </Grid>
+          <SortableContext items={getValues("content")} strategy={horizontalListSortingStrategy}>
+            <Grid container wrap="nowrap" sx={{ width: 1, overflowX: "auto", gap: 1, padding: "4px", ml: "-4px" }}>
+              {getValues("content").map((src) => (
+                <Grid key={src} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
+                  <SortableCut src={src} />
+                </Grid>
+              ))}
+            </Grid>
+          </SortableContext>
         </SortableCutManager>
-      </SortableContext>
 
-      <Portal>
-        <DragOverlay>{activeCut && <Cut src={activeCut} />}</DragOverlay>
-      </Portal>
-    </DndContext>
+        <Portal>
+          <DragOverlay>{activeCut && <Cut src={activeCut} />}</DragOverlay>
+        </Portal>
+      </DndContext>
+    </Stack>
   );
 };
 
