@@ -20,6 +20,7 @@ import { forwardRef, ReactElement } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { maxLine } from "@/util";
 import { EvaHeartOutlineIcon, MaterialSymbolsChatBubbleOutlineIcon } from "../svg";
+import { Label } from "../label";
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +28,7 @@ type ListCommentFnProps = {
   slots: {
     avatarLink: ReactElement;
     nameLink: ReactElement;
+    label?: ReactElement;
     createdAt: ReactElement;
     comment: ReactElement;
     likeButton: ReactElement;
@@ -43,7 +45,7 @@ const ListCommentFn = forwardRef<HTMLDivElement, ListCommentFnProps>(({ slots, .
       <Stack sx={{ flexGrow: 1 }}>
         <Box sx={{ display: "flex", alignItems: "center", mb: "6px" }}>
           {slots.nameLink}
-          {/* [TODO] 라벨 추가 */}
+          {slots.label}
           {slots.createdAt}
         </Box>
         {slots.comment}
@@ -167,6 +169,7 @@ export const ListComment = Object.assign(ListCommentFn, {
     Avatar: AvatarFn,
   }),
   NameLink: NameLinkFn,
+  Label: Label,
   CreatedAt: CreatedAtFn,
   Comment: CommentFn,
   LikeButton: LikeButtonFn,

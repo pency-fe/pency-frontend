@@ -15,6 +15,7 @@ const commentData = {
     avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
     name: "김천재의 채널",
   },
+  label: "구매",
   createdAt: 1730535831,
   comment:
     "넘 재밌어요!! 넘 재밌어요!! 넘 재밌어요!! 넘 재밌어요!! 넘 재밌어요!! 넘 재밌어요!! 넘 재밌어요!! 넘 재밌어요!! 넘 재밌어요!! 넘 재밌어요!!",
@@ -39,6 +40,11 @@ export const Default = () => {
             <ListComment.NameLink href={`/channel/${commentData.channel.channelId}`}>
               {commentData.channel.name}
             </ListComment.NameLink>
+          ),
+          label: (
+            <ListComment.Label variant="soft" color="success">
+              {commentData.label}
+            </ListComment.Label>
           ),
           createdAt: <ListComment.CreatedAt>{formatRelativeTimeFromUTC(commentData.createdAt)}</ListComment.CreatedAt>,
           comment: <ListComment.Comment>{commentData.comment}</ListComment.Comment>,
