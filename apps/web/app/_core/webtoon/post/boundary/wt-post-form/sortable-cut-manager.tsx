@@ -1,30 +1,42 @@
 "use client";
 
-import { Button, IconButton, Stack } from "@mui/material";
-import { MingcuteDelete3LineIcon } from "@pency/ui/components";
-import { createContext, RefObject, useContext, useState } from "react";
+import { Box, Button, Grid, Stack } from "@mui/material";
+import { createContext, useContext, useState } from "react";
 import { createStore, useStore } from "zustand";
+import { useWTPostFormContext } from "./wt-post-form";
+import { SortableCut, SortablePaidBoundaryCut } from "./sortable-cut";
 
 // ----------------------------------------------------------------------
 
-type ActiveCutRefStore = {
-  activeCutRef: RefObject<HTMLElement> | null;
-  toggleActiveCutRef: (ref: RefObject<HTMLElement>) => void;
+type ActiveCutsStore = {
+  activeCuts: Set<string>;
+  toggleActiveCut: (src: string) => void;
 };
 
-const createActiveCutRefStore = () => {
-  return createStore<ActiveCutRefStore>()((set) => ({
-    activeCutRef: null,
-    onKeyDown: null,
-    toggleActiveCutRef: (ref) => {
-      set((state) => ({ activeCutRef: ref !== state.activeCutRef ? ref : null }));
+const createActiveCutsStore = () => {
+  return createStore<ActiveCutsStore>()((set) => ({
+    activeCuts: new Set(),
+    toggleActiveCut: (src) => {
+      set(({ activeCuts }) => {
+        const newActiveCuts = new Set(activeCuts);
+
+        if (newActiveCuts.has(src)) {
+          newActiveCuts.delete(src);
+        } else {
+          newActiveCuts.add(src);
+        }
+
+        return {
+          activeCuts: newActiveCuts,
+        };
+      });
     },
   }));
 };
 
-const ActiveCutRefContext = createContext<ReturnType<typeof createActiveCutRefStore> | undefined>(undefined);
+const ActiveCutRefContext = createContext<ReturnType<typeof createActiveCutsStore> | undefined>(undefined);
 
-export function useActiveCutRefContext<T>(selector: (state: ActiveCutRefStore) => T): T {
+export function useActiveCutsContext<T>(selector: (state: ActiveCutsStore) => T): T {
   const context = useContext(ActiveCutRefContext);
 
   if (!context) throw new Error(`부모로 <SortableCutManager /> 컴포넌트가 있어야 합니다.`);
@@ -34,48 +46,37 @@ export function useActiveCutRefContext<T>(selector: (state: ActiveCutRefStore) =
 
 // ----------------------------------------------------------------------
 
-type CutHandler = {
-  moveCutLeft: (cut: string) => void;
-};
-
-const CutHandlerContext = createContext<CutHandler | undefined>(undefined);
-
-export function useCutHandlerContext() {
-  const context = useContext(CutHandlerContext);
-
-  if (!context) throw new Error(`부모로 <SortableCutManager /> 컴포넌트가 있어야 합니다.`);
-
-  return context;
-}
-
-// ----------------------------------------------------------------------
-
-type SortableCutManagerProps = {
-  children?: React.ReactNode;
-};
-
-export const SortableCutManager = ({ children }: SortableCutManagerProps) => {
-  const [activeCutRefStore] = useState(createActiveCutRefStore);
-  const activeCutRef = useStore(activeCutRefStore, (state) => state.activeCutRef);
+export const SortableCutManager = () => {
+  const [activeCutsStore] = useState(createActiveCutsStore);
+  const activeCuts = useStore(activeCutsStore, (state) => state.activeCuts);
+  const { getValues } = useWTPostFormContext();
 
   return (
     <>
-      <Stack flexDirection="row" sx={{ mb: 1 }}>
-        {activeCutRef && (
-          <>
-            <Button variant="soft">여기서부터 유료</Button>
-            <IconButton variant="soft">
-              <MingcuteDelete3LineIcon />
-            </IconButton>
-          </>
-        )}
-
-        <Button variant="soft" color="primary" sx={{ ml: "auto" }}>
-          이미지 추가
-        </Button>
-      </Stack>
-
-      <ActiveCutRefContext.Provider value={activeCutRefStore}>{children}</ActiveCutRefContext.Provider>
+      <ActiveCutRefContext.Provider value={activeCutsStore}>
+        <Stack gap={1}>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Button variant="soft" color="primary">
+              업로드
+            </Button>
+            {activeCuts.size !== 0 && (
+              <Button variant="soft" color="error">
+                삭제
+              </Button>
+            )}
+          </Box>
+          <Grid container wrap="nowrap" sx={{ width: 1, overflowX: "auto" }}>
+            {getValues("content").map(({ src, name }, i) => (
+              <Grid key={src} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
+                <SortableCut src={src} name={name} order={i + 1} />
+              </Grid>
+            ))}
+            <Grid item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
+              <SortablePaidBoundaryCut />
+            </Grid>
+          </Grid>
+        </Stack>
+      </ActiveCutRefContext.Provider>
     </>
   );
 };
