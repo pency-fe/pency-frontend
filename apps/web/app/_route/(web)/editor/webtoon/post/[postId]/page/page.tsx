@@ -10,12 +10,11 @@ export function PostIdPage() {
   return (
     <>
       <Stack spacing={4} sx={{ backgroundColor: theme.vars.palette.background.paper, padding: 3, borderRadius: 2 }}>
-        <Typography variant="h4">포스트 발행하기</Typography>
+        <Typography variant="h4">웹툰 발행하기</Typography>
 
         <Stack spacing={4}>
           <WT_Post_Create_Form.Title />
           <WT_Post_Create_Form.Genre />
-          <Typography>에디터</Typography>
           <WT_Post_Create_Form.Editor />
         </Stack>
       </Stack>

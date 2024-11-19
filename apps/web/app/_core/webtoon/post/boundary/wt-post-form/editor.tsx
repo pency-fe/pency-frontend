@@ -13,7 +13,7 @@ import {
 } from "@dnd-kit/core";
 import { useWTPostFormContext } from "./wt-post-form";
 import { arrayMove, horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Portal } from "@mui/material";
 import { Cut, PaidBoundaryCut } from "./cut";
 import { SortableCutManager } from "./sortable-cut-manager";
@@ -49,7 +49,16 @@ const EditorFn = () => {
       });
     }
   }
-  console.log(1);
+
+  useEffect(() => {
+    const isReallyExit = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+    };
+
+    window.addEventListener("beforeunload", isReallyExit);
+
+    return () => window.removeEventListener("beforeunload", isReallyExit);
+  }, []);
 
   return (
     <DndContext

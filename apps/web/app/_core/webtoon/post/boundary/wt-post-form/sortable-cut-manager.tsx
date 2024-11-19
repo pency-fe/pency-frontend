@@ -1,7 +1,7 @@
 "use client";
 
-import { Box, Button, Grid, Stack } from "@mui/material";
-import { createContext, useContext, useState } from "react";
+import { Box, Button, Grid, Stack, Typography, useTheme } from "@mui/material";
+import { createContext, useContext, useRef, useState } from "react";
 import { createStore, useStore } from "zustand";
 import { useWTPostFormContext } from "./wt-post-form";
 import { SortableCut, SortablePaidBoundaryCut } from "./sortable-cut";
@@ -48,18 +48,22 @@ export function useActiveCutsContext<T>(selector: (state: ActiveCutsStore) => T)
 
 // ----------------------------------------------------------------------
 
+const MIMES = ["image/jpeg", "image/png", "image/gif"];
+
 export const SortableCutManager = () => {
   const [activeCutsStore] = useState(createActiveCutsStore);
-  const { activeCuts, clear } = useStore(activeCutsStore);
+  const store = useStore(activeCutsStore);
   const { watch, setValue } = useWTPostFormContext();
+  const theme = useTheme();
 
+  const scrollerRef = useRef<HTMLDivElement>(null);
   const content = watch("content");
 
   const handleRemove = () => {
     let free = [...content.free];
     let paid = [...content.paid];
 
-    for (const activeCut of activeCuts.values()) {
+    for (const activeCut of store.activeCuts.values()) {
       free = free.filter(({ src }) => src !== activeCut);
       paid = paid.filter(({ src }) => src !== activeCut);
     }
@@ -67,38 +71,108 @@ export const SortableCutManager = () => {
       free,
       paid,
     });
-    clear();
+    store.clear();
+  };
+
+  const handleUpload = () => {
+    const picker = document.createElement("input");
+    picker.type = "file";
+    picker.accept = MIMES.join(",");
+    picker.multiple = true;
+    picker.addEventListener("change", () => {
+      if (picker.files?.length) {
+        const newCuts = [];
+        for (const file of picker.files) {
+          const src = URL.createObjectURL(file);
+          newCuts.push({
+            name: src,
+            src: src,
+          });
+        }
+
+        if (content.paid.length) {
+          setValue("content", { free: [...content.free], paid: [...content.paid, ...newCuts] });
+        } else {
+          setValue("content", { free: [...content.free, ...newCuts], paid: [...content.paid] });
+        }
+
+        setTimeout(() => {
+          scrollerRef.current?.scrollTo({
+            left: scrollerRef.current.scrollWidth,
+            behavior: "smooth",
+          });
+        }, 200);
+      }
+    });
+    picker.click();
   };
 
   return (
     <>
       <ActiveCutsContext.Provider value={activeCutsStore}>
         <Stack gap={1}>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Button variant="soft" color="primary">
-              업로드
-            </Button>
-            {activeCuts.size !== 0 && (
-              <Button variant="soft" color="error" onClick={handleRemove}>
-                삭제
-              </Button>
-            )}
-          </Box>
-          <Grid container wrap="nowrap" sx={{ width: 1, overflowX: "auto" }}>
-            {[...content.free].map(({ src, name }, i) => (
-              <Grid key={src} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
-                <SortableCut src={src} name={name} order={i + 1} />
+          <Typography variant="subtitle2">원고 등록</Typography>
+          {content.free.length !== 0 || content.paid.length !== 0 ? (
+            <>
+              <Box sx={{ display: "flex", gap: 1 }}>
+                <Button variant="soft" color="primary" onClick={handleUpload}>
+                  업로드
+                </Button>
+                {store.activeCuts.size !== 0 && (
+                  <Button variant="soft" color="error" onClick={handleRemove}>
+                    삭제
+                  </Button>
+                )}
+              </Box>
+              <Grid ref={scrollerRef} container wrap="nowrap" sx={{ width: 1, overflowX: "scroll", ml: "-5px" }}>
+                {[...content.free].map(({ src, name }, i) => (
+                  <Grid key={i} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
+                    <SortableCut src={src} name={name} order={i + 1} />
+                  </Grid>
+                ))}
+                <Grid item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
+                  <SortablePaidBoundaryCut />
+                </Grid>
+                {[...content.paid].map(({ src, name }, i) => (
+                  <Grid key={i} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
+                    <SortableCut src={src} name={name} order={i + content.free.length + 1} />
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-            <Grid item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
-              <SortablePaidBoundaryCut />
+              {(content.free.length !== 0 || content.paid.length !== 0) && (
+                <Box sx={{ aspectRatio: "1 / 1", overflow: "hidden" }}>
+                  <Stack sx={{ width: 1, height: 1, overflowY: "scroll" }}>
+                    {[...content.free, ...content.paid].map(({ src }, i) => (
+                      <Box component="img" key={i} src={src} />
+                    ))}
+                  </Stack>
+                </Box>
+              )}
+            </>
+          ) : (
+            <Grid
+              container
+              sx={{ width: 1, justifyContent: "center", bgcolor: theme.vars.palette.grey["900"], borderRadius: 1 }}
+            >
+              <Grid item xs={3.5} sm={2.5} sx={{ position: "relative", width: 1 }}>
+                <Box sx={{ width: 1, pt: "100%" }}>
+                  <Button
+                    variant="soft"
+                    color="primary"
+                    onClick={handleUpload}
+                    sx={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  >
+                    업로드
+                  </Button>
+                </Box>
+              </Grid>
             </Grid>
-            {[...content.paid].map(({ src, name }, i) => (
-              <Grid key={src} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
-                <SortableCut src={src} name={name} order={i + content.free.length + 1} />
-              </Grid>
-            ))}
-          </Grid>
+          )}
         </Stack>
       </ActiveCutsContext.Provider>
     </>
