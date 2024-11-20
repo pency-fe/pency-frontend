@@ -9,6 +9,7 @@ import {
   Grid,
   inputBaseClasses,
   MenuItem,
+  Pagination,
   Stack,
   TextField,
   Typography,
@@ -100,6 +101,10 @@ function Post() {
           </Grid>
         ))}
       </Grid>
+
+      <Box sx={{ margin: "auto", mt: 3 }}>
+        <Pagination count={10} />
+      </Box>
     </Stack>
   );
 }
