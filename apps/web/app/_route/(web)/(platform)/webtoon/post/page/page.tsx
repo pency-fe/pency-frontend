@@ -15,18 +15,82 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { EvaHeartOutlineIcon, ListItemx, ListItemxCarousel, NineteenCircleIcon } from "@pency/ui/components";
 
 export default function PostPage() {
   return (
-    <Stack spacing={8}>
+    <Stack spacing={10}>
       <BannerSection />
+      <Rank />
       <Post />
     </Stack>
   );
 }
 
 function Rank() {
-  return <></>;
+  const postData = {
+    postId: "post-id-123",
+    thumbnail:
+      "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+    age: "NINETEEN",
+    title: "천재 궁수의 스트리밍",
+    channel: {
+      name: "김천재의 채널",
+    },
+    likeCount: 100,
+  };
+
+  return (
+    <Stack spacing={1}>
+      <ListItemxCarousel>
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <Typography variant="h4">웹툰 랭킹</Typography>
+          <Box sx={{ display: "flex", gap: 1, ml: "auto" }}>
+            <ListItemxCarousel.PrevNav />
+            <ListItemxCarousel.NextNav />
+          </Box>
+        </Box>
+
+        <ListItemxCarousel.Container
+          slots={{
+            slides: Array.from({ length: 6 }, () => (
+              <ListItemxCarousel.Slide>
+                {Array.from({ length: 3 }, () => (
+                  <ListItemx
+                    slots={{
+                      overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+                      thumbnail: (
+                        <ListItemx.Thumbnail
+                          slots={{
+                            image: <ListItemx.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+                            topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+                          }}
+                        />
+                      ),
+                      order: (
+                        <ListItemx.Order variant="soft" color="info">
+                          1
+                        </ListItemx.Order>
+                      ),
+                      title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
+                      attribute: (
+                        <ListItemx.Attribute>
+                          {postData.channel.name}
+                          <ListItemx.Attribute.Dot />
+                          <EvaHeartOutlineIcon />
+                          {postData.likeCount}
+                        </ListItemx.Attribute>
+                      ),
+                    }}
+                  />
+                ))}
+              </ListItemxCarousel.Slide>
+            )),
+          }}
+        />
+      </ListItemxCarousel>
+    </Stack>
+  );
 }
 
 function Post() {
@@ -45,7 +109,7 @@ function Post() {
   return (
     <Stack spacing={2}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Typography variant="h4">포스트</Typography>
+        <Typography variant="h4">웹툰 포스트</Typography>
 
         <Box ml="auto">
           <TextField
