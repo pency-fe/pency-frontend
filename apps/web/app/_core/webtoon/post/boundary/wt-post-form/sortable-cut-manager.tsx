@@ -143,10 +143,7 @@ export const SortableCutManager = () => {
 
               <Box sx={{ aspectRatio: "1 / 1", overflow: "hidden" }}>
                 <Stack sx={{ width: 1, height: 1, overflowY: "scroll" }}>
-                  {content.free.map(({ src }, i) => (
-                    <Box component="img" key={i} src={src} />
-                  ))}
-                  {content.paid.map(({ src }, i) => (
+                  {[...content.free, ...content.paid].map(({ src }, i) => (
                     <Box component="img" key={i} src={src} />
                   ))}
                 </Stack>
