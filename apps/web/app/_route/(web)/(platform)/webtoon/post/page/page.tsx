@@ -12,7 +12,7 @@ import {
   OverviewCardCarousel,
   RadioButton,
 } from "@pency/ui/components";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries } from "@pency/util";
 import { hideScrollX } from "@pency/ui/util";
@@ -38,7 +38,7 @@ export default function PostPage() {
 const RadioTabButton = () => {
   const router = useRouter();
   const [state, setState] = useState("ALL");
-  const genres = objectEntries(GENRE_LABEL);
+  const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
 
   return (
     <RadioGroup
@@ -48,17 +48,10 @@ const RadioTabButton = () => {
         router.push(`/webtoon/post?genre=${e.target.value}`);
       }}
     >
-      <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 0.5, width: 1, overflowX: "scroll", ...hideScrollX }}>
-        {/* 글자 수에 맞게 알맞게 rem 수정 */}
-        {/* ex. 글자 수(4rem) + 오프셋(1rem) = 5rem */}
-        <RadioButton value="ALL" sx={{ minWidth: "5rem" }}>
-          전체
-        </RadioButton>
+      <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, width: 1, overflowX: "scroll", ...hideScrollX }}>
+        <RadioButton value="ALL">전체</RadioButton>
         {genres.map(([genre, label]) => (
-          <RadioButton value={genre} sx={{ minWidth: "5rem" }}>
-            {" "}
-            {label}
-          </RadioButton>
+          <RadioButton value={genre}> {label}</RadioButton>
         ))}
       </Box>
     </RadioGroup>
