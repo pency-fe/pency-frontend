@@ -32,6 +32,7 @@ import { createContext, forwardRef, ReactElement, useContext, useMemo } from "re
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImageProps, LazyLoadImage } from "react-lazy-load-image-component";
 import { Label } from "../label";
+import { BrandPencyTextIcon } from "../svg";
 
 // ----------------------------------------------------------------------
 
@@ -220,30 +221,48 @@ const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...re
   );
 });
 
-type ImageFnProps = Omit<BoxProps & LazyLoadImageProps, "children">;
+type ImageFnProps = Omit<BoxProps<"img", LazyLoadImageProps>, "children" | "src"> & { src?: string | null };
 
-const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>((rest, ref) => {
+const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, ref) => {
   const { hover } = useValue("OverviewCard.Thumbnail.Image");
   const theme = useTheme();
 
   return (
-    <Box
-      ref={ref}
-      component={LazyLoadImage}
-      {...rest}
-      sx={{
-        width: 1,
-        objectFit: "cover",
-        transition: theme.transitions.create("transform", {
-          easing: theme.transitions.easing.easeInOut,
-          duration: theme.transitions.duration.shorter,
-        }),
-        ...(hover && {
-          transform: "scale(1.05)",
-        }),
-        ...rest.sx,
-      }}
-    />
+    <>
+      {src ? (
+        <Box
+          ref={ref}
+          component={LazyLoadImage}
+          src={src}
+          {...rest}
+          sx={{
+            width: 1,
+            objectFit: "cover",
+            transition: theme.transitions.create("transform", {
+              easing: theme.transitions.easing.easeInOut,
+              duration: theme.transitions.duration.shorter,
+            }),
+            ...(hover && {
+              transform: "scale(1.05)",
+            }),
+            ...rest.sx,
+          }}
+        />
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: 1,
+            height: 1,
+            bgcolor: theme.vars.palette.background.paper,
+          }}
+        >
+          <BrandPencyTextIcon sx={{ width: "25%", height: "auto" }} />
+        </Box>
+      )}
+    </>
   );
 });
 
