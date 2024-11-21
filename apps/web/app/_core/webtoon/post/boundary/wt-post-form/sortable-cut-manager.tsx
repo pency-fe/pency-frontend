@@ -5,6 +5,7 @@ import { createContext, useContext, useRef, useState } from "react";
 import { createStore, useStore } from "zustand";
 import { useWTPostFormContext } from "./wt-post-form";
 import { SortableCut, SortablePaidBoundaryCut } from "./sortable-cut";
+import { varAlpha } from "@pency/ui/util";
 
 // ----------------------------------------------------------------------
 
@@ -125,7 +126,7 @@ export const SortableCutManager = () => {
                 )}
               </Box>
               <Grid ref={scrollerRef} container wrap="nowrap" sx={{ width: 1, overflowX: "scroll", ml: "-5px" }}>
-                {[...content.free].map(({ src, name }, i) => (
+                {content.free.map(({ src, name }, i) => (
                   <Grid key={i} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
                     <SortableCut src={src} name={name} order={i + 1} />
                   </Grid>
@@ -133,26 +134,33 @@ export const SortableCutManager = () => {
                 <Grid item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
                   <SortablePaidBoundaryCut />
                 </Grid>
-                {[...content.paid].map(({ src, name }, i) => (
+                {content.paid.map(({ src, name }, i) => (
                   <Grid key={i} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
                     <SortableCut src={src} name={name} order={i + content.free.length + 1} />
                   </Grid>
                 ))}
               </Grid>
-              {(content.free.length !== 0 || content.paid.length !== 0) && (
-                <Box sx={{ aspectRatio: "1 / 1", overflow: "hidden" }}>
-                  <Stack sx={{ width: 1, height: 1, overflowY: "scroll" }}>
-                    {[...content.free, ...content.paid].map(({ src }, i) => (
-                      <Box component="img" key={i} src={src} />
-                    ))}
-                  </Stack>
-                </Box>
-              )}
+
+              <Box sx={{ aspectRatio: "1 / 1", overflow: "hidden" }}>
+                <Stack sx={{ width: 1, height: 1, overflowY: "scroll" }}>
+                  {content.free.map(({ src }, i) => (
+                    <Box component="img" key={i} src={src} />
+                  ))}
+                  {content.paid.map(({ src }, i) => (
+                    <Box component="img" key={i} src={src} />
+                  ))}
+                </Stack>
+              </Box>
             </>
           ) : (
             <Grid
               container
-              sx={{ width: 1, justifyContent: "center", bgcolor: theme.vars.palette.grey["900"], borderRadius: 1 }}
+              sx={{
+                width: 1,
+                justifyContent: "center",
+                bgcolor: varAlpha(theme.vars.palette.grey["500Channel"], 0.08),
+                borderRadius: 1,
+              }}
             >
               <Grid item xs={3.5} sm={2.5} sx={{ position: "relative", width: 1 }}>
                 <Box sx={{ width: 1, pt: "100%" }}>
