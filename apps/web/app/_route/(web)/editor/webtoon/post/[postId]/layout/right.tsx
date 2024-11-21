@@ -31,6 +31,7 @@ const NAV_VALUE_LABEL: Record<NavValue, string> = {
 } as const;
 
 export default function Right() {
+  useMed;
   const theme = useTheme();
   const [navValue, setNavValue] = useState<NavValue>("publish");
 

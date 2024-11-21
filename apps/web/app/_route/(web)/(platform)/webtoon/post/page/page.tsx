@@ -1,33 +1,73 @@
 "use client";
 
-import { WT_Post_RichCard } from "_core/webtoon/post";
 import { BannerSection } from "./sections";
+import { Box, Button, Pagination, RadioGroup, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import {
-  Box,
-  Divider,
-  formControlClasses,
-  Grid,
-  inputBaseClasses,
-  MenuItem,
-  Pagination,
-  Stack,
-  TextField,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { EvaHeartOutlineIcon, ListItemx, ListItemxCarousel, NineteenCircleIcon } from "@pency/ui/components";
+  EvaHeartOutlineIcon,
+  GravityUiCircleCheckFillIcon,
+  ListItemx,
+  ListItemxCarousel,
+  NineteenCircleIcon,
+  OverviewCard,
+  OverviewCardCarousel,
+  RadioButton,
+} from "@pency/ui/components";
+import { useState } from "react";
+import { GENRE_LABEL } from "_core/webtoon/const";
+import { objectEntries } from "@pency/util";
+import { hideScrollX } from "@pency/ui/util";
+import { useRouter } from "next/navigation";
+import NextLink from "next/link";
+import { stylesColorScheme } from "@pency/ui/util";
 
 export default function PostPage() {
   return (
-    <Stack spacing={10}>
-      <BannerSection />
+    <Stack spacing={5}>
+      <Stack spacing={1.5}>
+        <RadioTabButton />
+        <BannerSection />
+      </Stack>
       <Rank />
-      <Post />
+      <LatestPost />
+      <AllPopularityPost />
+      <WeeklyPopularityPost />
     </Stack>
   );
 }
 
+const RadioTabButton = () => {
+  const router = useRouter();
+  const [state, setState] = useState("ALL");
+  const genres = objectEntries(GENRE_LABEL);
+
+  return (
+    <RadioGroup
+      value={state}
+      onChange={(e) => {
+        setState(e.target.value);
+        router.push(`/webtoon/post?genre=${e.target.value}`);
+      }}
+    >
+      <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 0.5, width: 1, overflowX: "scroll", ...hideScrollX }}>
+        {/* 글자 수에 맞게 알맞게 rem 수정 */}
+        {/* ex. 글자 수(4rem) + 오프셋(1rem) = 5rem */}
+        <RadioButton value="ALL" sx={{ minWidth: "5rem" }}>
+          전체
+        </RadioButton>
+        {genres.map(([genre, label]) => (
+          <RadioButton value={genre} sx={{ minWidth: "5rem" }}>
+            {" "}
+            {label}
+          </RadioButton>
+        ))}
+      </Box>
+    </RadioGroup>
+  );
+};
+
 function Rank() {
+  const theme = useTheme();
+  const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const postData = {
     postId: "post-id-123",
     thumbnail:
@@ -44,10 +84,10 @@ function Rank() {
     <Stack spacing={1}>
       <ListItemxCarousel>
         <Box sx={{ display: "flex", gap: 1 }}>
-          <Typography variant="h4">웹툰 랭킹</Typography>
+          <Typography variant="h4">포스트 랭킹</Typography>
           <Box sx={{ display: "flex", gap: 1, ml: "auto" }}>
-            <ListItemxCarousel.PrevNav />
-            <ListItemxCarousel.NextNav />
+            <ListItemxCarousel.PrevNav size={isUpMd ? "medium" : "small"} />
+            <ListItemxCarousel.NextNav size={isUpMd ? "medium" : "small"} />
           </Box>
         </Box>
 
@@ -63,10 +103,9 @@ function Rank() {
                           overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
                           thumbnail: (
                             <ListItemx.Thumbnail
+                              sx={{ aspectRatio: "16/9" }}
                               slots={{
-                                image: (
-                                  <ListItemx.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />
-                                ),
+                                image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
                                 topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
                               }}
                             />
@@ -99,82 +138,350 @@ function Rank() {
   );
 }
 
-function Post() {
+function LatestPost() {
   const theme = useTheme();
-
-  type Sort = {
-    options: { value: string; label: string }[];
-  };
-  const sort: Sort = {
-    options: [
-      { value: "latest", label: "최신순" },
-      { value: "popularity", label: "인기순" },
-    ],
+  const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
+  const postData = {
+    postId: "post-id-123",
+    thumbnail:
+      "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+    age: "NINETEEN",
+    price: 300,
+    purchased: true,
+    creationType: "2차창작",
+    pair: "BL",
+    genre: "액션",
+    title: "천재 궁수의 스트리밍",
+    channel: {
+      channelId: "channel-id-123",
+      avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
+      name: "김천재의 채널",
+    },
   };
 
   return (
     <Stack spacing={2}>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Typography variant="h4">웹툰 포스트</Typography>
-
-        <Box ml="auto">
-          <TextField
-            select
-            defaultValue={sort.options[0]?.value}
+      <Box sx={{}}></Box>
+      <OverviewCardCarousel>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography variant="h4">최신 포스트</Typography>
+          <Button
+            component={NextLink}
+            href="/webtoon/series?TODO=TODO"
             size="small"
+            color="inherit"
             sx={{
-              fontSize: 13,
-              [`& .${inputBaseClasses.root}`]: {
-                [theme.breakpoints.up("xs")]: { height: 34 },
-              },
-              [`& .${inputBaseClasses.input}`]: {
-                [theme.breakpoints.up("xs")]: { fontSize: 12 },
-                [theme.breakpoints.up("sm")]: { fontSize: 14 },
+              color: theme.vars.palette.grey[500],
+              [stylesColorScheme.dark]: {
+                color: theme.vars.palette.grey[500],
               },
             }}
           >
-            {sort.options.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+            더 보기
+          </Button>
+          <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
+            <OverviewCardCarousel.PrevNav size={isUpMd ? "medium" : "small"} />
+            <OverviewCardCarousel.NextNav size={isUpMd ? "medium" : "small"} />
+          </Stack>
         </Box>
-      </Box>
-      <Grid container spacing={1}>
-        {Array.from({ length: 12 }, (_, index) => (
-          <Grid item key={index} xs={15} sm={6} md={4} lg={3}>
-            <WT_Post_RichCard
-              data={{
-                postId: "1",
-                thumbnail:
-                  "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
-                age: "ALL",
-                price: 100,
-                purchased: false,
-                creationType: "PRIMARY",
-                pair: "NONE",
-                genre: "ROMANCE",
-                title: "천재 궁수의 스트리밍",
-                channel: {
-                  channelId: "123",
-                  avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
-                  name: "김천재",
-                },
-                likeCount: 0,
-                createdAt: 0,
-                keywords: ["환생", "판타지", "BJ", "미남", "너드"],
-                preview:
-                  "천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 ",
-              }}
-            />
-          </Grid>
-        ))}
-      </Grid>
 
-      <Box sx={{ margin: "auto", mt: 3 }}>
-        <Pagination count={10} />
-      </Box>
+        <OverviewCardCarousel.Container
+          slots={{
+            slides: (
+              <>
+                {Array.from({ length: 10 }, (_, i) => (
+                  <OverviewCardCarousel.Slide key={i}>
+                    <OverviewCard
+                      slots={{
+                        overlayElement: <OverviewCard.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+                        thumbnail: (
+                          <OverviewCard.Thumbnail
+                            slots={{
+                              image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} />,
+                              // image: <OverviewCard.Thumbnail.Image src={null} />,
+
+                              topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+                            }}
+                            sx={{ aspectRatio: "16/9" }}
+                          />
+                        ),
+                        labels: (
+                          <>
+                            {postData.price && (
+                              <OverviewCard.Label
+                                variant="soft"
+                                color="success"
+                                slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
+                              >
+                                {postData.price}P
+                              </OverviewCard.Label>
+                            )}
+                            <OverviewCard.Label variant="soft" color="secondary">
+                              {postData.creationType}
+                            </OverviewCard.Label>
+                            <OverviewCard.Label variant="soft" color="warning">
+                              {postData.pair}
+                            </OverviewCard.Label>
+                            <OverviewCard.Label variant="soft" color="warning">
+                              {postData.genre}
+                            </OverviewCard.Label>
+                          </>
+                        ),
+                        avatarLink: (
+                          <OverviewCard.AvatarLink
+                            href={`/channel/${postData.channel.channelId}`}
+                            slots={{
+                              avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
+                            }}
+                          />
+                        ),
+                        title: <OverviewCard.Title>{postData.title}</OverviewCard.Title>,
+                        nameLink: (
+                          <OverviewCard.NameLink href={`/channel/${postData.channel.channelId}`}>
+                            {postData.channel.name}
+                          </OverviewCard.NameLink>
+                        ),
+                      }}
+                    />
+                  </OverviewCardCarousel.Slide>
+                ))}
+              </>
+            ),
+          }}
+        />
+      </OverviewCardCarousel>
+    </Stack>
+  );
+}
+
+function AllPopularityPost() {
+  const theme = useTheme();
+  const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
+  const postData = {
+    postId: "post-id-123",
+    thumbnail:
+      "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+    age: "NINETEEN",
+    price: 300,
+    purchased: true,
+    creationType: "2차창작",
+    pair: "BL",
+    genre: "액션",
+    title: "천재 궁수의 스트리밍",
+    channel: {
+      channelId: "channel-id-123",
+      avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
+      name: "김천재의 채널",
+    },
+  };
+
+  return (
+    <Stack spacing={2}>
+      <Box sx={{}}></Box>
+      <OverviewCardCarousel>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography variant="h4">최신 포스트</Typography>
+          <Button
+            component={NextLink}
+            href="/webtoon/series?TODO=TODO"
+            size="small"
+            color="inherit"
+            sx={{
+              color: theme.vars.palette.grey[500],
+              [stylesColorScheme.dark]: {
+                color: theme.vars.palette.grey[500],
+              },
+            }}
+          >
+            더 보기
+          </Button>
+          <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
+            <OverviewCardCarousel.PrevNav size={isUpMd ? "medium" : "small"} />
+            <OverviewCardCarousel.NextNav size={isUpMd ? "medium" : "small"} />
+          </Stack>
+        </Box>
+
+        <OverviewCardCarousel.Container
+          slots={{
+            slides: (
+              <>
+                {Array.from({ length: 10 }, (_, i) => (
+                  <OverviewCardCarousel.Slide key={i}>
+                    <OverviewCard
+                      slots={{
+                        overlayElement: <OverviewCard.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+                        thumbnail: (
+                          <OverviewCard.Thumbnail
+                            slots={{
+                              image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} />,
+                              // image: <OverviewCard.Thumbnail.Image src={null} />,
+
+                              topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+                            }}
+                            sx={{ aspectRatio: "16/9" }}
+                          />
+                        ),
+                        labels: (
+                          <>
+                            {postData.price && (
+                              <OverviewCard.Label
+                                variant="soft"
+                                color="success"
+                                slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
+                              >
+                                {postData.price}P
+                              </OverviewCard.Label>
+                            )}
+                            <OverviewCard.Label variant="soft" color="secondary">
+                              {postData.creationType}
+                            </OverviewCard.Label>
+                            <OverviewCard.Label variant="soft" color="warning">
+                              {postData.pair}
+                            </OverviewCard.Label>
+                            <OverviewCard.Label variant="soft" color="warning">
+                              {postData.genre}
+                            </OverviewCard.Label>
+                          </>
+                        ),
+                        avatarLink: (
+                          <OverviewCard.AvatarLink
+                            href={`/channel/${postData.channel.channelId}`}
+                            slots={{
+                              avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
+                            }}
+                          />
+                        ),
+                        title: <OverviewCard.Title>{postData.title}</OverviewCard.Title>,
+                        nameLink: (
+                          <OverviewCard.NameLink href={`/channel/${postData.channel.channelId}`}>
+                            {postData.channel.name}
+                          </OverviewCard.NameLink>
+                        ),
+                      }}
+                    />
+                  </OverviewCardCarousel.Slide>
+                ))}
+              </>
+            ),
+          }}
+        />
+      </OverviewCardCarousel>
+    </Stack>
+  );
+}
+
+function WeeklyPopularityPost() {
+  const theme = useTheme();
+  const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
+  const postData = {
+    postId: "post-id-123",
+    thumbnail:
+      "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+    age: "NINETEEN",
+    price: 300,
+    purchased: true,
+    creationType: "2차창작",
+    pair: "BL",
+    genre: "액션",
+    title: "천재 궁수의 스트리밍",
+    channel: {
+      channelId: "channel-id-123",
+      avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
+      name: "김천재의 채널",
+    },
+  };
+
+  return (
+    <Stack spacing={2}>
+      <Box sx={{}}></Box>
+      <OverviewCardCarousel>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography variant="h4">최신 포스트</Typography>
+          <Button
+            component={NextLink}
+            href="/webtoon/series?TODO=TODO"
+            size="small"
+            color="inherit"
+            sx={{
+              color: theme.vars.palette.grey[500],
+              [stylesColorScheme.dark]: {
+                color: theme.vars.palette.grey[500],
+              },
+            }}
+          >
+            더 보기
+          </Button>
+          <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
+            <OverviewCardCarousel.PrevNav size={isUpMd ? "medium" : "small"} />
+            <OverviewCardCarousel.NextNav size={isUpMd ? "medium" : "small"} />
+          </Stack>
+        </Box>
+
+        <OverviewCardCarousel.Container
+          slots={{
+            slides: (
+              <>
+                {Array.from({ length: 10 }, (_, i) => (
+                  <OverviewCardCarousel.Slide key={i}>
+                    <OverviewCard
+                      slots={{
+                        overlayElement: <OverviewCard.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+                        thumbnail: (
+                          <OverviewCard.Thumbnail
+                            slots={{
+                              image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} />,
+                              // image: <OverviewCard.Thumbnail.Image src={null} />,
+
+                              topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+                            }}
+                            sx={{ aspectRatio: "16/9" }}
+                          />
+                        ),
+                        labels: (
+                          <>
+                            {postData.price && (
+                              <OverviewCard.Label
+                                variant="soft"
+                                color="success"
+                                slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
+                              >
+                                {postData.price}P
+                              </OverviewCard.Label>
+                            )}
+                            <OverviewCard.Label variant="soft" color="secondary">
+                              {postData.creationType}
+                            </OverviewCard.Label>
+                            <OverviewCard.Label variant="soft" color="warning">
+                              {postData.pair}
+                            </OverviewCard.Label>
+                            <OverviewCard.Label variant="soft" color="warning">
+                              {postData.genre}
+                            </OverviewCard.Label>
+                          </>
+                        ),
+                        avatarLink: (
+                          <OverviewCard.AvatarLink
+                            href={`/channel/${postData.channel.channelId}`}
+                            slots={{
+                              avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
+                            }}
+                          />
+                        ),
+                        title: <OverviewCard.Title>{postData.title}</OverviewCard.Title>,
+                        nameLink: (
+                          <OverviewCard.NameLink href={`/channel/${postData.channel.channelId}`}>
+                            {postData.channel.name}
+                          </OverviewCard.NameLink>
+                        ),
+                      }}
+                    />
+                  </OverviewCardCarousel.Slide>
+                ))}
+              </>
+            ),
+          }}
+        />
+      </OverviewCardCarousel>
     </Stack>
   );
 }

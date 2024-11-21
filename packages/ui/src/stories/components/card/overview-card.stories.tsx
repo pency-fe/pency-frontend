@@ -25,6 +25,7 @@ export const PostOverviewCard = () => {
       name: "김천재의 채널",
     },
   };
+
   return (
     <OverviewCard
       slots={{
