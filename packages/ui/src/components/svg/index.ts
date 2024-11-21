@@ -1,6 +1,7 @@
 export * from "./brand-apple-icon";
 export * from "./brand-google-icon";
 export * from "./brand-naver-icon";
+export * from "./brand-pency-text-icon";
 export * from "./eva-arrow-ios-back-fill-icon";
 export * from "./eva-arrow-ios-downward-fill-icon";
 export * from "./eva-arrow-ios-forward-fill-icon";

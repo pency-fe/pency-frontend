@@ -32,9 +32,12 @@ export const PostOverviewCard = () => {
         thumbnail: (
           <OverviewCard.Thumbnail
             slots={{
-              image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+              image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} />,
+              // image: <OverviewCard.Thumbnail.Image src={null} />,
+
               topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
             }}
+            sx={{ aspectRatio: "16/9" }}
           />
         ),
         labels: (
@@ -101,8 +104,10 @@ export const SeriesOverviewCard = () => {
         thumbnail: (
           <OverviewCard.Thumbnail
             slots={{
-              image: <OverviewCard.Thumbnail.Image src={seriesData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+              image: <OverviewCard.Thumbnail.Image src={seriesData.thumbnail} />,
+              // image: <OverviewCard.Thumbnail.Image src={null} />,
             }}
+            sx={{ aspectRatio: "16/9" }}
           />
         ),
         labels: (

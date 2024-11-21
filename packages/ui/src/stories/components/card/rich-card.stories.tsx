@@ -65,9 +65,11 @@ export const PostRichCard = () => {
           thumbnail: (
             <RichCard.Thumbnail
               slots={{
-                image: <RichCard.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+                image: <RichCard.Thumbnail.Image src={postData.thumbnail} />,
+                // image: <RichCard.Thumbnail.Image src={null} />,
                 topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
               }}
+              sx={{ aspectRatio: "16/9" }}
             />
           ),
           labels: (
@@ -226,8 +228,10 @@ export const SeriesRichCard = () => {
         thumbnail: (
           <RichCard.Thumbnail
             slots={{
-              image: <RichCard.Thumbnail.Image src={seriesData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+              image: <RichCard.Thumbnail.Image src={seriesData.thumbnail} />,
+              // image: <RichCard.Thumbnail.Image src={null} />,
             }}
+            sx={{ aspectRatio: "16/9" }}
           />
         ),
         labels: (
