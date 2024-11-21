@@ -4,6 +4,8 @@ import { WT_Post_RichCard } from "_core/webtoon/post";
 import { BannerSection } from "./sections";
 import {
   Box,
+  Divider,
+  formControlClasses,
   Grid,
   inputBaseClasses,
   MenuItem,
@@ -51,39 +53,45 @@ function Rank() {
 
         <ListItemxCarousel.Container
           slots={{
-            slides: Array.from({ length: 6 }, () => (
-              <ListItemxCarousel.Slide>
-                {Array.from({ length: 3 }, () => (
-                  <ListItemx
-                    slots={{
-                      overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
-                      thumbnail: (
-                        <ListItemx.Thumbnail
-                          slots={{
-                            image: <ListItemx.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
-                            topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
-                          }}
-                        />
-                      ),
-                      order: (
-                        <ListItemx.Order variant="soft" color="info">
-                          1
-                        </ListItemx.Order>
-                      ),
-                      title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
-                      attribute: (
-                        <ListItemx.Attribute>
-                          {postData.channel.name}
-                          <ListItemx.Attribute.Dot />
-                          <EvaHeartOutlineIcon />
-                          {postData.likeCount}
-                        </ListItemx.Attribute>
-                      ),
-                    }}
-                  />
+            slides: (
+              <>
+                {Array.from({ length: 6 }, () => (
+                  <ListItemxCarousel.Slide>
+                    {Array.from({ length: 3 }, () => (
+                      <ListItemx
+                        slots={{
+                          overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+                          thumbnail: (
+                            <ListItemx.Thumbnail
+                              slots={{
+                                image: (
+                                  <ListItemx.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />
+                                ),
+                                topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+                              }}
+                            />
+                          ),
+                          order: (
+                            <ListItemx.Order variant="soft" color="info">
+                              1
+                            </ListItemx.Order>
+                          ),
+                          title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
+                          attribute: (
+                            <ListItemx.Attribute>
+                              {postData.channel.name}
+                              <ListItemx.Attribute.Dot />
+                              <EvaHeartOutlineIcon />
+                              {postData.likeCount}
+                            </ListItemx.Attribute>
+                          ),
+                        }}
+                      />
+                    ))}
+                  </ListItemxCarousel.Slide>
                 ))}
-              </ListItemxCarousel.Slide>
-            )),
+              </>
+            ),
           }}
         />
       </ListItemxCarousel>
