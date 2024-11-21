@@ -47,9 +47,10 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, ref
         thumbnail: (
           <RichCard.Thumbnail
             slots={{
-              image: <RichCard.Thumbnail.Image src={data.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+              image: <RichCard.Thumbnail.Image src={data.thumbnail} />,
               topEnds: data.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
             }}
+            sx={{ aspectRatio: "16/9" }}
           />
         ),
         labels: (

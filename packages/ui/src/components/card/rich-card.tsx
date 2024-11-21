@@ -1,6 +1,6 @@
 "use client";
 
-import { hideScrollY, iconAlignCenter, maxLine } from "@/util";
+import { hideScrollY, iconAlignCenter, maxLine, varAlpha } from "@/util";
 import {
   Accordion,
   AccordionDetails,
@@ -256,7 +256,7 @@ const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, re
             alignItems: "center",
             width: 1,
             height: 1,
-            bgcolor: theme.vars.palette.background.paper,
+            bgcolor: varAlpha(theme.vars.palette.grey["500Channel"], 0.16),
           }}
         >
           <BrandPencyTextIcon sx={{ width: "25%", height: "auto" }} />

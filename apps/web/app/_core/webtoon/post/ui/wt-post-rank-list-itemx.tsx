@@ -25,9 +25,10 @@ export const WT_Post_Rank_List_Itemx = forwardRef<HTMLDivElement, Props>(({ data
         thumbnail: (
           <ListItemx.Thumbnail
             slots={{
-              image: <ListItemx.Thumbnail.Image src={data.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+              image: <ListItemx.Thumbnail.Image src={data.thumbnail} />,
               topEnd: data.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
             }}
+            sx={{ aspectRatio: "16/9" }}
           />
         ),
         order: (

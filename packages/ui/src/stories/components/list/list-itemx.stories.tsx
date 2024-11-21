@@ -29,9 +29,11 @@ export const PostListItemx = () => {
           thumbnail: (
             <ListItemx.Thumbnail
               slots={{
-                image: <ListItemx.Thumbnail.Image src={postData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+                image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
+                // image: <ListItemx.Thumbnail.Image src={null} />,
                 topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
               }}
+              sx={{ aspectRatio: "16/9" }}
             />
           ),
           order: (
@@ -91,8 +93,10 @@ export const SeriesListItemx = () => {
         thumbnail: (
           <ListItemx.Thumbnail
             slots={{
-              image: <ListItemx.Thumbnail.Image src={seriesData.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+              image: <ListItemx.Thumbnail.Image src={seriesData.thumbnail} />,
+              // image: <ListItemx.Thumbnail.Image src={null} />,
             }}
+            sx={{ aspectRatio: "16/9" }}
           />
         ),
         order: (

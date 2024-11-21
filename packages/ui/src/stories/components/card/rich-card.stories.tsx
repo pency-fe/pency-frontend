@@ -65,8 +65,8 @@ export const PostRichCard = () => {
           thumbnail: (
             <RichCard.Thumbnail
               slots={{
-                image: <RichCard.Thumbnail.Image src={postData.thumbnail} />,
-                // image: <RichCard.Thumbnail.Image src={null} />,
+                // image: <RichCard.Thumbnail.Image src={postData.thumbnail} />,
+                image: <RichCard.Thumbnail.Image src={null} />,
                 topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
               }}
               sx={{ aspectRatio: "16/9" }}

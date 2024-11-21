@@ -32,8 +32,9 @@ export const WT_Series_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, r
         thumbnail: (
           <RichCard.Thumbnail
             slots={{
-              image: <RichCard.Thumbnail.Image src={data.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+              image: <RichCard.Thumbnail.Image src={data.thumbnail} />,
             }}
+            sx={{ aspectRatio: "16/9" }}
           />
         ),
         labels: (

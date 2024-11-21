@@ -29,8 +29,9 @@ export const WT_Series_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data 
         thumbnail: (
           <OverviewCard.Thumbnail
             slots={{
-              image: <OverviewCard.Thumbnail.Image src={data.thumbnail} sx={{ aspectRatio: "16/9" }} />,
+              image: <OverviewCard.Thumbnail.Image src={data.thumbnail} />,
             }}
+            sx={{ aspectRatio: "16/9" }}
           />
         ),
         labels: (
