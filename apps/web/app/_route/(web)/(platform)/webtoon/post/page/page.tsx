@@ -4,8 +4,6 @@ import { WT_Post_RichCard } from "_core/webtoon/post";
 import { BannerSection } from "./sections";
 import {
   Box,
-  Divider,
-  formControlClasses,
   Grid,
   inputBaseClasses,
   MenuItem,
