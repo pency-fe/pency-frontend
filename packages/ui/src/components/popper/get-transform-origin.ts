@@ -11,6 +11,12 @@ export const getTransformOrigin = (placement: PopperProps["placement"]) => {
     case "left-end":
       transformOrigin = "right bottom";
       break;
+    case "bottom":
+      transformOrigin = "top";
+      break;
+    case "top":
+      transformOrigin = "bottom";
+      break;
   }
   return transformOrigin;
 };

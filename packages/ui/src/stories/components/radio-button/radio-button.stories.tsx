@@ -1,7 +1,8 @@
-import { RadioButton } from "@/components";
-import { Box, Grid, RadioGroup } from "@mui/material";
+import { RadioButton, Selectx } from "@/components";
+import { Box, FormControl, Grid, InputLabel, Menu, MenuItem, RadioGroup, Select } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
 import { Meta } from "@storybook/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const meta: Meta = {
   title: "components/RadioButton",
@@ -77,5 +78,42 @@ export const Design2 = () => {
         </RadioButton>
       </Box>
     </RadioGroup>
+  );
+};
+
+export const Test = () => {
+  const [age, setAge] = useState("");
+  const ref = useRef();
+
+  const handleChange = (event: SelectChangeEvent) => {
+    console.log(ref);
+    setAge(event.target.value as string);
+  };
+
+  return (
+    <>
+      <Selectx label="age" fullWidth value={age} onChange={handleChange}>
+        <MenuItem value={"10"}>Ten</MenuItem>
+        <MenuItem value={"20"}>Twenty</MenuItem>
+        <MenuItem value={"30"}>Thirty</MenuItem>
+      </Selectx>
+
+      <br />
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <Select
+          ref={ref}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={age}
+          label="Age"
+          onChange={handleChange}
+        >
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+      </FormControl>
+    </>
   );
 };

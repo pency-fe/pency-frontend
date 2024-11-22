@@ -27,7 +27,7 @@ type MenuxFnProps = {
 };
 
 export const MenuxFn = forwardRef<HTMLDivElement, MenuxFnProps>(
-  ({ open, anchorEl, placement = "bottom", onClose, children }, ref) => {
+  ({ open = false, anchorEl, placement = "bottom", onClose, children }, ref) => {
     const theme = useTheme();
 
     return (
