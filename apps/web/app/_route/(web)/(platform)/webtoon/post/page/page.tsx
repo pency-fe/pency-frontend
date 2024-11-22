@@ -1,7 +1,7 @@
 "use client";
 
 import { BannerSection } from "./sections";
-import { Box, Button, Pagination, RadioGroup, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, RadioGroup, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import {
   EvaHeartOutlineIcon,
   GravityUiCircleCheckFillIcon,
@@ -16,7 +16,7 @@ import { useMemo, useState } from "react";
 import { GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries } from "@pency/util";
 import { hideScrollX } from "@pency/ui/util";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import NextLink from "next/link";
 import { stylesColorScheme } from "@pency/ui/util";
 
@@ -134,6 +134,15 @@ function Rank() {
 function LatestPost() {
   const theme = useTheme();
   const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
+  const searchParams = useSearchParams();
+  const genre = useMemo(() => {
+    if (searchParams.get("genre")) {
+      return searchParams.get("genre")?.toLowerCase();
+    } else {
+      return "all";
+    }
+  }, [searchParams]);
+
   const postData = {
     postId: "post-id-123",
     thumbnail:
@@ -160,7 +169,7 @@ function LatestPost() {
           <Typography variant="h4">최신 포스트</Typography>
           <Button
             component={NextLink}
-            href="/webtoon/series?TODO=TODO"
+            href={`/webtoon/post/${genre}`}
             size="small"
             color="inherit"
             sx={{
@@ -250,6 +259,15 @@ function LatestPost() {
 function AllPopularityPost() {
   const theme = useTheme();
   const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
+  const searchParams = useSearchParams();
+  const genre = useMemo(() => {
+    if (searchParams.get("genre")) {
+      return searchParams.get("genre")?.toLowerCase();
+    } else {
+      return "all";
+    }
+  }, [searchParams]);
+
   const postData = {
     postId: "post-id-123",
     thumbnail:
@@ -276,7 +294,7 @@ function AllPopularityPost() {
           <Typography variant="h4">전체 인기 포스트</Typography>
           <Button
             component={NextLink}
-            href="/webtoon/series?TODO=TODO"
+            href={`/webtoon/post/${genre}`}
             size="small"
             color="inherit"
             sx={{
@@ -366,6 +384,14 @@ function AllPopularityPost() {
 function WeeklyPopularityPost() {
   const theme = useTheme();
   const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
+  const searchParams = useSearchParams();
+  const genre = useMemo(() => {
+    if (searchParams.get("genre")) {
+      return searchParams.get("genre")?.toLowerCase();
+    } else {
+      return "all";
+    }
+  }, [searchParams]);
   const postData = {
     postId: "post-id-123",
     thumbnail:
@@ -392,7 +418,7 @@ function WeeklyPopularityPost() {
           <Typography variant="h4">주간 인기 포스트</Typography>
           <Button
             component={NextLink}
-            href="/webtoon/series?TODO=TODO"
+            href={`/webtoon/post/${genre}`}
             size="small"
             color="inherit"
             sx={{
