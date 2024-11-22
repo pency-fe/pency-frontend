@@ -35,7 +35,7 @@ export default function PostPage() {
   );
 }
 
-const RadioTabButton = () => {
+function RadioTabButton() {
   const router = useRouter();
   const [state, setState] = useState("ALL");
   const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
@@ -45,7 +45,7 @@ const RadioTabButton = () => {
       value={state}
       onChange={(e) => {
         setState(e.target.value);
-        router.push(`/webtoon/post?genre=${e.target.value}`);
+        router.push(`/webtoon/post?genre=${e.target.value.toLowerCase()}`);
       }}
     >
       <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, width: 1, overflowX: "scroll", ...hideScrollX }}>
@@ -56,7 +56,7 @@ const RadioTabButton = () => {
       </Box>
     </RadioGroup>
   );
-};
+}
 
 function Rank() {
   const theme = useTheme();

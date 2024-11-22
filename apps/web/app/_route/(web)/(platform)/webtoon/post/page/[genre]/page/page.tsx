@@ -10,10 +10,48 @@ import {
   Grid,
   Pagination,
   useTheme,
+  RadioGroup,
 } from "@mui/material";
+import { RadioButton } from "@pency/ui/components";
+import { hideScrollX } from "@pency/ui/util";
+import { objectEntries } from "@pency/util";
+import { GENRE_LABEL } from "_core/webtoon/const";
 import { WT_Post_RichCard } from "_core/webtoon/post";
+import { useParams, useRouter } from "next/navigation";
+import { useMemo } from "react";
 
 export default function GenrePage() {
+  return (
+    <Stack spacing={3}>
+      <RadioTabButton />
+      <PostList />
+    </Stack>
+  );
+}
+
+function RadioTabButton() {
+  const router = useRouter();
+  const { genre } = useParams();
+  const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
+
+  return (
+    <RadioGroup
+      value={genre?.toString().toUpperCase()}
+      onChange={(e) => {
+        router.push(`/webtoon/post/${e.target.value.toLowerCase()}`);
+      }}
+    >
+      <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, width: 1, overflowX: "scroll", ...hideScrollX }}>
+        <RadioButton value="ALL">전체</RadioButton>
+        {genres.map(([genre, label]) => (
+          <RadioButton value={genre}> {label}</RadioButton>
+        ))}
+      </Box>
+    </RadioGroup>
+  );
+}
+
+function PostList() {
   const theme = useTheme();
   type Sort = {
     options: { value: string; label: string }[];
