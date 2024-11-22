@@ -156,7 +156,7 @@ function LatestPost() {
     <Stack spacing={2}>
       <Box sx={{}}></Box>
       <OverviewCardCarousel>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography variant="h4">최신 포스트</Typography>
           <Button
             component={NextLink}
@@ -272,8 +272,8 @@ function AllPopularityPost() {
     <Stack spacing={2}>
       <Box sx={{}}></Box>
       <OverviewCardCarousel>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h4">최신 포스트</Typography>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography variant="h4">전체 인기 포스트</Typography>
           <Button
             component={NextLink}
             href="/webtoon/series?TODO=TODO"
@@ -388,8 +388,8 @@ function WeeklyPopularityPost() {
     <Stack spacing={2}>
       <Box sx={{}}></Box>
       <OverviewCardCarousel>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h4">최신 포스트</Typography>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography variant="h4">주간 인기 포스트</Typography>
           <Button
             component={NextLink}
             href="/webtoon/series?TODO=TODO"
