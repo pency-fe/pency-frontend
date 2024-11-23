@@ -12,27 +12,34 @@ import {
   SelectProps,
   useTheme,
 } from "@mui/material";
-import { useBooleanState } from "@pency/util";
-import { Children, cloneElement, isValidElement, MouseEvent, ReactElement, useId, useRef } from "react";
+import { useBooleanState, useCombinedRefs } from "@pency/util";
+import {
+  Children,
+  cloneElement,
+  ForwardedRef,
+  forwardRef,
+  isValidElement,
+  MouseEvent,
+  ReactElement,
+  useId,
+  useRef,
+} from "react";
 import { getTransformOrigin } from "../get-transform-origin";
 import maxSize from "popper-max-size-modifier";
 
 type SelectxProps<Value = unknown> = SelectProps<Value>;
-
-export function Selectx<Value = unknown>({
-  label,
-  children,
-  fullWidth = false,
-  multiple = false,
-  onChange,
-  required,
-  value,
-  ...rest
-}: SelectxProps<Value>) {
-  const ref = useRef<HTMLDivElement>(null);
+{
+  /* <Value = unknown> */
+}
+export const Selectx = forwardRef(function <Value = unknown>(
+  { label, children, fullWidth = false, multiple = false, onChange, required, value, ...rest }: SelectxProps<Value>,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
+  const selectRef = useRef<HTMLDivElement>(null);
   const open = useBooleanState(false);
   const id = useId();
   const theme = useTheme();
+  const refs = useCombinedRefs(selectRef, ref);
 
   const handleItemClick = (child: ReactElement) => (event: MouseEvent) => {
     let newValue;
@@ -51,7 +58,6 @@ export function Selectx<Value = unknown>({
       }
     } else {
       newValue = child.props.value;
-      open.setFalse();
     }
 
     if (value !== newValue) {
@@ -66,6 +72,7 @@ export function Selectx<Value = unknown>({
           value: { value: newValue, name },
         });
         onChange(clonedEvent, child);
+        open.setFalse();
       }
     }
   };
@@ -101,7 +108,7 @@ export function Selectx<Value = unknown>({
       <InputLabel id={id}>{label}</InputLabel>
       <Select
         {...rest}
-        ref={ref}
+        ref={refs}
         labelId={id}
         label={label}
         open={false}
@@ -114,16 +121,24 @@ export function Selectx<Value = unknown>({
       </Select>
       <Popper
         open={open.bool}
-        anchorEl={ref.current}
+        anchorEl={selectRef.current}
         placement="bottom"
         transition
-        sx={{ overflow: "auto", borderRadius: 1 }}
+        // sx={{  }}
         modifiers={modifier}
       >
         {({ TransitionProps, placement }) => (
           <ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={open.setFalse}>
             <Grow {...TransitionProps} style={{ transformOrigin: getTransformOrigin(placement) }}>
-              <Paper sx={{ p: "4px", boxShadow: theme.vars.customShadows.dropdown }}>
+              <Paper
+                sx={{
+                  maxHeight: "inherit",
+                  p: "4px",
+                  borderRadius: 1,
+                  overflow: "auto",
+                  boxShadow: theme.vars.customShadows.dropdown,
+                }}
+              >
                 <MenuList disablePadding>{items}</MenuList>
               </Paper>
             </Grow>
@@ -132,7 +147,7 @@ export function Selectx<Value = unknown>({
       </Popper>
     </FormControl>
   );
-}
+});
 
 // ----------------------------------------------------------------------
 

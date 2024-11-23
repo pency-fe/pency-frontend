@@ -11,6 +11,7 @@ import {
   inputBaseClasses,
   MenuItem,
   RadioGroup,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -20,17 +21,18 @@ import { ReactNode, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
-import { objectEntries, zodObjectKeys } from "@pency/util";
-import { RadioButton } from "@pency/ui/components";
+import { objectEntries, objectKeys, zodObjectKeys } from "@pency/util";
+import { RadioButton, Selectx } from "@pency/ui/components";
 import { Editor } from "./editor";
 
 // ----------------------------------------------------------------------
 
 const schema = z.object({
   title: z.string().min(1, "제목을 입력해 주세요.").max(100, "제목은 100자 이내로 입력해 주세요."),
-  genre: z.enum(zodObjectKeys(GENRE_LABEL), {
-    message: "장르를 선택해 주세요.",
-  }),
+  // genre: z.enum(zodObjectKeys(GENRE_LABEL), {
+  //   message: "장르를 선택해 주세요.",
+  // }),
+  genre: z.string().refine((value) => Object.keys(GENRE_LABEL).includes(value), { message: "장르를 선택해 주세요." }),
   content: z
     .object({
       free: z.array(z.object({ name: z.string(), src: z.string().url() })),
@@ -68,7 +70,7 @@ const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
     resolver: zodResolver(schema),
     defaultValues: {
       title: "",
-      genre: undefined,
+      genre: "",
       content: {
         free: [
           // { name: "1번하이하이하이하이하이.jpg", src: "https://glyph.pub/images/24/02/v/v8/v8nl9bz93rbol9lf.jpg" },
@@ -110,7 +112,7 @@ const WT_Post_Update_Form_Fn = ({ children }: WT_Post_Update_Form_Fn_Props) => {
       title: "",
       creationType: "PRIMARY",
       pair: "NONE",
-      genre: undefined,
+      genre: "",
       age: "ALL",
       keywords: [],
       keyword: "",
@@ -264,16 +266,22 @@ const GenreFn = () => {
     <Controller
       control={control}
       name="genre"
+      defaultValue=""
       render={({ field, fieldState: { error } }) => (
         <Stack spacing={1}>
-          <TextField
+          {console.log(field, error)}
+          <Select {...field} label="장르" required error={!!error}>
+            {entries.map(([value, label]) => (
+              <MenuItem key={value} value={value}>
+                {label}
+              </MenuItem>
+            ))}
+          </Select>
+          {/* <Selectx
             {...field}
-            id="outlined-select-currency"
-            select
             label="장르"
-            defaultValue=""
             required
-            helperText={error ? error.message : ""}
+            // helperText={error ? error.message : ""}
             error={!!error}
           >
             {entries.map(([value, label]) => (
@@ -281,7 +289,7 @@ const GenreFn = () => {
                 {label}
               </MenuItem>
             ))}
-          </TextField>
+          </Selectx> */}
         </Stack>
       )}
     />
