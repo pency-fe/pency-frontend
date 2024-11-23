@@ -7,7 +7,13 @@ const MuiListItemIcon: Components<Theme>["MuiListItemIcon"] = {
    * STYLE
    *************************************** */
   styleOverrides: {
-    root: ({ theme }) => ({ color: "inherit", minWidth: "auto", marginRight: theme.spacing(2) }),
+    root: {
+      color: "inherit",
+      minWidth: "auto",
+      "& svg": {
+        fontSize: "1.25rem",
+      },
+    },
   },
 };
 

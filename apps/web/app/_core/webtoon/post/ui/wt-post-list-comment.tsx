@@ -1,3 +1,4 @@
+import { ListItemIcon, MenuItem } from "@mui/material";
 import {
   EvaEditOutlineIcon,
   EvaMoreVerticalOutlineIcon,
@@ -61,33 +62,33 @@ export const WT_Post_List_Comment = forwardRef<HTMLDivElement, Props>(({ data },
             </ListComment.FeedbackButton>
 
             <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
-              <Menux.Item>
-                <Menux.Item.Icon>
+              <MenuItem>
+                <ListItemIcon>
                   <TablerPinIcon />
-                </Menux.Item.Icon>
+                </ListItemIcon>
                 고정하기
-              </Menux.Item>
+              </MenuItem>
 
-              <Menux.Item>
-                <Menux.Item.Icon>
+              <MenuItem>
+                <ListItemIcon>
                   <EvaEditOutlineIcon />
-                </Menux.Item.Icon>
+                </ListItemIcon>
                 수정하기
-              </Menux.Item>
+              </MenuItem>
 
-              <Menux.Item>
-                <Menux.Item.Icon>
+              <MenuItem>
+                <ListItemIcon>
                   <MingcuteDelete3LineIcon />
-                </Menux.Item.Icon>
+                </ListItemIcon>
                 삭제하기
-              </Menux.Item>
+              </MenuItem>
 
-              <Menux.Item>
-                <Menux.Item.Icon>
+              <MenuItem>
+                <ListItemIcon>
                   <MaterialSymbolsReportOutlineIcon />
-                </Menux.Item.Icon>
+                </ListItemIcon>
                 신고하기
-              </Menux.Item>
+              </MenuItem>
             </Menux>
           </>
         ),

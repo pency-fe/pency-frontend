@@ -4,11 +4,6 @@ import {
   ClickAwayListener,
   ClickAwayListenerProps,
   Grow,
-  ListItemIcon,
-  listItemIconClasses,
-  ListItemIconProps,
-  MenuItem,
-  MenuItemProps,
   MenuList,
   Paper,
   Popper,
@@ -26,7 +21,7 @@ type MenuxFnProps = {
   children?: ReactNode;
 };
 
-export const MenuxFn = forwardRef<HTMLDivElement, MenuxFnProps>(
+export const Menux = forwardRef<HTMLDivElement, MenuxFnProps>(
   ({ open = false, anchorEl, placement = "bottom", onClose, children }, ref) => {
     const theme = useTheme();
 
@@ -52,47 +47,3 @@ export const MenuxFn = forwardRef<HTMLDivElement, MenuxFnProps>(
     );
   },
 );
-
-// ----------------------------------------------------------------------
-
-type ItemFnProps = MenuItemProps;
-
-const ItemFn = forwardRef<HTMLLIElement, ItemFnProps>((rest, ref) => {
-  return (
-    <MenuItem
-      ref={ref}
-      {...rest}
-      sx={{
-        [`& .${listItemIconClasses.root}`]: {
-          minWidth: "30px",
-        },
-        ...rest.sx,
-      }}
-    />
-  );
-});
-
-// ----------------------------------------------------------------------
-
-type IconFnProps = ListItemIconProps;
-
-const IconFn = forwardRef<HTMLDivElement, IconFnProps>((rest, ref) => {
-  return (
-    <ListItemIcon
-      ref={ref}
-      {...rest}
-      sx={{
-        mr: 0,
-        "& svg": {
-          fontSize: "1.25rem",
-        },
-        ...rest.sx,
-      }}
-    />
-  );
-});
-
-// ----------------------------------------------------------------------
-export const Menux = Object.assign(MenuxFn, {
-  Item: Object.assign(ItemFn, { Icon: IconFn }),
-});

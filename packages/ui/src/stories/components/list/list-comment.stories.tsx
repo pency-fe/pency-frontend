@@ -8,7 +8,7 @@ import {
   TablerPinIcon,
   useMenuxState,
 } from "@/components";
-import { Box, Divider, Stack } from "@mui/material";
+import { Box, Divider, ListItemIcon, MenuItem, Stack } from "@mui/material";
 import { formatRelativeTimeFromUTC } from "@pency/util";
 import { Meta } from "@storybook/react";
 
@@ -74,33 +74,33 @@ export const Comment = () => {
             </ListComment.FeedbackButton>
 
             <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
-              <Menux.Item>
-                <Menux.Item.Icon>
+              <MenuItem>
+                <ListItemIcon>
                   <TablerPinIcon />
-                </Menux.Item.Icon>
+                </ListItemIcon>
                 고정하기
-              </Menux.Item>
+              </MenuItem>
 
-              <Menux.Item>
-                <Menux.Item.Icon>
+              <MenuItem>
+                <ListItemIcon>
                   <EvaEditOutlineIcon />
-                </Menux.Item.Icon>
+                </ListItemIcon>
                 수정하기
-              </Menux.Item>
+              </MenuItem>
 
-              <Menux.Item>
-                <Menux.Item.Icon>
+              <MenuItem>
+                <ListItemIcon>
                   <MingcuteDelete3LineIcon />
-                </Menux.Item.Icon>
+                </ListItemIcon>
                 삭제하기
-              </Menux.Item>
+              </MenuItem>
 
-              <Menux.Item>
-                <Menux.Item.Icon>
+              <MenuItem>
+                <ListItemIcon>
                   <MaterialSymbolsReportOutlineIcon />
-                </Menux.Item.Icon>
+                </ListItemIcon>
                 신고하기
-              </Menux.Item>
+              </MenuItem>
             </Menux>
           </>
         ),
@@ -146,33 +146,33 @@ export const Reply = () => {
               </ListComment.FeedbackButton>
 
               <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
-                <Menux.Item>
-                  <Menux.Item.Icon>
+                <MenuItem>
+                  <ListItemIcon>
                     <TablerPinIcon />
-                  </Menux.Item.Icon>
+                  </ListItemIcon>
                   고정하기
-                </Menux.Item>
+                </MenuItem>
 
-                <Menux.Item>
-                  <Menux.Item.Icon>
+                <MenuItem>
+                  <ListItemIcon>
                     <EvaEditOutlineIcon />
-                  </Menux.Item.Icon>
+                  </ListItemIcon>
                   수정하기
-                </Menux.Item>
+                </MenuItem>
 
-                <Menux.Item>
-                  <Menux.Item.Icon>
+                <MenuItem>
+                  <ListItemIcon>
                     <MingcuteDelete3LineIcon />
-                  </Menux.Item.Icon>
+                  </ListItemIcon>
                   삭제하기
-                </Menux.Item>
+                </MenuItem>
 
-                <Menux.Item>
-                  <Menux.Item.Icon>
+                <MenuItem>
+                  <ListItemIcon>
                     <MaterialSymbolsReportOutlineIcon />
-                  </Menux.Item.Icon>
+                  </ListItemIcon>
                   신고하기
-                </Menux.Item>
+                </MenuItem>
               </Menux>
             </>
           ),
