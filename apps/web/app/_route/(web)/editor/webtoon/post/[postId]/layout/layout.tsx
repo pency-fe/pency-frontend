@@ -15,36 +15,30 @@ export function PostIdLayout({ children }: Props) {
 
   return (
     <WT_Post_Create_Form>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
+      <SimpleLayout
+        slots={{
+          header: (
+            <SimpleLayout.Header
+              slots={{
+                left: <Left />,
+                right: <Right />,
+              }}
+            />
+          ),
         }}
-      >
-        <SimpleLayout
-          slots={{
-            header: (
-              <SimpleLayout.Header
-                slots={{
-                  left: <Left />,
-                  right: <Right />,
-                }}
-              />
-            ),
-          }}
-          slotProps={{
-            container: {
-              sx: {
+        slotProps={{
+          container: {
+            sx: {
+              maxWidth: "740px",
+              [theme.breakpoints.up("lg")]: {
                 maxWidth: "740px",
-                [theme.breakpoints.up("lg")]: {
-                  maxWidth: "740px",
-                },
               },
             },
-          }}
-        >
-          {children}
-        </SimpleLayout>
-      </form>
+          },
+        }}
+      >
+        {children}
+      </SimpleLayout>
     </WT_Post_Create_Form>
   );
 }

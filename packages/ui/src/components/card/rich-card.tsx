@@ -237,6 +237,7 @@ const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, re
           {...rest}
           sx={{
             width: 1,
+            height: 1,
             objectFit: "cover",
             transition: theme.transitions.create("transform", {
               easing: theme.transitions.easing.easeInOut,

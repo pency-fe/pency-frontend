@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import {
+  Autocomplete,
   Box,
   Button,
   ButtonProps,
@@ -11,7 +12,6 @@ import {
   inputBaseClasses,
   MenuItem,
   RadioGroup,
-  Select,
   Stack,
   TextField,
   Typography,
@@ -21,17 +21,15 @@ import { ReactNode, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
-import { objectEntries, objectKeys, zodObjectKeys } from "@pency/util";
-import { RadioButton, Selectx } from "@pency/ui/components";
+import { objectEntries, zodObjectKeys } from "@pency/util";
+import { BrandPencyTextIcon, RadioButton } from "@pency/ui/components";
 import { Editor } from "./editor";
+import { varAlpha } from "@pency/ui/util";
 
 // ----------------------------------------------------------------------
 
 const schema = z.object({
   title: z.string().min(1, "제목을 입력해 주세요.").max(100, "제목은 100자 이내로 입력해 주세요."),
-  // genre: z.enum(zodObjectKeys(GENRE_LABEL), {
-  //   message: "장르를 선택해 주세요.",
-  // }),
   genre: z.string().refine((value) => Object.keys(GENRE_LABEL).includes(value), { message: "장르를 선택해 주세요." }),
   content: z
     .object({
@@ -39,6 +37,7 @@ const schema = z.object({
       paid: z.array(z.object({ name: z.string(), src: z.string().url() })),
     })
     .refine(({ free, paid }) => free.length + paid.length >= 1 && free.length + paid.length <= 100),
+  thumbnail: z.string().optional(),
   creationType: z.enum(zodObjectKeys(CREATION_TYPE_LABEL)),
   pair: z.enum(zodObjectKeys(PAIR_LABEL)),
   age: z.enum(zodObjectKeys(AGE_LABEL)),
@@ -84,6 +83,7 @@ const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
           // { name: "7번.jpg", src: "https://glyph.pub/images/24/02/y/yt/yt20v00uufyhrwcx.jpg" },
         ],
       },
+      thumbnail: "",
       creationType: "PRIMARY",
       pair: "NONE",
       age: "ALL",
@@ -266,31 +266,23 @@ const GenreFn = () => {
     <Controller
       control={control}
       name="genre"
-      defaultValue=""
       render={({ field, fieldState: { error } }) => (
-        <Stack spacing={1}>
-          {console.log(field, error)}
-          <Select {...field} label="장르" required error={!!error}>
-            {entries.map(([value, label]) => (
-              <MenuItem key={value} value={value}>
-                {label}
-              </MenuItem>
-            ))}
-          </Select>
-          {/* <Selectx
-            {...field}
-            label="장르"
-            required
-            // helperText={error ? error.message : ""}
-            error={!!error}
-          >
-            {entries.map(([value, label]) => (
-              <MenuItem key={value} value={value}>
-                {label}
-              </MenuItem>
-            ))}
-          </Selectx> */}
-        </Stack>
+        <TextField
+          {...field}
+          label="장르"
+          required
+          select
+          defaultValue=""
+          error={!!error}
+          helperText={error ? error.message : ""}
+        >
+          <MenuItem value="" sx={{ display: "none" }}></MenuItem>
+          {entries.map(([value, label]) => (
+            <MenuItem key={value} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </TextField>
       )}
     />
   );
@@ -299,7 +291,19 @@ const GenreFn = () => {
 // ----------------------------------------------------------------------
 
 const KeywordsFn = () => {
-  return <Typography variant="subtitle2">키워드(배열)</Typography>;
+  const { control } = useWTPostFormContext();
+  return (
+    <Controller
+      control={control}
+      name="keywords"
+      render={({ field }) => (
+        <Stack spacing={1}>
+          <Typography variant="subtitle2">키워드</Typography>
+          <Autocomplete options={[]} renderInput={(params) => <TextField {...params} variant="outlined" />} />
+        </Stack>
+      )}
+    />
+  );
 };
 
 // ----------------------------------------------------------------------
@@ -423,8 +427,31 @@ const SeriesFn = () => {
 };
 
 // ----------------------------------------------------------------------
+
+const MIMES = ["image/jpeg", "image/png", "image/gif"];
+
 const ThumbnailFn = () => {
   const theme = useTheme();
+  const { watch, setValue } = useWTPostFormContext();
+  const thumbnail = watch("thumbnail");
+
+  const upload = () => {
+    const picker = document.createElement("input");
+    picker.type = "file";
+    picker.accept = MIMES.join(",");
+    picker.multiple = false;
+    picker.addEventListener("change", () => {
+      if (picker.files?.[0]) {
+        const src = URL.createObjectURL(picker.files[0]);
+        setValue("thumbnail", src);
+      }
+    });
+    picker.click();
+  };
+
+  const remove = () => {
+    setValue("thumbnail", "");
+  };
 
   return (
     <Stack spacing={1}>
@@ -433,23 +460,39 @@ const ThumbnailFn = () => {
         <Box
           sx={{
             aspectRatio: 16 / 9,
-            borderWidth: 1,
-            borderStyle: "solid",
-            borderColor: theme.vars.palette.divider,
             borderRadius: 1,
+            overflow: "hidden",
           }}
-        />
+        >
+          {thumbnail ? (
+            <Box component="img" src={thumbnail} sx={{ width: 1, height: 1, objectFit: "cover" }} />
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: 1,
+                height: 1,
+                bgcolor: varAlpha(theme.vars.palette.grey["500Channel"], 0.16),
+              }}
+            >
+              <BrandPencyTextIcon sx={{ width: "25%", height: "auto" }} />
+            </Box>
+          )}
+        </Box>
         <Stack direction="row" alignItems="center">
-          {/* 썸네일 업로드 후, 숨기기 */}
           <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
             추천 비율(16:9) / 최대 50MB의 이미지 파일
           </Typography>
-          {/* 썸네일 업로드 전, 숨기기 */}
-          <Button variant="text" sx={{ mr: 1 }}>
-            삭제
-          </Button>
+          {thumbnail && (
+            <Button variant="text" sx={{ mr: 1 }} onClick={remove}>
+              삭제
+            </Button>
+          )}
+
           {/* 썸네일 업로드 후, "변경"으로 라벨 변경 */}
-          <Button variant="soft" color="primary">
+          <Button variant="soft" color="primary" onClick={upload}>
             업로드
           </Button>
         </Stack>
