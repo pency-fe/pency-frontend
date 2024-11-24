@@ -1,7 +1,8 @@
 "use client";
 
-import { Box, Button, Chip, Stack, Typography, useTheme } from "@mui/material";
+import { Avatar, Box, Button, Chip, colors, Link, Stack, Typography, useTheme } from "@mui/material";
 import { EvaEyeOutlineIcon, Label } from "@pency/ui/components";
+import NextLink from "next/link";
 
 export function ViewerTemp() {
   return (
@@ -11,6 +12,7 @@ export function ViewerTemp() {
         <PaidPostGuide />
       </Stack>
       <ETC />
+      <ChannelAction />
     </Stack>
   );
 
@@ -157,5 +159,47 @@ function ETC() {
         </Box>
       </Box>
     </Stack>
+  );
+}
+
+function ChannelAction() {
+  const theme = useTheme();
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 1.5,
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: theme.vars.palette.divider,
+        borderRadius: 2,
+        padding: 2.5,
+      }}
+    >
+      <Avatar
+        component={NextLink}
+        href="TODO_채널_이동"
+        alt=""
+        src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+      />
+      <Box>
+        <Box>
+          <Link
+            component={NextLink}
+            href="TODO_채널_이동"
+            variant="subtitle1"
+            underline="none"
+            sx={{ color: theme.vars.palette.text.primary, "&:hover": { color: theme.vars.palette.action.hover } }}
+          >
+            김천재
+          </Link>
+          <Typography variant="body2" sx={{ color: theme.vars.palette.text.secondary }}>
+            구독자 2천명
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
   );
 }
