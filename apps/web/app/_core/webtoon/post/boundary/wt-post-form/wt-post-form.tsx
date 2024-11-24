@@ -3,8 +3,6 @@
 import { z, ZodError } from "zod";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import {
-  Autocomplete,
-  AutocompleteChangeReason,
   Box,
   Button,
   ButtonProps,
@@ -19,7 +17,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { KeyboardEvent, KeyboardEventHandler, ReactNode, useMemo, useState } from "react";
+import { ChangeEventHandler, KeyboardEventHandler, ReactNode, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
@@ -31,7 +29,7 @@ import { varAlpha } from "@pency/ui/util";
 // ----------------------------------------------------------------------
 
 const schema = z.object({
-  title: z.string().min(1, "제목을 입력해 주세요.").max(100, "제목은 100자 이내로 입력해 주세요."),
+  title: z.string().min(1, "제목을 입력해 주세요.").max(100, "최대 100자 이내로 입력해 주세요."),
   genre: z.string().refine((value) => Object.keys(GENRE_LABEL).includes(value), { message: "장르를 선택해 주세요." }),
   content: z
     .object({
@@ -39,14 +37,14 @@ const schema = z.object({
       paid: z.array(z.object({ name: z.string(), src: z.string().url() })),
     })
     .refine(({ free, paid }) => free.length + paid.length >= 1 && free.length + paid.length <= 100),
-  thumbnail: z.string().optional(),
+  thumbnail: z.string(),
   creationType: z.enum(zodObjectKeys(CREATION_TYPE_LABEL)),
   pair: z.enum(zodObjectKeys(PAIR_LABEL)),
   age: z.enum(zodObjectKeys(AGE_LABEL)),
-  keywords: z.array(z.string()).max(10, "키워드는 최대 10개 이내로 입력해 주세요.").optional(),
-  authorTalk: z.string().max(200, "작가의 말은 200자 이내로 입력해 주세요.").optional(),
-  precautions: z.string().max(200, "읽기전 주의 사항은 200자 이내로 입력해 주세요.").optional(),
-  series: z.string().optional(),
+  keywords: z.array(z.string()).max(10, "키워드는 최대 10개 이내로 입력해 주세요."),
+  authorTalk: z.string().max(200, "작가의 말은 200자 이내로 입력해 주세요."),
+  precautions: z.string().max(200, "읽기전 주의 사항은 200자 이내로 입력해 주세요."),
+  series: z.string(),
 });
 
 type Schema = z.infer<typeof schema>;
@@ -291,7 +289,9 @@ const keywordSchema = z
   .max(20, "키워드는 20자 이내로 입력해 주세요.");
 
 const KeywordsFn = () => {
-  const { control, getValues, setValue } = useWTPostFormContext();
+  const { watch, setValue } = useWTPostFormContext();
+  const keywords = watch("keywords");
+
   const [keyword, setKeyword] = useState<string>("");
   const [keywordError, setKeywordError] = useState<ZodError | null>(null);
 
@@ -306,7 +306,8 @@ const KeywordsFn = () => {
     }
   };
 
-  const handleInputChange = (value: string) => {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const value = event.target.value;
     setKeyword(value);
 
     if (value.length) {
@@ -327,82 +328,89 @@ const KeywordsFn = () => {
     }
   };
 
-  const handleChange = (values: string[], reason: AutocompleteChangeReason) => {
-    if (reason === "createOption") {
-      if (keywordError) {
-        return;
-      }
-      setValue("keywords", values);
-      return;
-    }
-    setValue("keywords", values);
-  };
-
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
-    console.log(event, event.key, keywordError);
-    console.log(getValues("keywords"));
     if (event.key === "Enter") {
-      if (keywordError) {
-        event.preventDefault();
+      if (event.keyCode === 229 || keywordError || keyword.length === 0) {
         return;
       }
-      if (getValues("keywords")?.includes(event.currentTarget.value)) {
-        event.preventDefault();
+      if (keywords.length >= 10) {
+        toast.error("키워드는 최대 10개 이내로 입력해 주세요.");
+        return;
+      }
+      if (keywords.includes(keyword)) {
         toast.error("이미 입력한 키워드예요.");
         return;
       }
+
+      const newKeywords = [...keywords];
+      newKeywords.push(keyword);
+      setValue("keywords", newKeywords);
+      setKeyword("");
+      return;
+    }
+
+    if (event.key === "Backspace") {
+      if (keyword.length === 0) {
+        const newKeywords = [...keywords];
+        newKeywords.pop();
+        setValue("keywords", newKeywords);
+        return;
+      }
+    }
+  };
+
+  const deleteKeyword = (keyword: string) => {
+    const index = keywords.indexOf(keyword);
+    if (index !== -1) {
+      const newKeywords = [...keywords];
+      newKeywords.splice(index, 1);
+      setValue("keywords", newKeywords);
     }
   };
 
   return (
-    <Controller
-      control={control}
-      name="keywords"
-      defaultValue={[]}
-      render={({ field: { value } }) => (
-        <Stack spacing={1}>
-          <Typography variant="subtitle2">키워드</Typography>
-          <Autocomplete
-            freeSolo
-            multiple
-            disableClearable
-            options={[]}
-            value={value}
-            onInputChange={(_event, newValue) => handleInputChange(newValue)}
-            onChange={(_event, value, reason, _details) => {
-              handleChange(value, reason);
-            }}
-            onKeyDown={(e) => {
-              console.log(e);
-            }}
-            renderTags={(value, getTagProps) => {
-              return value.map((option, index) => (
-                <Chip variant="soft" color="info" label={option} {...getTagProps({ index })} />
-              ));
-            }}
-            renderInput={(params) => {
-              return (
-                <TextField
-                  {...params}
-                  onBlur={handleBlur}
-                  onFocus={handleFocus}
-                  onKeyDown={(e) => {
-                    console.log(e);
-                  }}
-                  variant="outlined"
-                  helperText={
-                    keywordError
-                      ? keywordError.errors[0]?.message
-                      : "태그는 띄어쓰기(space)로 구분해 주세요. 각 20자 이하로 10개까지 입력할 수 있어요. 한글, 영문, 숫자, 밑줄(_)만 입력할 수 있어요."
-                  }
-                  error={!!keywordError}
-                />
-              );
-            }}
-          />
-        </Stack>
-      )}
-    />
+    <Stack spacing={1}>
+      <Typography variant="subtitle2">키워드</Typography>
+      <TextField
+        variant="outlined"
+        fullWidth
+        value={keyword}
+        error={!!keywordError}
+        helperText={
+          keywordError
+            ? keywordError.errors[0]?.message
+            : "각 20자 이하로 10개까지 입력할 수 있어요. 한글, 영문, 숫자, 밑줄(_)만 입력할 수 있어요."
+        }
+        onFocus={handleFocus}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        InputProps={{
+          startAdornment: keywords.map((keyword, i) => (
+            <Chip
+              key={i}
+              variant="soft"
+              color="info"
+              label={keyword}
+              onDelete={() => deleteKeyword(keyword)}
+              sx={{ margin: "3px" }}
+            />
+          )),
+        }}
+        sx={{
+          [`& .${inputBaseClasses.root}`]: {
+            flexWrap: "wrap",
+            padding: "9px",
+          },
+          [`& .${inputBaseClasses.input}`]: {
+            flexGrow: 1,
+            width: 0,
+            minWidth: "30px",
+            padding: "7.5px 4px 7.5px 5px",
+          },
+        }}
+      />
+    </Stack>
   );
 };
 
@@ -470,7 +478,7 @@ const AuthorTalkFn = () => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end" sx={{ alignSelf: "flex-end", mb: 1 }}>
-                <Typography variant="caption">{field.value?.length}/200</Typography>
+                <Typography variant="caption">{field.value.length}/200</Typography>
               </InputAdornment>
             ),
           }}
@@ -510,7 +518,7 @@ const PrecautionsFn = () => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end" sx={{ alignSelf: "flex-end", mb: 1 }}>
-                <Typography variant="caption">{field.value?.length}/200</Typography>
+                <Typography variant="caption">{field.value.length}/200</Typography>
               </InputAdornment>
             ),
           }}
