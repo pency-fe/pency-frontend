@@ -11,7 +11,6 @@ export function PostIdPage() {
     <>
       <Stack spacing={4} sx={{ backgroundColor: theme.vars.palette.background.paper, padding: 3, borderRadius: 2 }}>
         <Typography variant="h4">웹툰 발행하기</Typography>
-
         <Stack spacing={4}>
           <WT_Post_Create_Form.Title />
           <WT_Post_Create_Form.Genre />

@@ -1,12 +1,14 @@
 "use client";
 
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import {
   Autocomplete,
+  AutocompleteChangeReason,
   Box,
   Button,
   ButtonProps,
+  Chip,
   Grid,
   InputAdornment,
   inputBaseClasses,
@@ -17,12 +19,12 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { ReactNode, useMemo } from "react";
+import { KeyboardEvent, KeyboardEventHandler, ReactNode, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries, zodObjectKeys } from "@pency/util";
-import { BrandPencyTextIcon, RadioButton } from "@pency/ui/components";
+import { BrandPencyTextIcon, RadioButton, toast } from "@pency/ui/components";
 import { Editor } from "./editor";
 import { varAlpha } from "@pency/ui/util";
 
@@ -42,11 +44,6 @@ const schema = z.object({
   pair: z.enum(zodObjectKeys(PAIR_LABEL)),
   age: z.enum(zodObjectKeys(AGE_LABEL)),
   keywords: z.array(z.string()).max(10, "키워드는 최대 10개 이내로 입력해 주세요.").optional(),
-  keyword: z
-    .string()
-    .regex(/^[가-힣a-zA-Z0-9_]+$/, "키워드는 한글, 영문, 숫자, 밑줄(_)만 입력할 수 있어요.")
-    .max(20, "키워드는 20자 이내로 입력해 주세요.")
-    .optional(),
   authorTalk: z.string().max(200, "작가의 말은 200자 이내로 입력해 주세요.").optional(),
   precautions: z.string().max(200, "읽기전 주의 사항은 200자 이내로 입력해 주세요.").optional(),
   series: z.string().optional(),
@@ -88,7 +85,6 @@ const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
       pair: "NONE",
       age: "ALL",
       keywords: [],
-      keyword: "",
       authorTalk: "",
       precautions: "",
       series: "",
@@ -115,7 +111,6 @@ const WT_Post_Update_Form_Fn = ({ children }: WT_Post_Update_Form_Fn_Props) => {
       genre: "",
       age: "ALL",
       keywords: [],
-      keyword: "",
       authorTalk: "",
       precautions: "",
       series: "",
@@ -290,16 +285,121 @@ const GenreFn = () => {
 
 // ----------------------------------------------------------------------
 
+const keywordSchema = z
+  .string()
+  .regex(/^[가-힣a-zA-Z0-9_]+$/, "키워드는 한글, 영문, 숫자, 밑줄(_)만 입력할 수 있어요.")
+  .max(20, "키워드는 20자 이내로 입력해 주세요.");
+
 const KeywordsFn = () => {
-  const { control } = useWTPostFormContext();
+  const { control, getValues, setValue } = useWTPostFormContext();
+  const [keyword, setKeyword] = useState<string>("");
+  const [keywordError, setKeywordError] = useState<ZodError | null>(null);
+
+  const handleFocus = () => {
+    if (keyword.length) {
+      const parse = keywordSchema.safeParse(keyword);
+      if (parse.success) {
+        setKeywordError(null);
+      } else {
+        setKeywordError(parse.error);
+      }
+    }
+  };
+
+  const handleInputChange = (value: string) => {
+    setKeyword(value);
+
+    if (value.length) {
+      const parse = keywordSchema.safeParse(value);
+      if (parse.success) {
+        setKeywordError(null);
+      } else {
+        setKeywordError(parse.error);
+      }
+    } else {
+      setKeywordError(null);
+    }
+  };
+
+  const handleBlur = () => {
+    if (keywordError) {
+      setKeywordError(null);
+    }
+  };
+
+  const handleChange = (values: string[], reason: AutocompleteChangeReason) => {
+    if (reason === "createOption") {
+      if (keywordError) {
+        return;
+      }
+      setValue("keywords", values);
+      return;
+    }
+    setValue("keywords", values);
+  };
+
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
+    console.log(event, event.key, keywordError);
+    console.log(getValues("keywords"));
+    if (event.key === "Enter") {
+      if (keywordError) {
+        event.preventDefault();
+        return;
+      }
+      if (getValues("keywords")?.includes(event.currentTarget.value)) {
+        event.preventDefault();
+        toast.error("이미 입력한 키워드예요.");
+        return;
+      }
+    }
+  };
+
   return (
     <Controller
       control={control}
       name="keywords"
-      render={({ field }) => (
+      defaultValue={[]}
+      render={({ field: { value } }) => (
         <Stack spacing={1}>
           <Typography variant="subtitle2">키워드</Typography>
-          <Autocomplete options={[]} renderInput={(params) => <TextField {...params} variant="outlined" />} />
+          <Autocomplete
+            freeSolo
+            multiple
+            disableClearable
+            options={[]}
+            value={value}
+            onInputChange={(_event, newValue) => handleInputChange(newValue)}
+            onChange={(_event, value, reason, _details) => {
+              handleChange(value, reason);
+            }}
+            onKeyDown={(e) => {
+              console.log(e);
+            }}
+            renderTags={(value, getTagProps) => {
+              return value.map((option, index) => (
+                <Chip variant="soft" color="info" label={option} {...getTagProps({ index })} />
+              ));
+            }}
+            renderInput={(params) => {
+              return (
+                <TextField
+                  {...params}
+                  onBlur={handleBlur}
+                  onFocus={handleFocus}
+                  onKeyDown={(e) => {
+                    console.log(e);
+                  }}
+                  variant="outlined"
+                  helperText={
+                    keywordError
+                      ? keywordError.errors[0]?.message
+                      : "태그는 띄어쓰기(space)로 구분해 주세요. 각 20자 이하로 10개까지 입력할 수 있어요. 한글, 영문, 숫자, 밑줄(_)만 입력할 수 있어요."
+                  }
+                  error={!!keywordError}
+                />
+              );
+            }}
+          />
         </Stack>
       )}
     />
