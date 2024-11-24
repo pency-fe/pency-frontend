@@ -20,7 +20,7 @@ import { WT_Post_RichCard } from "_core/webtoon/post";
 import { useParams, useRouter } from "next/navigation";
 import { useMemo } from "react";
 
-export default function GenrePage() {
+export function GenrePage() {
   return (
     <Stack spacing={3}>
       <RadioTabButton />
