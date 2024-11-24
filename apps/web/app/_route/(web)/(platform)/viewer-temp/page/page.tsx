@@ -184,22 +184,21 @@ function ChannelAction() {
         alt=""
         src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
       />
-      <Box>
-        <Box>
-          <Link
-            component={NextLink}
-            href="TODO_채널_이동"
-            variant="subtitle1"
-            underline="none"
-            sx={{ color: theme.vars.palette.text.primary, "&:hover": { color: theme.vars.palette.action.hover } }}
-          >
-            김천재
-          </Link>
-          <Typography variant="body2" sx={{ color: theme.vars.palette.text.secondary }}>
-            구독자 2천명
-          </Typography>
-        </Box>
+      <Box sx={{ mr: "auto" }}>
+        <Link
+          component={NextLink}
+          href="TODO_채널_이동"
+          variant="subtitle1"
+          underline="none"
+          sx={{ color: theme.vars.palette.text.primary, "&:hover": { color: theme.vars.palette.action.hover } }}
+        >
+          김천재
+        </Link>
+        <Typography variant="body2" sx={{ color: theme.vars.palette.text.secondary }}>
+          구독자 2천명
+        </Typography>
       </Box>
+      <Button variant="contained">구독하기</Button>
     </Box>
   );
 }
