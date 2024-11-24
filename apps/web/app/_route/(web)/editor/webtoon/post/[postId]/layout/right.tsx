@@ -59,6 +59,7 @@ export default function Right() {
         onClose={closeDialog}
         fullWidth
         fullScreen={!isUpSm}
+        closeAfterTransition={false}
         sx={{
           [theme.breakpoints.up("sm")]: {
             [`& .${dialogClasses.paper}`]: {

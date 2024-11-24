@@ -536,8 +536,6 @@ const SeriesFn = () => {
 
 // ----------------------------------------------------------------------
 
-const MIMES = ["image/jpeg", "image/png", "image/gif"];
-
 const ThumbnailFn = () => {
   const theme = useTheme();
   const { watch, setValue } = useWTPostFormContext();
@@ -546,10 +544,15 @@ const ThumbnailFn = () => {
   const upload = () => {
     const picker = document.createElement("input");
     picker.type = "file";
-    picker.accept = MIMES.join(",");
+    picker.accept = ["image/jpeg", "image/png", "image/gif"].join(",");
     picker.multiple = false;
     picker.addEventListener("change", () => {
       if (picker.files?.[0]) {
+        if (picker.files[0].size > 50 * 1024 * 1024) {
+          toast.error("최대 50MB 이미지만 업로드할 수 있어요.");
+          return;
+        }
+
         const src = URL.createObjectURL(picker.files[0]);
         setValue("thumbnail", src);
       }
@@ -589,17 +592,18 @@ const ThumbnailFn = () => {
             </Box>
           )}
         </Box>
+
         <Stack direction="row" alignItems="center">
           <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
-            추천 비율(16:9) / 최대 50MB의 이미지 파일
+            추천 비율(16:9) / 최대 50MB 이미지 파일
           </Typography>
+
           {thumbnail && (
             <Button variant="text" sx={{ mr: 1 }} onClick={remove}>
               삭제
             </Button>
           )}
 
-          {/* 썸네일 업로드 후, "변경"으로 라벨 변경 */}
           <Button variant="soft" color="primary" onClick={upload}>
             업로드
           </Button>
