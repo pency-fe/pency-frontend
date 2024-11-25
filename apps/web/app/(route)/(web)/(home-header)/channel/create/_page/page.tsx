@@ -1,0 +1,48 @@
+"use client";
+
+import { Box, Stack, Typography, useTheme } from "@mui/material";
+import { Main } from "@pency/ui/layouts";
+import { CH_Create_Form } from "_core/channel/boundary/ch-form";
+
+export function CreatePage() {
+  const theme = useTheme();
+
+  return (
+    <Main
+      sx={{
+        maxWidth: "740px",
+        [theme.breakpoints.up("lg")]: {
+          maxWidth: "740px",
+        },
+      }}
+    >
+      <Stack spacing={4}>
+        <Typography variant="h4">새 채널 만들기</Typography>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+          noValidate
+        >
+          <Stack spacing={3}>
+            <CH_Create_Form>
+              <Box sx={{ backgroundColor: theme.vars.palette.background.paper, padding: 3, borderRadius: 2 }}>
+                <Stack spacing={4}>
+                  <CH_Create_Form.Title />
+                  <CH_Create_Form.Description />
+                  <CH_Create_Form.Url />
+                  <CH_Create_Form.Image />
+                </Stack>
+              </Box>
+              <CH_Create_Form.CreateSubmitButton
+                sx={{
+                  alignSelf: "flex-end",
+                }}
+              />
+            </CH_Create_Form>
+          </Stack>
+        </form>
+      </Stack>
+    </Main>
+  );
+}

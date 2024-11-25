@@ -1,4 +1,4 @@
-import { NotVerifyPage } from "@/_route/(web)/(auth)/signup/email/not-verify/page";
+import { NotVerifyPage } from "./_page/page";
 
 export default function Page() {
   return <NotVerifyPage />;

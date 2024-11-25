@@ -1,4 +1,4 @@
-import { EmailPage } from "@/_route/(web)/(auth)/login/email/page";
+import { EmailPage } from "./_page/page";
 
 export default function Page() {
   return <EmailPage />;

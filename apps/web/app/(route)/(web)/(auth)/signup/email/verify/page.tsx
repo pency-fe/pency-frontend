@@ -1,4 +1,4 @@
-import { VerifyPage } from "@/_route/(web)/(auth)/signup/email/verify/page";
+import { VerifyPage } from "./_page/page";
 
 export default function Page() {
   return <VerifyPage />;

@@ -1,5 +1,5 @@
-import { AuthLayout } from "@/_route/(web)/(auth)/layout";
 import "@pency/ui/global.css";
+import { AuthLayout } from "./_layout/layout";
 
 type Props = {
   children: React.ReactNode;

@@ -1,4 +1,4 @@
-import { SignupPage } from "@/_route/(web)/(auth)/signup/page";
+import { SignupPage } from "./_page/page";
 
 export default function Page() {
   return <SignupPage />;

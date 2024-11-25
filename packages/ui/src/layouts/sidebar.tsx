@@ -1,8 +1,10 @@
 "use client";
 
-import { Box, GlobalStyles, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Container, GlobalStyles, useMediaQuery, useTheme } from "@mui/material";
 import { MiniNav, Nav } from "@/components";
 import { Header } from "./header";
+
+// ----------------------------------------------------------------------
 
 const token = {
   easing: "--layout-sidebar-easing",
@@ -11,14 +13,16 @@ const token = {
   upLgWidth: "--layout-sidebar-up-lg-width",
 };
 
+// ----------------------------------------------------------------------
+
 type SidebarFnProps = {
-  data: Parameters<typeof Nav>[0]["data"];
+  // data: Parameters<typeof Nav>[0]["data"];
   slots: {
     nav: React.ReactElement;
   };
 };
 
-function SidebarFn({ data, slots }: SidebarFnProps) {
+function SidebarFn({ slots }: SidebarFnProps) {
   const theme = useTheme();
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
   const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
@@ -61,11 +65,61 @@ function SidebarFn({ data, slots }: SidebarFnProps) {
           },
         }}
       >
-        {isSmUp && !isLgUp && <MiniNav data={data} />}
+        {/* {isSmUp && !isLgUp && <MiniNav data={data} />} */}
         {isLgUp && slots.nav}
       </Box>
     </>
   );
 }
 
-export const Sidebar = Object.assign(SidebarFn, { token });
+// ----------------------------------------------------------------------
+
+type MainFnProps = {
+  slots?: {
+    footer?: React.ReactNode;
+  };
+  children?: React.ReactNode;
+};
+
+const MainFn = ({ slots, children }: MainFnProps) => {
+  const theme = useTheme();
+  return (
+    <Box
+      sx={{
+        flex: "1 1 auto",
+        display: "flex",
+        flexDirection: "column",
+        mt: `var(${Header.token.height})`,
+        [theme.breakpoints.up("lg")]: { mt: `var(${Header.token.upSmHeight})` },
+        transition: theme.transitions.create(["padding-left"], {
+          easing: `var(${token.easing})`,
+          duration: `var(${token.duration})`,
+        }),
+        [theme.breakpoints.up("sm")]: {
+          pl: `var(${token.upSmWidth})`,
+        },
+        [theme.breakpoints.up("lg")]: {
+          pl: `var(${token.upLgWidth})`,
+        },
+      }}
+    >
+      <Container
+        component="main"
+        sx={{
+          flex: "1 1 auto",
+          display: "flex",
+          flexDirection: "column",
+          maxWidth: "lg",
+          pt: theme.spacing(1),
+          pb: theme.spacing(8),
+        }}
+      >
+        {children}
+      </Container>
+
+      {slots?.footer}
+    </Box>
+  );
+};
+
+export const Sidebar = Object.assign(SidebarFn, { Main: MainFn, token });

@@ -51,7 +51,37 @@
 
 ### @pency/util
 
-### route 레이아웃 구조
+### route 구조
+
+```
+(auth)
+
+(home-header)
+  layout.tsx -> 헤더
+  (home-sidebar)
+    layout.tsx -> 사이드 바
+    page.tsx -> "/"
+    webtoon
+      post
+        page.tsx -> "/webtoon/post"
+        -> "?genre={ROMANCE | ACTION | ...}" -> "/webtoon/post"는 ALL로 생각한다. 이상한 값이 들어와도 ALL이다.
+        list
+          page.tsx -> "/webtoon/post/list"
+          -> "?genre={ROMANCE | ACTION | ...}" -> "/webtoon/post/list"는 ALL로 생각한다. 이상한 값이 들어와도 ALL이다.
+          -> "?sort={LATEST | POPULAR | WPOPULAR}" -> "/webtoon/post/list"는 LATEST로 생각한다. 이상한 값이 들어와도 LATEST이다.
+          -> "?page={2 | ...}" -> "/webtoon/post/list"는 1로 생각한다. 이상한 값이 들어와도 1이다.
+      series -> "/webtoon/series"
+        - 위에 있는 post와 동일하다.
+    webnovel
+      - 위에 있는 webtoon과 동일하다.
+  (setting-sidebar)
+
+(webtoon-editor)
+
+(webnovel-editor)
+- layout: home header
+
+```
 
 - layout: home header
 

@@ -1,4 +1,4 @@
-import { LoginPage } from "@/_route/(web)/(auth)/login/page";
+import { LoginPage } from "./_page/page";
 
 export default function Page() {
   return <LoginPage />;

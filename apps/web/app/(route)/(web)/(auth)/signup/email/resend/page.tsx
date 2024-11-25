@@ -1,4 +1,4 @@
-import { ResendPage } from "@/_route/(web)/(auth)/signup/email/resend/page";
+import { ResendPage } from "./_page/page";
 
 export default function Page() {
   return <ResendPage />;
