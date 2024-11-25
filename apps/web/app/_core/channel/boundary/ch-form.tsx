@@ -13,12 +13,13 @@ import { useRouter } from "next/navigation";
 
 const schema = z.object({
   title: z.string().min(1, "채널 제목을 입력해 주세요.").max(45, "최대 45자 이내로 입력해 주세요."),
-  description: z.string().max(200, "최대 200자 이내로 입력해 주세요.").optional(),
+  description: z.string().max(200, "최대 200자 이내로 입력해 주세요."),
   url: z
     .string()
     .regex(/^(?!-)[a-z0-9]+(-[a-z0-9]+)*(?<!-)$/, "URL은 영문 소문자, 숫자, 대시(-)만 입력할 수 있어요.")
     .min(6, "최소 6자 이상 입력해 주세요.")
     .max(45, "최대 45자 이내로 입력해 주세요."),
+  image: z.string(),
 });
 
 type Schema = z.infer<typeof schema>;
@@ -36,6 +37,7 @@ const CH_Create_Form_Fn = ({ children }: CH_Create_Form_Fn_Props) => {
       title: "",
       description: "",
       url: "",
+      image: "",
     },
     mode: "onTouched",
   });
