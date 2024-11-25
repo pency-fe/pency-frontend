@@ -21,10 +21,13 @@ import { ChangeEventHandler, KeyboardEventHandler, ReactNode, useMemo, useState 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
-import { objectEntries, zodObjectKeys } from "@pency/util";
+import { objectEntries, useBooleanState, zodObjectKeys } from "@pency/util";
 import { BrandPencyTextIcon, RadioButton, toast } from "@pency/ui/components";
 import { Editor } from "./editor";
 import { varAlpha } from "@pency/ui/util";
+import { getUploadImageUrl } from "_core/common";
+import ky from "ky";
+import { LoadingButton } from "@mui/lab";
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +46,7 @@ const schema = z.object({
   age: z.enum(zodObjectKeys(AGE_LABEL)),
   keywords: z.array(z.string()).max(10, "키워드는 최대 10개 이내로 입력해 주세요."),
   authorTalk: z.string().max(200, "작가의 말은 200자 이내로 입력해 주세요."),
-  precautions: z.string().max(200, "읽기전 주의 사항은 200자 이내로 입력해 주세요."),
+  precaution: z.string().max(200, "읽기전 주의 사항은 200자 이내로 입력해 주세요."),
   series: z.string(),
 });
 
@@ -84,7 +87,7 @@ const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
       age: "ALL",
       keywords: [],
       authorTalk: "",
-      precautions: "",
+      precaution: "",
       series: "",
     },
     mode: "onTouched",
@@ -110,7 +113,7 @@ const WT_Post_Update_Form_Fn = ({ children }: WT_Post_Update_Form_Fn_Props) => {
       age: "ALL",
       keywords: [],
       authorTalk: "",
-      precautions: "",
+      precaution: "",
       series: "",
     },
     mode: "onTouched",
@@ -490,13 +493,13 @@ const AuthorTalkFn = () => {
 
 // ----------------------------------------------------------------------
 
-const PrecautionsFn = () => {
+const PrecautionFn = () => {
   const { control } = useWTPostFormContext();
 
   return (
     <Controller
       control={control}
-      name="precautions"
+      name="precaution"
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
@@ -540,21 +543,28 @@ const ThumbnailFn = () => {
   const theme = useTheme();
   const { watch, setValue } = useWTPostFormContext();
   const thumbnail = watch("thumbnail");
+  const loading = useBooleanState(false);
 
   const upload = () => {
     const picker = document.createElement("input");
     picker.type = "file";
     picker.accept = ["image/jpeg", "image/png", "image/gif"].join(",");
     picker.multiple = false;
-    picker.addEventListener("change", () => {
+    picker.addEventListener("change", async () => {
       if (picker.files?.[0]) {
         if (picker.files[0].size > 50 * 1024 * 1024) {
           toast.error("최대 50MB 이미지만 업로드할 수 있어요.");
           return;
         }
 
-        const src = URL.createObjectURL(picker.files[0]);
-        setValue("thumbnail", src);
+        loading.setTrue();
+        const res = await getUploadImageUrl({
+          contentLength: picker.files[0].size,
+          contentType: picker.files[0].type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
+        });
+        await ky.put(res.signedUploadUrl, { body: picker.files[0] });
+        loading.setFalse();
+        setValue("thumbnail", res.url);
       }
     });
     picker.click();
@@ -604,9 +614,9 @@ const ThumbnailFn = () => {
             </Button>
           )}
 
-          <Button variant="soft" color="primary" onClick={upload}>
+          <LoadingButton variant="soft" color="primary" loading={loading.bool} onClick={upload}>
             업로드
-          </Button>
+          </LoadingButton>
         </Stack>
       </Stack>
     </Stack>
@@ -626,7 +636,7 @@ export const WT_Post_Create_Form = Object.assign(WT_Post_Create_Form_Fn, {
   Keywords: KeywordsFn,
   Keyword: KeywordFn,
   AuthorTalk: AuthorTalkFn,
-  Precautions: PrecautionsFn,
+  Precaution: PrecautionFn,
   Series: SeriesFn,
   Thumbnail: ThumbnailFn,
   useWTPostFormContext,
@@ -645,6 +655,6 @@ export const WT_Post_Update_Form = Object.assign(WT_Post_Update_Form_Fn, {
   Keywords: KeywordsFn,
   Keyword: KeywordFn,
   AuthorTalk: AuthorTalkFn,
-  Precautions: PrecautionsFn,
+  Precaution: PrecautionFn,
   Series: SeriesFn,
 });

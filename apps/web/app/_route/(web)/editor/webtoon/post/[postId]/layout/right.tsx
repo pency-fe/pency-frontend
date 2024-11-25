@@ -184,7 +184,7 @@ export default function Right() {
               {navValue === "notification" && (
                 <Stack spacing={4}>
                   <WT_Post_Create_Form.AuthorTalk />
-                  <WT_Post_Create_Form.Precautions />
+                  <WT_Post_Create_Form.Precaution />
                 </Stack>
               )}
             </Grid>
