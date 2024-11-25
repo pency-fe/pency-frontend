@@ -11,9 +11,20 @@ import {
   Link,
   Stack,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { EvaEyeOutlineIcon, EvaHeartOutlineIcon, Label, ListItemx, NineteenCircleIcon } from "@pency/ui/components";
+import {
+  EvaEyeOutlineIcon,
+  EvaHeartOutlineIcon,
+  GravityUiCircleCheckFillIcon,
+  Label,
+  ListItemx,
+  NineteenCircleIcon,
+  OverviewCard,
+  OverviewCardCarousel,
+} from "@pency/ui/components";
+import { stylesColorScheme } from "@pency/ui/util";
 import NextLink from "next/link";
 
 // ----------------------------------------------------------------------
@@ -29,6 +40,7 @@ export function ViewerTemp() {
       <ChannelAction />
       <PostLikeSummary />
       <PostPrevNext />
+      <OtherPostOfAuthor />
     </Stack>
   );
 
@@ -270,6 +282,8 @@ function PostLikeSummary() {
 // ----------------------------------------------------------------------
 
 function PostPrevNext() {
+  const theme = useTheme();
+
   const postData = {
     postId: "post-id-123",
     thumbnail:
@@ -284,7 +298,17 @@ function PostPrevNext() {
   };
 
   return (
-    <Stack spacing={1}>
+    <Stack
+      spacing={1}
+      sx={{
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: theme.vars.palette.divider,
+        borderRadius: 1.5,
+        paddingX: 2.5,
+        paddingY: 1.5,
+      }}
+    >
       <ListItemx
         slots={{
           overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
@@ -336,5 +360,130 @@ function PostPrevNext() {
         }}
       />
     </Stack>
+  );
+}
+
+function OtherPostOfAuthor() {
+  const theme = useTheme();
+  const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
+
+  const postData = {
+    postId: "post-id-123",
+    thumbnail:
+      "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+    age: "NINETEEN",
+    price: 300,
+    purchased: true,
+    creationType: "2차창작",
+    pair: "BL",
+    genre: "액션",
+    title: "천재 궁수의 스트리밍",
+    channel: {
+      channelId: "channel-id-123",
+      avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
+      name: "김천재의 채널",
+    },
+  };
+
+  return (
+    <Box
+      sx={{
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: theme.vars.palette.divider,
+        borderRadius: 1.5,
+        paddingX: 2.5,
+        paddingY: 1.5,
+      }}
+    >
+      <OverviewCardCarousel>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography variant="h4">전체 인기 포스트</Typography>
+          <Button
+            component={NextLink}
+            href={"TODO_작가_웹툰_채널"}
+            size="small"
+            color="inherit"
+            sx={{
+              color: theme.vars.palette.grey[500],
+              [stylesColorScheme.dark]: {
+                color: theme.vars.palette.grey[500],
+              },
+            }}
+          >
+            더 보기
+          </Button>
+          <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
+            <OverviewCardCarousel.PrevNav size={isUpMd ? "medium" : "small"} />
+            <OverviewCardCarousel.NextNav size={isUpMd ? "medium" : "small"} />
+          </Stack>
+        </Box>
+
+        <OverviewCardCarousel.Container
+          slots={{
+            slides: (
+              <>
+                {Array.from({ length: 10 }, (_, i) => (
+                  <OverviewCardCarousel.Slide key={i}>
+                    <OverviewCard
+                      slots={{
+                        overlayElement: <OverviewCard.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+                        thumbnail: (
+                          <OverviewCard.Thumbnail
+                            slots={{
+                              image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} />,
+                              // image: <OverviewCard.Thumbnail.Image src={null} />,
+
+                              topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+                            }}
+                            sx={{ aspectRatio: "16/9" }}
+                          />
+                        ),
+                        labels: (
+                          <>
+                            {postData.price && (
+                              <OverviewCard.Label
+                                variant="soft"
+                                color="success"
+                                slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
+                              >
+                                {postData.price}P
+                              </OverviewCard.Label>
+                            )}
+                            <OverviewCard.Label variant="soft" color="secondary">
+                              {postData.creationType}
+                            </OverviewCard.Label>
+                            <OverviewCard.Label variant="soft" color="warning">
+                              {postData.pair}
+                            </OverviewCard.Label>
+                            <OverviewCard.Label variant="soft" color="warning">
+                              {postData.genre}
+                            </OverviewCard.Label>
+                          </>
+                        ),
+                        avatarLink: (
+                          <OverviewCard.AvatarLink
+                            href={`/channel/${postData.channel.channelId}`}
+                            slots={{
+                              avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
+                            }}
+                          />
+                        ),
+                        title: <OverviewCard.Title>{postData.title}</OverviewCard.Title>,
+                        nameLink: (
+                          <OverviewCard.NameLink href={`/channel/${postData.channel.channelId}`}>
+                            {postData.channel.name}
+                          </OverviewCard.NameLink>
+                        ),
+                      }}
+                    />
+                  </OverviewCardCarousel.Slide>
+                ))}
+              </>
+            ),
+          }}
+        />
+      </OverviewCardCarousel>
+    </Box>
   );
 }

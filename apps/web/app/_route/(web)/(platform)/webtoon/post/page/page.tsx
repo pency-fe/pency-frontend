@@ -288,7 +288,6 @@ function AllPopularityPost() {
 
   return (
     <Stack spacing={2}>
-      <Box sx={{}}></Box>
       <OverviewCardCarousel>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography variant="h4">전체 인기 포스트</Typography>
