@@ -31,8 +31,8 @@ import NextLink from "next/link";
 
 export function ViewerTemp() {
   return (
-    <Stack spacing={1.5}>
-      <Stack spacing={3} sx={{ maxWidth: "700px" }}>
+    <Stack spacing={1.5} sx={{ maxWidth: "700px" }}>
+      <Stack spacing={3}>
         <Content />
         <PaidPostGuide />
       </Stack>
