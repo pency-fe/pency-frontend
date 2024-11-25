@@ -424,7 +424,7 @@ function OtherPostOfAuthor() {
             slides: (
               <>
                 {Array.from({ length: 10 }, (_, i) => (
-                  <OverviewCardCarousel.Slide key={i} lg={4}>
+                  <OverviewCardCarousel.Slide key={i}>
                     <OverviewCard
                       slots={{
                         overlayElement: <OverviewCard.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
