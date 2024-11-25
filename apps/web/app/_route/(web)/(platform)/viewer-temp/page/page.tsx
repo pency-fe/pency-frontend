@@ -397,7 +397,7 @@ function OtherPostOfAuthor() {
       }}
     >
       <OverviewCardCarousel>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
           <Typography variant="h4">전체 인기 포스트</Typography>
           <Button
             component={NextLink}

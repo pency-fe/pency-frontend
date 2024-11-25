@@ -162,7 +162,7 @@ function LatestPost() {
   };
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={1}>
       <Box sx={{}}></Box>
       <OverviewCardCarousel>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -287,7 +287,7 @@ function AllPopularityPost() {
   };
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={1}>
       <OverviewCardCarousel>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography variant="h4">전체 인기 포스트</Typography>
@@ -410,7 +410,7 @@ function WeeklyPopularityPost() {
   };
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={1}>
       <Box sx={{}}></Box>
       <OverviewCardCarousel>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
