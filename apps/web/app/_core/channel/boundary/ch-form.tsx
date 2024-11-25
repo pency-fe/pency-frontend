@@ -283,9 +283,10 @@ const ImageFn = () => {
       <Stack spacing={1}>
         <Box
           sx={{
-            aspectRatio: 16 / 9,
+            aspectRatio: 1 / 1,
             borderRadius: 1,
             overflow: "hidden",
+            width: "250px",
           }}
         >
           {image ? (
@@ -308,7 +309,7 @@ const ImageFn = () => {
 
         <Stack direction="row" alignItems="center">
           <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
-            추천 비율(16:9) / 최대 50MB 이미지 파일
+            추천 비율(1:1) / 최대 50MB 이미지 파일
           </Typography>
 
           {image && (
