@@ -24,6 +24,7 @@ export function CreatePage() {
                 <CH_Create_Form.Title />
                 <CH_Create_Form.Description />
                 <CH_Create_Form.Url />
+                <CH_Create_Form.Image />
               </Stack>
             </Box>
             <CH_Create_Form.CreateSubmitButton

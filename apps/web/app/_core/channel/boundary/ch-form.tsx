@@ -1,13 +1,28 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, ButtonProps, InputAdornment, inputBaseClasses, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonProps,
+  InputAdornment,
+  inputBaseClasses,
+  Stack,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { ReactNode } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
 import { useChannelCreate } from "../query";
-import { toast } from "@pency/ui/components";
+import { BrandPencyTextIcon, toast } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
+import { useBooleanState } from "@pency/util";
+import { getUploadImageUrl } from "_core/common";
+import { LoadingButton } from "@mui/lab";
+import { varAlpha } from "@pency/ui/util";
+import ky from "ky";
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +38,10 @@ const schema = z.object({
 });
 
 type Schema = z.infer<typeof schema>;
+
+// ----------------------------------------------------------------------
+
+export const useCHFormContext = () => useFormContext<Schema>();
 
 // ----------------------------------------------------------------------
 
@@ -79,7 +98,6 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
     mutate(data, {
       onSuccess: (data) => {
         router.push(`/@${data.url}`);
-        toast.success("새 채널을 만들었어요.");
       },
       onError: async (error) => {
         if (error.code === "DUPLICATE_URL") {
@@ -223,10 +241,98 @@ const UrlFn = () => {
 
 // ----------------------------------------------------------------------
 
+const ImageFn = () => {
+  const theme = useTheme();
+  const { watch, setValue } = useCHFormContext();
+  const image = watch("image");
+  const loading = useBooleanState(false);
+
+  const upload = () => {
+    const picker = document.createElement("input");
+    picker.type = "file";
+    picker.accept = ["image/jpeg", "image/png", "image/gif"].join(",");
+    picker.multiple = false;
+    picker.addEventListener("change", async () => {
+      if (picker.files?.[0]) {
+        if (picker.files[0].size > 50 * 1024 * 1024) {
+          toast.error("최대 50MB 이미지만 업로드할 수 있어요.");
+          return;
+        }
+
+        loading.setTrue();
+        const res = await getUploadImageUrl({
+          contentLength: picker.files[0].size,
+          contentType: picker.files[0].type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
+        });
+        await ky.put(res.signedUploadUrl, { body: picker.files[0] });
+        loading.setFalse();
+        setValue("image", res.url);
+        console.log("res.url: ", res.url);
+      }
+    });
+    picker.click();
+  };
+
+  const remove = () => {
+    setValue("image", "");
+  };
+
+  return (
+    <Stack spacing={1}>
+      <Typography variant="subtitle2">채널 프로필 이미지</Typography>
+      <Stack spacing={1}>
+        <Box
+          sx={{
+            aspectRatio: 16 / 9,
+            borderRadius: 1,
+            overflow: "hidden",
+          }}
+        >
+          {image ? (
+            <Box component="img" src={image} sx={{ width: 1, height: 1, objectFit: "cover" }} />
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: 1,
+                height: 1,
+                bgcolor: varAlpha(theme.vars.palette.grey["500Channel"], 0.16),
+              }}
+            >
+              <BrandPencyTextIcon sx={{ width: "25%", height: "auto" }} />
+            </Box>
+          )}
+        </Box>
+
+        <Stack direction="row" alignItems="center">
+          <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
+            추천 비율(16:9) / 최대 50MB 이미지 파일
+          </Typography>
+
+          {image && (
+            <Button variant="text" sx={{ mr: 1 }} onClick={remove}>
+              삭제
+            </Button>
+          )}
+
+          <LoadingButton variant="soft" color="primary" loading={loading.bool} onClick={upload}>
+            업로드
+          </LoadingButton>
+        </Stack>
+      </Stack>
+    </Stack>
+  );
+};
+
+// ----------------------------------------------------------------------
+
 export const CH_Create_Form = Object.assign(CH_Create_Form_Fn, {
   Title: TitleFn,
   Description: DescriptionFn,
   Url: UrlFn,
+  Image: ImageFn,
   CreateSubmitButton: CreateSubmitFn,
 });
 
@@ -234,5 +340,6 @@ export const CH_Update_Form = Object.assign(CH_Update_Form_Fn, {
   Title: TitleFn,
   Description: DescriptionFn,
   Url: UrlFn,
+  Image: ImageFn,
   UpdateSubmitButton: UpdateSubmitFn,
 });
