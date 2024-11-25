@@ -50,3 +50,38 @@
 ### @pency/ui
 
 ### @pency/util
+
+### route 레이아웃 구조
+
+- layout: home header
+
+  - 채널 만들기: `/channel/create`
+
+  - layout: platform sidebar
+
+    - 홈 (사이드 바 로고에 포함): `/`
+    - 웹툰 (사이드 바에 포함)
+
+      - 포스트 홈 (사이드 바에 포함): `/webtoon/post`
+
+        - 리스트
+
+          - `/webtoon/post/list` === `/webtoon/post/list?genre=ALL` 기본값, 이상한 값이 들어오면 기본값으로 취급한다.
+          - `/webtoon/post/list` === `/webtoon/post/list?sort=LATEST` 기본값, 이상한 값이 들어오면 기본값으로 취급한다.
+          - `/webtoon/post/list` === `/webtoon/post/list?page=1` 기본값, 이상한 값이 들어오면 기본값으로 취급한다.
+
+      - 시리즈 홈 (사이드 바에 포함): `/webtoon/series`
+        - 리스트
+          - 포스트 리스트랑 똑같음
+
+    - 채널 홈: `/@channelId`
+    - 프로필 홈: `/profile/profileId`
+
+  - layout: setting sidebar `/setting`
+
+- layout(아마 page.tsx에서 구현할 듯): webtoon viewer header, footer `/@channelId/webtoon/post/postId`
+- layout(아마 page.tsx에서 구현할 듯): webnovel viewer header, footer
+- layout(아마 page.tsx에서 구현할 듯): webtoon editor: `/editor/@channelId/webtoon`, `/editor/@channelId/webtoon/postId`
+- layout(아마 page.tsx에서 구현할 듯): webnovel editor: `/editor/@channelId/webnovel`, `/editor/@channelId/webnovel/postId`
+
+- layout: studio header & sidebar: `/studio/@channelId`
