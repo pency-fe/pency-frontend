@@ -1,20 +1,38 @@
 "use client";
 
-import { Avatar, Box, Button, Chip, colors, Link, Stack, Typography, useTheme } from "@mui/material";
-import { EvaEyeOutlineIcon, Label } from "@pency/ui/components";
+import {
+  Avatar,
+  avatarClasses,
+  AvatarGroup,
+  Box,
+  Button,
+  Chip,
+  IconButton,
+  Link,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { EvaEyeOutlineIcon, EvaHeartOutlineIcon, Label, ListItemx, NineteenCircleIcon } from "@pency/ui/components";
 import NextLink from "next/link";
+
+// ----------------------------------------------------------------------
 
 export function ViewerTemp() {
   return (
-    <Stack spacing={5}>
+    <Stack spacing={1.5}>
       <Stack spacing={3} sx={{ maxWidth: "700px" }}>
         <Content />
         <PaidPostGuide />
       </Stack>
       <ETC />
       <ChannelAction />
+      <PostLikeSummary />
+      <PostPrevNext />
     </Stack>
   );
+
+  // ----------------------------------------------------------------------
 
   function Content() {
     return (
@@ -82,6 +100,8 @@ export function ViewerTemp() {
   }
 }
 
+// ----------------------------------------------------------------------
+
 function PaidPostGuide() {
   const theme = useTheme();
 
@@ -98,8 +118,9 @@ function PaidPostGuide() {
           borderWidth: 1,
           borderStyle: "solid",
           borderColor: theme.vars.palette.divider,
-          borderRadius: 2,
-          padding: 2.5,
+          borderRadius: 1.5,
+          paddingX: 2.5,
+          paddingY: 1.5,
         }}
       >
         <Box sx={{ mr: "auto" }}>
@@ -121,6 +142,8 @@ function PaidPostGuide() {
     </Stack>
   );
 }
+
+// ----------------------------------------------------------------------
 
 function ETC() {
   const theme = useTheme();
@@ -162,6 +185,8 @@ function ETC() {
   );
 }
 
+// ----------------------------------------------------------------------
+
 function ChannelAction() {
   const theme = useTheme();
 
@@ -174,8 +199,9 @@ function ChannelAction() {
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: theme.vars.palette.divider,
-        borderRadius: 2,
-        padding: 2.5,
+        borderRadius: 1.5,
+        paddingX: 2.5,
+        paddingY: 1.5,
       }}
     >
       <Avatar
@@ -200,5 +226,115 @@ function ChannelAction() {
       </Box>
       <Button variant="contained">구독하기</Button>
     </Box>
+  );
+}
+
+// ----------------------------------------------------------------------
+
+function PostLikeSummary() {
+  const theme = useTheme();
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: theme.vars.palette.divider,
+        borderRadius: 1.5,
+        paddingX: 2.5,
+        paddingY: 1.5,
+      }}
+    >
+      <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1 }}>
+        <AvatarGroup max={4} sx={{ [`& .${avatarClasses.root}`]: { width: 24, height: 24 } }}>
+          <Avatar alt="" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
+          <Avatar alt="" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
+          <Avatar alt="" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
+        </AvatarGroup>
+        <Box>
+          <Typography variant="body2" color={theme.vars.palette.text.secondary}>
+            구매자 50명 중
+          </Typography>
+          <Typography variant="subtitle1">구매자 42명이 좋아합니다.</Typography>
+        </Box>
+      </Box>
+      <IconButton variant="soft" sx={{ ml: "auto" }}>
+        <EvaHeartOutlineIcon />
+      </IconButton>
+    </Box>
+  );
+}
+
+// ----------------------------------------------------------------------
+
+function PostPrevNext() {
+  const postData = {
+    postId: "post-id-123",
+    thumbnail:
+      "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+    age: "NINETEEN",
+    // title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
+    title: "천재 궁수의 스트리밍",
+    channel: {
+      name: "김천재의 채널",
+    },
+    likeCount: 100,
+  };
+
+  return (
+    <Stack spacing={1}>
+      <ListItemx
+        slots={{
+          overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+          trailingLabel: <ListItemx.TrailingLabel>이전화</ListItemx.TrailingLabel>,
+          thumbnail: (
+            <ListItemx.Thumbnail
+              slots={{
+                image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
+                // image: <ListItemx.Thumbnail.Image src={null} />,
+                topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+              }}
+              sx={{ aspectRatio: "16/9" }}
+            />
+          ),
+          title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
+          attribute: (
+            <ListItemx.Attribute>
+              {postData.channel.name}
+              <ListItemx.Attribute.Dot />
+              <EvaHeartOutlineIcon />
+              {postData.likeCount}
+            </ListItemx.Attribute>
+          ),
+        }}
+      />
+      <ListItemx
+        slots={{
+          overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+          trailingLabel: <ListItemx.TrailingLabel>다음화</ListItemx.TrailingLabel>,
+          thumbnail: (
+            <ListItemx.Thumbnail
+              slots={{
+                image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
+                // image: <ListItemx.Thumbnail.Image src={null} />,
+                topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+              }}
+              sx={{ aspectRatio: "16/9" }}
+            />
+          ),
+          title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
+          attribute: (
+            <ListItemx.Attribute>
+              {postData.channel.name}
+              <ListItemx.Attribute.Dot />
+              <EvaHeartOutlineIcon />
+              {postData.likeCount}
+            </ListItemx.Attribute>
+          ),
+        }}
+      />
+    </Stack>
   );
 }
