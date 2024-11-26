@@ -40,6 +40,9 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...re
         padding: "4px",
         borderRadius: 1,
         overflow: "hidden",
+        "&:hover": {
+          bgcolor: theme.vars.palette.action.hover,
+        },
         ...rest.sx,
       }}
     >

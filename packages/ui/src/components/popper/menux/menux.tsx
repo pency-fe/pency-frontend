@@ -19,7 +19,7 @@ type MenuxFnProps = PopperProps & {
 };
 
 export const Menux = forwardRef<HTMLDivElement, MenuxFnProps>(
-  ({ open = false, anchorEl, placement = "bottom", onClose, children, modifiers, ...rest }, ref) => {
+  ({ open = false, anchorEl, placement = "bottom", onClose, children, modifiers = [], ...rest }, ref) => {
     const theme = useTheme();
 
     return (
@@ -29,8 +29,6 @@ export const Menux = forwardRef<HTMLDivElement, MenuxFnProps>(
         anchorEl={anchorEl}
         placement={placement}
         transition
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         modifiers={[{ name: "preventOverflow", enabled: false }, ...modifiers]}
         {...rest}
       >
