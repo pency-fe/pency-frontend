@@ -12,13 +12,14 @@ import NextLink from "next/link";
 import { stylesColorScheme } from "@pency/ui/util";
 import { useMemo } from "react";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
+import { createQueryString } from "@pency/util";
 
 export function LatestSection() {
   const theme = useTheme();
   const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const searchParams = useSearchParams();
 
-  const genre = useMemo(() => {
+  const genreParam = useMemo(() => {
     const param = searchParams.get("genre");
     if (param && Object.keys(GENRE_LABEL).includes(param)) {
       return param as Genre;
@@ -51,7 +52,11 @@ export function LatestSection() {
           <Typography variant="h4">최신 포스트</Typography>
           <Button
             component={NextLink}
-            href={genre !== "ALL" ? `/webtoon/post/list?genre=${genre}` : "/webtoon/post/list"}
+            href={
+              genreParam !== "ALL"
+                ? `/webtoon/post/list?genre=${genreParam}&sort=LATEST`
+                : "/webtoon/post/list?sort=LATEST"
+            }
             size="small"
             color="inherit"
             sx={{

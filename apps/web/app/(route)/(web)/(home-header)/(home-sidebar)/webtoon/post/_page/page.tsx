@@ -1,12 +1,13 @@
 "use client";
 
-import { Box, RadioGroup, Stack } from "@mui/material";
-import { RadioButton } from "@pency/ui/components";
 import { useMemo } from "react";
+import NextLink from "next/link";
+import { RadioGroup, Stack } from "@mui/material";
+import { RadioButton } from "@pency/ui/components";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { objectEntries } from "@pency/util";
+import { createQueryString, objectEntries } from "@pency/util";
 import { hideScrollX } from "@pency/ui/util";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { BannerSection } from "./banner-section";
 import { RankSection } from "./rank-section";
 import { LatestSection } from "./latest-section";
@@ -29,11 +30,11 @@ export default function PostPage() {
 }
 
 function RadioTabButton() {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
-  const genre = useMemo(() => {
+
+  const genreParam = useMemo(() => {
     const param = searchParams.get("genre");
     if (param && Object.keys(GENRE_LABEL).includes(param)) {
       return param as Genre;
@@ -44,21 +45,22 @@ function RadioTabButton() {
 
   return (
     <RadioGroup
-      value={genre}
-      onChange={(e) => {
-        if (e.target.value === "ALL") {
-          router.push(`/webtoon/post`);
-          return;
-        }
-        router.push(`/webtoon/post?genre=${e.target.value}`);
-      }}
+      value={genreParam}
+      sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
     >
-      <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, width: 1, overflowX: "scroll", ...hideScrollX }}>
-        <RadioButton value="ALL">전체</RadioButton>
-        {genres.map(([genre, label]) => (
-          <RadioButton value={genre}> {label}</RadioButton>
-        ))}
-      </Box>
+      <RadioButton value="ALL" LinkComponent={NextLink} href="/webtoon/post" sx={{ flexShrink: 0 }}>
+        전체
+      </RadioButton>
+      {genres.map(([genre, label]) => (
+        <RadioButton
+          value={genre}
+          LinkComponent={NextLink}
+          href={`/webtoon/post?genre=${genre}`}
+          sx={{ flexShrink: 0 }}
+        >
+          {label}
+        </RadioButton>
+      ))}
     </RadioGroup>
   );
 }

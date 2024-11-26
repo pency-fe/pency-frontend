@@ -39,9 +39,7 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...re
         height: "60px",
         padding: "4px",
         borderRadius: 1,
-        "&:hover": {
-          bgcolor: theme.vars.palette.action.hover,
-        },
+        overflow: "hidden",
         ...rest.sx,
       }}
     >
@@ -69,7 +67,7 @@ const OverlayButtonFn = forwardRef<HTMLButtonElement, OverlayButtonFnProps>((res
   return (
     <ButtonBase
       ref={ref}
-      disableRipple
+      // disableRipple
       {...rest}
       sx={{
         position: "absolute",
@@ -88,7 +86,7 @@ const OverlayAnchorFn = forwardRef<HTMLAnchorElement, OverlayAnchorFnProps>((res
     <ButtonBase
       ref={ref}
       LinkComponent={NextLink}
-      disableRipple
+      // disableRipple
       {...rest}
       sx={{
         position: "absolute",

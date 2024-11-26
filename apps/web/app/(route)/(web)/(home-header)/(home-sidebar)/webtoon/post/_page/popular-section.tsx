@@ -18,7 +18,7 @@ export function PopularSection() {
   const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const searchParams = useSearchParams();
 
-  const genre = useMemo(() => {
+  const gerneParam = useMemo(() => {
     const param = searchParams.get("genre");
     if (param && Object.keys(GENRE_LABEL).includes(param)) {
       return param as Genre;
@@ -52,7 +52,9 @@ export function PopularSection() {
           <Button
             component={NextLink}
             href={
-              genre !== "ALL" ? `/webtoon/post/list?genre=${genre}&sort=POPULAR` : "/webtoon/post/list?sort=POPULAR"
+              gerneParam !== "ALL"
+                ? `/webtoon/post/list?genre=${gerneParam}&sort=POPULAR`
+                : "/webtoon/post/list?sort=POPULAR"
             }
             size="small"
             color="inherit"
