@@ -1,6 +1,9 @@
 "use client";
 
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Avatar,
   avatarClasses,
   AvatarGroup,
@@ -15,6 +18,7 @@ import {
   useTheme,
 } from "@mui/material";
 import {
+  EvaArrowIosDownwardFillIcon,
   EvaEyeOutlineIcon,
   EvaHeartOutlineIcon,
   GravityUiCircleCheckFillIcon,
@@ -26,6 +30,7 @@ import {
 } from "@pency/ui/components";
 import { Header, Main } from "@pency/ui/layouts";
 import { stylesColorScheme } from "@pency/ui/util";
+import { WT_Post_List_Comment } from "_core/webtoon/post";
 import NextLink from "next/link";
 
 // ----------------------------------------------------------------------
@@ -35,10 +40,12 @@ export function PostIdPage() {
     <>
       <Header slots={{ left: <>left</>, right: <>right</> }} />
       <Main>
-        <Stack spacing={1.5} sx={{ maxWidth: "700px" }}>
-          <Stack spacing={3}>
+        <Stack spacing={2} sx={{ maxWidth: "700px" }}>
+          <Stack spacing={1.5}>
+            <Precaution />
             <Content />
             <PaidPostGuide />
+            <AuthorTalk />
           </Stack>
           <ETC />
           <ChannelAction />
@@ -54,68 +61,82 @@ export function PostIdPage() {
 
   function Content() {
     return (
-      <Stack spacing={2}>
-        <Typography>보기 전 주의사항 추가</Typography>
+      <Box
+        sx={{
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          height: "100%",
+          overflow: "hidden",
+        }}
+      >
         <Box
+          component="img"
+          src="https://upload-os-bbs.hoyolab.com/upload/2024/05/25/214188686/6884dc9e8c400ebb9c6730883c3da557_5350171371894236645.png"
+          alt=""
           sx={{
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
+            objectFit: "contain",
             width: "100%",
             height: "100%",
-            overflow: "hidden",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            pointerEvents: "none",
           }}
-        >
-          <Box
-            component="img"
-            src="https://upload-os-bbs.hoyolab.com/upload/2024/05/25/214188686/6884dc9e8c400ebb9c6730883c3da557_5350171371894236645.png"
-            alt=""
-            sx={{
-              objectFit: "contain",
-              width: "100%",
-              height: "100%",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              pointerEvents: "none",
-            }}
-          />
-          <Box
-            component="img"
-            src="https://upload-os-bbs.hoyolab.com/upload/2024/05/25/214188686/606d8eb9aa17b35c0ef28ab45d273b59_602386185357571767.png"
-            alt=""
-            sx={{
-              objectFit: "contain",
-              width: "100%",
-              height: "100%",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              pointerEvents: "none",
-            }}
-          />
-          <Box
-            component="img"
-            src="https://upload-os-bbs.hoyolab.com/upload/2024/05/25/214188686/aa9426706d297284333d2821a0c01119_2283792266632400649.png"
-            alt=""
-            sx={{
-              objectFit: "contain",
-              width: "100%",
-              height: "100%",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              pointerEvents: "none",
-            }}
-          />
-        </Box>
-        <Typography>작가의 말 추가</Typography>
-      </Stack>
+        />
+        <Box
+          component="img"
+          src="https://upload-os-bbs.hoyolab.com/upload/2024/05/25/214188686/606d8eb9aa17b35c0ef28ab45d273b59_602386185357571767.png"
+          alt=""
+          sx={{
+            objectFit: "contain",
+            width: "100%",
+            height: "100%",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            pointerEvents: "none",
+          }}
+        />
+        <Box
+          component="img"
+          src="https://upload-os-bbs.hoyolab.com/upload/2024/05/25/214188686/aa9426706d297284333d2821a0c01119_2283792266632400649.png"
+          alt=""
+          sx={{
+            objectFit: "contain",
+            width: "100%",
+            height: "100%",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            pointerEvents: "none",
+          }}
+        />
+      </Box>
     );
   }
+}
+
+// ----------------------------------------------------------------------
+
+function Precaution() {
+  return (
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<EvaArrowIosDownwardFillIcon />} aria-controls="panel1-content" id="panel1-header">
+        <Typography>읽기 전 주의사항</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo
+          lobortis eget.
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
+  );
 }
 
 // ----------------------------------------------------------------------
@@ -158,6 +179,24 @@ function PaidPostGuide() {
         여러 회차 선택 구매하기
       </Button>
     </Stack>
+  );
+}
+
+// ----------------------------------------------------------------------
+
+function AuthorTalk() {
+  return (
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<EvaArrowIosDownwardFillIcon />} aria-controls="panel1-content" id="panel1-header">
+        <Typography>작가의 말</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo
+          lobortis eget.
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
   );
 }
 
@@ -256,7 +295,8 @@ function PostLikeSummary() {
     <Box
       sx={{
         display: "flex",
-        alignItems: "center",
+        flexDirection: "column",
+        gap: 3,
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: theme.vars.palette.divider,
@@ -265,22 +305,46 @@ function PostLikeSummary() {
         paddingY: 1.5,
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1 }}>
-        <AvatarGroup max={4} sx={{ [`& .${avatarClasses.root}`]: { width: 24, height: 24 } }}>
-          <Avatar alt="" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
-          <Avatar alt="" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
-          <Avatar alt="" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
-        </AvatarGroup>
-        <Box>
-          <Typography variant="body2" color={theme.vars.palette.text.secondary}>
-            구매자 50명 중
-          </Typography>
-          <Typography variant="subtitle1">구매자 42명이 좋아합니다.</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexGrow: 1,
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1 }}>
+          <AvatarGroup max={4} sx={{ [`& .${avatarClasses.root}`]: { width: 24, height: 24 } }}>
+            <Avatar alt="" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
+            <Avatar alt="" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
+            <Avatar alt="" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
+          </AvatarGroup>
+          <Box>
+            <Typography variant="body2" color={theme.vars.palette.text.secondary}>
+              구매자 50명 중
+            </Typography>
+            <Typography variant="subtitle1">구매자 42명이 좋아합니다.</Typography>
+          </Box>
         </Box>
+        <IconButton variant="soft" sx={{ ml: "auto" }}>
+          <EvaHeartOutlineIcon />
+        </IconButton>
       </Box>
-      <IconButton variant="soft" sx={{ ml: "auto" }}>
-        <EvaHeartOutlineIcon />
-      </IconButton>
+      <WT_Post_List_Comment
+        data={{
+          commentId: "123",
+          channel: {
+            channelId: "13",
+            avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
+            name: "김천재",
+          },
+          label: "구매자",
+          createdAt: 1730535831,
+          comment:
+            "넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! 넘 재밌어요! ",
+          likeCount: 1,
+          replyCount: 2,
+        }}
+      ></WT_Post_List_Comment>
     </Box>
   );
 }
