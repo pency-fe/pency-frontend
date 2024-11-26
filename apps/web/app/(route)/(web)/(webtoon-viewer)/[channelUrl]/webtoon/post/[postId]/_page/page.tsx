@@ -24,6 +24,7 @@ import {
   OverviewCard,
   OverviewCardCarousel,
 } from "@pency/ui/components";
+import { Header, Main } from "@pency/ui/layouts";
 import { stylesColorScheme } from "@pency/ui/util";
 import NextLink from "next/link";
 
@@ -31,17 +32,22 @@ import NextLink from "next/link";
 
 export function PostIdPage() {
   return (
-    <Stack spacing={1.5} sx={{ maxWidth: "700px" }}>
-      <Stack spacing={3}>
-        <Content />
-        <PaidPostGuide />
-      </Stack>
-      <ETC />
-      <ChannelAction />
-      <PostLikeSummary />
-      <PostPrevNext />
-      <OtherPostOfAuthor />
-    </Stack>
+    <>
+      <Header slots={{ left: <>left</>, right: <>right</> }} />
+      <Main>
+        <Stack spacing={1.5} sx={{ maxWidth: "700px" }}>
+          <Stack spacing={3}>
+            <Content />
+            <PaidPostGuide />
+          </Stack>
+          <ETC />
+          <ChannelAction />
+          <PostLikeSummary />
+          <PostPrevNext />
+          <OtherPostOfAuthor />
+        </Stack>
+      </Main>
+    </>
   );
 
   // ----------------------------------------------------------------------
