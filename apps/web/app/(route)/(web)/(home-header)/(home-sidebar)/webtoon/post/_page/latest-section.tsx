@@ -12,7 +12,6 @@ import NextLink from "next/link";
 import { stylesColorScheme } from "@pency/ui/util";
 import { useMemo } from "react";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { createQueryString } from "@pency/util";
 
 export function LatestSection() {
   const theme = useTheme();
@@ -52,11 +51,7 @@ export function LatestSection() {
           <Typography variant="h4">최신 포스트</Typography>
           <Button
             component={NextLink}
-            href={
-              genreParam !== "ALL"
-                ? `/webtoon/post/list?genre=${genreParam}&sort=LATEST`
-                : "/webtoon/post/list?sort=LATEST"
-            }
+            href={genreParam !== "ALL" ? `/webtoon/post/list?genre=${genreParam}` : "/webtoon/post/list"}
             size="small"
             color="inherit"
             sx={{

@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+import NextLink from "next/link";
 import {
   Stack,
   Box,
@@ -14,11 +16,10 @@ import {
 } from "@mui/material";
 import { RadioButton } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
-import { objectEntries } from "@pency/util";
+import { createQueryString, objectEntries } from "@pency/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { WT_Post_RichCard } from "_core/webtoon/post";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 
 export function ListPage() {
   return (
@@ -30,11 +31,11 @@ export function ListPage() {
 }
 
 function RadioTabButton() {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
-  const genre = useMemo(() => {
+
+  const genreParam = useMemo(() => {
     const param = searchParams.get("genre");
     if (param && Object.keys(GENRE_LABEL).includes(param)) {
       return param as Genre;
@@ -44,17 +45,37 @@ function RadioTabButton() {
 
   return (
     <RadioGroup
-      value={genre}
-      onChange={(e) => {
-        router.push(`/webtoon/post?genre=${e.target.value}`);
-      }}
+      value={genreParam}
+      sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
     >
-      <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, width: 1, overflowX: "scroll", ...hideScrollX }}>
-        <RadioButton value="ALL">전체</RadioButton>
-        {genres.map(([genre, label]) => (
-          <RadioButton value={genre}> {label}</RadioButton>
-        ))}
-      </Box>
+      <RadioButton
+        LinkComponent={NextLink}
+        value="ALL"
+        href={(() => {
+          const params = new URLSearchParams(searchParams.toString());
+          params.delete("genre");
+          params.delete("page");
+          return `/webtoon/post/list${createQueryString(params)}`;
+        })()}
+        sx={{ flexShrink: 0 }}
+      >
+        전체
+      </RadioButton>
+      {genres.map(([genre, label]) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("genre", genre);
+        params.delete("page");
+        return (
+          <RadioButton
+            LinkComponent={NextLink}
+            value={genre}
+            href={`/webtoon/post/list${createQueryString(params)}`}
+            sx={{ flexShrink: 0 }}
+          >
+            {label}
+          </RadioButton>
+        );
+      })}
     </RadioGroup>
   );
 }

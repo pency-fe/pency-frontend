@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import { RadioGroup, Stack } from "@mui/material";
 import { RadioButton } from "@pency/ui/components";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { createQueryString, objectEntries } from "@pency/util";
+import { objectEntries } from "@pency/util";
 import { hideScrollX } from "@pency/ui/util";
 import { useSearchParams } from "next/navigation";
 import { BannerSection } from "./banner-section";
