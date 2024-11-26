@@ -2,11 +2,11 @@
 
 import { Box, RadioGroup, Stack } from "@mui/material";
 import { RadioButton } from "@pency/ui/components";
-import { useMemo, useState } from "react";
-import { GENRE_LABEL } from "_core/webtoon/const";
+import { useMemo } from "react";
+import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries } from "@pency/util";
 import { hideScrollX } from "@pency/ui/util";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { BannerSection } from "./banner-section";
 import { RankSection } from "./rank-section";
 import { LatestSection } from "./latest-section";
@@ -30,15 +30,23 @@ export default function PostPage() {
 
 function RadioTabButton() {
   const router = useRouter();
-  const [state, setState] = useState("ALL");
+  const searchParams = useSearchParams();
+
   const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
+  const genre = useMemo(() => {
+    const param = searchParams.get("genre");
+    if (param && Object.keys(GENRE_LABEL).includes(param)) {
+      return param as Genre;
+    }
+
+    return "ALL" as const;
+  }, [searchParams]);
 
   return (
     <RadioGroup
-      value={state}
+      value={genre}
       onChange={(e) => {
-        setState(e.target.value);
-        router.push(`/webtoon/post?genre=${e.target.value.toLowerCase()}`);
+        router.push(`/webtoon/post?genre=${e.target.value}`);
       }}
     >
       <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, width: 1, overflowX: "scroll", ...hideScrollX }}>

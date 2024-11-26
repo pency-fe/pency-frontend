@@ -15,9 +15,9 @@ import {
 import { RadioButton } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { objectEntries } from "@pency/util";
-import { GENRE_LABEL } from "_core/webtoon/const";
+import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { WT_Post_RichCard } from "_core/webtoon/post";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
 export function ListPage() {
@@ -31,14 +31,22 @@ export function ListPage() {
 
 function RadioTabButton() {
   const router = useRouter();
-  const { genre } = useParams();
+  const searchParams = useSearchParams();
+
   const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
+  const genre = useMemo(() => {
+    const param = searchParams.get("genre");
+    if (param && Object.keys(GENRE_LABEL).includes(param)) {
+      return param as Genre;
+    }
+    return "ALL" as const;
+  }, [searchParams]);
 
   return (
     <RadioGroup
-      value={genre?.toString().toUpperCase()}
+      value={genre}
       onChange={(e) => {
-        router.push(`/webtoon/post/${e.target.value.toLowerCase()}`);
+        router.push(`/webtoon/post?genre=${e.target.value}`);
       }}
     >
       <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, width: 1, overflowX: "scroll", ...hideScrollX }}>
