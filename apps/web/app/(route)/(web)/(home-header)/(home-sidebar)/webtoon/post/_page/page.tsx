@@ -46,6 +46,10 @@ function RadioTabButton() {
     <RadioGroup
       value={genre}
       onChange={(e) => {
+        if (e.target.value === "ALL") {
+          router.push(`/webtoon/post`);
+          return;
+        }
         router.push(`/webtoon/post?genre=${e.target.value}`);
       }}
     >

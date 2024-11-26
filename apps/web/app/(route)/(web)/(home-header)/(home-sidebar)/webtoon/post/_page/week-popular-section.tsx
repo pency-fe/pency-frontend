@@ -48,10 +48,12 @@ export function WeekPopularSection() {
     <Stack spacing={1}>
       <OverviewCardCarousel>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Typography variant="h4">전체 인기 포스트</Typography>
+          <Typography variant="h4">주간 인기 포스트</Typography>
           <Button
             component={NextLink}
-            href={genre !== "ALL" ? `/webtoon/post/list?genre=${genre}` : "/webtoon/post/list"}
+            href={
+              genre !== "ALL" ? `/webtoon/post/list?genre=${genre}&sort=WPOPULAR` : "/webtoon/post/list?sort=WPOPULAR"
+            }
             size="small"
             color="inherit"
             sx={{
