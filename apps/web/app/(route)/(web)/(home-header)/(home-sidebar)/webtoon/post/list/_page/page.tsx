@@ -2,19 +2,14 @@
 
 import { useMemo } from "react";
 import NextLink from "next/link";
+import { Stack, Box, Typography, MenuItem, Grid, Pagination, RadioGroup, Button, PaginationItem } from "@mui/material";
 import {
-  Stack,
-  Box,
-  Typography,
-  TextField,
-  inputBaseClasses,
-  MenuItem,
-  Grid,
-  Pagination,
-  useTheme,
-  RadioGroup,
-} from "@mui/material";
-import { RadioButton } from "@pency/ui/components";
+  EvaArrowIosDownwardFillIcon,
+  EvaArrowIosUpwardFillIcon,
+  Menux,
+  RadioButton,
+  useMenuxState,
+} from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { createQueryString, objectEntries } from "@pency/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
@@ -80,18 +75,27 @@ function RadioTabButton() {
   );
 }
 
+type Sort = "LATEST" | "POPULAR" | "WPOPULAR";
+
+const SORT_LABEL: Record<Sort, string> = {
+  LATEST: "최신순",
+  POPULAR: "전체 인기순",
+  WPOPULAR: "주간 인기순",
+};
+
 function PostList() {
-  const theme = useTheme();
-  type Sort = {
-    options: { value: string; label: string }[];
-  };
-  const sort: Sort = {
-    options: [
-      { value: "latest", label: "최신순" },
-      { value: "popularity", label: "전체 인기순" },
-      { value: "popularity", label: "주간 인기순" },
-    ],
-  };
+  const searchParams = useSearchParams();
+  const { anchorRef, isOpen, close, toggle } = useMenuxState();
+
+  const sortParam = useMemo(() => {
+    const param = searchParams.get("sort");
+    if (param && Object.keys(SORT_LABEL).includes(param)) {
+      return param as Sort;
+    }
+    return "LATEST" as Sort;
+  }, [searchParams]);
+
+  const sorts = useMemo(() => objectEntries(SORT_LABEL), []);
 
   return (
     <Stack spacing={2}>
@@ -99,27 +103,44 @@ function PostList() {
         <Typography variant="h4">웹툰 포스트</Typography>
 
         <Box ml="auto">
-          <TextField
-            select
-            defaultValue={sort.options[0]?.value}
-            size="small"
-            sx={{
-              fontSize: 13,
-              [`& .${inputBaseClasses.root}`]: {
-                [theme.breakpoints.up("xs")]: { height: 34 },
-              },
-              [`& .${inputBaseClasses.input}`]: {
-                [theme.breakpoints.up("xs")]: { fontSize: 12 },
-                [theme.breakpoints.up("sm")]: { fontSize: 14 },
-              },
-            }}
+          <Button
+            ref={anchorRef}
+            variant="outlined"
+            onClick={toggle}
+            endIcon={isOpen ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
           >
-            {sort.options.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+            {SORT_LABEL[sortParam]}
+          </Button>
+          <Menux
+            open={isOpen}
+            anchorEl={anchorRef.current}
+            placement="bottom-end"
+            onClose={close}
+            modifiers={[
+              {
+                name: "offset",
+                options: {
+                  offset: [0, 6],
+                },
+              },
+            ]}
+            sx={{ width: "150px" }}
+          >
+            {sorts.map(([sort, label]) => {
+              const params = new URLSearchParams(searchParams.toString());
+              params.set("sort", sort);
+              return (
+                <MenuItem
+                  component={NextLink}
+                  href={`/webtoon/post/list${createQueryString(params)}`}
+                  selected={sortParam === sort}
+                  onClick={close}
+                >
+                  {label}
+                </MenuItem>
+              );
+            })}
+          </Menux>
         </Box>
       </Box>
       <Grid container spacing={1}>
@@ -153,7 +174,18 @@ function PostList() {
         ))}
       </Grid>
       <Box sx={{ margin: "auto", mt: 3 }}>
-        <Pagination count={10} />
+        <Pagination
+          count={30}
+          boundaryCount={0}
+          siblingCount={2}
+          renderItem={(item) => {
+            console.log(item);
+            if (item.type === "start-ellipsis" || item.type === "end-ellipsis") {
+              return;
+            }
+            return <PaginationItem {...item} />;
+          }}
+        />
       </Box>
     </Stack>
   );

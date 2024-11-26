@@ -5,6 +5,7 @@ export * from "./brand-pency-text-icon";
 export * from "./eva-arrow-ios-back-fill-icon";
 export * from "./eva-arrow-ios-downward-fill-icon";
 export * from "./eva-arrow-ios-forward-fill-icon";
+export * from "./eva-arrow-ios-upward-fill-icon";
 export * from "./eva-bookmark-outline-icon";
 export * from "./eva-edit-outline-icon";
 export * from "./eva-eye-fill-icon";

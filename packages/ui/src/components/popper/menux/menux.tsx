@@ -13,16 +13,13 @@ import {
 import { forwardRef, ReactNode } from "react";
 import { getTransformOrigin } from "../get-transform-origin";
 
-type MenuxFnProps = {
-  open: PopperProps["open"];
-  anchorEl: PopperProps["anchorEl"];
-  placement?: PopperProps["placement"];
+type MenuxFnProps = PopperProps & {
   onClose: ClickAwayListenerProps["onClickAway"];
   children?: ReactNode;
 };
 
 export const Menux = forwardRef<HTMLDivElement, MenuxFnProps>(
-  ({ open = false, anchorEl, placement = "bottom", onClose, children }, ref) => {
+  ({ open = false, anchorEl, placement = "bottom", onClose, children, modifiers, ...rest }, ref) => {
     const theme = useTheme();
 
     return (
@@ -32,7 +29,10 @@ export const Menux = forwardRef<HTMLDivElement, MenuxFnProps>(
         anchorEl={anchorEl}
         placement={placement}
         transition
-        modifiers={[{ name: "preventOverflow", enabled: false }]}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        modifiers={[{ name: "preventOverflow", enabled: false }, ...modifiers]}
+        {...rest}
       >
         {({ TransitionProps, placement }) => (
           <ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={onClose}>
