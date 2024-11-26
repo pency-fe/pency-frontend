@@ -8,14 +8,7 @@ export function CreatePage() {
   const theme = useTheme();
 
   return (
-    <Main
-      sx={{
-        maxWidth: "740px",
-        [theme.breakpoints.up("lg")]: {
-          maxWidth: "740px",
-        },
-      }}
-    >
+    <Main>
       <Stack spacing={4}>
         <Typography variant="h4">새 채널 만들기</Typography>
         <form
