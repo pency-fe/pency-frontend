@@ -36,12 +36,20 @@ import NextLink from "next/link";
 // ----------------------------------------------------------------------
 
 export function PostIdPage() {
+  const theme = useTheme();
+
   return (
     <>
       <Header slots={{ left: <>left</>, right: <>right</> }} />
       <Main>
-        <Stack spacing={2} sx={{ maxWidth: "700px" }}>
-          <Stack spacing={1.5}>
+        <Stack spacing={1} sx={{ maxWidth: "700px" }}>
+          <Stack
+            spacing={1.5}
+            sx={{
+              borderRadius: 1.5,
+              bgcolor: theme.vars.palette.background.paper,
+            }}
+          >
             <Precaution />
             <Content />
             <PaidPostGuide />
@@ -145,7 +153,13 @@ function PaidPostGuide() {
   const theme = useTheme();
 
   return (
-    <Stack spacing={1}>
+    <Stack
+      spacing={1}
+      sx={{
+        paddingX: 2.5,
+        paddingY: 1.5,
+      }}
+    >
       <Typography variant="body1" color={theme.vars.palette.text.secondary}>
         이어지는 내용이 궁금하다면?
       </Typography>
@@ -154,10 +168,8 @@ function PaidPostGuide() {
         sx={{
           display: "flex",
           alignItems: "center",
-          borderWidth: 1,
-          borderStyle: "solid",
-          borderColor: theme.vars.palette.divider,
           borderRadius: 1.5,
+          bgcolor: theme.vars.palette.background.neutral,
           paddingX: 2.5,
           paddingY: 1.5,
         }}
@@ -206,7 +218,17 @@ function ETC() {
   const theme = useTheme();
 
   return (
-    <Stack spacing={1}>
+    <Stack
+      spacing={1}
+      sx={{
+        display: "flex",
+        gap: 1.5,
+        bgcolor: theme.vars.palette.background.paper,
+        borderRadius: 1.5,
+        paddingX: 2.5,
+        paddingY: 1.5,
+      }}
+    >
       <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
         <EvaEyeOutlineIcon sx={{ color: theme.vars.palette.text.secondary, fontSize: theme.typography.body2 }} />
         <Typography variant="body2" sx={{ color: theme.vars.palette.text.secondary }}>
@@ -253,9 +275,7 @@ function ChannelAction() {
         display: "flex",
         alignItems: "center",
         gap: 1.5,
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.vars.palette.divider,
+        bgcolor: theme.vars.palette.background.paper,
         borderRadius: 1.5,
         paddingX: 2.5,
         paddingY: 1.5,
@@ -297,9 +317,7 @@ function PostLikeSummary() {
         display: "flex",
         flexDirection: "column",
         gap: 3,
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.vars.palette.divider,
+        bgcolor: theme.vars.palette.background.paper,
         borderRadius: 1.5,
         paddingX: 2.5,
         paddingY: 1.5,
@@ -371,9 +389,7 @@ function PostPrevNext() {
     <Stack
       spacing={1}
       sx={{
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.vars.palette.divider,
+        bgcolor: theme.vars.palette.background.paper,
         borderRadius: 1.5,
         paddingX: 2.5,
         paddingY: 1.5,
@@ -458,9 +474,7 @@ function OtherPostOfAuthor() {
   return (
     <Box
       sx={{
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.vars.palette.divider,
+        bgcolor: theme.vars.palette.background.paper,
         borderRadius: 1.5,
         paddingX: 2.5,
         paddingY: 1.5,
