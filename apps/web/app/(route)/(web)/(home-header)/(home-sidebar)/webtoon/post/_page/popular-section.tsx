@@ -51,7 +51,9 @@ export function PopularSection() {
           <Typography variant="h4">전체 인기 포스트</Typography>
           <Button
             component={NextLink}
-            href={genre !== "ALL" ? `/webtoon/post/list?genre=${genre}` : "/webtoon/post/list"}
+            href={
+              genre !== "ALL" ? `/webtoon/post/list?genre=${genre}&sort=POPULAR` : "/webtoon/post/list?sort=POPULAR"
+            }
             size="small"
             color="inherit"
             sx={{
