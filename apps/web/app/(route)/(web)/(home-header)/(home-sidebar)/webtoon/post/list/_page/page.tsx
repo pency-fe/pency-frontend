@@ -14,7 +14,6 @@ import {
   PaginationItem,
   useTheme,
   buttonBaseClasses,
-  buttonClasses,
 } from "@mui/material";
 import {
   EvaArrowIosDownwardFillIcon,
@@ -177,15 +176,13 @@ function PostList() {
                 genre: "ROMANCE",
                 title: "천재 궁수의 스트리밍",
                 channel: {
-                  channelId: "123",
-                  avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
-                  name: "김천재",
+                  channelUrl: "123",
+                  image: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
+                  title: "김천재",
                 },
                 likeCount: 0,
                 createdAt: 0,
                 keywords: ["환생", "판타지", "BJ", "미남", "너드"],
-                preview:
-                  "천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 천재 궁수의 스트리밍 ",
               }}
             />
           </Grid>
