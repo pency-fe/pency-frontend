@@ -44,7 +44,7 @@ export default function HeaderRight() {
   const { bool: dialogShow, setTrue: openDialog, setFalse: closeDialog } = useBooleanState(false);
 
   const handleClickOpen = async () => {
-    const isValidate = await trigger(["title", "genre"]);
+    const isValidate = await trigger(["title", "genre", "price"]);
     if (!isValidate) {
       return;
     }

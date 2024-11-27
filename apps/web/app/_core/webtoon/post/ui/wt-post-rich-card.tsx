@@ -27,18 +27,18 @@ type Props = {
     genre: Genre;
     title: string;
     channel: {
-      channelId: string;
-      avatar: string;
-      name: string;
+      channelUrl: string;
+      image: string;
+      title: string;
     };
     likeCount: number;
     createdAt: number;
     keywords: string[];
-    preview: string;
   };
+  hideGenre?: boolean;
 };
 
-export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
+export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data, hideGenre = false }, ref) => {
   return (
     <RichCard
       ref={ref}
@@ -55,7 +55,7 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, ref
         ),
         labels: (
           <>
-            {data.price && (
+            {data.price ? (
               <RichCard.Label
                 variant="soft"
                 color="success"
@@ -63,16 +63,20 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, ref
               >
                 {data.price}P
               </RichCard.Label>
-            )}
+            ) : null}
             <RichCard.Label variant="soft" color="secondary">
               {CREATION_TYPE_LABEL[data.creationType]}
             </RichCard.Label>
-            <RichCard.Label variant="soft" color="warning">
-              {PAIR_LABEL[data.pair]}
-            </RichCard.Label>
-            <RichCard.Label variant="soft" color="warning">
-              {GENRE_LABEL[data.genre]}
-            </RichCard.Label>
+            {data.pair !== "NONE" ? (
+              <RichCard.Label variant="soft" color="warning">
+                {PAIR_LABEL[data.pair]}
+              </RichCard.Label>
+            ) : null}
+            {!hideGenre ? (
+              <RichCard.Label variant="soft" color="warning">
+                {GENRE_LABEL[data.genre]}
+              </RichCard.Label>
+            ) : null}
           </>
         ),
         avatarLink: (

@@ -163,7 +163,7 @@ function PostList() {
       </Box>
       <Grid container spacing={1}>
         {Array.from({ length: 12 }, (_, index) => (
-          <Grid item key={index} xs={15} sm={6} md={4} lg={3}>
+          <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
             <WT_Post_RichCard
               data={{
                 postId: "1",
