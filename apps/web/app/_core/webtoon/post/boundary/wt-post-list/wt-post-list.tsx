@@ -1,30 +1,52 @@
 "use client";
 
 import { withAsyncBoundary } from "@pency/util";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { wtPostKeys } from "../../query";
-import { useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import { Box, Grid, Skeleton, Stack } from "@mui/material";
+import { WT_Post_RichCard } from "../../ui";
+import React from "react";
 
 export const WebtoonPostList = withAsyncBoundary(WebtoonPostListFn, {
-  suspense: { fallback: <div>로딩중...</div> },
+  suspense: { fallback: <Loading /> },
   errorBoundary: {
-    FallbackComponent: <div>에러 발생!</div>,
+    fallback: <Loading />,
   },
 });
 
-function WebtoonPostListFn() {
-  const searchParams = useSearchParams();
-  const genre = useMemo(() => {
-    return searchParams.get("genre");
-  }, []);
-  const sort = useMemo(() => {
-    return searchParams.get("sort");
-  }, []);
-  const page = useMemo(() => {
-    return searchParams.get("page");
-  }, []);
+type WebtoonPostListFnProps = Parameters<typeof wtPostKeys.list>[0];
 
-  const { data } = useQuery(wtPostKeys.list({ genre, sort, page }));
-  return <></>;
+function WebtoonPostListFn({ genre, sort, page }: WebtoonPostListFnProps) {
+  const { data } = useSuspenseQuery(wtPostKeys.list({ genre, sort, page }));
+
+  return (
+    <Grid container spacing={1}>
+      {data.map((post, i) => (
+        <Grid item key={i} xs={12} sm={6} md={4}>
+          <WT_Post_RichCard data={post} hideGenre={genre !== "ALL"} />
+        </Grid>
+      ))}
+    </Grid>
+  );
+}
+
+function Loading() {
+  return (
+    <Grid container spacing={1}>
+      {Array.from({ length: 18 }, (_, i) => (
+        <Grid item key={i} xs={12} sm={6} md={4} sx={{ mb: 1.5 }}>
+          <Stack gap={1.5}>
+            <Skeleton animation="wave" sx={{ height: "auto", aspectRatio: "16/9" }} />
+            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+              <Skeleton variant="circular" animation="wave" width={36} height={36} />
+              <Stack sx={{ flex: "1 1 auto", gap: 0.5 }}>
+                <Skeleton animation="wave" height={14} />
+                <Skeleton animation="wave" height={12} />
+              </Stack>
+            </Box>
+          </Stack>
+        </Grid>
+      ))}
+    </Grid>
+  );
 }
