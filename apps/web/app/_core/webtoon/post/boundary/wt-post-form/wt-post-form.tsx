@@ -83,7 +83,7 @@ type WT_Post_Create_Form_Fn_Props = {
 
 const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
   const { channelUrl } = useParams();
-  const channel = channelUrl?.slice(3);
+  const channel = channelUrl?.slice(3); // @가 %40으로 표기되어 @이 제외된 index 3부터 시작
 
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
