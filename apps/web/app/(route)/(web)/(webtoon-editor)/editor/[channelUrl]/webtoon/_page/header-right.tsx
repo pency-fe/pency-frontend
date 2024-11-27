@@ -17,6 +17,7 @@ import {
 import { FormDialog, MaterialSymbolsCloseIcon, RadioMenuItem } from "@pency/ui/components";
 import { objectEntries, useBooleanState } from "@pency/util";
 import { useWTPostFormContext, WT_Post_Create_Form } from "_core/webtoon/post";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
 // ----------------------------------------------------------------------
@@ -32,6 +33,8 @@ const NAV_VALUE_LABEL: Record<NavValue, string> = {
 
 export default function HeaderRight() {
   const theme = useTheme();
+  const { channelUrl, postId } = useParams();
+
   const [navValue, setNavValue] = useState<NavValue>("publish");
 
   const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));

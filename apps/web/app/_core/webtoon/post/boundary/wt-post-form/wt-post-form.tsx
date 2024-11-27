@@ -1,6 +1,6 @@
 "use client";
 
-import { string, z, ZodError } from "zod";
+import { z, ZodError } from "zod";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import {
   Box,
@@ -28,14 +28,12 @@ import { varAlpha } from "@pency/ui/util";
 import { getUploadImageUrl } from "_core/common";
 import ky from "ky";
 import { LoadingButton } from "@mui/lab";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useWebtoonPostPublish } from "../../query";
 
 // ----------------------------------------------------------------------
 
 const schema = z.object({
-  channelUrl: z.string(),
-  postId: z.string(),
   title: z.string().min(1, "제목을 입력해 주세요.").max(100, "최대 100자 이내로 입력해 주세요."),
   genre: z.string().refine((value) => Object.keys(GENRE_LABEL).includes(value), { message: "장르를 선택해 주세요." }),
   price: z.preprocess(
@@ -81,19 +79,10 @@ type WT_Post_Create_Form_Fn_Props = {
   children?: ReactNode;
 };
 
-// [?] 검토: 타입스크립트 문제
 const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
-  const { channelUrl } = useParams();
-  const channel = useMemo(() => {
-    // @가 %40으로 표기되어 @이 제외된 index 3부터 시작
-    return channelUrl?.slice(3);
-  }, []);
-
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
-      channelUrl: channel as string,
-      postId: "",
       title: "",
       genre: "",
       price: 100,
@@ -135,8 +124,6 @@ const WT_Post_Update_Form_Fn = ({ children }: WT_Post_Update_Form_Fn_Props) => {
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
-      channelUrl: "",
-      postId: "",
       title: "",
       creationType: "PRIMARY",
       pair: "NONE",
@@ -159,14 +146,14 @@ type CreateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   const router = useRouter();
-  const { handleSubmit, getValues } = useWTPostFormContext();
+  const { handleSubmit } = useWTPostFormContext();
 
   const { mutate } = useWebtoonPostPublish();
 
   const onSubmit = (data: Schema) => {
     mutate(data, {
       onSuccess: (data) => {
-        router.push(`/@${getValues("channelUrl")}/webtoon/post/${data.postId}`);
+        router.push(`/@${"channelUrl"}/webtoon/post/${data.postId}`);
       },
     });
   };

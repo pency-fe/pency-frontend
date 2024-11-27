@@ -10,6 +10,7 @@ import HeaderRight from "./header-right";
 
 export function WebtoonPage() {
   const theme = useTheme();
+
   return (
     <WT_Post_Create_Form>
       <Header
