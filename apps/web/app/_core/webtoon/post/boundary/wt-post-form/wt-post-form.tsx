@@ -152,14 +152,14 @@ type CreateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   const router = useRouter();
-  const { mutate } = useWebtoonPostPublish();
+  const { handleSubmit, getValues } = useWTPostFormContext();
 
-  const { handleSubmit } = useWTPostFormContext();
+  const { mutate } = useWebtoonPostPublish();
 
   const onSubmit = (data: Schema) => {
     mutate(data, {
       onSuccess: (data) => {
-        router.push(`/@channel/webtoon/post/${data.postId}`);
+        router.push(`/@${getValues("channelUrl")}/webtoon/post/${data.postId}`);
       },
     });
   };
