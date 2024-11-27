@@ -1,6 +1,6 @@
 "use client";
 
-import { z, ZodError } from "zod";
+import { string, z, ZodError } from "zod";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import {
   Box,
@@ -28,7 +28,7 @@ import { varAlpha } from "@pency/ui/util";
 import { getUploadImageUrl } from "_core/common";
 import ky from "ky";
 import { LoadingButton } from "@mui/lab";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useWebtoonPostPublish } from "../../query";
 
 // ----------------------------------------------------------------------
@@ -82,10 +82,13 @@ type WT_Post_Create_Form_Fn_Props = {
 };
 
 const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
+  const { channelUrl } = useParams();
+  const channel = channelUrl?.slice(3);
+
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
-      channelUrl: "",
+      channelUrl: channel as string,
       postId: "",
       title: "",
       genre: "",
