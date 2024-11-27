@@ -2,7 +2,20 @@
 
 import { useMemo } from "react";
 import NextLink from "next/link";
-import { Stack, Box, Typography, MenuItem, Grid, Pagination, RadioGroup, Button, PaginationItem } from "@mui/material";
+import {
+  Stack,
+  Box,
+  Typography,
+  MenuItem,
+  Grid,
+  Pagination,
+  RadioGroup,
+  Button,
+  PaginationItem,
+  useTheme,
+  buttonBaseClasses,
+  buttonClasses,
+} from "@mui/material";
 import {
   EvaArrowIosDownwardFillIcon,
   EvaArrowIosUpwardFillIcon,
@@ -84,6 +97,8 @@ const SORT_LABEL: Record<Sort, string> = {
 };
 
 function PostList() {
+  const theme = useTheme();
+
   const searchParams = useSearchParams();
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
@@ -108,6 +123,9 @@ function PostList() {
             variant="outlined"
             onClick={toggle}
             endIcon={isOpen ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
+            sx={{
+              [`&.${buttonBaseClasses.root}`]: { color: theme.vars.palette.text.secondary },
+            }}
           >
             {SORT_LABEL[sortParam]}
           </Button>
