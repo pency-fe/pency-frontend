@@ -81,15 +81,15 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data, hideG
         ),
         avatarLink: (
           <RichCard.AvatarLink
-            href={`/channel/${data.channel.channelId}`}
+            href={`/channel/${data.channel.channelUrl}`}
             slots={{
-              avatar: <RichCard.AvatarLink.Avatar src={data.channel.avatar} />,
+              avatar: <RichCard.AvatarLink.Avatar src={data.channel.image} />,
             }}
           />
         ),
         title: <RichCard.Title>{data.title}</RichCard.Title>,
         nameLink: (
-          <RichCard.NameLink href={`/channel/${data.channel.channelId}`}>{data.channel.name}</RichCard.NameLink>
+          <RichCard.NameLink href={`/channel/${data.channel.channelUrl}`}>{data.channel.title}</RichCard.NameLink>
         ),
         attributes: (
           <>
@@ -120,26 +120,6 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data, hideG
                   />
                 ))
               : null}
-          </>
-        ),
-        accordion: (
-          <>
-            {data.preview.trim().length ? (
-              <RichCard.Accordion
-                slots={{
-                  summary: (
-                    <RichCard.Accordion.Summary expandIcon={<MingcuteDownLineIcon />}>
-                      미리보기
-                    </RichCard.Accordion.Summary>
-                  ),
-                  details: (
-                    <RichCard.Accordion.Details>
-                      <Box sx={{ ...maxLine({ line: 4 }) }}>{data.preview}</Box>
-                    </RichCard.Accordion.Details>
-                  ),
-                }}
-              />
-            ) : null}
           </>
         ),
       }}
