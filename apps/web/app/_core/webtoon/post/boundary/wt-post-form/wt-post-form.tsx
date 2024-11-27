@@ -81,6 +81,7 @@ type WT_Post_Create_Form_Fn_Props = {
   children?: ReactNode;
 };
 
+// [?] 검토: 타입스크립트 문제
 const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
   const { channelUrl } = useParams();
   const channel = useMemo(() => {
