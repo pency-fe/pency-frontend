@@ -33,7 +33,7 @@ const NAV_VALUE_LABEL: Record<NavValue, string> = {
 
 export default function HeaderRight() {
   const theme = useTheme();
-  const { channelUrl, postId } = useParams();
+  const { channelUrl } = useParams<{ channelUrl: string }>();
 
   const [navValue, setNavValue] = useState<NavValue>("publish");
 
@@ -93,7 +93,7 @@ export default function HeaderRight() {
                 발행 옵션
               </Typography>
 
-              <WT_Post_Create_Form.CreateSubmitButton sx={{ ml: "auto" }} />
+              <WT_Post_Create_Form.CreateSubmitButton channelUrl={channelUrl} sx={{ ml: "auto" }} />
             </>
           )}
         </FormDialog.Header>
@@ -196,7 +196,7 @@ export default function HeaderRight() {
 
         {isUpSm && (
           <FormDialog.Footer>
-            <WT_Post_Create_Form.CreateSubmitButton />
+            <WT_Post_Create_Form.CreateSubmitButton channelUrl={channelUrl} />
           </FormDialog.Footer>
         )}
       </FormDialog>

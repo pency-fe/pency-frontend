@@ -142,24 +142,28 @@ const WT_Post_Update_Form_Fn = ({ children }: WT_Post_Update_Form_Fn_Props) => {
 
 // ----------------------------------------------------------------------
 
-type CreateSubmitFnProps = Omit<ButtonProps, "children">;
+type CreateSubmitFnProps = Omit<ButtonProps, "children"> & { channelUrl: string };
 
-const CreateSubmitFn = (props: CreateSubmitFnProps) => {
+const CreateSubmitFn = ({ channelUrl, ...rest }: CreateSubmitFnProps) => {
   const router = useRouter();
   const { handleSubmit } = useWTPostFormContext();
 
   const { mutate } = useWebtoonPostPublish();
 
   const onSubmit = (data: Schema) => {
-    mutate(data, {
+    const mutateData: Parameters<typeof mutate>[0] = {
+      channelUrl,
+      ...data,
+    };
+    mutate(mutateData, {
       onSuccess: (data) => {
-        router.push(`/@${"channelUrl"}/webtoon/post/${data.postId}`);
+        router.push(`/@${channelUrl}/webtoon/post/${data.postId}`);
       },
     });
   };
 
   return (
-    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(onSubmit)} {...props}>
+    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(onSubmit)} {...rest}>
       발행
     </Button>
   );
