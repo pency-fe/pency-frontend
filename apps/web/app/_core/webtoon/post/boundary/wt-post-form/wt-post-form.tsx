@@ -28,6 +28,8 @@ import { varAlpha } from "@pency/ui/util";
 import { getUploadImageUrl } from "_core/common";
 import ky from "ky";
 import { LoadingButton } from "@mui/lab";
+import { useRouter } from "next/navigation";
+import { useWebtoonPostPublish } from "../../query";
 
 // ----------------------------------------------------------------------
 
@@ -149,16 +151,17 @@ const WT_Post_Update_Form_Fn = ({ children }: WT_Post_Update_Form_Fn_Props) => {
 type CreateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const CreateSubmitFn = (props: CreateSubmitFnProps) => {
-  // const router = useRouter();
-  // const { mutate } = usePostCreate();
+  const router = useRouter();
+  const { mutate } = useWebtoonPostPublish();
 
-  const {
-    handleSubmit,
-    //  setError
-  } = useWTPostFormContext();
+  const { handleSubmit } = useWTPostFormContext();
 
   const onSubmit = (data: Schema) => {
-    console.log("data: ", data);
+    mutate(data, {
+      onSuccess: (data) => {
+        router.push(`/@channel/webtoon/post/${data.postId}`);
+      },
+    });
   };
 
   return (

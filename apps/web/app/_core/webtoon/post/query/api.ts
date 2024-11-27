@@ -1,5 +1,3 @@
-import { Genre } from "_core/webtoon/const";
-import { Age, CreationType, Pair } from "../const";
 import { api } from "_core/api";
 
 // ----------------------------------------------------------------------
@@ -8,12 +6,12 @@ type WebtoonPostPublishReq = {
   channelUrl: string;
   postId?: string;
   title: string;
-  genre: Genre;
+  genre: string;
   thumbnail?: string;
-  creationType: CreationType;
-  pair: Pair;
+  creationType: string;
+  pair: string;
   keywords?: string[];
-  age: Age;
+  age: string;
   authorTalk?: string;
   precaution?: string;
   price?: number;
