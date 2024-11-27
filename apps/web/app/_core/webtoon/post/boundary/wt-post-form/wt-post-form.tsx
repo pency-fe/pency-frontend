@@ -249,25 +249,30 @@ const CreationTypeFn = () => {
 // ----------------------------------------------------------------------
 
 const PriceFn = () => {
-  const { control } = useWTPostFormContext();
+  const { control, getValues } = useWTPostFormContext();
+  const hasPaid = getValues("content.paid");
 
   return (
-    <Controller
-      control={control}
-      name="price"
-      render={({ field, fieldState: { error } }) => (
-        <TextField
-          {...field}
-          variant="outlined"
-          fullWidth
-          type="number"
-          label="가격 설정"
-          required
-          helperText={error ? error.message : "100P 단위로 입력해 주세요."}
-          error={!!error}
+    <>
+      {hasPaid.length !== 0 && (
+        <Controller
+          control={control}
+          name="price"
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              {...field}
+              variant="outlined"
+              fullWidth
+              type="number"
+              label="가격 설정"
+              required
+              helperText={error ? error.message : "100P 단위로 입력해 주세요."}
+              error={!!error}
+            />
+          )}
         />
       )}
-    />
+    </>
   );
 };
 
