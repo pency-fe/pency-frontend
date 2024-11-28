@@ -1,14 +1,13 @@
 "use client";
 
 import { ReactElement, createContext, forwardRef, useContext } from "react";
-import { Box, BoxProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
+import { Box, BoxProps, Grid, GridProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
 import { stylesColorScheme, varAlpha } from "@/util";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
-import Grid2, { Grid2Props } from "@mui/material/Unstable_Grid2";
 
 // ----------------------------------------------------------------------
 
@@ -42,9 +41,9 @@ const BannerCarouselFn = forwardRef<HTMLDivElement, BannerCarouselFnProps>(({ sl
     <BannerCarouselActionsContext.Provider value={{ onPrevNavClick, onNextNavClick }}>
       <Box ref={ref} {...rest} sx={{ position: "relative", ...rest.sx }}>
         <Box ref={emblaRef} sx={{ overflow: "hidden" }}>
-          <Grid2 container sx={{ flexWrap: "nowrap" }}>
+          <Grid container sx={{ flexWrap: "nowrap" }}>
             {slots.slides}
-          </Grid2>
+          </Grid>
         </Box>
         {slots.prevNav}
         {slots.nextNav}
@@ -59,13 +58,14 @@ type SlideFnProps = {
   slots: {
     image: ReactElement;
   };
-} & Grid2Props;
+} & GridProps;
 
 const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ slots, ...rest }, ref) => {
   const theme = useTheme();
 
   return (
-    <Grid2
+    <Grid
+      item
       ref={ref}
       xs={12}
       sm={8}
@@ -84,7 +84,7 @@ const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ slots, ...rest }, re
       }}
     >
       {slots.image}
-    </Grid2>
+    </Grid>
   );
 });
 
