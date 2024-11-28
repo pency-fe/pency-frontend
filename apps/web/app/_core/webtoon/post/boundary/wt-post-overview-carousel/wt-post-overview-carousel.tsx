@@ -41,20 +41,28 @@ function WebToonPostOverviewCarouselFn({ genre, sort, page }: WebToonPostOvervie
 function Loading() {
   return (
     <>
-      {Array.from({ length: 18 }, (_, i) => (
-        <OverviewCardCarousel.Slide key={i}>
-          <Stack gap={1.5}>
-            <Skeleton animation="wave" sx={{ height: "auto", aspectRatio: "16/9" }} />
-            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-              <Skeleton variant="circular" animation="wave" width={36} height={36} />
-              <Stack sx={{ flex: "1 1 auto", gap: 0.5 }}>
-                <Skeleton animation="wave" height={14} />
-                <Skeleton animation="wave" height={12} />
-              </Stack>
-            </Box>
-          </Stack>
-        </OverviewCardCarousel.Slide>
-      ))}
+      <OverviewCardCarousel.Container
+        slots={{
+          slides: (
+            <>
+              {Array.from({ length: 18 }, (_, i) => (
+                <OverviewCardCarousel.Slide key={i}>
+                  <Stack gap={1.5}>
+                    <Skeleton animation="wave" sx={{ height: "auto", aspectRatio: "16/9" }} />
+                    <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                      <Skeleton variant="circular" animation="wave" width={36} height={36} />
+                      <Stack sx={{ flex: "1 1 auto", gap: 0.5 }}>
+                        <Skeleton animation="wave" height={14} />
+                        <Skeleton animation="wave" height={12} />
+                      </Stack>
+                    </Box>
+                  </Stack>
+                </OverviewCardCarousel.Slide>
+              ))}
+            </>
+          ),
+        }}
+      />
     </>
   );
 }

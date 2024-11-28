@@ -9,14 +9,6 @@ import { stylesColorScheme } from "@pency/ui/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { WebToonPostOverviewCarousel } from "_core/webtoon/post";
 
-type Sort = "LATEST" | "POPULAR" | "WPOPULAR";
-
-const SORT_LABEL: Record<Sort, string> = {
-  LATEST: "최신순",
-  POPULAR: "전체 인기순",
-  WPOPULAR: "주간 인기순",
-};
-
 export function WeekPopularSection() {
   const theme = useTheme();
   const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -28,14 +20,6 @@ export function WeekPopularSection() {
       return param as Genre;
     }
     return "ALL" as const;
-  }, [searchParams]);
-
-  const sortParam = useMemo(() => {
-    const param = searchParams.get("sort");
-    if (param && Object.keys(SORT_LABEL).includes(param)) {
-      return param as Sort;
-    }
-    return "LATEST" as Sort;
   }, [searchParams]);
 
   return (
@@ -67,7 +51,7 @@ export function WeekPopularSection() {
           </Stack>
         </Box>
 
-        <WebToonPostOverviewCarousel genre={genreParam} sort={sortParam} page={1} />
+        <WebToonPostOverviewCarousel genre={genreParam} sort={"WPOPULAR"} page={1} />
       </OverviewCardCarousel>
     </Stack>
   );

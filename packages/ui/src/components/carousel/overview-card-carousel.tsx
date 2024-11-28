@@ -1,12 +1,11 @@
 "use client";
 
 import { ReactElement, ReactNode, createContext, forwardRef, useContext } from "react";
-import { Box, BoxProps, IconButton, IconButtonProps } from "@mui/material";
+import { Box, BoxProps, Grid, GridProps, IconButton, IconButtonProps } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
 import { noneUserSelect, queriesWithoutMedia } from "@/util";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
-import Grid2, { Grid2Props } from "@mui/material/Unstable_Grid2";
 import { EmblaViewportRefType } from "node_modules/embla-carousel-react";
 import { useCombinedRefs } from "@pency/util";
 
@@ -90,22 +89,22 @@ const ContainerFn = forwardRef<HTMLDivElement, ContainerFnProps>(({ slots, ...re
 
   return (
     <Box ref={refs} {...rest} sx={{ overflow: "hidden", ...rest.sx }}>
-      <Grid2 container spacing={1.5} sx={{ flexWrap: "nowrap" }}>
+      <Grid container spacing={1.5} sx={{ flexWrap: "nowrap" }}>
         {slots.slides}
-      </Grid2>
+      </Grid>
     </Box>
   );
 });
 
 // ----------------------------------------------------------------------
 
-type SlideFnProps = Grid2Props;
+type SlideFnProps = GridProps;
 
 const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ children, ...rest }, ref) => {
   return (
-    <Grid2 ref={ref} xs={11} sm={6} md={4} lg={3} {...rest} sx={{ flexShrink: 0, ...noneUserSelect, ...rest.sx }}>
+    <Grid item ref={ref} xs={11} sm={6} md={4} lg={3} {...rest} sx={{ flexShrink: 0, ...noneUserSelect, ...rest.sx }}>
       {children}
-    </Grid2>
+    </Grid>
   );
 });
 
