@@ -17,9 +17,9 @@ type Props = {
     genre: Genre;
     title: string;
     channel: {
-      channelId: string;
-      avatar: string;
-      name: string;
+      channelUrl: string;
+      image: string;
+      title: string;
     };
   };
 };
@@ -63,15 +63,17 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data },
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`/channel/${data.channel.channelId}`}
+            href={`/channel/${data.channel.channelUrl}`}
             slots={{
-              avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.avatar} />,
+              avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.image} />,
             }}
           />
         ),
         title: <OverviewCard.Title>{data.title}</OverviewCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/channel/${data.channel.channelId}`}>{data.channel.name}</OverviewCard.NameLink>
+          <OverviewCard.NameLink href={`/channel/${data.channel.channelUrl}`}>
+            {data.channel.title}
+          </OverviewCard.NameLink>
         ),
       }}
     />
