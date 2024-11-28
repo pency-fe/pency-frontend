@@ -27,7 +27,7 @@ function WebToonPostOverviewCarouselFn({ genre, sort, page }: WebToonPostOvervie
             <>
               {data.map((post, i) => (
                 <OverviewCardCarousel.Slide key={i}>
-                  <WT_Post_OverviewCard data={post} />
+                  <WT_Post_OverviewCard data={post} hideGenre={genre !== "ALL"} />
                 </OverviewCardCarousel.Slide>
               ))}
             </>

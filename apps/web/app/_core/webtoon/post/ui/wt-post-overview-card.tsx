@@ -22,9 +22,10 @@ type Props = {
       title: string;
     };
   };
+  hideGenre?: boolean;
 };
 
-export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
+export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data, hideGenre = false }, ref) => {
   return (
     <OverviewCard
       ref={ref}
@@ -41,7 +42,7 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data },
         ),
         labels: (
           <>
-            {data.price && (
+            {data.price ? (
               <OverviewCard.Label
                 variant="soft"
                 color="success"
@@ -49,16 +50,18 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data },
               >
                 {data.price}P
               </OverviewCard.Label>
-            )}
+            ) : null}
             <OverviewCard.Label variant="soft" color="secondary">
               {CREATION_TYPE_LABEL[data.creationType]}
             </OverviewCard.Label>
             <OverviewCard.Label variant="soft" color="warning">
               {PAIR_LABEL[data.pair]}
             </OverviewCard.Label>
-            <OverviewCard.Label variant="soft" color="warning">
-              {GENRE_LABEL[data.genre]}
-            </OverviewCard.Label>
+            {!hideGenre ? (
+              <OverviewCard.Label variant="soft" color="warning">
+                {GENRE_LABEL[data.genre]}
+              </OverviewCard.Label>
+            ) : null}
           </>
         ),
         avatarLink: (
