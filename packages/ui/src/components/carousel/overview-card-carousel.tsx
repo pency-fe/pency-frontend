@@ -140,7 +140,6 @@ const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
 });
 
 // ----------------------------------------------------------------------
-
 export const OverviewCardCarousel = Object.assign(OverviewCardCarouselFn, {
   Container: ContainerFn,
   Slide: SlideFn,

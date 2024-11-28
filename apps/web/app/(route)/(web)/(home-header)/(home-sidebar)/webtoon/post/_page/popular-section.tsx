@@ -1,13 +1,12 @@
 "use client";
 
 import { Box, Button, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { OverviewCardCarousel } from "@pency/ui/components";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import NextLink from "next/link";
 import { stylesColorScheme } from "@pency/ui/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { WebToonPostOverviewList } from "_core/webtoon/post";
+import { WT_Post_OverviewList } from "_core/webtoon/post";
 
 export function PopularSection() {
   const theme = useTheme();
@@ -24,7 +23,7 @@ export function PopularSection() {
 
   return (
     <Stack spacing={1}>
-      <OverviewCardCarousel>
+      <WT_Post_OverviewList>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography variant="h4">전체 인기 포스트</Typography>
           <Button
@@ -46,13 +45,13 @@ export function PopularSection() {
             더 보기
           </Button>
           <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
-            <OverviewCardCarousel.PrevNav size={isUpMd ? "medium" : "small"} />
-            <OverviewCardCarousel.NextNav size={isUpMd ? "medium" : "small"} />
+            <WT_Post_OverviewList.PrevNav size={isUpMd ? "medium" : "small"} />
+            <WT_Post_OverviewList.NextNav size={isUpMd ? "medium" : "small"} />
           </Stack>
         </Box>
 
-        <WebToonPostOverviewList genre={genreParam} sort={"POPULAR"} page={1} />
-      </OverviewCardCarousel>
+        <WT_Post_OverviewList.Container genre={genreParam} sort={"POPULAR"} page={1} />
+      </WT_Post_OverviewList>
     </Stack>
   );
 }
