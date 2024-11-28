@@ -23,9 +23,9 @@ export default function ChannelUrlLayout() {
           },
           [theme.breakpoints.up("lg")]: {
             height: "216px",
+            borderRadius: 1.5,
           },
           position: "relative",
-          borderRadius: 1.5,
           overflow: "hidden",
         }}
       >
