@@ -23,7 +23,7 @@ const EditorFn = () => {
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
   const [activeCutId, setActiveCutId] = useState<string | null>(null);
 
-  const content = watch("content");
+  const [free, paid] = watch(["free", "paid"]);
 
   const handleDragStart = ({ active }: DragStartEvent) => {
     setActiveCutId(active.id as string);
@@ -34,15 +34,13 @@ const EditorFn = () => {
 
     if (over && active.id !== over.id) {
       const boundary = { name: "paid-boundary-cut", src: "paid-boundary-cut" };
-      const oldContent = [...content.free, boundary, ...content.paid];
+      const oldContent = [...free, boundary, ...paid];
       const oldIndex = oldContent.findIndex(({ src }) => src === active.id);
       const newIndex = oldContent.findIndex(({ src }) => src === over.id);
       const newContent = arrayMove(oldContent, oldIndex, newIndex);
       const boundaryIndex = newContent.findIndex(({ src }) => src === "paid-boundary-cut");
-      setValue("content", {
-        free: newContent.slice(0, boundaryIndex),
-        paid: newContent.slice(boundaryIndex + 1),
-      });
+      setValue("free", newContent.slice(0, boundaryIndex));
+      setValue("paid", newContent.slice(boundaryIndex + 1));
     }
   };
 
@@ -64,7 +62,7 @@ const EditorFn = () => {
       onDragEnd={handleDragEnd}
     >
       <SortableContext
-        items={[...content.free.map(({ src }) => src), "paid-boundary-cut", ...content.paid.map(({ src }) => src)]}
+        items={[...free.map(({ src }) => src), "paid-boundary-cut", ...paid.map(({ src }) => src)]}
         strategy={horizontalListSortingStrategy}
       >
         <SortableCutManager />

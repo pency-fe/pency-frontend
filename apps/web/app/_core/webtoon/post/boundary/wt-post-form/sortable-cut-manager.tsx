@@ -58,20 +58,20 @@ export const SortableCutManager = () => {
   const theme = useTheme();
 
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const content = watch("content");
+  const [free, paid] = watch(["free", "paid"]);
 
   const handleRemove = () => {
-    let free = [...content.free];
-    let paid = [...content.paid];
+    const activeCuts = Array.from(store.activeCuts);
 
-    for (const activeCut of store.activeCuts.values()) {
-      free = free.filter(({ src }) => src !== activeCut);
-      paid = paid.filter(({ src }) => src !== activeCut);
-    }
-    setValue("content", {
-      free,
-      paid,
-    });
+    setValue(
+      "free",
+      free.filter(({ src }) => !activeCuts.includes(src)),
+    );
+    setValue(
+      "paid",
+      paid.filter(({ src }) => !activeCuts.includes(src)),
+    );
+
     store.clear();
   };
 
@@ -91,10 +91,10 @@ export const SortableCutManager = () => {
           });
         }
 
-        if (content.paid.length) {
-          setValue("content", { free: [...content.free], paid: [...content.paid, ...newCuts] });
+        if (paid.length) {
+          setValue("paid", [...paid, ...newCuts]);
         } else {
-          setValue("content", { free: [...content.free, ...newCuts], paid: [...content.paid] });
+          setValue("free", [...free, ...newCuts]);
         }
 
         setTimeout(() => {
@@ -113,7 +113,7 @@ export const SortableCutManager = () => {
       <ActiveCutsContext.Provider value={activeCutsStore}>
         <Stack gap={1}>
           <Typography variant="subtitle2">원고 등록</Typography>
-          {content.free.length !== 0 || content.paid.length !== 0 ? (
+          {free.length !== 0 || paid.length !== 0 ? (
             <>
               <Box sx={{ display: "flex", gap: 1 }}>
                 <Button variant="soft" color="primary" onClick={handleUpload}>
@@ -126,7 +126,7 @@ export const SortableCutManager = () => {
                 )}
               </Box>
               <Grid ref={scrollerRef} container wrap="nowrap" sx={{ width: 1, overflowX: "scroll", ml: "-5px" }}>
-                {content.free.map(({ src, name }, i) => (
+                {free.map(({ src, name }, i) => (
                   <Grid key={i} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
                     <SortableCut src={src} name={name} order={i + 1} />
                   </Grid>
@@ -134,16 +134,16 @@ export const SortableCutManager = () => {
                 <Grid item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
                   <SortablePaidBoundaryCut />
                 </Grid>
-                {content.paid.map(({ src, name }, i) => (
+                {paid.map(({ src, name }, i) => (
                   <Grid key={i} item xs={3.5} sm={2.5} sx={{ flexShrink: 0 }}>
-                    <SortableCut src={src} name={name} order={i + content.free.length + 1} />
+                    <SortableCut src={src} name={name} order={i + free.length + 1} />
                   </Grid>
                 ))}
               </Grid>
 
               <Box sx={{ aspectRatio: "1 / 1", overflow: "hidden" }}>
                 <Stack sx={{ width: 1, height: 1, overflowY: "scroll" }}>
-                  {[...content.free, ...content.paid].map(({ src }, i) => (
+                  {[...free, ...paid].map(({ src }, i) => (
                     <Box component="img" key={i} src={src} />
                   ))}
                 </Stack>
