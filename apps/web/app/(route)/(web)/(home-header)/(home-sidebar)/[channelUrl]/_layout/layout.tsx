@@ -20,6 +20,7 @@ export default function ChannelUrlLayout() {
           },
           [theme.breakpoints.up("sm")]: {
             height: "152px",
+            borderRadius: 1.5,
           },
           [theme.breakpoints.up("lg")]: {
             height: "216px",
