@@ -12,3 +12,13 @@ export const wtPostKeys = {
       queryFn: () => getPostList({ genre, sort, page }),
     }),
 };
+
+export const wtPostChannelKeys = {
+  all: [...wtPostKeys.all, "channel"],
+  lists: () => [...wtPostChannelKeys.all, "list"],
+  list: ({ channelUrl, sort, page }) =>
+    queryOptions({
+      queryKey: [...wtPostChannelKeys.lists(), { channelUrl, sort, page }],
+      queryFn: () => {},
+    }),
+};
