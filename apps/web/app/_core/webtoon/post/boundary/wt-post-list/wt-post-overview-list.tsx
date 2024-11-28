@@ -7,16 +7,16 @@ import { OverviewCardCarousel } from "@pency/ui/components";
 import { WT_Post_OverviewCard } from "../../ui";
 import { Box, Skeleton, Stack } from "@mui/material";
 
-export const WebToonPostOverviewCarousel = withAsyncBoundary(WebToonPostOverviewCarouselFn, {
+export const WebToonPostOverviewList = withAsyncBoundary(WebToonPostOverviewListFn, {
   suspense: { fallback: <Loading /> },
   errorBoundary: {
     fallback: <Loading />,
   },
 });
 
-type WebToonPostOverviewCarouselFnProps = Parameters<typeof wtPostKeys.list>[0];
+type WebToonPostOverviewListFnProps = Parameters<typeof wtPostKeys.list>[0];
 
-function WebToonPostOverviewCarouselFn({ genre, sort, page }: WebToonPostOverviewCarouselFnProps) {
+function WebToonPostOverviewListFn({ genre, sort, page }: WebToonPostOverviewListFnProps) {
   const { data } = useSuspenseQuery(wtPostKeys.list({ genre, page, sort }));
 
   return (

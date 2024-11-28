@@ -7,7 +7,7 @@ import NextLink from "next/link";
 import { stylesColorScheme } from "@pency/ui/util";
 import { useMemo } from "react";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { WebToonPostOverviewCarousel } from "_core/webtoon/post";
+import { WebToonPostOverviewList } from "_core/webtoon/post";
 
 export function LatestSection() {
   const theme = useTheme();
@@ -46,7 +46,7 @@ export function LatestSection() {
             <OverviewCardCarousel.NextNav size={isUpMd ? "medium" : "small"} />
           </Stack>
         </Box>
-        <WebToonPostOverviewCarousel genre={genreParam} sort={"LATEST"} page={1} />
+        <WebToonPostOverviewList genre={genreParam} sort={"LATEST"} page={1} />
       </OverviewCardCarousel>
     </Stack>
   );

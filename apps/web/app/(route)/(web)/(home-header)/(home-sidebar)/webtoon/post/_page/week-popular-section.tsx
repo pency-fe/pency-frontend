@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import NextLink from "next/link";
 import { stylesColorScheme } from "@pency/ui/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { WebToonPostOverviewCarousel } from "_core/webtoon/post";
+import { WebToonPostOverviewList } from "_core/webtoon/post";
 
 export function WeekPopularSection() {
   const theme = useTheme();
@@ -51,7 +51,7 @@ export function WeekPopularSection() {
           </Stack>
         </Box>
 
-        <WebToonPostOverviewCarousel genre={genreParam} sort={"WPOPULAR"} page={1} />
+        <WebToonPostOverviewList genre={genreParam} sort={"WPOPULAR"} page={1} />
       </OverviewCardCarousel>
     </Stack>
   );
