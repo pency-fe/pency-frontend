@@ -91,11 +91,9 @@ export const SortableCut = ({ src, name, order }: SortableCutProps) => {
 
 // ----------------------------------------------------------------------
 
-export const PAID_BOUNDARY_ID = "paid-boundary-cut";
-
 export const SortablePaidBoundaryCut = () => {
   const methods = useSortable({
-    id: PAID_BOUNDARY_ID,
+    id: "paid-boundary-cut",
   });
 
   const { attributes, setNodeRef, transform, transition, isDragging } = methods;

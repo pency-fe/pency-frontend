@@ -36,21 +36,13 @@ import { useWebtoonPostPublish } from "../../query";
 const schema = z.object({
   title: z.string().min(1, "제목을 입력해 주세요.").max(100, "최대 100자 이내로 입력해 주세요."),
   genre: z.string().refine((value) => Object.keys(GENRE_LABEL).includes(value), { message: "장르를 선택해 주세요." }),
-  price: z.preprocess(
-    (val) => {
-      if (typeof val === "string") {
-        return parseInt(val, 10); // 문자열을 숫자로 변환
-      }
-      return val;
-    },
-    z
-      .number()
-      .min(100, "최소 100P부터 설정 가능해요.")
-      .max(500000, "최대 500,000P까지 설정 가능해요.")
-      .refine((value) => value % 100 === 0, {
-        message: "포인트는 100P 단위로 설정해 주세요.",
-      }),
-  ),
+  price: z.coerce
+    .number()
+    .min(100, "최소 100P부터 설정 가능해요.")
+    .max(500000, "최대 500,000P까지 설정 가능해요.")
+    .refine((value) => value % 100 === 0, {
+      message: "포인트는 100P 단위로 설정해 주세요.",
+    }),
   content: z
     .object({
       free: z.array(z.object({ name: z.string(), src: z.string().url() })),
@@ -250,29 +242,35 @@ const CreationTypeFn = () => {
 // ----------------------------------------------------------------------
 
 const PriceFn = () => {
-  const { control, getValues } = useWTPostFormContext();
-  const hasPaid = getValues("content.paid");
+  const { control, watch } = useWTPostFormContext();
+  const paid = watch("content.paid");
 
   return (
     <>
-      {hasPaid.length !== 0 && (
-        <Controller
-          control={control}
-          name="price"
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              variant="outlined"
-              fullWidth
-              type="number"
-              label="가격 설정"
-              required
-              helperText={error ? error.message : "100P 단위로 입력해 주세요."}
-              error={!!error}
-            />
-          )}
-        />
-      )}
+      {/* {paid.length !== 0 ? ( */}
+      <Controller
+        control={control}
+        name="price"
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            {...field}
+            variant="outlined"
+            fullWidth
+            onChange={(event) => {
+              if (/^\d*$/.test(event.target.value)) {
+                event.target.value = `${Number(event.target.value)}`;
+                field.onChange(event);
+              }
+            }}
+            inputProps={{ inputMode: "numeric" }}
+            label="가격 설정"
+            required
+            helperText={error ? error.message : "100P 단위로 입력해 주세요."}
+            error={!!error}
+          />
+        )}
+      />
+      {/* ) : null} */}
     </>
   );
 };
@@ -702,7 +700,7 @@ export const WT_Post_Update_Form = Object.assign(WT_Post_Update_Form_Fn, {
   UpdateSubmitButton: UpdateSubmitFn,
   Title: TitleFn,
   Genre: GenreFn,
-  Editor: Editor,
+  // Editor: Editor,
   CreationType: CreationTypeFn,
   Pair: PairFn,
   Age: AgeFn,
