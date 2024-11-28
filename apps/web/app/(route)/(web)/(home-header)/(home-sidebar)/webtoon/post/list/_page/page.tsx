@@ -23,7 +23,7 @@ import {
 import { hideScrollX } from "@pency/ui/util";
 import { createQueryString, objectEntries } from "@pency/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { WebtoonPostList } from "_core/webtoon/post";
+import { WT_Post_RichList } from "_core/webtoon/post";
 import { useSearchParams } from "next/navigation";
 
 type Sort = "LATEST" | "POPULAR" | "WPOPULAR";
@@ -144,7 +144,7 @@ export function ListPage() {
             </Menux>
           </Box>
         </Box>
-        <WebtoonPostList genre={genreParam} sort={sortParam} page={1} />
+        <WT_Post_RichList genre={genreParam} sort={sortParam} page={1} />
         <Box sx={{ margin: "auto", mt: 3 }}>
           <Pagination count={10} />
         </Box>

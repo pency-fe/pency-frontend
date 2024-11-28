@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import NextLink from "next/link";
 import { stylesColorScheme } from "@pency/ui/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { WT_Post_OverviewList } from "_core/webtoon/post";
+import { WT_Post_OverviewCarousel } from "_core/webtoon/post";
 
 export function WeekPopularSection() {
   const theme = useTheme();
@@ -23,7 +23,7 @@ export function WeekPopularSection() {
 
   return (
     <Stack spacing={1}>
-      <WT_Post_OverviewList>
+      <WT_Post_OverviewCarousel>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography variant="h4">주간 인기 포스트</Typography>
           <Button
@@ -45,13 +45,13 @@ export function WeekPopularSection() {
             더 보기
           </Button>
           <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
-            <WT_Post_OverviewList.PrevNav size={isUpMd ? "medium" : "small"} />
-            <WT_Post_OverviewList.NextNav size={isUpMd ? "medium" : "small"} />
+            <WT_Post_OverviewCarousel.PrevNav size={isUpMd ? "medium" : "small"} />
+            <WT_Post_OverviewCarousel.NextNav size={isUpMd ? "medium" : "small"} />
           </Stack>
         </Box>
 
-        <WT_Post_OverviewList.Container genre={genreParam} sort={"WPOPULAR"} page={1} />
-      </WT_Post_OverviewList>
+        <WT_Post_OverviewCarousel.Container genre={genreParam} sort={"WPOPULAR"} page={1} />
+      </WT_Post_OverviewCarousel>
     </Stack>
   );
 }

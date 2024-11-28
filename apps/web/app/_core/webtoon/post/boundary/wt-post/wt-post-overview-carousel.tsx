@@ -8,11 +8,11 @@ import { WT_Post_OverviewCard } from "../../ui";
 import { Box, Skeleton, Stack } from "@mui/material";
 import { ComponentProps } from "react";
 
-export const WT_Post_OverviewList = Object.assign(
+export const WT_Post_OverviewCarousel = Object.assign(
   (props: ComponentProps<typeof OverviewCardCarousel>) => <OverviewCardCarousel {...props} />,
   {
     ...OverviewCardCarousel,
-    Container: withAsyncBoundary(WT_Post_OverviewList_Fn, {
+    Container: withAsyncBoundary(WT_Post_OverviewCarousel_Fn, {
       suspense: { fallback: <Loading /> },
       errorBoundary: {
         fallback: <Loading />,
@@ -21,9 +21,9 @@ export const WT_Post_OverviewList = Object.assign(
   },
 );
 
-type WT_Post_OverviewList_Fn_Props = Parameters<typeof wtPostKeys.list>[0];
+type WT_Post_OverviewCarousel_Fn_Props = Parameters<typeof wtPostKeys.list>[0];
 
-function WT_Post_OverviewList_Fn({ genre, sort, page }: WT_Post_OverviewList_Fn_Props) {
+function WT_Post_OverviewCarousel_Fn({ genre, sort, page }: WT_Post_OverviewCarousel_Fn_Props) {
   const { data } = useSuspenseQuery(wtPostKeys.list({ genre, page, sort }));
 
   return (

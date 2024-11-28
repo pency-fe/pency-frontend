@@ -48,12 +48,13 @@ function RadioTabButton() {
       value={genreParam}
       sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
     >
-      <RadioButton value="ALL" LinkComponent={NextLink} href="/webtoon/post" sx={{ flexShrink: 0 }}>
+      <RadioButton value="ALL" key="ALL" LinkComponent={NextLink} href="/webtoon/post" sx={{ flexShrink: 0 }}>
         전체
       </RadioButton>
       {genres.map(([genre, label]) => (
         <RadioButton
           value={genre}
+          key={genre}
           LinkComponent={NextLink}
           href={`/webtoon/post?genre=${genre}`}
           sx={{ flexShrink: 0 }}

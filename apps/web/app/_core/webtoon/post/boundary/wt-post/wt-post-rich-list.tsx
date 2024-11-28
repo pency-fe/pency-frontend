@@ -7,16 +7,16 @@ import { Box, Grid, Skeleton, Stack } from "@mui/material";
 import { WT_Post_RichCard } from "../../ui";
 import React from "react";
 
-export const WebtoonPostList = withAsyncBoundary(WebtoonPostListFn, {
+export const WT_Post_RichList = withAsyncBoundary(WT_Post_RichListFn, {
   suspense: { fallback: <Loading /> },
   errorBoundary: {
     fallback: <Loading />,
   },
 });
 
-type WebtoonPostListFnProps = Parameters<typeof wtPostKeys.list>[0];
+type WT_Post_RichListFnProps = Parameters<typeof wtPostKeys.list>[0];
 
-function WebtoonPostListFn({ genre, sort, page }: WebtoonPostListFnProps) {
+function WT_Post_RichListFn({ genre, sort, page }: WT_Post_RichListFnProps) {
   const { data } = useSuspenseQuery(wtPostKeys.list({ genre, sort, page }));
 
   return (
