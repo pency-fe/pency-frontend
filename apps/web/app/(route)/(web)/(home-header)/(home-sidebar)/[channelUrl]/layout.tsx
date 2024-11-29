@@ -1,5 +1,9 @@
 import ChannelUrlLayout from "./_layout/layout";
 
-export default function Layout() {
-  return <ChannelUrlLayout />;
+type Props = {
+  children: React.ReactNode;
+};
+
+export default function Layout({ children }: Props) {
+  return <ChannelUrlLayout>{children}</ChannelUrlLayout>;
 }

@@ -1,13 +1,60 @@
 "use client";
 
-import { Box, Button, IconButton, Link, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Link,
+  Stack,
+  Tab,
+  Tabs,
+  tabsClasses,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { EvaArrowIosForwardFillIcon, FluentShare24RegularIcon } from "@pency/ui/components";
 import { maxLine } from "@pency/ui/util";
+import { objectEntries } from "@pency/util";
 import NextLink from "next/link";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { useMemo } from "react";
 
-export default function ChannelUrlLayout() {
+// ----------------------------------------------------------------------
+
+type NavValue = "home" | "webtoon";
+
+const NAV_VALUE_LABEL: Record<NavValue, string> = {
+  home: "홈",
+  webtoon: "웹툰",
+} as const;
+
+type Props = {
+  children: React.ReactNode;
+};
+
+// ----------------------------------------------------------------------
+
+export default function ChannelUrlLayout({ children }: Props) {
   const theme = useTheme();
+  const router = useRouter();
+  const pathname = usePathname();
+  const { channelUrl } = useParams();
+  const decodedChannelUrl = useMemo(() => {
+    return decodeURIComponent(channelUrl as string);
+  }, [channelUrl]);
+
   const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
+
+  const navValue = useMemo(() => {
+    const platform = pathname.replace(`/${decodedChannelUrl}/`, "");
+
+    if (platform && Object.keys(NAV_VALUE_LABEL).includes(platform)) {
+      return platform as NavValue;
+    }
+
+    return "home" as NavValue;
+  }, [pathname]);
 
   return (
     <Box>
@@ -166,6 +213,27 @@ export default function ChannelUrlLayout() {
           <FluentShare24RegularIcon />
         </IconButton>
       </Box>
+      {/* 탭 */}
+      <Tabs
+        value={navValue}
+        onChange={(_, value) => {
+          if (value === "home") {
+            router.push(`/${decodedChannelUrl}`);
+            return;
+          }
+
+          if (value === "webtoon") {
+            router.push(`/${decodedChannelUrl}/${value}`);
+            return;
+          }
+        }}
+        sx={{ [`& .${tabsClasses.flexContainer}`]: { gap: 2 } }}
+      >
+        {objectEntries(NAV_VALUE_LABEL).map(([value, label]) => (
+          <Tab label={<Typography variant="subtitle2">{label}</Typography>} value={value} key={value} wrapped />
+        ))}
+      </Tabs>
+      {children}
     </Box>
   );
 }
