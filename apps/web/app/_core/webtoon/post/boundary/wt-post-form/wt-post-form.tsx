@@ -23,7 +23,7 @@ import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries, useBooleanState, zodObjectKeys } from "@pency/util";
 import { BrandPencyTextIcon, RadioButton, toast } from "@pency/ui/components";
-import { Editor } from "./editor";
+import { Editor } from "./editor/editor";
 import { varAlpha } from "@pency/ui/util";
 import { getUploadImageUrl } from "_core/common";
 import ky from "ky";
@@ -38,30 +38,42 @@ const keywordSchema = z
   .regex(/^[가-힣a-zA-Z0-9_]+$/, "키워드는 한글, 영문, 숫자, 밑줄(_)만 입력할 수 있어요.")
   .max(20, "키워드는 20자 이내로 입력해 주세요.");
 
-const schema = z.object({
-  title: z.string().trim().min(1, "제목을 입력해 주세요.").max(100, "최대 100자 이내로 입력해 주세요."),
-  genre: z.string().refine((value) => Object.keys(GENRE_LABEL).includes(value), { message: "장르를 선택해 주세요." }),
-  price: z.coerce
-    .number()
-    .min(100, "최소 100P부터 설정 가능해요.")
-    .max(500000, "최대 500,000P까지 설정 가능해요.")
-    .refine((value) => value % 100 === 0, {
-      message: "포인트는 100P 단위로 설정해 주세요.",
-    }),
-  free: z
-    .array(z.object({ name: z.string(), src: z.string().url() }))
-    .transform((free) => (free.length !== 0 ? free : null)),
-  paid: z
-    .array(z.object({ name: z.string(), src: z.string().url() }))
-    .transform((paid) => (paid.length !== 0 ? paid : null)),
-  thumbnail: z.string(),
-  creationType: z.enum(zodObjectKeys(CREATION_TYPE_LABEL)),
-  pair: z.enum(zodObjectKeys(PAIR_LABEL)),
-  age: z.enum(zodObjectKeys(AGE_LABEL)),
-  keywords: z.array(keywordSchema).max(10, "키워드는 최대 10개 이내로 입력해 주세요."),
-  authorTalk: z.string().max(200, "작가의 말은 200자 이내로 입력해 주세요."),
-  precaution: z.string().max(200, "읽기전 주의 사항은 200자 이내로 입력해 주세요."),
-});
+const schema = z
+  .object({
+    title: z.string().trim().min(1, "제목을 입력해 주세요.").max(100, "최대 100자 이내로 입력해 주세요."),
+    genre: z.string().refine((genre) => Object.keys(GENRE_LABEL).includes(genre), { message: "장르를 선택해 주세요." }),
+    price: z.coerce.number(),
+    content: z
+      .object({
+        free: z.array(z.object({ name: z.string(), src: z.string().url() })),
+        paid: z.array(z.object({ name: z.string(), src: z.string().url() })),
+      })
+      .refine(({ free, paid }) => free.length + paid.length === 0, { message: "웹툰 원고를 작성해 주세요." })
+      .refine(({ free, paid }) => free.length + paid.length > 100, { message: "최대 100장까지 작성할 수 있어요." }),
+    thumbnail: z.string(),
+    creationType: z.enum(zodObjectKeys(CREATION_TYPE_LABEL)),
+    pair: z.enum(zodObjectKeys(PAIR_LABEL)),
+    age: z.enum(zodObjectKeys(AGE_LABEL)),
+    keywords: z.array(keywordSchema).max(10, "키워드는 최대 10개 이내로 입력해 주세요."),
+    authorTalk: z.string().max(200, "작가의 말은 200자 이내로 입력해 주세요."),
+    precaution: z.string().max(200, "읽기전 주의 사항은 200자 이내로 입력해 주세요."),
+  })
+  .superRefine(({ content: { paid }, price }, ctx) => {
+    if (paid.length) {
+      if (price < 100) {
+        ctx.addIssue({ code: "custom", message: "최소 100포인트부터 설정 가능해요.", path: ["price"] });
+        return;
+      }
+      if (price > 500000) {
+        ctx.addIssue({ code: "custom", message: "최대 500,000포인트까지 설정 가능해요.", path: ["price"] });
+        return;
+      }
+      if (price % 100 !== 0) {
+        ctx.addIssue({ code: "custom", message: "포인트는 100P 단위로 설정해 주세요.", path: ["price"] });
+        return;
+      }
+    }
+  });
 
 type Schema = z.infer<typeof schema>;
 
@@ -82,17 +94,19 @@ const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
       title: "",
       genre: "",
       price: 0,
-      free: [
-        // { name: "1번하이하이하이하이하이.jpg", src: "https://glyph.pub/images/24/02/v/v8/v8nl9bz93rbol9lf.jpg" },
-        // { name: "2번.jpg", src: "https://glyph.pub/images/24/02/u/u3/u3603si0i06hows9.jpg" },
-      ],
-      paid: [
-        // { name: "3번.jpg", src: "https://glyph.pub/images/24/02/e/eb/ebo089j0ujdxb85t.jpg" },
-        // { name: "4번.jpg", src: "https://glyph.pub/images/24/02/o/ov/ovwj6mtqbdxv5lsz.jpg" },
-        // { name: "5번.jpg", src: "https://glyph.pub/images/24/02/o/o0/o0joo5zvmlzov04b.jpg" },
-        // { name: "6번.jpg", src: "https://glyph.pub/images/24/02/u/u6/u6r4flbjqib4q3or.jpg" },
-        // { name: "7번.jpg", src: "https://glyph.pub/images/24/02/y/yt/yt20v00uufyhrwcx.jpg" },
-      ],
+      content: {
+        free: [
+          // { name: "1번하이하이하이하이하이.jpg", src: "https://glyph.pub/images/24/02/v/v8/v8nl9bz93rbol9lf.jpg" },
+          // { name: "2번.jpg", src: "https://glyph.pub/images/24/02/u/u3/u3603si0i06hows9.jpg" },
+        ],
+        paid: [
+          // { name: "3번.jpg", src: "https://glyph.pub/images/24/02/e/eb/ebo089j0ujdxb85t.jpg" },
+          // { name: "4번.jpg", src: "https://glyph.pub/images/24/02/o/ov/ovwj6mtqbdxv5lsz.jpg" },
+          // { name: "5번.jpg", src: "https://glyph.pub/images/24/02/o/o0/o0joo5zvmlzov04b.jpg" },
+          // { name: "6번.jpg", src: "https://glyph.pub/images/24/02/u/u6/u6r4flbjqib4q3or.jpg" },
+          // { name: "7번.jpg", src: "https://glyph.pub/images/24/02/y/yt/yt20v00uufyhrwcx.jpg" },
+        ],
+      },
       thumbnail: "",
       creationType: "PRIMARY",
       pair: "NONE",
@@ -139,17 +153,12 @@ type CreateSubmitFnProps = Omit<ButtonProps, "children"> & { channelUrl: string 
 const CreateSubmitFn = ({ channelUrl, ...rest }: CreateSubmitFnProps) => {
   const router = useRouter();
   const { handleSubmit, watch } = useWTPostFormContext();
-  const [free, paid] = watch(["free", "paid"]);
 
   const { mutate } = useWebtoonPostPublish();
 
-  console.log("free1", free);
-  console.log("paid1", paid);
-
   const onSubmit = (data: Schema) => {
     console.log(data);
-    console.log("free", free);
-    console.log("paid", paid);
+
     // const mutateData: Parameters<typeof mutate>[0] = {
     //   channelUrl,
     //   ...data,
@@ -250,11 +259,12 @@ const CreationTypeFn = () => {
 
 const PriceFn = () => {
   const { control, watch } = useWTPostFormContext();
-  const paid = watch("paid");
+  const paid = watch("content.paid");
+
+  const hasPaid = useMemo(() => paid.length !== 0, [paid]);
 
   return (
     <>
-      {/* {paid.length !== 0 ? ( */}
       <Controller
         control={control}
         name="price"
@@ -272,12 +282,22 @@ const PriceFn = () => {
             inputProps={{ inputMode: "numeric" }}
             label="가격 설정"
             required
-            helperText={error ? error.message : "100P 단위로 입력해 주세요."}
-            error={!!error}
+            disabled={!hasPaid}
+            helperText={(() => {
+              if (hasPaid && error) {
+                return error.message;
+              }
+              if (hasPaid && !error) {
+                return "100P 단위로 입력해 주세요.";
+              }
+              if (!hasPaid) {
+                return "유료 분량이 있을 때만 설정할 수 있어요.";
+              }
+            })()}
+            error={hasPaid && !!error}
           />
         )}
       />
-      {/* ) : null} */}
     </>
   );
 };

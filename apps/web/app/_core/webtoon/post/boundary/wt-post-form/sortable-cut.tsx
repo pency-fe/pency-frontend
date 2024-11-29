@@ -4,9 +4,9 @@ import { CSS } from "@dnd-kit/utilities";
 import { Box, ButtonBase, useTheme } from "@mui/material";
 import { Cut, PaidBoundaryCut } from "./cut";
 import { useSortable } from "@dnd-kit/sortable";
-import { useActiveCutsContext } from "./sortable-cut-manager";
 import { MouseEventHandler, useRef } from "react";
 import { useCombinedRefs } from "@pency/util";
+import { useActiveCutsContext } from "./editor/editor";
 
 type Listeners = {
   onMouseDown: (event: MouseEvent) => void;
@@ -93,7 +93,7 @@ export const SortableCut = ({ src, name, order }: SortableCutProps) => {
 
 export const SortablePaidBoundaryCut = () => {
   const methods = useSortable({
-    id: "paid-boundary-cut",
+    id: "divider-cut",
   });
 
   const { attributes, setNodeRef, transform, transition, isDragging } = methods;
