@@ -79,7 +79,7 @@ export default function ChannelUrlLayout() {
         {/* 정보_세부 */}
         <Stack sx={{ display: "flex", maxWidth: "600px" }}>
           <Typography variant={isUpSm ? "h4" : "subtitle1"} sx={{ ...maxLine({ line: 1 }) }}>
-            채널명 채널명 채널명 채널명 채널명 채널명 채널명 채널명 채널명
+            채널명 채널명 채널명
           </Typography>
 
           <Box
@@ -99,7 +99,7 @@ export default function ChannelUrlLayout() {
               maxWidth={isUpSm ? 160 : 80}
               sx={{ ...maxLine({ line: 1 }) }}
             >
-              프로필명프로필명프로필명프로필명프로필명프로필명프로필명프로필명
+              프로필명프로필명프로필
             </Link>
             <Typography variant={isUpSm ? "body1" : "body2"}>구독자 8천명</Typography>
             <Typography variant={isUpSm ? "body1" : "body2"}>•</Typography>
@@ -131,26 +131,40 @@ export default function ChannelUrlLayout() {
         </Stack>
 
         {/* 버튼 */}
-        {isUpSm ? (
-          <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1, ml: "auto" }}>
-            <Button variant="contained">구독</Button>
-            <IconButton variant="soft" sx={{ borderRadius: 1 }}>
-              <FluentShare24RegularIcon />
-            </IconButton>
-          </Box>
-        ) : null}
-      </Box>
-      {/* 버튼 */}
-      {isUpSm ? null : (
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <Button variant="contained" fullWidth>
-            구독
-          </Button>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 1,
+            ml: "auto",
+            [theme.breakpoints.down("sm")]: {
+              display: "none",
+            },
+          }}
+        >
+          <Button variant="contained">구독</Button>
           <IconButton variant="soft" sx={{ borderRadius: 1 }}>
             <FluentShare24RegularIcon />
           </IconButton>
         </Box>
-      )}
+      </Box>
+      {/* 버튼 */}
+      <Box
+        sx={{
+          display: "flex",
+          gap: 1,
+          [theme.breakpoints.up("sm")]: {
+            display: "none",
+          },
+        }}
+      >
+        <Button variant="contained" fullWidth>
+          구독
+        </Button>
+        <IconButton variant="soft" sx={{ borderRadius: 1 }}>
+          <FluentShare24RegularIcon />
+        </IconButton>
+      </Box>
     </Box>
   );
 }
