@@ -101,6 +101,7 @@ export default function ChannelUrlLayout() {
             >
               프로필명프로필명프로필
             </Link>
+            <Typography variant={isUpSm ? "body1" : "body2"}>•</Typography>
             <Typography variant={isUpSm ? "body1" : "body2"}>구독자 8천명</Typography>
             <Typography variant={isUpSm ? "body1" : "body2"}>•</Typography>
             <Typography variant={isUpSm ? "body1" : "body2"}>포스트 1.1개</Typography>
