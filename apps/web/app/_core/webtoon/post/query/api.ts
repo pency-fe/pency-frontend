@@ -61,3 +61,5 @@ export const getPostList = async ({
 }) => {
   return await api.get<GetPostListRes>(`webtoon/post/list?genre=${genre}&sort=${sort}&page=${page}`).json();
 };
+
+// ----------------------------------------------------------------------
