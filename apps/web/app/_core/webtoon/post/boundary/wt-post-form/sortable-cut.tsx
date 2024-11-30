@@ -6,7 +6,7 @@ import { Cut, PaidBoundaryCut } from "./cut";
 import { useSortable } from "@dnd-kit/sortable";
 import { MouseEventHandler, useRef } from "react";
 import { useCombinedRefs } from "@pency/util";
-import { useActiveCutsContext } from "./editor/editor";
+import { useActiveCutsContext } from "./editor";
 
 type Listeners = {
   onMouseDown: (event: MouseEvent) => void;

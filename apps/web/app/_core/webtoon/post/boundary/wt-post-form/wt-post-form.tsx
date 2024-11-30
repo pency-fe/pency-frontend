@@ -23,7 +23,7 @@ import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries, useBooleanState, zodObjectKeys } from "@pency/util";
 import { BrandPencyTextIcon, RadioButton, toast } from "@pency/ui/components";
-import { Editor } from "./editor/editor";
+import { Editor } from "./editor";
 import { varAlpha } from "@pency/ui/util";
 import { getUploadImageUrl } from "_core/common";
 import ky from "ky";
