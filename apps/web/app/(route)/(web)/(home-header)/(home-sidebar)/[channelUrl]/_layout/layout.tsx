@@ -10,6 +10,7 @@ import {
   Tabs,
   tabsClasses,
   Typography,
+  typographyClasses,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -146,6 +147,16 @@ export default function ChannelUrlLayout({ children }: Props) {
               gap: 0.5,
               fontWeight: 400,
               color: theme.vars.palette.text.secondary,
+              [`& .${typographyClasses.root}`]: {
+                [theme.breakpoints.up("xs")]: {
+                  ...theme.typography.caption,
+                  maxWidth: 80,
+                },
+                [theme.breakpoints.up("sm")]: {
+                  ...theme.typography.body1,
+                  maxWidth: 160,
+                },
+              },
             }}
           >
             <Link
@@ -154,14 +165,6 @@ export default function ChannelUrlLayout({ children }: Props) {
               color={theme.vars.palette.text.primary}
               sx={{
                 ...maxLine({ line: 1 }),
-                [theme.breakpoints.up("xs")]: {
-                  ...theme.typography.body2,
-                  maxWidth: 80,
-                },
-                [theme.breakpoints.up("sm")]: {
-                  ...theme.typography.body1,
-                  maxWidth: 160,
-                },
               }}
             >
               프로필명프로필명프로필
@@ -239,6 +242,7 @@ export default function ChannelUrlLayout({ children }: Props) {
       {/* 탭 */}
       <Tabs
         value={navValue}
+        scrollButtons={false}
         onChange={(_, value) => {
           if (value === "home") {
             router.push(`/${decodedChannelUrl}`);

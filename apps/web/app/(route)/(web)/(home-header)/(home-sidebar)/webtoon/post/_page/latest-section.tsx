@@ -45,7 +45,7 @@ export function LatestSection() {
             <WT_Post_OverviewCarousel.NextNav size={isUpMd ? "medium" : "small"} />
           </Stack>
         </Box>
-        <WT_Post_OverviewCarousel.Container genre={genreParam} sort={"LATEST"} page={0} />
+        <WT_Post_OverviewCarousel.Container genre={genreParam} sort={"LATEST"} page={1} />
       </WT_Post_OverviewCarousel>
     </Stack>
   );

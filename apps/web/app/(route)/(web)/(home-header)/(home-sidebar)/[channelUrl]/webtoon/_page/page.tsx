@@ -128,7 +128,7 @@ export function WebtoonPage() {
           </Menux>
         </Box>
       </Box>
-      <WT_Post_Channel_RichList channelUrl={decodedChannelUrl} sort={sortParam} page={0} />
+      <WT_Post_Channel_RichList channelUrl={decodedChannelUrl} sort={sortParam} page={1} />
       <Box sx={{ margin: "auto", mt: 3 }}>
         <Pagination count={10} />
       </Box>

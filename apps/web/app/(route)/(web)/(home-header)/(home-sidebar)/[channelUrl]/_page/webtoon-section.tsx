@@ -66,7 +66,7 @@ export function WebtoonSection() {
           </RadioGroup>
           <Button
             component={NextLink}
-            href={`${decodedChannelUrl}/webtoon/list?content=${contentParam}&genre=ALL&sort=LATEST&page=0`}
+            href={`${decodedChannelUrl}/webtoon/list?content=${contentParam}&genre=ALL&sort=LATEST&page=1`}
             size="small"
             color="inherit"
             sx={{
@@ -110,7 +110,7 @@ export function WebtoonSection() {
           </Box>
         </Box>
 
-        <WT_Post_Channel_RichCarousel.Container channelUrl={decodedChannelUrl} sort="LATEST" page={0} />
+        <WT_Post_Channel_RichCarousel.Container channelUrl={decodedChannelUrl} sort="LATEST" page={1} />
       </WT_Post_Channel_RichCarousel>
     </Stack>
   );

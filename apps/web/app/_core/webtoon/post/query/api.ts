@@ -94,7 +94,8 @@ export const getPostChannelList = async ({
   sort?: "LATEST" | "POPULAR" | "WPOPULAR";
   page?: number;
 }) => {
-  return await api
-    .get<GetPosChannelListRes>(`webtoon/post/channel/list?channelUrl=${channelUrl}&sort=${sort}&page=${page}`)
-    .json();
+  // return await api
+  //   .get<GetPosChannelListRes>(`webtoon/post/channel/list?channelUrl=${channelUrl}&sort=${sort}&page=${page}`)
+  //   .json();
+  return await api.get<GetPostListRes>(`webtoon/post/list?sort=${sort}&page=${page}`).json();
 };
