@@ -378,7 +378,15 @@ function DetailDialog() {
           <Stack spacing={1.5}>
             <Typography variant="subtitle1">링크</Typography>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-              <BrandAppleIcon sx={{ mx: "10px", width: "1.25em", height: "1.25em" }} />
+              <BrandAppleIcon sx={{ mx: "10px", width: "1.5em", height: "1.5em" }} />
+              <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+              <BrandAppleIcon sx={{ mx: "10px", width: "1.5em", height: "1.5em" }} />
+              <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+              <BrandAppleIcon sx={{ mx: "10px", width: "1.5em", height: "1.5em" }} />
               <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
             </Box>
           </Stack>
