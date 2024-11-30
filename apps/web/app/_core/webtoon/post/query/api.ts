@@ -94,6 +94,7 @@ export const getPostChannelList = async ({
   sort?: "LATEST" | "POPULAR" | "WPOPULAR";
   page?: number;
 }) => {
+  // [TODO] aip 수정하기
   // return await api
   //   .get<GetPosChannelListRes>(`webtoon/post/channel/list?channelUrl=${channelUrl}&sort=${sort}&page=${page}`)
   //   .json();
