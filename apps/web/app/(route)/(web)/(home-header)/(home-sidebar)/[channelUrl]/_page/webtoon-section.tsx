@@ -64,46 +64,32 @@ export function WebtoonSection() {
               ))}
             </Box>
           </RadioGroup>
-          <Button
-            component={NextLink}
-            href={`${decodedChannelUrl}/webtoon/list?content=${contentParam}&genre=ALL&sort=LATEST&page=1`}
-            size="small"
-            color="inherit"
-            sx={{
-              color: theme.vars.palette.grey[500],
-              [stylesColorScheme.dark]: {
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: "auto" }}>
+            <Button
+              component={NextLink}
+              href={`${decodedChannelUrl}/webtoon?content=${contentParam}`}
+              size="small"
+              color="inherit"
+              sx={{
                 color: theme.vars.palette.grey[500],
-              },
-            }}
-          >
-            더 보기
-          </Button>
-          <Box sx={{ display: "flex", alignItems: "center", ml: "auto", gap: 1 }}>
+                [stylesColorScheme.dark]: {
+                  color: theme.vars.palette.grey[500],
+                },
+              }}
+            >
+              더 보기
+            </Button>
             <WT_Post_Channel_RichCarousel.PrevNav
               sx={{
-                [`& .${buttonBaseClasses.root}`]: {
-                  [theme.breakpoints.up("xs")]: {
-                    width: 30,
-                    height: 30,
-                  },
-                  [theme.breakpoints.up("md")]: {
-                    width: 36,
-                    height: 36,
-                  },
+                [theme.breakpoints.down("md")]: {
+                  display: "none",
                 },
               }}
             />
             <WT_Post_Channel_RichCarousel.NextNav
               sx={{
-                [`& .${buttonBaseClasses.root}`]: {
-                  [theme.breakpoints.up("xs")]: {
-                    width: 30,
-                    height: 30,
-                  },
-                  [theme.breakpoints.up("md")]: {
-                    width: 36,
-                    height: 36,
-                  },
+                [theme.breakpoints.down("md")]: {
+                  display: "none",
                 },
               }}
             />

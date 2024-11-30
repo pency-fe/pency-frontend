@@ -16,11 +16,11 @@ import { WT_Post_Channel_RichList } from "_core/webtoon/post";
 
 // ----------------------------------------------------------------------
 
-type contentValue = "post" | "series";
+type contentValue = "POST" | "SERIES";
 
 const CONTENT_VALUE_LABEL: Record<contentValue, string> = {
-  post: "포스트",
-  series: "시리즈",
+  POST: "포스트",
+  SERIES: "시리즈",
 } as const;
 
 type Sort = "LATEST" | "POPULAR" | "WPOPULAR";
@@ -55,7 +55,7 @@ export function WebtoonPage() {
   }, [searchParams]);
 
   const contentParam = useMemo(() => {
-    const param = searchParams.get("webtoon");
+    const param = searchParams.get("content");
     if (param && Object.keys(CONTENT_VALUE_LABEL).includes(param)) {
       return param as contentValue;
     }
@@ -74,7 +74,7 @@ export function WebtoonPage() {
                 value={content}
                 key={content}
                 LinkComponent={NextLink}
-                href={`/${decodedChannelUrl}/webtoon/?webtoon=${content}`}
+                href={`/${decodedChannelUrl}/webtoon/?content=${content}`}
                 sx={{ flexShrink: 0 }}
               >
                 {label}
