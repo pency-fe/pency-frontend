@@ -12,8 +12,9 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { arrayMove, horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import { useMemo, useState } from "react";
-import { Portal } from "@mui/material";
+import { createContext, useContext, useMemo, useState } from "react";
+import { Portal, Stack, Typography } from "@mui/material";
+import { createStore, useStore } from "zustand";
 
 const DIVIDER_CUT_ID = "divider-cut";
 
@@ -68,6 +69,46 @@ const DndManagerFn = ({ children }: DndManagerFnProps) => {
 
 // ----------------------------------------------------------------------
 
+type ActiveCutIdsStore = {
+  activeCutIds: Set<string>;
+  toggleActiveCutId: (src: string) => void;
+  clear: () => void;
+};
+
+const createActiveCutIdsStore = () => {
+  return createStore<ActiveCutIdsStore>()((set) => ({
+    activeCutIds: new Set(),
+    toggleActiveCutId: (src) => {
+      set(({ activeCutIds }) => {
+        const newActiveCuts = new Set(activeCutIds);
+
+        if (newActiveCuts.has(src)) {
+          newActiveCuts.delete(src);
+        } else {
+          newActiveCuts.add(src);
+        }
+
+        return {
+          activeCutIds: newActiveCuts,
+        };
+      });
+    },
+    clear: () => set(() => ({ activeCutIds: new Set() })),
+  }));
+};
+
+const ActiveCutIdsContext = createContext<ReturnType<typeof createActiveCutIdsStore> | undefined>(undefined);
+
+function useActiveCutIdsContext<T>(selector: (state: ActiveCutIdsStore) => T): T {
+  const context = useContext(ActiveCutIdsContext);
+
+  if (!context) throw new Error(`부모로 <SortableManager /> 컴포넌트가 있어야 합니다.`);
+
+  return useStore(context, selector);
+}
+
+// ----------------------------------------------------------------------
+
 type SortableManagerFnProps = {
   children?: React.ReactNode;
 };
@@ -81,13 +122,21 @@ const SortableManagerFn = ({ children }: SortableManagerFnProps) => {
     },
   } = useController({ control, name: "content" });
 
+  const [activeCutIdsStore] = useState(createActiveCutIdsStore);
+  const store = useStore(activeCutIdsStore);
+
   const items = useMemo(
     () => [...free.map(({ src }) => src), DIVIDER_CUT_ID, ...paid.map(({ src }) => src)],
     [free, paid],
   );
+
   return (
     <SortableContext items={items} strategy={horizontalListSortingStrategy}>
-      {children}
+      <ActiveCutIdsContext.Provider value={activeCutIdsStore}>
+        <Stack gap={1}>
+          <Typography variant="subtitle2">원고 등록</Typography>
+        </Stack>
+      </ActiveCutIdsContext.Provider>
     </SortableContext>
   );
 };
