@@ -17,6 +17,7 @@ import {
   tabsClasses,
   Typography,
   typographyClasses,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import {
@@ -261,6 +262,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 function DetailDialog() {
   const theme = useTheme();
   const pathname = usePathname();
+  const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
 
   const [open, setOpen] = useState(false);
 
@@ -305,7 +307,7 @@ function DetailDialog() {
         <EvaArrowIosForwardFillIcon />
       </Box>
 
-      <BootstrapDialog onClose={handleClose} open={open} maxWidth="xs">
+      <BootstrapDialog onClose={handleClose} open={open} maxWidth="xs" fullScreen={isUpSm ? false : true}>
         <DialogTitle sx={{ m: 0, p: 2 }}>채널 및 크리에이터 정보</DialogTitle>
         <IconButton
           aria-label="close"
