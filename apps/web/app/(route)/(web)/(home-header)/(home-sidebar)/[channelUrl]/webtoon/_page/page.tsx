@@ -23,12 +23,11 @@ const CONTENT_VALUE_LABEL: Record<contentValue, string> = {
   SERIES: "시리즈",
 } as const;
 
-type Sort = "LATEST" | "POPULAR" | "WPOPULAR";
+type Sort = "LATEST" | "POPULAR";
 
 const SORT_LABEL: Record<Sort, string> = {
   LATEST: "최신순",
-  POPULAR: "전체 인기순",
-  WPOPULAR: "주간 인기순",
+  POPULAR: "인기순",
 };
 
 // ----------------------------------------------------------------------
