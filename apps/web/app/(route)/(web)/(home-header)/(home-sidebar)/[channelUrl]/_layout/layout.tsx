@@ -3,9 +3,14 @@
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   IconButton,
   Link,
   Stack,
+  styled,
   Tab,
   Tabs,
   tabsClasses,
@@ -13,12 +18,12 @@ import {
   typographyClasses,
   useTheme,
 } from "@mui/material";
-import { EvaArrowIosForwardFillIcon, FluentShare24RegularIcon } from "@pency/ui/components";
+import { EvaArrowIosForwardFillIcon, FluentShare24RegularIcon, MaterialSymbolsCloseIcon } from "@pency/ui/components";
 import { maxLine } from "@pency/ui/util";
 import { objectEntries } from "@pency/util";
 import NextLink from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -170,33 +175,7 @@ export default function ChannelUrlLayout({ children }: Props) {
             <Typography>포스트 1.1개</Typography>
           </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              height: "26px",
-              color: theme.vars.palette.text.secondary,
-              cursor: "pointer",
-            }}
-          >
-            <Typography
-              sx={{
-                ...maxLine({ line: 1 }),
-                [theme.breakpoints.up("xs")]: {
-                  ...theme.typography.caption,
-                },
-                [theme.breakpoints.up("sm")]: {
-                  ...theme.typography.body1,
-                },
-              }}
-            >
-              {/* 없을 경우, 채널 정보 */}
-              ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-              ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ
-            </Typography>
-            <EvaArrowIosForwardFillIcon />
-          </Box>
+          <InfoDialog />
         </Stack>
 
         {/* 버튼 */}
@@ -257,5 +236,78 @@ export default function ChannelUrlLayout({ children }: Props) {
       </Tabs>
       {children}
     </Box>
+  );
+}
+
+// ----------------------------------------------------------------------
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+
+function InfoDialog() {
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
+
+  const handleOpenClick = () => {
+    setOpen(true);
+  };
+
+  const handleCloseClick = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          height: "26px",
+          color: theme.vars.palette.text.secondary,
+          cursor: "pointer",
+        }}
+        onClick={handleOpenClick}
+      >
+        <Typography
+          sx={{
+            ...maxLine({ line: 1 }),
+            [theme.breakpoints.up("xs")]: {
+              ...theme.typography.caption,
+            },
+            [theme.breakpoints.up("sm")]: {
+              ...theme.typography.body1,
+            },
+          }}
+        >
+          {/* 없을 경우, 채널 정보 */}
+          ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+          ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ
+        </Typography>
+        <EvaArrowIosForwardFillIcon />
+
+        <BootstrapDialog onClose={handleCloseClick} open={open}>
+          <DialogTitle sx={{ m: 0, p: 2 }}>채널 및 크리에이터 정보</DialogTitle>
+          <IconButton
+            onClick={handleOpenClick}
+            sx={(theme) => ({
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: theme.palette.grey[500],
+            })}
+          >
+            <MaterialSymbolsCloseIcon />
+          </IconButton>
+          <DialogContent></DialogContent>
+        </BootstrapDialog>
+      </Box>
+    </>
   );
 }
