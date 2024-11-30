@@ -23,13 +23,7 @@ type DndManagerFnProps = {
 
 const DndManagerFn = ({ children }: DndManagerFnProps) => {
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
-  const { control } = useWTPostFormContext();
-  const {
-    field: {
-      value: { free, paid },
-      onChange,
-    },
-  } = useController({ control, name: "content" });
+  const { getValues, setValue } = useWTPostFormContext();
   const [draggedCutId, setDraggedCutId] = useState<string | null>(null);
 
   const handleDragStart = ({ active }: DragStartEvent) => {
@@ -42,7 +36,7 @@ const DndManagerFn = ({ children }: DndManagerFnProps) => {
     if (over && active.id !== over.id) {
       const boundary = { name: DIVIDER_CUT_ID, src: DIVIDER_CUT_ID };
 
-      const oldContent = [...free, boundary, ...paid];
+      const oldContent = [...getValues("content.free"), boundary, ...getValues("content.paid")];
 
       const oldIndex = oldContent.findIndex(({ src }) => src === active.id);
       const newIndex = oldContent.findIndex(({ src }) => src === over.id);
@@ -50,14 +44,9 @@ const DndManagerFn = ({ children }: DndManagerFnProps) => {
       const newContent = arrayMove(oldContent, oldIndex, newIndex);
       const boundaryIndex = newContent.findIndex(({ src }) => src === DIVIDER_CUT_ID);
 
-      onChange({ free: newContent.slice(0, boundaryIndex), paid: newContent.slice(boundaryIndex + 1) });
+      setValue("content", { free: newContent.slice(0, boundaryIndex), paid: newContent.slice(boundaryIndex + 1) });
     }
   };
-
-  const items = useMemo(
-    () => [...free.map(({ src }) => src), DIVIDER_CUT_ID, ...paid.map(({ src }) => src)],
-    [free, paid],
-  );
 
   return (
     <>
@@ -68,13 +57,37 @@ const DndManagerFn = ({ children }: DndManagerFnProps) => {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <SortableContext items={items} strategy={horizontalListSortingStrategy}>
-          {children}
-        </SortableContext>
+        {children}
       </DndContext>
       <Portal>
         <DragOverlay>{draggedCutId && draggedCutId !== DIVIDER_CUT_ID ? <></> : <></>}</DragOverlay>
       </Portal>
     </>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+type SortableManagerFnProps = {
+  children?: React.ReactNode;
+};
+
+const SortableManagerFn = ({ children }: SortableManagerFnProps) => {
+  const { control } = useWTPostFormContext();
+  const {
+    field: {
+      value: { free, paid },
+      onChange,
+    },
+  } = useController({ control, name: "content" });
+
+  const items = useMemo(
+    () => [...free.map(({ src }) => src), DIVIDER_CUT_ID, ...paid.map(({ src }) => src)],
+    [free, paid],
+  );
+  return (
+    <SortableContext items={items} strategy={horizontalListSortingStrategy}>
+      {children}
+    </SortableContext>
   );
 };
