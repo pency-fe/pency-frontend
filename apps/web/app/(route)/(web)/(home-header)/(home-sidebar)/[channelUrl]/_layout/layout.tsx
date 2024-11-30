@@ -257,7 +257,13 @@ export default function ChannelUrlLayout({ children }: Props) {
         sx={{ [`& .${tabsClasses.flexContainer}`]: { gap: 2 }, mb: 2 }}
       >
         {objectEntries(NAV_VALUE_LABEL).map(([value, label]) => (
-          <Tab label={<Typography variant="subtitle2">{label}</Typography>} value={value} key={value} wrapped />
+          <Tab
+            LinkComponent={NextLink}
+            label={<Typography variant="subtitle2">{label}</Typography>}
+            value={value}
+            key={value}
+            wrapped
+          />
         ))}
       </Tabs>
       {children}
