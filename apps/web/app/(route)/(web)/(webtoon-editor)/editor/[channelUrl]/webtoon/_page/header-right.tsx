@@ -145,7 +145,7 @@ export default function HeaderRight() {
                     setNavValue(value as NavValue);
                   }}
                   variant="scrollable"
-                  scrollButtons={false}
+                  x={false}
                   sx={{ [`& .${tabsClasses.flexContainer}`]: { gap: 2 } }}
                 >
                   {objectEntries(NAV_VALUE_LABEL).map(([value, label]) => (

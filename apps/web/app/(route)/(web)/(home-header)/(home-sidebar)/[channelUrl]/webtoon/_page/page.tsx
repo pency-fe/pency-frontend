@@ -9,7 +9,7 @@ import {
   EvaArrowIosDownwardFillIcon,
   Menux,
 } from "@pency/ui/components";
-import { objectEntries } from "@pency/util";
+import { createQueryString, objectEntries } from "@pency/util";
 import { useParams, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { WT_Post_Channel_RichList } from "_core/webtoon/post";
@@ -73,7 +73,11 @@ export function WebtoonPage() {
                 value={content}
                 key={content}
                 LinkComponent={NextLink}
-                href={`/${decodedChannelUrl}/webtoon/?content=${content}`}
+                href={(() => {
+                  const params = new URLSearchParams(searchParams.toString());
+                  params.set("content", content);
+                  return `/${decodedChannelUrl}/webtoon${createQueryString(params)}`;
+                })()}
                 sx={{ flexShrink: 0 }}
               >
                 {label}
@@ -116,7 +120,7 @@ export function WebtoonPage() {
                 <MenuItem
                   key={sort}
                   component={NextLink}
-                  href={`/${decodedChannelUrl}/webtoon?content=${contentParam}&sort=${sort}`}
+                  href={`/${decodedChannelUrl}/webtoon${createQueryString(params)}`}
                   selected={sortParam === sort}
                   onClick={close}
                 >
