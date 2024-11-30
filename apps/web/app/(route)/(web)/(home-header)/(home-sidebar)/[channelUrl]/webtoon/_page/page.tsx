@@ -59,7 +59,7 @@ export function WebtoonPage() {
       return param as contentValue;
     }
 
-    return "post" as contentValue;
+    return "POST" as contentValue;
   }, [searchParams]);
 
   return (
