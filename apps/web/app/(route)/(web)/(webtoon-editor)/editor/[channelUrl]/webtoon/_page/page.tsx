@@ -25,7 +25,6 @@ export function WebtoonPage() {
           <Stack spacing={4}>
             <WT_Post_Create_Form.Title />
             <WT_Post_Create_Form.Genre />
-            <WT_Post_Create_Form.Price />
             <WT_Post_Create_Form.Editor />
           </Stack>
         </Stack>

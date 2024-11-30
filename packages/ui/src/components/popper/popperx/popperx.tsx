@@ -1,24 +1,15 @@
 "use client";
 
-import {
-  ClickAwayListener,
-  ClickAwayListenerProps,
-  Grow,
-  MenuList,
-  Paper,
-  Popper,
-  PopperProps,
-  useTheme,
-} from "@mui/material";
-import { forwardRef, ReactNode } from "react";
+import { ClickAwayListener, ClickAwayListenerProps, Grow, Paper, Popper, PopperProps, useTheme } from "@mui/material";
+import { forwardRef } from "react";
 import { getTransformOrigin } from "../get-transform-origin";
 
-type MenuxProps = PopperProps & {
+type PopperxProps = PopperProps & {
   onClose: ClickAwayListenerProps["onClickAway"];
-  children?: ReactNode;
+  children?: React.ReactNode;
 };
 
-export const Menux = forwardRef<HTMLDivElement, MenuxProps>(
+export const Popperx = forwardRef<HTMLDivElement, PopperxProps>(
   ({ open = false, anchorEl, placement = "bottom", onClose, children, modifiers = [], ...rest }, ref) => {
     const theme = useTheme();
 
@@ -29,15 +20,13 @@ export const Menux = forwardRef<HTMLDivElement, MenuxProps>(
         anchorEl={anchorEl}
         placement={placement}
         transition
-        modifiers={[{ name: "preventOverflow", enabled: false }, ...modifiers]}
+        modifiers={[...modifiers]}
         {...rest}
       >
         {({ TransitionProps, placement }) => (
           <ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={onClose}>
             <Grow {...TransitionProps} style={{ transformOrigin: getTransformOrigin(placement) }}>
-              <Paper sx={{ p: "4px", boxShadow: theme.vars.customShadows.dropdown }}>
-                <MenuList disablePadding>{children}</MenuList>
-              </Paper>
+              <Paper sx={{ boxShadow: theme.vars.customShadows.dropdown }}>{children}</Paper>
             </Grow>
           </ClickAwayListener>
         )}

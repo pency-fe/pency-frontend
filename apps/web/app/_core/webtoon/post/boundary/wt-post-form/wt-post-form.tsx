@@ -23,13 +23,13 @@ import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries, useBooleanState, zodObjectKeys } from "@pency/util";
 import { BrandPencyTextIcon, RadioButton, toast } from "@pency/ui/components";
-import { Editor } from "./editor";
 import { varAlpha } from "@pency/ui/util";
 import { getUploadImageUrl } from "_core/common";
 import ky from "ky";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/navigation";
 import { useWebtoonPostPublish } from "../../query";
+import { Editor } from "./editor";
 
 // ----------------------------------------------------------------------
 
@@ -252,53 +252,6 @@ const CreationTypeFn = () => {
         </Stack>
       )}
     />
-  );
-};
-
-// ----------------------------------------------------------------------
-
-const PriceFn = () => {
-  const { control, watch } = useWTPostFormContext();
-  const paid = watch("content.paid");
-
-  const hasPaid = useMemo(() => paid.length !== 0, [paid]);
-
-  return (
-    <>
-      <Controller
-        control={control}
-        name="price"
-        render={({ field, fieldState: { error } }) => (
-          <TextField
-            {...field}
-            variant="outlined"
-            fullWidth
-            onChange={(event) => {
-              if (/^\d*$/.test(event.target.value)) {
-                event.target.value = `${Number(event.target.value)}`;
-                field.onChange(event);
-              }
-            }}
-            inputProps={{ inputMode: "numeric" }}
-            label="가격 설정"
-            required
-            disabled={!hasPaid}
-            helperText={(() => {
-              if (hasPaid && error) {
-                return error.message;
-              }
-              if (hasPaid && !error) {
-                return "100P 단위로 입력해 주세요.";
-              }
-              if (!hasPaid) {
-                return "유료 분량이 있을 때만 설정할 수 있어요.";
-              }
-            })()}
-            error={hasPaid && !!error}
-          />
-        )}
-      />
-    </>
   );
 };
 
@@ -702,7 +655,6 @@ export const WT_Post_Create_Form = Object.assign(WT_Post_Create_Form_Fn, {
   CreateSubmitButton: CreateSubmitFn,
   Title: TitleFn,
   Genre: GenreFn,
-  Price: PriceFn,
   Editor: Editor,
   CreationType: CreationTypeFn,
   Pair: PairFn,
@@ -722,7 +674,7 @@ export const WT_Post_Update_Form = Object.assign(WT_Post_Update_Form_Fn, {
   UpdateSubmitButton: UpdateSubmitFn,
   Title: TitleFn,
   Genre: GenreFn,
-  // Editor: Editor,
+  Editor: Editor,
   CreationType: CreationTypeFn,
   Pair: PairFn,
   Age: AgeFn,

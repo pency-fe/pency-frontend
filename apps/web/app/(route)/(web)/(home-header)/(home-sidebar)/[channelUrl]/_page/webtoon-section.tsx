@@ -1,7 +1,7 @@
 "use client";
 
 import NextLink from "next/link";
-import { Stack, Box, Typography, RadioGroup, Button, useTheme, buttonBaseClasses } from "@mui/material";
+import { Stack, Box, Typography, RadioGroup, Button, useTheme } from "@mui/material";
 import { RadioButton } from "@pency/ui/components";
 import { useParams, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
@@ -81,14 +81,14 @@ export function WebtoonSection() {
             </Button>
             <WT_Post_Channel_RichCarousel.PrevNav
               sx={{
-                [theme.breakpoints.down("md")]: {
+                [theme.breakpoints.down("sm")]: {
                   display: "none",
                 },
               }}
             />
             <WT_Post_Channel_RichCarousel.NextNav
               sx={{
-                [theme.breakpoints.down("md")]: {
+                [theme.breakpoints.down("sm")]: {
                   display: "none",
                 },
               }}
