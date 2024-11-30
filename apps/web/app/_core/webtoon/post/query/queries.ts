@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getPostList } from "./api";
+import { getPostChannelList, getPostList } from "./api";
 
 // ----------------------------------------------------------------------
 
@@ -18,9 +18,9 @@ export const wtPostKeys = {
 export const wtPostChannelKeys = {
   all: [...wtPostKeys.all, "channel"],
   lists: () => [...wtPostChannelKeys.all, "list"],
-  list: ({ channelUrl, sort, page }) =>
-    queryOptions({
+  list: ({ channelUrl, sort, page }: Required<Parameters<typeof getPostChannelList>[0]>) =>
+    queryOptions<Awaited<ReturnType<typeof getPostChannelList>>>({
       queryKey: [...wtPostChannelKeys.lists(), { channelUrl, sort, page }],
-      queryFn: () => {},
+      queryFn: () => getPostChannelList({ channelUrl, page, sort }),
     }),
 };

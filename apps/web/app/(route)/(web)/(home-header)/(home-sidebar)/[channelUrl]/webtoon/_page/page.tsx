@@ -11,7 +11,6 @@ import {
   buttonBaseClasses,
   MenuItem,
   Pagination,
-  ListItemIcon,
 } from "@mui/material";
 import {
   useMenuxState,
@@ -19,20 +18,8 @@ import {
   EvaArrowIosUpwardFillIcon,
   EvaArrowIosDownwardFillIcon,
   Menux,
-  RichCard,
-  EvaBookmarkOutlineIcon,
-  EvaHeartOutlineIcon,
-  EvaMoreVerticalOutlineIcon,
-  FluentShare24RegularIcon,
-  GravityUiCircleCheckFillIcon,
-  MaterialSymbolsBlockIcon,
-  MaterialSymbolsReportOutlineIcon,
-  MingcuteDownLineIcon,
-  NineteenCircleIcon,
 } from "@pency/ui/components";
-import { hideScrollX, maxLine } from "@pency/ui/util";
-import { objectEntries, createQueryString, formatRelativeTimeFromUTC } from "@pency/util";
-import { GENRE_LABEL, Genre } from "_core/webtoon/const";
+import { objectEntries, createQueryString } from "@pency/util";
 import { WT_Post_RichList } from "_core/webtoon/post";
 import { useParams, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
@@ -113,78 +100,74 @@ export function WebtoonPage() {
   }, [searchParams]);
 
   return (
-    <Stack spacing={3}>
-      {/* 라디오 버튼 */}
-      <RadioGroup value={contentParam}>
-        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-          {contents.map(([content, label]) => (
-            <RadioButton
-              value={content}
-              key={content}
-              LinkComponent={NextLink}
-              href={`/${decodedChannelUrl}/webtoon/?webtoon=${content}`}
-              sx={{ flexShrink: 0 }}
-            >
-              {label}
-            </RadioButton>
-          ))}
-        </Box>
-      </RadioGroup>
-
-      <Stack spacing={2}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h4">웹툰 포스트</Typography>
-
-          <Box ml="auto">
-            <Button
-              ref={anchorRef}
-              variant="outlined"
-              onClick={toggle}
-              endIcon={isOpen ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
-              sx={{
-                [`&.${buttonBaseClasses.root}`]: { color: theme.vars.palette.text.secondary },
-              }}
-            >
-              {SORT_LABEL[sortParam]}
-            </Button>
-            <Menux
-              open={isOpen}
-              anchorEl={anchorRef.current}
-              placement="bottom-end"
-              onClose={close}
-              modifiers={[
-                {
-                  name: "offset",
-                  options: {
-                    offset: [0, 6],
-                  },
-                },
-              ]}
-              sx={{ width: "150px" }}
-            >
-              {sorts.map(([sort, label]) => {
-                const params = new URLSearchParams(searchParams.toString());
-                params.set("sort", sort);
-                return (
-                  <MenuItem
-                    key={sort}
-                    component={NextLink}
-                    href={`/webtoon/post/list${createQueryString(params)}`}
-                    selected={sortParam === sort}
-                    onClick={close}
-                  >
-                    {label}
-                  </MenuItem>
-                );
-              })}
-            </Menux>
+    <Stack spacing={2}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        {/* 라디오 버튼 */}
+        <RadioGroup value={contentParam}>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            {contents.map(([content, label]) => (
+              <RadioButton
+                value={content}
+                key={content}
+                LinkComponent={NextLink}
+                href={`/${decodedChannelUrl}/webtoon/?webtoon=${content}`}
+                sx={{ flexShrink: 0 }}
+              >
+                {label}
+              </RadioButton>
+            ))}
           </Box>
+        </RadioGroup>
+
+        <Box ml="auto">
+          <Button
+            ref={anchorRef}
+            variant="outlined"
+            onClick={toggle}
+            endIcon={isOpen ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
+            sx={{
+              [`&.${buttonBaseClasses.root}`]: { color: theme.vars.palette.text.secondary },
+            }}
+          >
+            {SORT_LABEL[sortParam]}
+          </Button>
+          <Menux
+            open={isOpen}
+            anchorEl={anchorRef.current}
+            placement="bottom-end"
+            onClose={close}
+            modifiers={[
+              {
+                name: "offset",
+                options: {
+                  offset: [0, 6],
+                },
+              },
+            ]}
+            sx={{ width: "150px" }}
+          >
+            {sorts.map(([sort, label]) => {
+              const params = new URLSearchParams(searchParams.toString());
+              params.set("sort", sort);
+              return (
+                <MenuItem
+                  key={sort}
+                  component={NextLink}
+                  href={`/webtoon/post/list${createQueryString(params)}`}
+                  selected={sortParam === sort}
+                  onClick={close}
+                >
+                  {label}
+                </MenuItem>
+              );
+            })}
+          </Menux>
         </Box>
-        <WT_Post_RichList genre={"ALL"} sort={sortParam} page={1} />
-        <Box sx={{ margin: "auto", mt: 3 }}>
-          <Pagination count={10} />
-        </Box>
-      </Stack>
+      </Box>
+      <WT_Post_RichList genre={"ALL"} sort={sortParam} page={1} />
+      <Box sx={{ margin: "auto", mt: 3 }}>
+        <Pagination count={10} />
+      </Box>
     </Stack>
   );
 }

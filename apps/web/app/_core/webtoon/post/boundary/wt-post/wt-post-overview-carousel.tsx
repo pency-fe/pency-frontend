@@ -24,7 +24,7 @@ export const WT_Post_OverviewCarousel = Object.assign(
 type WT_Post_OverviewCarousel_Fn_Props = Parameters<typeof wtPostKeys.list>[0];
 
 function WT_Post_OverviewCarousel_Fn({ genre, sort, page }: WT_Post_OverviewCarousel_Fn_Props) {
-  const { data } = useSuspenseQuery(wtPostKeys.list({ genre, page, sort }));
+  const { data } = useSuspenseQuery(wtPostKeys.list({ genre, sort, page }));
 
   return (
     <OverviewCardCarousel.Container

@@ -125,7 +125,17 @@ export default function ChannelUrlLayout({ children }: Props) {
 
         {/* 정보_세부 */}
         <Stack sx={{ display: "flex", maxWidth: "600px" }}>
-          <Typography variant={isUpSm ? "h4" : "subtitle1"} sx={{ ...maxLine({ line: 1 }) }}>
+          <Typography
+            sx={{
+              ...maxLine({ line: 1 }),
+              [theme.breakpoints.up("xs")]: {
+                ...theme.typography.subtitle1,
+              },
+              [theme.breakpoints.up("sm")]: {
+                ...theme.typography.h4,
+              },
+            }}
+          >
             채널명 채널명 채널명
           </Typography>
 
@@ -141,17 +151,25 @@ export default function ChannelUrlLayout({ children }: Props) {
             <Link
               component={NextLink}
               href="TODO_프로필"
-              variant={isUpSm ? "subtitle1" : "subtitle2"}
               color={theme.vars.palette.text.primary}
-              maxWidth={isUpSm ? 160 : 80}
-              sx={{ ...maxLine({ line: 1 }) }}
+              sx={{
+                ...maxLine({ line: 1 }),
+                [theme.breakpoints.up("xs")]: {
+                  ...theme.typography.body2,
+                  maxWidth: 80,
+                },
+                [theme.breakpoints.up("sm")]: {
+                  ...theme.typography.body1,
+                  maxWidth: 160,
+                },
+              }}
             >
               프로필명프로필명프로필
             </Link>
-            <Typography variant={isUpSm ? "body1" : "body2"}>•</Typography>
-            <Typography variant={isUpSm ? "body1" : "body2"}>구독자 8천명</Typography>
-            <Typography variant={isUpSm ? "body1" : "body2"}>•</Typography>
-            <Typography variant={isUpSm ? "body1" : "body2"}>포스트 1.1개</Typography>
+            <Typography>•</Typography>
+            <Typography>구독자 8천명</Typography>
+            <Typography>•</Typography>
+            <Typography>포스트 1.1개</Typography>
           </Box>
 
           <Box
@@ -165,9 +183,14 @@ export default function ChannelUrlLayout({ children }: Props) {
             }}
           >
             <Typography
-              variant={isUpSm ? "body1" : "caption"}
               sx={{
                 ...maxLine({ line: 1 }),
+                [theme.breakpoints.up("xs")]: {
+                  ...theme.typography.caption,
+                },
+                [theme.breakpoints.up("sm")]: {
+                  ...theme.typography.body1,
+                },
               }}
             >
               {/* 없을 경우, 채널 정보 */}
@@ -227,7 +250,7 @@ export default function ChannelUrlLayout({ children }: Props) {
             return;
           }
         }}
-        sx={{ [`& .${tabsClasses.flexContainer}`]: { gap: 2 } }}
+        sx={{ [`& .${tabsClasses.flexContainer}`]: { gap: 2 }, mb: 2 }}
       >
         {objectEntries(NAV_VALUE_LABEL).map(([value, label]) => (
           <Tab label={<Typography variant="subtitle2">{label}</Typography>} value={value} key={value} wrapped />

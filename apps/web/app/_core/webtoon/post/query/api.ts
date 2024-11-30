@@ -63,3 +63,38 @@ export const getPostList = async ({
 };
 
 // ----------------------------------------------------------------------
+
+type GetPosChannelListRes = Array<{
+  postId: string;
+  thumbnail: string;
+  age: Age;
+  price: number;
+  purchased: boolean;
+  creationType: CreationType;
+  pair: Pair;
+  genre: Genre;
+  title: string;
+  channel: {
+    channelUrl: string;
+    image: string;
+    title: string;
+  };
+  likeCount: number;
+  createdAt: number;
+  keywords: string[];
+  preview: string;
+}>;
+
+export const getPostChannelList = async ({
+  channelUrl,
+  sort = "LATEST",
+  page = 1,
+}: {
+  channelUrl: string;
+  sort?: "LATEST" | "POPULAR" | "WPOPULAR";
+  page?: number;
+}) => {
+  return await api
+    .get<GetPosChannelListRes>(`webtoon/post/channel/list?channelUrl=${channelUrl}&sort=${sort}&page=${page}`)
+    .json();
+};
