@@ -9,7 +9,7 @@ import {
   EvaArrowIosDownwardFillIcon,
   Menux,
 } from "@pency/ui/components";
-import { objectEntries, createQueryString } from "@pency/util";
+import { objectEntries } from "@pency/util";
 import { useParams, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { WT_Post_Channel_RichList } from "_core/webtoon/post";
