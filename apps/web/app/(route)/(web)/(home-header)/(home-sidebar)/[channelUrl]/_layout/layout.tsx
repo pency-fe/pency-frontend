@@ -1,12 +1,13 @@
 "use client";
 
 import {
+  Avatar,
   Box,
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   IconButton,
   Link,
   Stack,
@@ -18,7 +19,14 @@ import {
   typographyClasses,
   useTheme,
 } from "@mui/material";
-import { EvaArrowIosForwardFillIcon, FluentShare24RegularIcon, MaterialSymbolsCloseIcon } from "@pency/ui/components";
+import {
+  BrandAppleIcon,
+  EvaArrowIosForwardFillIcon,
+  EvaInfoOutlineIcon,
+  EvaLink2FillIcon,
+  FluentShare24RegularIcon,
+  MaterialSymbolsCloseIcon,
+} from "@pency/ui/components";
 import { maxLine } from "@pency/ui/util";
 import { objectEntries } from "@pency/util";
 import NextLink from "next/link";
@@ -175,7 +183,7 @@ export default function ChannelUrlLayout({ children }: Props) {
             <Typography>포스트 1.1개</Typography>
           </Box>
 
-          <InfoDialog />
+          <DetailDialog />
         </Stack>
 
         {/* 버튼 */}
@@ -250,20 +258,24 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-function InfoDialog() {
+function DetailDialog() {
   const theme = useTheme();
+  const pathname = usePathname();
+
   const [open, setOpen] = useState(false);
 
-  const handleOpenClick = () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
-
-  const handleCloseClick = () => {
+  const handleClose = () => {
     setOpen(false);
   };
 
   return (
     <>
+      {/* <Button variant="outlined" onClick={handleClickOpen}>
+        Open dialog
+      </Button> */}
       <Box
         sx={{
           display: "flex",
@@ -273,7 +285,7 @@ function InfoDialog() {
           color: theme.vars.palette.text.secondary,
           cursor: "pointer",
         }}
-        onClick={handleOpenClick}
+        onClick={handleClickOpen}
       >
         <Typography
           sx={{
@@ -291,23 +303,87 @@ function InfoDialog() {
           ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ
         </Typography>
         <EvaArrowIosForwardFillIcon />
-
-        <BootstrapDialog onClose={handleCloseClick} open={open}>
-          <DialogTitle sx={{ m: 0, p: 2 }}>채널 및 크리에이터 정보</DialogTitle>
-          <IconButton
-            onClick={handleOpenClick}
-            sx={(theme) => ({
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: theme.palette.grey[500],
-            })}
-          >
-            <MaterialSymbolsCloseIcon />
-          </IconButton>
-          <DialogContent></DialogContent>
-        </BootstrapDialog>
       </Box>
+
+      <BootstrapDialog onClose={handleClose} open={open} maxWidth="xs">
+        <DialogTitle sx={{ m: 0, p: 2 }}>채널 및 크리에이터 정보</DialogTitle>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={(theme) => ({
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: theme.palette.grey[500],
+          })}
+        >
+          <MaterialSymbolsCloseIcon />
+        </IconButton>
+        <Divider />
+        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          {/* 채널 정보 */}
+          <Stack spacing={1.5}>
+            <Typography variant="subtitle1">채널 정보</Typography>
+            {/* 채널 정보_프로필 */}
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1.5,
+              }}
+            >
+              <Box
+                sx={{
+                  width: 40,
+                  minWidth: 40,
+                  height: 40,
+                  borderRadius: 1,
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <Box
+                  component="img"
+                  src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                  sx={{ position: "absolute", width: 1, height: 1, objectFit: "cover" }}
+                />
+              </Box>
+
+              <Stack sx={{ display: "flex", maxWidth: "600px" }}>
+                <Typography variant="subtitle1">채널명 채널명 채널명</Typography>
+                <Typography variant="caption" color={theme.vars.palette.text.secondary}>
+                  {/* 없을 경우, 채널 정보 */}
+                  ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+                  ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ
+                </Typography>
+              </Stack>
+            </Box>
+            {/* 채널 정보_URL */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+              <EvaLink2FillIcon sx={{ fontSize: 20, mx: "10px" }} />
+              <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
+            </Box>
+            {/* 채널 정보_구독자, 포스트 */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+              <EvaInfoOutlineIcon sx={{ fontSize: 20, mx: "10px" }} />
+              <Typography variant="body2">구독자 0명 • 포스트 0개</Typography>
+            </Box>
+          </Stack>
+          <Stack spacing={1.5}>
+            <Typography variant="subtitle1">크리에이터 정보</Typography>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+              <Avatar src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
+              <Typography variant="subtitle1">김천재</Typography>
+            </Box>
+          </Stack>
+          <Stack spacing={1.5}>
+            <Typography variant="subtitle1">링크</Typography>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+              <BrandAppleIcon sx={{ mx: "10px", width: "1.25em", height: "1.25em" }} />
+              <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
+            </Box>
+          </Stack>
+        </DialogContent>
+      </BootstrapDialog>
     </>
   );
 }

@@ -11,6 +11,7 @@ export * from "./eva-edit-outline-icon";
 export * from "./eva-eye-fill-icon";
 export * from "./eva-eye-off-fill-icon";
 export * from "./eva-heart-outline-icon";
+export * from "./eva-info-outline-icon";
 export * from "./eva-link-2-fill-icon";
 export * from "./eva-eye-outline-icon";
 export * from "./eva-menu-outline-icon";
