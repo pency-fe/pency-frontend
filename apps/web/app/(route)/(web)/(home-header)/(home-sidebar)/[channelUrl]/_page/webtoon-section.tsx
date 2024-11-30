@@ -11,11 +11,11 @@ import { stylesColorScheme } from "@pency/ui/util";
 
 // ----------------------------------------------------------------------
 
-type contentValue = "post" | "series";
+type contentValue = "POST" | "SERIES";
 
 const CONTENT_VALUE_LABEL: Record<contentValue, string> = {
-  post: "포스트",
-  series: "시리즈",
+  POST: "포스트",
+  SERIES: "시리즈",
 } as const;
 
 // ----------------------------------------------------------------------
@@ -37,7 +37,7 @@ export function WebtoonSection() {
       return param as contentValue;
     }
 
-    return "post" as contentValue;
+    return "POST" as contentValue;
   }, [searchParams]);
 
   return (
@@ -66,8 +66,7 @@ export function WebtoonSection() {
           </RadioGroup>
           <Button
             component={NextLink}
-            // [?] ${decodedChannelUrl}/webtoon/post/list[postId]로 취급되서 뷰어 페이지로 이동함
-            href={`${decodedChannelUrl}/webtoon/${contentParam}/list?genre=${"ALL"}?sort=${"latest"}?page=${0}`}
+            href={`${decodedChannelUrl}/webtoon/list?content=${contentParam}&genre=ALL&sort=LATEST&page=0`}
             size="small"
             color="inherit"
             sx={{
