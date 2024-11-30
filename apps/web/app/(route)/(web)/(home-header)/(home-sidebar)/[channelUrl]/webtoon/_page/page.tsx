@@ -116,7 +116,7 @@ export function WebtoonPage() {
                 <MenuItem
                   key={sort}
                   component={NextLink}
-                  href={`/${decodedChannelUrl}/webtoon?content=${contentParam}&sort=${sortParam}`}
+                  href={`/${decodedChannelUrl}/webtoon?content=${contentParam}&sort=${sort}`}
                   selected={sortParam === sort}
                   onClick={close}
                 >
