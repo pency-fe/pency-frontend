@@ -21,10 +21,12 @@ import {
   useTheme,
 } from "@mui/material";
 import {
-  BrandAppleIcon,
+  BrandInstagramIcon,
+  BrandTwitterIcon,
   EvaArrowIosForwardFillIcon,
   EvaInfoOutlineIcon,
   EvaLink2FillIcon,
+  FluentHome24RegularIcon,
   FluentShare24RegularIcon,
   MaterialSymbolsCloseIcon,
 } from "@pency/ui/components";
@@ -325,7 +327,7 @@ function DetailDialog() {
         <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
           {/* 채널 정보 */}
           <Stack spacing={1.5}>
-            <Typography variant="subtitle1">채널 정보</Typography>
+            <Typography variant="subtitle2">채널 정보</Typography>
             {/* 채널 정보_프로필 */}
             <Box
               sx={{
@@ -371,26 +373,69 @@ function DetailDialog() {
             </Box>
           </Stack>
           <Stack spacing={1.5}>
-            <Typography variant="subtitle1">크리에이터 정보</Typography>
+            {/* 크리에이터 정보 */}
+            <Typography variant="subtitle2">크리에이터 정보</Typography>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
               <Avatar src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
               <Typography variant="subtitle1">김천재</Typography>
             </Box>
           </Stack>
           <Stack spacing={1.5}>
-            <Typography variant="subtitle1">링크</Typography>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-              <BrandAppleIcon sx={{ mx: "10px", width: "1.5em", height: "1.5em" }} />
+            {/* 링크 */}
+            <Typography variant="subtitle2">링크</Typography>
+            <Link
+              component={NextLink}
+              href={`https://pency.co.kr:3000${pathname}`}
+              target="_blank"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+                textDecoration: "none",
+                "&:hover": {
+                  textDecoration: "none",
+                },
+              }}
+            >
+              <FluentHome24RegularIcon
+                sx={{ mx: "10px", width: "1.5em", height: "1.5em", color: theme.vars.palette.text.primary }}
+              />
               <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-              <BrandAppleIcon sx={{ mx: "10px", width: "1.5em", height: "1.5em" }} />
+            </Link>
+            <Link
+              component={NextLink}
+              target="_blank"
+              href={`https://pency.co.kr:3000${pathname}`}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+                textDecoration: "none",
+                "&:hover": {
+                  textDecoration: "none",
+                },
+              }}
+            >
+              <BrandTwitterIcon sx={{ mx: "10px", width: "1.5em", height: "1.5em" }} />
               <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-              <BrandAppleIcon sx={{ mx: "10px", width: "1.5em", height: "1.5em" }} />
+            </Link>
+            <Link
+              component={NextLink}
+              target="_blank"
+              href={`https://pency.co.kr:3000${pathname}`}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+                textDecoration: "none",
+                "&:hover": {
+                  textDecoration: "none",
+                },
+              }}
+            >
+              <BrandInstagramIcon sx={{ mx: "10px", width: "1.5em", height: "1.5em" }} />
               <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
-            </Box>
+            </Link>
           </Stack>
         </DialogContent>
       </BootstrapDialog>

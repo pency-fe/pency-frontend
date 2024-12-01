@@ -36,12 +36,14 @@ declare module "@mui/material/styles/createPalette" {
   interface Palette {
     logo: {
       apple: string;
+      twitter: string;
     };
   }
 
   interface PaletteOptions {
     logo: {
       apple: string;
+      twitter: string;
     };
   }
 }
@@ -140,9 +142,11 @@ const action = {
 const logo = {
   light: {
     apple: "#000000",
+    twitter: "#000000",
   },
   dark: {
     apple: "#FFFFFF",
+    twitter: "#FFFFFF",
   },
 };
 
