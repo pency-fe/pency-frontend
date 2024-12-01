@@ -1,6 +1,5 @@
 "use client";
 
-import "../global.css";
 import type {} from "@mui/material/themeCssVarsAugmentation";
 import type {} from "@mui/lab/themeAugmentation";
 
