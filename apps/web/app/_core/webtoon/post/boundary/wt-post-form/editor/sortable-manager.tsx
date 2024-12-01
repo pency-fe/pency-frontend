@@ -4,10 +4,11 @@ import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { createStore, useStore } from "zustand";
 import { useWTPostFormContext } from "../wt-post-form";
 import { useController } from "react-hook-form";
-import { Box, Button, Grid, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormHelperText, Grid, Stack, Typography, useTheme } from "@mui/material";
 import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { varAlpha } from "@pency/ui/util";
-import { DIVIDER_CUT_ID, SortableCut, SortableDividerCut } from "./sortable-cut";
+import { SortableCut, SortableDividerCut } from "./sortable-cut";
+import { DIVIDER_CUT_ID } from "./const";
 
 // ----------------------------------------------------------------------
 
@@ -60,6 +61,7 @@ export const SortableManager = () => {
       value: { free, paid },
       onChange,
     },
+    fieldState: { error },
   } = useController({ control, name: "content" });
 
   const [activeCutIdsStore] = useState(createActiveCutIdsStore);
@@ -178,29 +180,30 @@ export const SortableManager = () => {
             <Grid
               container
               sx={{
+                position: "relative",
                 width: 1,
-                justifyContent: "center",
                 bgcolor: varAlpha(theme.vars.palette.grey["500Channel"], 0.08),
                 borderRadius: 1,
               }}
             >
-              <Grid item xs={3.5} sm={2.5} sx={{ position: "relative", width: 1 }}>
-                <Box sx={{ width: 1, pt: "100%" }}>
-                  <Button
-                    variant="soft"
-                    color="primary"
-                    onClick={handleUpload}
-                    sx={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                    }}
-                  >
-                    업로드
-                  </Button>
-                </Box>
+              <Grid item xs={3.5} sm={2.5} sx={{ width: 1 }}>
+                <Box sx={{ width: 1, pt: "100%" }} />
               </Grid>
+
+              <Stack
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  alignItems: "center",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <Button variant="soft" color={error ? "error" : "primary"} onClick={handleUpload}>
+                  업로드
+                </Button>
+                {error ? <FormHelperText error={!!error}>{error.message}</FormHelperText> : null}
+              </Stack>
             </Grid>
           )}
         </Stack>
@@ -208,5 +211,3 @@ export const SortableManager = () => {
     </SortableContext>
   );
 };
-
-// ----------------------------------------------------------------------

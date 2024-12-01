@@ -13,11 +13,11 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Portal } from "@mui/material";
-import { DIVIDER_CUT_ID } from "./sortable-cut";
 import { SortableManager } from "./sortable-manager";
 import { Cut, DividerCut } from "./cut";
+import { DIVIDER_CUT_ID } from "./const";
 
 export const Editor = () => {
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
@@ -46,22 +46,28 @@ export const Editor = () => {
     }
   };
 
+  useEffect(() => {
+    const isReallyExit = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+    };
+    window.addEventListener("beforeunload", isReallyExit);
+    return () => window.removeEventListener("beforeunload", isReallyExit);
+  }, []);
+
   return (
-    <>
-      <DndContext
-        id="dnd-manager"
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableManager />
-        <Portal>
-          <DragOverlay>
-            {draggedCutId && draggedCutId !== DIVIDER_CUT_ID ? <Cut src={draggedCutId} /> : <DividerCut hidePrice />}
-          </DragOverlay>
-        </Portal>
-      </DndContext>
-    </>
+    <DndContext
+      id="dnd-manager"
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableManager />
+      <Portal>
+        <DragOverlay>
+          {draggedCutId && draggedCutId !== DIVIDER_CUT_ID ? <Cut src={draggedCutId} /> : <DividerCut hidePrice />}
+        </DragOverlay>
+      </Portal>
+    </DndContext>
   );
 };

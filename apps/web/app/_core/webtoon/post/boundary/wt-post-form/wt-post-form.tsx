@@ -40,7 +40,7 @@ const keywordSchema = z
 
 const schema = z
   .object({
-    title: z.string().trim().min(1, "제목을 입력해 주세요.").max(100, "최대 100자 이내로 입력해 주세요."),
+    title: z.string().min(1, "제목을 입력해 주세요.").max(100, "최대 100자 이내로 입력해 주세요."),
     genre: z.string().refine((genre) => Object.keys(GENRE_LABEL).includes(genre), { message: "장르를 선택해 주세요." }),
     price: z.coerce.number(),
     content: z
@@ -48,8 +48,26 @@ const schema = z
         free: z.array(z.object({ name: z.string(), src: z.string().url() })),
         paid: z.array(z.object({ name: z.string(), src: z.string().url() })),
       })
-      .refine(({ free, paid }) => free.length + paid.length === 0, { message: "웹툰 원고를 작성해 주세요." })
-      .refine(({ free, paid }) => free.length + paid.length > 100, { message: "최대 100장까지 작성할 수 있어요." }),
+      .superRefine(({ free, paid }, ctx) => {
+        if (free.length + paid.length === 0) {
+          ctx.addIssue({
+            code: "custom",
+            message: "원고를 작성해 주세요.",
+            fatal: true,
+          });
+          return z.NEVER;
+        }
+      })
+      .superRefine(({ free, paid }, ctx) => {
+        if (free.length + paid.length > 100) {
+          ctx.addIssue({
+            code: "custom",
+            message: "최대 100장까지 작성할 수 있어요.",
+            fatal: true,
+          });
+          return z.NEVER;
+        }
+      }),
     thumbnail: z.string(),
     creationType: z.enum(zodObjectKeys(CREATION_TYPE_LABEL)),
     pair: z.enum(zodObjectKeys(PAIR_LABEL)),
@@ -96,15 +114,15 @@ const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
       price: 0,
       content: {
         free: [
-          // { name: "1번하이하이하이하이하이.jpg", src: "https://glyph.pub/images/24/02/v/v8/v8nl9bz93rbol9lf.jpg" },
-          // { name: "2번.jpg", src: "https://glyph.pub/images/24/02/u/u3/u3603si0i06hows9.jpg" },
+          { name: "1번하이하이하이하이하이.jpg", src: "https://glyph.pub/images/24/02/v/v8/v8nl9bz93rbol9lf.jpg" },
+          { name: "2번.jpg", src: "https://glyph.pub/images/24/02/u/u3/u3603si0i06hows9.jpg" },
         ],
         paid: [
-          // { name: "3번.jpg", src: "https://glyph.pub/images/24/02/e/eb/ebo089j0ujdxb85t.jpg" },
-          // { name: "4번.jpg", src: "https://glyph.pub/images/24/02/o/ov/ovwj6mtqbdxv5lsz.jpg" },
-          // { name: "5번.jpg", src: "https://glyph.pub/images/24/02/o/o0/o0joo5zvmlzov04b.jpg" },
-          // { name: "6번.jpg", src: "https://glyph.pub/images/24/02/u/u6/u6r4flbjqib4q3or.jpg" },
-          // { name: "7번.jpg", src: "https://glyph.pub/images/24/02/y/yt/yt20v00uufyhrwcx.jpg" },
+          { name: "3번.jpg", src: "https://glyph.pub/images/24/02/e/eb/ebo089j0ujdxb85t.jpg" },
+          { name: "4번.jpg", src: "https://glyph.pub/images/24/02/o/ov/ovwj6mtqbdxv5lsz.jpg" },
+          { name: "5번.jpg", src: "https://glyph.pub/images/24/02/o/o0/o0joo5zvmlzov04b.jpg" },
+          { name: "6번.jpg", src: "https://glyph.pub/images/24/02/u/u6/u6r4flbjqib4q3or.jpg" },
+          { name: "7번.jpg", src: "https://glyph.pub/images/24/02/y/yt/yt20v00uufyhrwcx.jpg" },
         ],
       },
       thumbnail: "",
@@ -209,6 +227,7 @@ const TitleFn = () => {
           {...field}
           variant="outlined"
           fullWidth
+          autoComplete="off"
           type="text"
           label="포스트 제목"
           required

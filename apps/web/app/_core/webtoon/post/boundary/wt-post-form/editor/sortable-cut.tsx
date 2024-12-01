@@ -6,6 +6,7 @@ import { Box, ButtonBase, SxProps } from "@mui/material";
 import { memo, useCallback, useMemo } from "react";
 import { Cut, DividerCut } from "./cut";
 import { useActiveCutIdsContext } from "./sortable-manager";
+import { DIVIDER_CUT_ID } from "./const";
 
 type SortableCutProps = { src: string; name: string; order: number };
 
@@ -56,8 +57,6 @@ const SortableCutButton = memo(({ handleClick }: { handleClick: () => void }) =>
 });
 
 // ----------------------------------------------------------------------
-
-export const DIVIDER_CUT_ID = "divider-cut";
 
 export const SortableDividerCut = () => {
   const { attributes, setNodeRef, transform, transition, isDragging, listeners } = useSortable({

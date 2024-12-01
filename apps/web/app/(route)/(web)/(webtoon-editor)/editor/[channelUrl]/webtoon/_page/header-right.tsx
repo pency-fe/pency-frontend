@@ -44,7 +44,7 @@ export default function HeaderRight() {
   const { bool: dialogShow, setTrue: openDialog, setFalse: closeDialog } = useBooleanState(false);
 
   const handleClickOpen = async () => {
-    const isValidate = await trigger(["title", "genre", "price"]);
+    const isValidate = await trigger(["title", "genre", "content", "price"]);
     if (!isValidate) {
       return;
     }
@@ -145,7 +145,7 @@ export default function HeaderRight() {
                     setNavValue(value as NavValue);
                   }}
                   variant="scrollable"
-                  x={false}
+                  scrollButtons={false}
                   sx={{ [`& .${tabsClasses.flexContainer}`]: { gap: 2 } }}
                 >
                   {objectEntries(NAV_VALUE_LABEL).map(([value, label]) => (

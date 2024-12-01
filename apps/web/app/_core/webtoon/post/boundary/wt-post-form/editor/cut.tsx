@@ -122,7 +122,9 @@ const Price = memo(() => {
   const hasPaid = useMemo(() => paid.length !== 0, [paid]);
 
   useEffect(() => {
-    if (!hasPaid) {
+    if (hasPaid) {
+      field.onChange(100);
+    } else {
       field.onChange(0);
     }
   }, [hasPaid]);
@@ -151,6 +153,7 @@ const Price = memo(() => {
               <TextField
                 {...field}
                 variant="filled"
+                autoComplete="off"
                 onChange={(event) => {
                   if (/^\d*$/.test(event.target.value)) {
                     const value = Number(event.target.value);
