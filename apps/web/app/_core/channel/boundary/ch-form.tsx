@@ -280,13 +280,13 @@ const ImageFn = () => {
   return (
     <Stack spacing={1}>
       <Typography variant="subtitle2">채널 프로필 이미지</Typography>
-      <Stack spacing={1}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Box
           sx={{
             aspectRatio: 1 / 1,
             borderRadius: 1,
             overflow: "hidden",
-            width: "250px",
+            width: "128px",
           }}
         >
           {image ? (
@@ -307,22 +307,22 @@ const ImageFn = () => {
           )}
         </Box>
 
-        <Stack direction="row" alignItems="center">
-          <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
-            추천 비율(1:1) / 최대 50MB 이미지 파일
-          </Typography>
-
+        <Stack alignItems="flex-start">
           {image && (
             <Button variant="text" sx={{ mr: 1 }} onClick={remove}>
               삭제
             </Button>
           )}
 
-          <LoadingButton variant="soft" color="primary" loading={loading.bool} onClick={upload}>
+          <LoadingButton variant="soft" color="primary" loading={loading.bool} onClick={upload} sx={{}}>
             업로드
           </LoadingButton>
+
+          <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
+            추천 비율(1:1) / 최대 50MB 이미지 파일
+          </Typography>
         </Stack>
-      </Stack>
+      </Box>
     </Stack>
   );
 };
