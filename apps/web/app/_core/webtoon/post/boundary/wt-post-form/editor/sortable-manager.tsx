@@ -9,6 +9,11 @@ import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortabl
 import { varAlpha } from "@pency/ui/util";
 import { SortableCut, SortableDividerCut } from "./sortable-cut";
 import { DIVIDER_CUT_ID } from "./const";
+import { useBooleanState } from "@pency/util";
+import { LoadingButton } from "@mui/lab";
+import { toast } from "@pency/ui/components";
+import { getUploadImageUrl } from "_core/common";
+import ky from "ky";
 
 // ----------------------------------------------------------------------
 
@@ -52,12 +57,11 @@ export const useActiveCutIdsContext = <T,>(selector: (state: ActiveCutIdsStore) 
 
 // ----------------------------------------------------------------------
 
-const MIMES = ["image/jpeg", "image/png", "image/gif"] as const;
-
 export const SortableManager = () => {
   const { control } = useWTPostFormContext();
   const {
     field: {
+      name,
       value: { free, paid },
       onChange,
     },
@@ -67,6 +71,7 @@ export const SortableManager = () => {
   const [activeCutIdsStore] = useState(createActiveCutIdsStore);
   const store = useStore(activeCutIdsStore);
 
+  const loading = useBooleanState(false);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   const theme = useTheme();
@@ -85,27 +90,47 @@ export const SortableManager = () => {
   const handleUpload = () => {
     const picker = document.createElement("input");
     picker.type = "file";
-    picker.accept = MIMES.join(",");
+    picker.accept = ["image/jpeg", "image/png", "image/gif"].join(",");
     picker.multiple = true;
-    picker.addEventListener("change", () => {
+    picker.addEventListener("change", async () => {
       if (picker.files?.length) {
-        const newCuts = [];
-        for (const file of picker.files) {
-          const src = URL.createObjectURL(file);
-          newCuts.push({
-            name: src,
-            src: src,
-          });
+        if (free.length + paid.length + picker.files.length > 100) {
+          toast.error("최대 100장까지 작성할 수 있어요.");
+          return;
         }
+
+        for (const file of picker.files) {
+          if (file.size > 50 * 1024 * 1024) {
+            toast.error("최대 50MB 이미지만 업로드할 수 있어요.");
+            return;
+          }
+        }
+
+        loading.setTrue();
+        const cuts = await Promise.all(
+          [...picker.files].map(async (file) => {
+            const res = await getUploadImageUrl({
+              contentLength: file.size,
+              contentType: file.type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
+            });
+            await ky.put(res.signedUploadUrl, { body: file });
+
+            return {
+              name: file.name,
+              src: res.url,
+            };
+          }),
+        );
+        loading.setFalse();
 
         if (paid.length) {
           onChange({
             free,
-            paid: [...paid, ...newCuts],
+            paid: [...paid, ...cuts],
           });
         } else {
           onChange({
-            free: [...free, ...newCuts],
+            free: [...free, ...cuts],
             paid,
           });
         }
@@ -155,9 +180,9 @@ export const SortableManager = () => {
           {free.length !== 0 || paid.length !== 0 ? (
             <>
               <Box sx={{ display: "flex", gap: 1 }}>
-                <Button variant="soft" color="primary" onClick={handleUpload}>
+                <LoadingButton variant="soft" color="primary" loading={loading.bool} name={name} onClick={handleUpload}>
                   업로드
-                </Button>
+                </LoadingButton>
                 {store.activeCutIds.size !== 0 && (
                   <Button variant="soft" color="error" onClick={handleRemove}>
                     삭제
@@ -199,9 +224,15 @@ export const SortableManager = () => {
                   transform: "translate(-50%, -50%)",
                 }}
               >
-                <Button variant="soft" color={error ? "error" : "primary"} onClick={handleUpload}>
+                <LoadingButton
+                  variant="soft"
+                  color={error ? "error" : "primary"}
+                  loading={loading.bool}
+                  name={name}
+                  onClick={handleUpload}
+                >
                   업로드
-                </Button>
+                </LoadingButton>
                 {error ? <FormHelperText error={!!error}>{error.message}</FormHelperText> : null}
               </Stack>
             </Grid>

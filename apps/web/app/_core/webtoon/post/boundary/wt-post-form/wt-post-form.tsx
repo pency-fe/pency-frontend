@@ -1,7 +1,7 @@
 "use client";
 
 import { z, ZodError } from "zod";
-import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
+import { Controller, FormProvider, SubmitErrorHandler, SubmitHandler, useForm, useFormContext } from "react-hook-form";
 import {
   Box,
   Button,
@@ -114,15 +114,15 @@ const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
       price: 0,
       content: {
         free: [
-          { name: "1번하이하이하이하이하이.jpg", src: "https://glyph.pub/images/24/02/v/v8/v8nl9bz93rbol9lf.jpg" },
-          { name: "2번.jpg", src: "https://glyph.pub/images/24/02/u/u3/u3603si0i06hows9.jpg" },
+          // { name: "1번하이하이하이하이하이.jpg", src: "https://glyph.pub/images/24/02/v/v8/v8nl9bz93rbol9lf.jpg" },
+          // { name: "2번.jpg", src: "https://glyph.pub/images/24/02/u/u3/u3603si0i06hows9.jpg" },
         ],
         paid: [
-          { name: "3번.jpg", src: "https://glyph.pub/images/24/02/e/eb/ebo089j0ujdxb85t.jpg" },
-          { name: "4번.jpg", src: "https://glyph.pub/images/24/02/o/ov/ovwj6mtqbdxv5lsz.jpg" },
-          { name: "5번.jpg", src: "https://glyph.pub/images/24/02/o/o0/o0joo5zvmlzov04b.jpg" },
-          { name: "6번.jpg", src: "https://glyph.pub/images/24/02/u/u6/u6r4flbjqib4q3or.jpg" },
-          { name: "7번.jpg", src: "https://glyph.pub/images/24/02/y/yt/yt20v00uufyhrwcx.jpg" },
+          // { name: "3번.jpg", src: "https://glyph.pub/images/24/02/e/eb/ebo089j0ujdxb85t.jpg" },
+          // { name: "4번.jpg", src: "https://glyph.pub/images/24/02/o/ov/ovwj6mtqbdxv5lsz.jpg" },
+          // { name: "5번.jpg", src: "https://glyph.pub/images/24/02/o/o0/o0joo5zvmlzov04b.jpg" },
+          // { name: "6번.jpg", src: "https://glyph.pub/images/24/02/u/u6/u6r4flbjqib4q3or.jpg" },
+          // { name: "7번.jpg", src: "https://glyph.pub/images/24/02/y/yt/yt20v00uufyhrwcx.jpg" },
         ],
       },
       thumbnail: "",
@@ -166,30 +166,38 @@ const WT_Post_Update_Form_Fn = ({ children }: WT_Post_Update_Form_Fn_Props) => {
 
 // ----------------------------------------------------------------------
 
-type CreateSubmitFnProps = Omit<ButtonProps, "children"> & { channelUrl: string };
+type CreateSubmitFnProps = Omit<ButtonProps, "children"> & {
+  channelUrl: string;
+  submitErrorHandler?: SubmitErrorHandler<Schema>;
+};
 
-const CreateSubmitFn = ({ channelUrl, ...rest }: CreateSubmitFnProps) => {
+const CreateSubmitFn = ({ channelUrl, submitErrorHandler, ...rest }: CreateSubmitFnProps) => {
   const router = useRouter();
-  const { handleSubmit, watch } = useWTPostFormContext();
+  const { handleSubmit } = useWTPostFormContext();
 
   const { mutate } = useWebtoonPostPublish();
 
-  const onSubmit = (data: Schema) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<Schema> = (data) => {
+    const { content, ...rest } = data;
 
-    // const mutateData: Parameters<typeof mutate>[0] = {
-    //   channelUrl,
-    //   ...data,
-    // };
-    // mutate(mutateData, {
-    //   onSuccess: (data) => {
-    //     router.push(`/@${channelUrl}/webtoon/post/${data.postId}`);
-    //   },
-    // });
+    const mutateData: Parameters<typeof mutate>[0] = {
+      channelUrl,
+      ...rest,
+      ...content,
+    };
+    mutate(mutateData, {
+      onSuccess: (data) => {
+        router.push(`/@${channelUrl}/webtoon/post/${data.postId}`);
+      },
+    });
+  };
+
+  const onSubmitError: SubmitErrorHandler<Schema> = (errors, e) => {
+    submitErrorHandler?.(errors, e);
   };
 
   return (
-    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(onSubmit)} {...rest}>
+    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(onSubmit, onSubmitError)} {...rest}>
       발행
     </Button>
   );

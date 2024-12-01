@@ -6,10 +6,13 @@ import { Age, CreationType, Pair } from "../const";
 // ----------------------------------------------------------------------
 
 type WebtoonPostPublishReq = {
-  channelUrl: string;
   postId?: string;
+  channelUrl: string;
   title: string;
   genre: string;
+  price?: number;
+  free: Array<{ name: string; src: string }>;
+  paid: Array<{ name: string; src: string }>;
   thumbnail?: string;
   creationType: string;
   pair: string;
@@ -17,7 +20,6 @@ type WebtoonPostPublishReq = {
   age: string;
   authorTalk?: string;
   precaution?: string;
-  price?: number;
 };
 
 type WebtoonPostPublishRes = {

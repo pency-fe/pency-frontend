@@ -15,10 +15,10 @@ import {
   useTheme,
 } from "@mui/material";
 import { FormDialog, MaterialSymbolsCloseIcon, RadioMenuItem } from "@pency/ui/components";
-import { objectEntries, useBooleanState } from "@pency/util";
+import { objectEntries, objectKeys, useBooleanState } from "@pency/util";
 import { useWTPostFormContext, WT_Post_Create_Form } from "_core/webtoon/post";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { ComponentProps, useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +31,18 @@ const NAV_VALUE_LABEL: Record<NavValue, string> = {
   notification: "공지사항",
 } as const;
 
+type FieldName = "thumbnail" | "creationType" | "pair" | "age" | "keywords" | "authorTalk" | "precaution";
+
+const FIELD_NAME_TO_NAV_VALUE_MAP: Record<FieldName, NavValue> = {
+  thumbnail: "public",
+  creationType: "keyword",
+  pair: "keyword",
+  keywords: "keyword",
+  age: "public",
+  authorTalk: "notification",
+  precaution: "notification",
+};
+
 export default function HeaderRight() {
   const theme = useTheme();
   const { channelUrl } = useParams<{ channelUrl: string }>();
@@ -39,16 +51,41 @@ export default function HeaderRight() {
 
   const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
 
-  const { trigger } = useWTPostFormContext();
+  const { trigger, getFieldState } = useWTPostFormContext();
 
   const { bool: dialogShow, setTrue: openDialog, setFalse: closeDialog } = useBooleanState(false);
 
   const handleClickOpen = async () => {
-    const isValidate = await trigger(["title", "genre", "content", "price"]);
+    const names = ["title", "genre", "content", "price"] as const;
+
+    const isValidate = await trigger(names);
     if (!isValidate) {
-      return;
+      for (const name of names) {
+        if (getFieldState(name).error) {
+          document.getElementsByName(name)[0]?.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+      }
     }
+
     openDialog();
+  };
+
+  const submitErrorHandler: ComponentProps<typeof WT_Post_Create_Form.CreateSubmitButton>["submitErrorHandler"] = (
+    errors,
+  ) => {
+    const names = objectKeys(FIELD_NAME_TO_NAV_VALUE_MAP);
+
+    for (const name of names) {
+      if (errors[name]) {
+        setNavValue(FIELD_NAME_TO_NAV_VALUE_MAP[name]);
+        setTimeout(() => {
+          document.getElementsByName(name)[0]?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 200);
+
+        break;
+      }
+    }
   };
 
   return (
@@ -93,7 +130,11 @@ export default function HeaderRight() {
                 발행 옵션
               </Typography>
 
-              <WT_Post_Create_Form.CreateSubmitButton channelUrl={channelUrl} sx={{ ml: "auto" }} />
+              <WT_Post_Create_Form.CreateSubmitButton
+                channelUrl={channelUrl}
+                sx={{ ml: "auto" }}
+                submitErrorHandler={submitErrorHandler}
+              />
             </>
           )}
         </FormDialog.Header>
@@ -196,7 +237,7 @@ export default function HeaderRight() {
 
         {isUpSm && (
           <FormDialog.Footer>
-            <WT_Post_Create_Form.CreateSubmitButton channelUrl={channelUrl} />
+            <WT_Post_Create_Form.CreateSubmitButton channelUrl={channelUrl} submitErrorHandler={submitErrorHandler} />
           </FormDialog.Footer>
         )}
       </FormDialog>

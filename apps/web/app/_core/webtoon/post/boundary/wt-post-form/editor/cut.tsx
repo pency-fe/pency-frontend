@@ -133,7 +133,14 @@ const Price = memo(() => {
     <>
       {hasPaid ? (
         <>
-          <Button ref={anchorRef} size="small" variant="soft" color={error ? "error" : "inherit"} onClick={toggle}>
+          <Button
+            ref={anchorRef}
+            size="small"
+            variant="soft"
+            color={error ? "error" : "inherit"}
+            name={field.name}
+            onClick={toggle}
+          >
             가격 설정
           </Button>
           <Popperx
