@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactElement, ReactNode, createContext, forwardRef, useContext } from "react";
-import { Box, BoxProps, Grid, GridProps, IconButton, IconButtonProps } from "@mui/material";
+import { Box, BoxProps, Grid, GridProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
 import { noneUserSelect, queriesWithoutMedia } from "@/util";
@@ -113,12 +113,25 @@ const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ children, ...rest },
 type PrevNavFnProps = IconButtonProps;
 
 const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
+  const theme = useTheme();
   const { prevNavDisabled } = useData("OverviewCardCarousel.PrevNav");
   const { onPrevNavClick } = useActions("OverviewCardCarousel.PrevNav");
 
   return (
     <>
-      <IconButton ref={ref} variant="outlined" disabled={prevNavDisabled} onClick={onPrevNavClick} {...rest}>
+      <IconButton
+        ref={ref}
+        variant="outlined"
+        disabled={prevNavDisabled}
+        onClick={onPrevNavClick}
+        {...rest}
+        sx={{
+          [theme.breakpoints.down("sm")]: {
+            display: "none",
+          },
+          ...rest.sx,
+        }}
+      >
         <EvaArrowIosBackFillIcon />
       </IconButton>
     </>
@@ -130,10 +143,23 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
 type NextNavFnProps = IconButtonProps;
 
 const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
+  const theme = useTheme();
   const { nextNavDisabled } = useData("OverviewCardCarousel.NextNav");
   const { onNextNavClick } = useActions("OverviewCardCarousel.NextNav");
   return (
-    <IconButton ref={ref} variant="outlined" disabled={nextNavDisabled} onClick={onNextNavClick} {...rest}>
+    <IconButton
+      ref={ref}
+      variant="outlined"
+      disabled={nextNavDisabled}
+      onClick={onNextNavClick}
+      {...rest}
+      sx={{
+        [theme.breakpoints.down("sm")]: {
+          display: "none",
+        },
+        ...rest.sx,
+      }}
+    >
       <EvaArrowIosForwardFillIcon />
     </IconButton>
   );

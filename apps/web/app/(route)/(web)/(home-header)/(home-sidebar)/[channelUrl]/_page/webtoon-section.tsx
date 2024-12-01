@@ -79,20 +79,8 @@ export function WebtoonSection() {
             >
               더 보기
             </Button>
-            <WT_Post_Channel_RichCarousel.PrevNav
-              sx={{
-                [theme.breakpoints.down("sm")]: {
-                  display: "none",
-                },
-              }}
-            />
-            <WT_Post_Channel_RichCarousel.NextNav
-              sx={{
-                [theme.breakpoints.down("sm")]: {
-                  display: "none",
-                },
-              }}
-            />
+            <WT_Post_Channel_RichCarousel.PrevNav />
+            <WT_Post_Channel_RichCarousel.NextNav />
           </Box>
         </Box>
 
