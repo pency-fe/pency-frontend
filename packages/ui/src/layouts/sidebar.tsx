@@ -1,8 +1,8 @@
 "use client";
 
-import { Box, Container, GlobalStyles, useMediaQuery, useTheme } from "@mui/material";
-import { MiniNav, Nav } from "@/components";
+import { Box, GlobalStyles, useTheme } from "@mui/material";
 import { Header } from "./header";
+import { miniNavClasses, navClasses } from "@/components";
 
 // ----------------------------------------------------------------------
 
@@ -16,16 +16,14 @@ const token = {
 // ----------------------------------------------------------------------
 
 type SidebarFnProps = {
-  // data: Parameters<typeof Nav>[0]["data"];
   slots: {
     nav: React.ReactElement;
+    miniNav: React.ReactElement;
   };
 };
 
 function SidebarFn({ slots }: SidebarFnProps) {
   const theme = useTheme();
-  const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
-  const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <>
@@ -53,20 +51,34 @@ function SidebarFn({ slots }: SidebarFnProps) {
             easing: `var(${token.easing})`,
             duration: `var(${token.duration})`,
           }),
+          [theme.breakpoints.down("sm")]: {
+            [`& .${miniNavClasses.root}`]: {
+              display: "none",
+            },
+          },
           [theme.breakpoints.up("sm")]: {
             top: `var(${Header.token.upSmHeight})`,
             display: "flex",
             width: `var(${token.upSmWidth})`,
             px: theme.spacing(0.5),
           },
+
+          [theme.breakpoints.down("lg")]: {
+            [`& .${navClasses.root}`]: {
+              display: "none",
+            },
+          },
           [theme.breakpoints.up("lg")]: {
             width: `var(${token.upLgWidth})`,
             px: theme.spacing(2),
+            [`& .${miniNavClasses.root}`]: {
+              display: "none",
+            },
           },
         }}
       >
-        {/* {isSmUp && !isLgUp && <MiniNav data={data} />} */}
-        {isLgUp && slots.nav}
+        {slots.miniNav}
+        {slots.nav}
       </Box>
     </>
   );

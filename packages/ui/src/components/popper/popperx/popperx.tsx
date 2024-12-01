@@ -1,16 +1,28 @@
 "use client";
 
-import { ClickAwayListener, ClickAwayListenerProps, Grow, Paper, Popper, PopperProps, useTheme } from "@mui/material";
+import {
+  ClickAwayListener,
+  ClickAwayListenerProps,
+  Grow,
+  Paper,
+  PaperProps,
+  Popper,
+  PopperProps,
+  useTheme,
+} from "@mui/material";
 import { forwardRef } from "react";
 import { getTransformOrigin } from "../get-transform-origin";
 
 type PopperxProps = PopperProps & {
   onClose: ClickAwayListenerProps["onClickAway"];
   children?: React.ReactNode;
+  slotProps?: {
+    paper?: PaperProps;
+  };
 };
 
 export const Popperx = forwardRef<HTMLDivElement, PopperxProps>(
-  ({ open = false, anchorEl, placement = "bottom", onClose, children, modifiers = [], ...rest }, ref) => {
+  ({ open = false, anchorEl, placement = "bottom", onClose, children, modifiers = [], slotProps, ...rest }, ref) => {
     const theme = useTheme();
 
     return (
@@ -22,11 +34,20 @@ export const Popperx = forwardRef<HTMLDivElement, PopperxProps>(
         transition
         modifiers={[...modifiers]}
         {...rest}
+        sx={{
+          zIndex: 1200,
+          ...rest.sx,
+        }}
       >
         {({ TransitionProps, placement }) => (
           <ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={onClose}>
             <Grow {...TransitionProps} style={{ transformOrigin: getTransformOrigin(placement) }}>
-              <Paper sx={{ boxShadow: theme.vars.customShadows.dropdown }}>{children}</Paper>
+              <Paper
+                {...slotProps?.paper}
+                sx={{ boxShadow: theme.vars.customShadows.dropdown, ...slotProps?.paper?.sx }}
+              >
+                {children}
+              </Paper>
             </Grow>
           </ClickAwayListener>
         )}

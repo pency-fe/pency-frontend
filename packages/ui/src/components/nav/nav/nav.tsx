@@ -18,6 +18,7 @@ import { useBooleanState } from "@pency/util";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { PropsWithoutRef, useMemo } from "react";
+import { navClasses } from "./nav-classes";
 
 const navToken = {
   ul: {
@@ -83,6 +84,7 @@ const NavFn = ({ children, ...rest }: NavFnProps) => {
     <Stack
       component="nav"
       {...rest}
+      className={navClasses.root}
       sx={{
         flex: "1 1 auto",
         ...hideScrollY,
@@ -224,21 +226,18 @@ const BranchFn = ({ icon, label, startsWith, children }: BranchFnProps) => {
 
 // ----------------------------------------------------------------------
 
-type BranchAnchorFnProps = <C extends "a" | typeof Link>(
-  props: ButtonBaseProps<
-    C,
-    {
-      component?: C;
-      href: string;
-      icon?: React.ReactElement;
-      label: string;
-    }
-  >,
-) => JSX.Element;
+type BranchAnchorFnProps<C extends "a" | typeof Link> = ButtonBaseProps<
+  C,
+  {
+    component?: C;
+    href: string;
+    icon?: React.ReactElement;
+    label: string;
+  }
+>;
 
-const BranchAnchorFn: BranchAnchorFnProps = ({ icon, label, href }) => {
+const BranchAnchorFn = <C extends "a" | typeof Link>({ icon, label, href, ...rest }: BranchAnchorFnProps<C>) => {
   const pathname = usePathname();
-  const { toggle: toggleOpen } = useBooleanState(pathname.startsWith(href));
   const theme = useTheme();
 
   const active = useMemo(() => pathname.startsWith(href), [href, pathname]);
@@ -246,7 +245,8 @@ const BranchAnchorFn: BranchAnchorFnProps = ({ icon, label, href }) => {
   return (
     <Li>
       <ButtonBase
-        onClick={toggleOpen}
+        href={href}
+        {...rest}
         sx={{
           minHeight: `var(${navToken.branch.minHeight})`,
           padding: `var(${navToken.branch.padding})`,
@@ -264,6 +264,7 @@ const BranchAnchorFn: BranchAnchorFnProps = ({ icon, label, href }) => {
               bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
             },
           }),
+          ...rest.sx,
         }}
       >
         {icon && (
@@ -306,19 +307,12 @@ const BranchAnchorFn: BranchAnchorFnProps = ({ icon, label, href }) => {
 
 // ----------------------------------------------------------------------
 
-type LeafAnchorFnType = <C extends "a" | typeof Link>(
-  props: ButtonBaseProps<
-    C,
-    {
-      component?: C;
-      href: string;
-      icon?: React.ReactElement;
-      label: string;
-    }
-  >,
-) => JSX.Element;
+type LeafAnchorFnProps<C extends "a" | typeof Link> = ButtonBaseProps<
+  C,
+  { component?: C; href: string; icon?: React.ReactElement; label: string }
+>;
 
-const LeafAnchorFn: LeafAnchorFnType = ({ icon, label, href, ...rest }) => {
+const LeafAnchorFn = <C extends "a" | typeof Link>({ icon, label, href, ...rest }: LeafAnchorFnProps<C>) => {
   const pathname = usePathname();
   const theme = useTheme();
 

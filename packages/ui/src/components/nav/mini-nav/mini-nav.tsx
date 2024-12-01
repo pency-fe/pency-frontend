@@ -1,284 +1,208 @@
 "use client";
 
-import { Box, ButtonBase, ButtonBaseProps, Paper, Popover, Stack, SxProps } from "@mui/material";
-import { BranchData, LeafData, NavData } from "../types";
-import { Theme, useTheme } from "@mui/material/styles";
-import { usePathname } from "next/navigation";
+import { Popperx, usePopperxState } from "@/components/popper";
+import { EvaArrowIosForwardFillIcon } from "@/components/svg";
+import { hideScrollY, varAlpha } from "@/util";
+import { Box, BoxProps, ButtonBase, ButtonBaseProps, Stack, StackProps, useTheme } from "@mui/material";
 import Link from "next/link";
-import { hideScrollY, paper, varAlpha } from "@/util";
-import { forwardRef, useEffect, useMemo, useRef } from "react";
-import { EvaArrowIosForwardFillIcon } from "../..";
-import { useBooleanState } from "@pency/util";
+import { usePathname } from "next/navigation";
+import { createContext, PropsWithoutRef, useContext, useMemo } from "react";
+import { miniNavClasses } from "./mini-nav-classes";
 
 const miniNavToken = {
   ul: {
-    gap: "--nav-ul-gap",
+    gap: "--mini-nav-ul-gap",
+  },
+  branch: {
+    minHeight: "--mini-nav-branch-min-heihgt",
+    padding: "--mini-nav-branch-padding",
+    borderRadius: "--mini-nav-branch-border-radius",
+    iconSize: "--mini-nav-branch-icon-size",
   },
   leaf: {
-    color: "--nav-leaf-color",
-    bgcolor: "--nav-leaf-bgcolor",
-    activeBgcolor: "--nav-leaf-active-bgcolor",
+    minHeight: "--mini-nav-leaf-min-heihgt",
+    padding: "--mini-nav-leaf-padding",
+    borderRadius: "--mini-nav-leaf-border-radius",
+    iconSize: "--mini-nav-leaf-icon-size",
   },
 } as const;
 
-type MiniNavProps = {
-  data: NavData;
-  sx?: SxProps<Theme>;
-};
-
 // ----------------------------------------------------------------------
 
-export function MiniNav({ data, sx }: MiniNavProps) {
-  const theme = useTheme();
-  return (
-    <Stack
-      component="nav"
-      sx={{
-        flex: "1 1 auto",
-        pb: 2,
-        ...hideScrollY,
-        [miniNavToken.ul.gap]: theme.spacing(0.5),
-        [miniNavToken.leaf.color]: theme.vars.palette.text.secondary,
-        [miniNavToken.leaf.bgcolor]: "transparent",
-        [miniNavToken.leaf.activeBgcolor]: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
-        ...sx,
-      }}
-    >
-      <Ul>
-        {data.map((group) => (
-          <Li key={group.id}>
-            <Ul>
-              {group.items.map((item) => (
-                <Trunk key={item.id} data={item} />
-              ))}
-            </Ul>
-          </Li>
-        ))}
-      </Ul>
-    </Stack>
-  );
-}
+type UlProps = PropsWithoutRef<BoxProps<"ul">>;
 
-// ----------------------------------------------------------------------
-
-type UlProps = {
-  sx?: SxProps<Theme>;
-  children?: React.ReactNode;
-};
-
-function Ul({ sx, children }: UlProps) {
+const Ul = (props: UlProps) => {
   return (
     <Box
       component="ul"
+      {...props}
       sx={{
+        flex: "1 1 auto",
         display: "flex",
         flexDirection: "column",
-        flex: "1 1 auto",
         gap: `var(${miniNavToken.ul.gap})`,
-        ...sx,
+        ...props.sx,
       }}
-    >
-      {children}
-    </Box>
+    />
   );
-}
-
-// ----------------------------------------------------------------------
-
-type LiProps = {
-  sx?: SxProps<Theme>;
-  children?: React.ReactNode;
 };
 
-function Li({ sx, children }: LiProps) {
+type LiProps = PropsWithoutRef<BoxProps<"li">>;
+
+const Li = (props: LiProps) => {
   return (
     <Box
       component="li"
+      {...props}
       sx={{
         display: "flex",
         flexDirection: "column",
-        ...sx,
+        ...props.sx,
       }}
-    >
-      {children}
-    </Box>
+    />
   );
-}
+};
 
 // ----------------------------------------------------------------------
 
-type TrunkProps = {
-  data: BranchData | LeafData;
-};
+type MiniNavFnProps = PropsWithoutRef<StackProps>;
 
-function Trunk({ data }: TrunkProps) {
-  const pathname = usePathname();
-
-  return (
-    <Li>
-      {isLeafData(data) ? (
-        <Leaf data={data} active={pathname.startsWith(data.href)} arrow="none" />
-      ) : (
-        <Branch data={data} />
-      )}
-    </Li>
-  );
-}
-
-function isLeafData(data: LeafData | BranchData): data is LeafData {
-  return (data as LeafData).href !== undefined;
-}
-
-// ----------------------------------------------------------------------
-
-type BranchProps = {
-  data: BranchData;
-};
-
-function Branch({ data }: BranchProps) {
-  const pathname = usePathname();
-
-  const open = useBooleanState(false);
-
-  const parentRef = useRef<HTMLButtonElement | null>(null);
+const MiniNavFn = ({ children, ...rest }: MiniNavFnProps) => {
   const theme = useTheme();
-
-  const parentActive = useMemo(() => data.items.some((item) => pathname.startsWith(item.href)), [data, pathname]);
-
-  useEffect(() => {
-    if (open.bool) {
-      open.setFalse();
-    }
-  }, [pathname]);
 
   return (
     <>
-      <Leaf
-        ref={parentRef}
-        data={data}
-        active={parentActive}
-        arrow="forward"
+      <Stack
+        component="nav"
+        {...rest}
+        className={miniNavClasses.root}
         sx={{
-          ...(!parentActive &&
-            open.bool && {
-              [miniNavToken.leaf.color]: theme.vars.palette.text.primary,
-              [miniNavToken.leaf.bgcolor]: theme.vars.palette.action.hover,
-            }),
-          ...(parentActive &&
-            open.bool && {
-              [miniNavToken.leaf.activeBgcolor]: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
-            }),
+          flex: "1 1 auto",
+          ...hideScrollY,
+          [miniNavToken.ul.gap]: theme.spacing(0.5),
+
+          [miniNavToken.branch.minHeight]: "56px",
+          [miniNavToken.branch.padding]: theme.spacing(1, 0.5, 0.75, 0.5),
+          [miniNavToken.branch.borderRadius]: `${theme.shape.borderRadius}px`,
+          [miniNavToken.branch.iconSize]: "22px",
+
+          [miniNavToken.leaf.minHeight]: "34px",
+          [miniNavToken.leaf.padding]: theme.spacing(0, 1),
+          [miniNavToken.leaf.borderRadius]: `${theme.shape.borderRadius}px`,
+          [miniNavToken.leaf.iconSize]: "22px",
+          ...rest.sx,
         }}
-        onMouseEnter={open.setTrue}
-        onMouseLeave={open.setFalse}
-      />
-      <Popover
-        aria-hidden={false}
-        disableScrollLock
-        open={open.bool}
-        anchorEl={parentRef.current}
-        anchorOrigin={{ vertical: "center", horizontal: "right" }}
-        transformOrigin={{ vertical: "center", horizontal: "left" }}
-        slotProps={{
-          paper: {
-            onMouseEnter: open.setTrue,
-            onMouseLeave: open.setFalse,
-            sx: {
-              px: 0.75,
-              boxShadow: "none",
-              overflow: "unset",
-              backdropFilter: "none",
-              background: "transparent",
-              pointerEvents: "auto",
-            },
-          },
-        }}
-        sx={{ pointerEvents: "none" }}
       >
-        <Paper sx={{ minWidth: 180, ...paper({ theme, dropdown: true }) }}>
-          <Ul sx={{ [miniNavToken.ul.gap]: theme.spacing(0.5) }}>
-            {data.items.map((item) => (
-              <Li key={item.id}>
-                <SubLeaf data={item} active={pathname.startsWith(item.href)} />
-              </Li>
-            ))}
-          </Ul>
-        </Paper>
-      </Popover>
+        <Ul>{children}</Ul>
+      </Stack>
     </>
   );
-}
+};
 
 // ----------------------------------------------------------------------
 
-type LeafProps = {
-  data: Omit<LeafData, "href"> & Partial<Pick<LeafData, "href">>;
-  active: boolean;
-  arrow: "forward" | "none";
-  sx?: SxProps<Theme>;
-} & ButtonBaseProps;
+type TreeFnProps = PropsWithoutRef<LiProps>;
 
-const Leaf = forwardRef<HTMLButtonElement, LeafProps>(({ data, active, arrow, sx, ...rest }, ref) => {
+const TreeFn = ({ children, ...rest }: TreeFnProps) => {
+  return (
+    <Li {...rest}>
+      <Ul>{children}</Ul>
+    </Li>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+const BranchActionsContext = createContext<{ close: (e: Event | React.SyntheticEvent) => void } | undefined>(undefined);
+
+function useBranchActions(component: string) {
+  const context = useContext(BranchActionsContext);
+
+  if (!context) throw new Error(`<${component} />의 부모로 <MiniNav.Branch /> 컴포넌트가 있어야 합니다.`);
+
+  return context;
+}
+
+type BranchFnProps = {
+  icon?: React.ReactElement;
+  label: string;
+  startsWith: string;
+  children?: React.ReactNode;
+};
+const BranchFn = ({ icon, label, startsWith, children }: BranchFnProps) => {
+  const pathname = usePathname();
+  const { anchorRef, isOpen, close, toggle } = usePopperxState();
   const theme = useTheme();
 
+  const active = useMemo(() => pathname.startsWith(startsWith), [startsWith, pathname]);
+
   return (
-    <ButtonBase
-      ref={ref}
-      LinkComponent={Link}
-      {...(data.href && { href: data.href })}
-      sx={{
-        flexDirection: "column",
-        width: "100%",
-        minHeight: "56px",
-        padding: theme.spacing(1, 0.5, 0.75, 0.5),
-        borderRadius: `${theme.shape.borderRadius}px`,
-        bgcolor: `var(${miniNavToken.leaf.bgcolor})`,
-        color: `var(${miniNavToken.leaf.color})`,
-        textAlign: "center",
-        ...(active && {
-          color: theme.vars.palette.primary.main,
-          bgcolor: `var(${miniNavToken.leaf.activeBgcolor})`,
+    <Li>
+      <ButtonBase
+        ref={anchorRef}
+        onClick={toggle}
+        sx={{
+          flexDirection: "column",
+          width: 1,
+          minHeight: `var(${miniNavToken.branch.minHeight})`,
+          padding: `var(${miniNavToken.branch.padding})`,
+          borderRadius: `var(${miniNavToken.branch.borderRadius})`,
+          bgcolor: "transparent",
+          color: theme.vars.palette.text.secondary,
+          textAlign: "center",
           "&:hover": {
-            bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
+            bgcolor: theme.vars.palette.action.hover,
           },
-        }),
-        ...sx,
-      }}
-      {...rest}
-    >
-      {data.icon ? (
+          ...(isOpen && {
+            bgcolor: theme.vars.palette.action.selected,
+            color: theme.vars.palette.text.primary,
+            "&:hover": {
+              bgcolor: theme.vars.palette.action.selected,
+            },
+          }),
+          ...(active && {
+            bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
+            color: theme.vars.palette.primary.main,
+            "&:hover": {
+              bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
+            },
+          }),
+        }}
+      >
+        {icon && (
+          <Box
+            component="span"
+            sx={{
+              flexShrink: 0,
+              display: "inline-flex",
+              margin: theme.spacing(0, 0, 0.75, 0),
+              "& svg": {
+                width: `var(${miniNavToken.branch.iconSize})`,
+                height: `var(${miniNavToken.branch.iconSize})`,
+              },
+            }}
+          >
+            {icon}
+          </Box>
+        )}
+
         <Box
           component="span"
           sx={{
-            flexShrink: 0,
-            display: "inline-flex",
-            width: "22px",
-            height: "22px",
-            margin: theme.spacing(0, 0, 0.75, 0),
+            width: "100%",
+            maxWidth: "100%",
+            display: "block",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            fontSize: theme.typography.pxToRem(10),
+            lineHeight: "16px",
+            fontWeight: active ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
           }}
         >
-          {data.icon}
+          {label}
         </Box>
-      ) : null}
 
-      <Box
-        component="span"
-        sx={{
-          width: "100%",
-          maxWidth: "100%",
-          display: "block",
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-          textOverflow: "ellipsis",
-          fontSize: theme.typography.pxToRem(10),
-          lineHeight: "16px",
-          fontWeight: active ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
-        }}
-      >
-        {data.title}
-      </Box>
-
-      {arrow !== "none" ? (
         <EvaArrowIosForwardFillIcon
           sx={{
             flexShrink: 0,
@@ -290,70 +214,202 @@ const Leaf = forwardRef<HTMLButtonElement, LeafProps>(({ data, active, arrow, sx
             height: "16px",
           }}
         />
-      ) : null}
-    </ButtonBase>
+      </ButtonBase>
+      <Popperx
+        anchorEl={anchorRef.current}
+        disablePortal
+        open={isOpen}
+        onClose={close}
+        placement="right"
+        modifiers={[
+          {
+            name: "offset",
+            options: {
+              offset: [0, 6],
+            },
+          },
+        ]}
+        slotProps={{
+          paper: {
+            sx: {
+              minWidth: 180,
+              padding: theme.spacing(0.5),
+            },
+          },
+        }}
+      >
+        <BranchActionsContext.Provider value={{ close }}>
+          <Ul sx={{ [miniNavToken.ul.gap]: theme.spacing(0.5) }}>{children}</Ul>
+        </BranchActionsContext.Provider>
+      </Popperx>
+    </Li>
   );
-});
+};
 
 // ----------------------------------------------------------------------
 
-type SubLeafProps = {
-  data: LeafData;
-  active: boolean;
-  sx?: SxProps<Theme>;
-};
+type BranchAnchorFnProps<C extends "a" | typeof Link> = ButtonBaseProps<
+  C,
+  {
+    component?: C;
+    href: string;
+    icon?: React.ReactElement;
+    label: string;
+  }
+>;
 
-function SubLeaf({ data, active, sx }: SubLeafProps) {
+const BranchAnchorFn = <C extends "a" | typeof Link>({ icon, label, href, ...rest }: BranchAnchorFnProps<C>) => {
+  const pathname = usePathname();
   const theme = useTheme();
 
+  const active = useMemo(() => pathname.startsWith(href), [href, pathname]);
+
   return (
-    <ButtonBase
-      LinkComponent={Link}
-      href={data.href}
-      sx={{
-        width: "100%",
-        minHeight: "34px",
-        padding: theme.spacing(0, 1),
-        borderRadius: `${theme.shape.borderRadius}px`,
-        color: theme.vars.palette.text.secondary,
-        "&:hover": {
-          bgcolor: theme.vars.palette.action.hover,
-        },
-        ...(active && {
-          color: theme.vars.palette.text.primary,
-          bgcolor: theme.vars.palette.action.selected,
+    <Li>
+      <ButtonBase
+        href={href}
+        {...rest}
+        sx={{
+          flexDirection: "column",
+          width: 1,
+          minHeight: `var(${miniNavToken.branch.minHeight})`,
+          padding: `var(${miniNavToken.branch.padding})`,
+          borderRadius: `var(${miniNavToken.branch.borderRadius})`,
+          bgcolor: "transparent",
+          color: theme.vars.palette.text.secondary,
+          textAlign: "center",
           "&:hover": {
-            bgcolor: theme.vars.palette.action.selected,
+            bgcolor: theme.vars.palette.action.hover,
           },
-        }),
-        ...sx,
-      }}
-    >
-      {data.icon ? (
+          ...(active && {
+            bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
+            color: theme.vars.palette.primary.main,
+            "&:hover": {
+              bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
+            },
+          }),
+        }}
+      >
+        {icon && (
+          <Box
+            component="span"
+            sx={{
+              flexShrink: 0,
+              display: "inline-flex",
+              margin: theme.spacing(0, 0, 0.75, 0),
+              "& svg": {
+                width: `var(${miniNavToken.branch.iconSize})`,
+                height: `var(${miniNavToken.branch.iconSize})`,
+              },
+            }}
+          >
+            {icon}
+          </Box>
+        )}
+
         <Box
           component="span"
           sx={{
-            flexShrink: 0,
-            display: "inline-flex",
-            width: "22px",
-            height: "22px",
-            margin: theme.spacing(0, 1, 0, 0),
+            width: "100%",
+            maxWidth: "100%",
+            display: "block",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            fontSize: theme.typography.pxToRem(10),
+            lineHeight: "16px",
+            fontWeight: active ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
           }}
         >
-          {data.icon}
+          {label}
         </Box>
-      ) : null}
+      </ButtonBase>
+    </Li>
+  );
+};
 
-      <Box
-        component="span"
+// ----------------------------------------------------------------------
+
+type LeafAnchorFnProps<C extends "a" | typeof Link> = ButtonBaseProps<
+  C,
+  { component?: C; href: string; icon?: React.ReactElement; label: string }
+>;
+
+const LeafAnchorFn = <C extends "a" | typeof Link>({ icon, label, href, ...rest }: LeafAnchorFnProps<C>) => {
+  const { close } = useBranchActions("MiniNav.Branch.LeafAnchor");
+  const pathname = usePathname();
+  const theme = useTheme();
+
+  const active = useMemo(() => pathname.startsWith(href), [href, pathname]);
+
+  return (
+    <Li>
+      <ButtonBase
+        href={href}
+        {...rest}
+        onClick={close}
         sx={{
-          flex: "1 1 auto",
-          ...theme.typography.body2,
-          fontWeight: active ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
+          width: 1,
+          minHeight: `var(${miniNavToken.leaf.minHeight})`,
+          padding: `var(${miniNavToken.leaf.padding})`,
+          borderRadius: `var(${miniNavToken.leaf.borderRadius})`,
+          color: theme.vars.palette.text.secondary,
+          bgcolor: "transparent",
+          "&:hover": {
+            bgcolor: theme.vars.palette.action.hover,
+          },
+          ...(active && {
+            color: theme.vars.palette.text.primary,
+            bgcolor: theme.vars.palette.action.selected,
+            "&:hover": {
+              bgcolor: theme.vars.palette.action.selected,
+            },
+          }),
         }}
       >
-        {data.title}
-      </Box>
-    </ButtonBase>
+        {icon && (
+          <Box
+            component="span"
+            sx={{
+              flexShrink: 0,
+              display: "inline-flex",
+              margin: theme.spacing(0, 1, 0, 0),
+              "& svg": {
+                width: `var(${miniNavToken.leaf.iconSize})`,
+                height: `var(${miniNavToken.leaf.iconSize})`,
+              },
+            }}
+          >
+            {icon}
+          </Box>
+        )}
+        <Box
+          component="span"
+          sx={{
+            flex: "1 1 auto",
+            ...theme.typography.body2,
+            fontWeight: active ? theme.typography.fontWeightSemiBold : theme.typography.fontWeightMedium,
+          }}
+        >
+          {label}
+        </Box>
+      </ButtonBase>
+    </Li>
   );
-}
+};
+
+// ----------------------------------------------------------------------
+
+const LeafButtonFn = () => {};
+
+// ----------------------------------------------------------------------
+
+export const MiniNav = Object.assign(MiniNavFn, {
+  Tree: Object.assign(TreeFn, {
+    Branch: Object.assign(BranchFn, {
+      LeafAnchor: LeafAnchorFn,
+      LeafButton: LeafButtonFn,
+    }),
+    BranchAnchor: BranchAnchorFn,
+  }),
+});
