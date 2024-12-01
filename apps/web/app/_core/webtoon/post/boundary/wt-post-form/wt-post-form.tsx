@@ -174,10 +174,11 @@ type CreateSubmitFnProps = Omit<ButtonProps, "children"> & {
 const CreateSubmitFn = ({ channelUrl, submitErrorHandler, ...rest }: CreateSubmitFnProps) => {
   const router = useRouter();
   const { handleSubmit } = useWTPostFormContext();
+  const loading = useBooleanState(false);
 
   const { mutate } = useWebtoonPostPublish();
 
-  const onSubmit: SubmitHandler<Schema> = (data) => {
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
     const { content, ...rest } = data;
 
     const mutateData: Parameters<typeof mutate>[0] = {
@@ -185,9 +186,13 @@ const CreateSubmitFn = ({ channelUrl, submitErrorHandler, ...rest }: CreateSubmi
       ...rest,
       ...content,
     };
+    loading.setTrue();
     mutate(mutateData, {
       onSuccess: (data) => {
         router.push(`/@${channelUrl}/webtoon/post/${data.postId}`);
+      },
+      onSettled: () => {
+        loading.setFalse();
       },
     });
   };
@@ -197,9 +202,16 @@ const CreateSubmitFn = ({ channelUrl, submitErrorHandler, ...rest }: CreateSubmi
   };
 
   return (
-    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(onSubmit, onSubmitError)} {...rest}>
+    <LoadingButton
+      type="submit"
+      variant="contained"
+      color="primary"
+      loading={loading.bool}
+      onClick={handleSubmit(onSubmit, onSubmitError)}
+      {...rest}
+    >
       발행
-    </Button>
+    </LoadingButton>
   );
 };
 
