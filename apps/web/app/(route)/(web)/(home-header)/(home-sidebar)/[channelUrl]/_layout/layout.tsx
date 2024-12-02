@@ -178,6 +178,7 @@ export default function ChannelUrlLayout({ children }: Props) {
               color={theme.vars.palette.text.primary}
               sx={{
                 ...maxLine({ line: 1 }),
+                "&:hover": { textDecoration: "none" },
               }}
             >
               프로필명프로필명프로필
@@ -384,9 +385,15 @@ function DetailDialog() {
           <Stack spacing={1.5}>
             {/* 크리에이터 정보 */}
             <Typography variant="subtitle2">크리에이터 정보</Typography>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+            <Box
+              component={NextLink}
+              href={"/TODO_프로필"}
+              sx={{ display: "flex", alignItems: "center", gap: 1.5, textDecoration: "none" }}
+            >
               <Avatar src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
-              <Typography variant="subtitle1">김천재</Typography>
+              <Typography variant="subtitle1" color={theme.vars.palette.text.primary}>
+                김천재
+              </Typography>
             </Box>
           </Stack>
           <Stack spacing={1.5}>
