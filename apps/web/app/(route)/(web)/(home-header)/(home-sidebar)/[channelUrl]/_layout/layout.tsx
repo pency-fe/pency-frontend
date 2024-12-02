@@ -4,6 +4,8 @@ import {
   Avatar,
   Box,
   Button,
+  buttonBaseClasses,
+  buttonClasses,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -226,11 +228,18 @@ export default function ChannelUrlLayout({ children }: Props) {
       </Box>
 
       {/* 탭 */}
-      <Tabs value={navValue} scrollButtons={false} sx={{ [`& .${tabsClasses.flexContainer}`]: { gap: 2 }, mb: 2 }}>
+      <Tabs
+        value={navValue}
+        scrollButtons={false}
+        sx={{
+          [`& .${tabsClasses.flexContainer}`]: { gap: 2 },
+          mb: 2,
+        }}
+      >
         <Tab
           LinkComponent={NextLink}
           href={`/${decodedChannelUrl}`}
-          label={<Typography variant="subtitle2">홈</Typography>}
+          label={<Typography variant="h6">홈</Typography>}
           value="home"
           wrapped
         />
@@ -239,7 +248,7 @@ export default function ChannelUrlLayout({ children }: Props) {
             key={value}
             LinkComponent={NextLink}
             href={`/${decodedChannelUrl}/${value}`}
-            label={<Typography variant="subtitle2">{label}</Typography>}
+            label={<Typography variant="h6">{label}</Typography>}
             value={value}
             wrapped
           />

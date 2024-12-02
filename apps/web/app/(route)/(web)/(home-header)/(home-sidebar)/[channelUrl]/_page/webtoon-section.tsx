@@ -11,9 +11,9 @@ import { stylesColorScheme } from "@pency/ui/util";
 
 // ----------------------------------------------------------------------
 
-type contentValue = "POST" | "SERIES";
+type webtoonValue = "POST" | "SERIES";
 
-const CONTENT_VALUE_LABEL: Record<contentValue, string> = {
+const WEBTOON_VALUE_LABEL: Record<webtoonValue, string> = {
   POST: "포스트",
   SERIES: "시리즈",
 } as const;
@@ -30,14 +30,14 @@ export function WebtoonSection() {
     return decodeURIComponent(channelUrl as string);
   }, [channelUrl]);
 
-  const content = useMemo(() => objectEntries(CONTENT_VALUE_LABEL), []);
-  const contentParam = useMemo(() => {
-    const param = searchParams.get("content");
-    if (param && Object.keys(CONTENT_VALUE_LABEL).includes(param)) {
-      return param as contentValue;
+  const webtoon = useMemo(() => objectEntries(WEBTOON_VALUE_LABEL), []);
+  const webtoonParam = useMemo(() => {
+    const param = searchParams.get("webtoon");
+    if (param && Object.keys(WEBTOON_VALUE_LABEL).includes(param)) {
+      return param as webtoonValue;
     }
 
-    return "POST" as contentValue;
+    return "POST" as webtoonValue;
   }, [searchParams]);
 
   return (
@@ -49,14 +49,14 @@ export function WebtoonSection() {
 
         {/* 라디오 버튼 */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <RadioGroup value={contentParam}>
+          <RadioGroup value={webtoonParam}>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              {content.map(([content, label]) => (
+              {webtoon.map(([webtoon, label]) => (
                 <RadioButton
-                  value={content}
-                  key={content}
+                  value={webtoon}
+                  key={webtoon}
                   LinkComponent={NextLink}
-                  href={`/${decodedChannelUrl}/?content=${content}`}
+                  href={`/${decodedChannelUrl}/?webtoon=${webtoon}`}
                   sx={{ flexShrink: 0 }}
                 >
                   {label}
@@ -67,7 +67,7 @@ export function WebtoonSection() {
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: "auto" }}>
             <Button
               component={NextLink}
-              href={`${decodedChannelUrl}/webtoon?content=${contentParam}`}
+              href={`${decodedChannelUrl}/webtoon?webtoon=${webtoonParam}`}
               size="small"
               color="inherit"
               sx={{
