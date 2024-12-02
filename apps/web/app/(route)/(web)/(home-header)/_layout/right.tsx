@@ -73,7 +73,7 @@ export function Right() {
           <Avatar
             component={ButtonBase}
             src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-            sx={{ width: 24, height: 24 }}
+            sx={{ width: 24, height: 24, mx: "6px" }}
           />
         </>
       ) : (
