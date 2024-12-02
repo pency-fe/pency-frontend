@@ -141,6 +141,11 @@ export function WebtoonPage() {
 }
 
 function Pagination() {
+  const { channelUrl } = useParams();
+  const decodedChannelUrl = useMemo(() => {
+    return decodeURIComponent(channelUrl as string);
+  }, [channelUrl]);
+
   const searchParams = useSearchParams();
   const pageParam = useMemo(() => {
     const param = Number(searchParams.get("page"));
@@ -160,7 +165,7 @@ function Pagination() {
         return (
           <PaginationItem
             component={NextLink}
-            href={`/webtoon/post/list${createQueryString(params)}`}
+            href={`/${decodedChannelUrl}/webtoon${createQueryString(params)}`}
             {...pagination}
           />
         );
