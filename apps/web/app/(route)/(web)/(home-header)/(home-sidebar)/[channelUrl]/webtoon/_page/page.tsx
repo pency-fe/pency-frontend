@@ -46,6 +46,15 @@ export function WebtoonPage() {
   const contents = useMemo(() => objectEntries(CONTENT_VALUE_LABEL), []);
   const sorts = useMemo(() => objectEntries(SORT_LABEL), []);
 
+  const contentParam = useMemo(() => {
+    const param = searchParams.get("content");
+    if (param && Object.keys(CONTENT_VALUE_LABEL).includes(param)) {
+      return param as contentValue;
+    }
+
+    return "POST" as contentValue;
+  }, [searchParams]);
+
   const sortParam = useMemo(() => {
     const param = searchParams.get("sort");
     if (param && Object.keys(SORT_LABEL).includes(param)) {
@@ -54,13 +63,12 @@ export function WebtoonPage() {
     return "LATEST" as Sort;
   }, [searchParams]);
 
-  const contentParam = useMemo(() => {
-    const param = searchParams.get("content");
-    if (param && Object.keys(CONTENT_VALUE_LABEL).includes(param)) {
-      return param as contentValue;
+  const pageParam = useMemo(() => {
+    const param = Number(searchParams.get("page"));
+    if (param && !isNaN(param) && param >= 1) {
+      return param;
     }
-
-    return "POST" as contentValue;
+    return 1;
   }, [searchParams]);
 
   return (
@@ -132,7 +140,7 @@ export function WebtoonPage() {
           </Menux>
         </Box>
       </Box>
-      <WT_Post_Channel_RichList channelUrl={decodedChannelUrl} sort={sortParam} page={1} />
+      <WT_Post_Channel_RichList channelUrl={decodedChannelUrl} sort={sortParam} page={pageParam} />
       <Box sx={{ margin: "auto", mt: 3 }}>
         <Pagination />
       </Box>
@@ -169,7 +177,6 @@ function Pagination() {
             {...pagination}
           />
         );
-        return <PaginationItem {...pagination} />;
       })}
     </>
   );

@@ -59,6 +59,14 @@ export function ListPage() {
     return "LATEST" as Sort;
   }, [searchParams]);
 
+  const pageParam = useMemo(() => {
+    const param = Number(searchParams.get("page"));
+    if (param && !isNaN(param) && param >= 1) {
+      return param;
+    }
+    return 1;
+  }, [searchParams]);
+
   return (
     <Stack spacing={3}>
       <RadioGroup
@@ -145,7 +153,7 @@ export function ListPage() {
             </Menux>
           </Box>
         </Box>
-        <WT_Post_RichList genre={genreParam} sort={sortParam} page={1} />
+        <WT_Post_RichList genre={genreParam} sort={sortParam} page={pageParam} />
         <Box sx={{ margin: "auto", mt: 3 }}>
           <Pagination />
         </Box>
@@ -178,7 +186,6 @@ function Pagination() {
             {...pagination}
           />
         );
-        return <PaginationItem {...pagination} />;
       })}
     </>
   );
