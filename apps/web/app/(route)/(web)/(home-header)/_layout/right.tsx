@@ -13,7 +13,7 @@ import {
   TextField,
   useTheme,
 } from "@mui/material";
-import { IcRoundSearchIcon, MingcuteNotificationLineIcon } from "@pency/ui/components";
+import { IcRoundSearchIcon, MingcuteBox2LineIcon, MingcuteNotificationLineIcon } from "@pency/ui/components";
 
 export function Right() {
   const me = useMeValue();
@@ -52,8 +52,23 @@ export function Right() {
 
       {me.isLoggedIn ? (
         <>
-          <IconButton>
+          <IconButton
+            sx={{
+              [theme.breakpoints.down("sm")]: {
+                display: "none",
+              },
+            }}
+          >
             <MingcuteNotificationLineIcon />
+          </IconButton>
+          <IconButton
+            sx={{
+              [theme.breakpoints.down("sm")]: {
+                display: "none",
+              },
+            }}
+          >
+            <MingcuteBox2LineIcon />
           </IconButton>
           <Avatar
             component={ButtonBase}
