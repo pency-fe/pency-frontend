@@ -110,7 +110,7 @@ export function Right() {
             ]}
           >
             <Stack sx={{ width: 360, maxWidth: 360, minHeight: 400, px: "8px", py: "6px" }}>
-              <Stack>
+              <List>
                 <ListItem
                   secondaryAction={
                     <Box sx={{ display: "flex", gap: 1 }}>
@@ -129,7 +129,7 @@ export function Right() {
                       sx={{ width: 32, height: 32, borderRadius: 1 }}
                     />
                   </ListItemAvatar>
-                  <ListItemText primary="채널1" />
+                  <ListItemText primary="채널1채널1채널1채널1" />
                 </ListItem>
 
                 <ListItem
@@ -152,13 +152,13 @@ export function Right() {
                   </ListItemAvatar>
                   <ListItemText primary="채널2" />
                 </ListItem>
-              </Stack>
+              </List>
               <Divider />
               <List>
                 <ListItem disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
-                      <MingcuteNotificationLineIcon />
+                      <MingcuteNotificationLineIcon fontSize="medium" />
                     </ListItemIcon>
                     <ListItemText primary="알림" />
                   </ListItemButton>
@@ -166,7 +166,7 @@ export function Right() {
                 <ListItem disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
-                      <MingcuteBox2LineIcon />
+                      <MingcuteBox2LineIcon fontSize="medium" />
                     </ListItemIcon>
                     <ListItemText primary="보관함" />
                   </ListItemButton>

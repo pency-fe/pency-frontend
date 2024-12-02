@@ -1,7 +1,7 @@
 import type { Theme, Components } from "@mui/material/styles";
 
 import { menuItem } from "@/util";
-import { listItemIconClasses } from "@mui/material";
+import { listItemIconClasses, listItemTextClasses, svgIconClasses, typographyClasses } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
@@ -15,6 +15,12 @@ const MuiMenuItem: Components<Theme>["MuiMenuItem"] = {
       minHeight: "auto",
       [`& .${listItemIconClasses.root}`]: {
         minWidth: "30px",
+        [`& .${svgIconClasses.root}`]: {
+          fontSize: "1.25rem",
+        },
+      },
+      [`& .${listItemTextClasses.root} .${typographyClasses.root}`]: {
+        ...theme.typography.subtitle2,
       },
     }),
   },

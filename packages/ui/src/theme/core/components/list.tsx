@@ -9,10 +9,7 @@ const MuiListItemIcon: Components<Theme>["MuiListItemIcon"] = {
   styleOverrides: {
     root: {
       color: "inherit",
-      minWidth: "auto",
-      "& svg": {
-        fontSize: "1.25rem",
-      },
+      minWidth: "44px",
     },
   },
 };
@@ -23,7 +20,7 @@ const MuiListItemAvatar: Components<Theme>["MuiListItemAvatar"] = {
   /** **************************************
    * STYLE
    *************************************** */
-  styleOverrides: { root: ({ theme }) => ({ minWidth: "auto", marginRight: theme.spacing(2) }) },
+  styleOverrides: { root: { minWidth: "44px" } },
 };
 
 // ----------------------------------------------------------------------
@@ -32,7 +29,7 @@ const MuiListItemText: Components<Theme>["MuiListItemText"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
-  defaultProps: { primaryTypographyProps: { typography: "subtitle2" } },
+  defaultProps: { primaryTypographyProps: { typography: "subtitle1" } },
 
   /** **************************************
    * STYLE
