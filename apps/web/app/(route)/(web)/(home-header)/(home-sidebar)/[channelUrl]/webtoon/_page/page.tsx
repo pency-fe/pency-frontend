@@ -1,7 +1,7 @@
 "use client";
 
 import NextLink from "next/link";
-import { useTheme, Stack, RadioGroup, Box, Button, buttonBaseClasses, MenuItem, Pagination } from "@mui/material";
+import { useTheme, Stack, RadioGroup, Box, Button, buttonBaseClasses, MenuItem, PaginationItem } from "@mui/material";
 import {
   useMenuxState,
   RadioButton,
@@ -13,6 +13,7 @@ import { createQueryString, objectEntries } from "@pency/util";
 import { useParams, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { WT_Post_Channel_RichList } from "_core/webtoon/post";
+import { usePaginationx } from "@pency/ui/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -133,8 +134,38 @@ export function WebtoonPage() {
       </Box>
       <WT_Post_Channel_RichList channelUrl={decodedChannelUrl} sort={sortParam} page={1} />
       <Box sx={{ margin: "auto", mt: 3 }}>
-        <Pagination count={10} />
+        <Pagination />
       </Box>
     </Stack>
+  );
+}
+
+function Pagination() {
+  const searchParams = useSearchParams();
+  const pageParam = useMemo(() => {
+    const param = Number(searchParams.get("page"));
+    if (param && !isNaN(param) && param >= 1) {
+      return param;
+    }
+    return 1;
+  }, [searchParams]);
+
+  const paginations = usePaginationx({ totalCount: 20, currentPage: pageParam });
+
+  return (
+    <>
+      {paginations.map((pagination) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("page", `${pagination.page}`);
+        return (
+          <PaginationItem
+            component={NextLink}
+            href={`/webtoon/post/list${createQueryString(params)}`}
+            {...pagination}
+          />
+        );
+        return <PaginationItem {...pagination} />;
+      })}
+    </>
   );
 }
