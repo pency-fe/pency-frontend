@@ -325,19 +325,27 @@ function DetailDialog() {
       </Box>
 
       <BootstrapDialog onClose={handleClose} open={open} maxWidth="xs" fullScreen={isUpSm ? false : true}>
-        <DialogTitle sx={{ m: 0, p: 2 }}>채널 및 크리에이터 정보</DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={(theme) => ({
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: theme.palette.grey[500],
-          })}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            padding: "16px",
+            [theme.breakpoints.up("sm")]: { flexDirection: "row-reverse" },
+          }}
         >
-          <MaterialSymbolsCloseIcon />
-        </IconButton>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              [theme.breakpoints.up("sm")]: { ml: "auto" },
+            }}
+          >
+            <MaterialSymbolsCloseIcon />
+          </IconButton>
+          <Typography variant="h6" sx={{}}>
+            채널 및 크리에이터 정보
+          </Typography>
+        </Box>
         <Divider />
         <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
           {/* 채널 정보 */}
