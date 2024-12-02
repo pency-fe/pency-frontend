@@ -132,12 +132,25 @@ const SlideFn = forwardRef<HTMLDivElement, SlideFnProps>(({ children, ...rest },
 type PrevNavFnProps = IconButtonProps;
 
 const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
+  const theme = useTheme();
   const { prevNavDisabled } = useData("ListItemxCarousel.PrevNav");
   const { onPrevNavClick } = useActions("ListItemxCarousel.PrevNav");
 
   return (
     <>
-      <IconButton ref={ref} variant="outlined" disabled={prevNavDisabled} onClick={onPrevNavClick} {...rest}>
+      <IconButton
+        ref={ref}
+        variant="outlined"
+        disabled={prevNavDisabled}
+        onClick={onPrevNavClick}
+        {...rest}
+        sx={{
+          [theme.breakpoints.down("sm")]: {
+            display: "none",
+          },
+          ...rest.sx,
+        }}
+      >
         <EvaArrowIosBackFillIcon />
       </IconButton>
     </>
@@ -149,10 +162,23 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
 type NextNavFnProps = IconButtonProps;
 
 const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
+  const theme = useTheme();
   const { nextNavDisabled } = useData("ListItemxCarousel.NextNav");
   const { onNextNavClick } = useActions("ListItemxCarousel.NextNav");
   return (
-    <IconButton ref={ref} variant="outlined" disabled={nextNavDisabled} onClick={onNextNavClick} {...rest}>
+    <IconButton
+      ref={ref}
+      variant="outlined"
+      disabled={nextNavDisabled}
+      onClick={onNextNavClick}
+      {...rest}
+      sx={{
+        [theme.breakpoints.down("sm")]: {
+          display: "none",
+        },
+        ...rest.sx,
+      }}
+    >
       <EvaArrowIosForwardFillIcon />
     </IconButton>
   );
