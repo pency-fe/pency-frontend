@@ -7,17 +7,34 @@ import {
   Box,
   Button,
   ButtonBase,
+  Divider,
   IconButton,
   InputAdornment,
   inputBaseClasses,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Stack,
   TextField,
   useTheme,
 } from "@mui/material";
-import { IcRoundSearchIcon, MingcuteBox2LineIcon, MingcuteNotificationLineIcon } from "@pency/ui/components";
+import {
+  IcRoundSearchIcon,
+  MingcuteBox2LineIcon,
+  MingcuteNotificationLineIcon,
+  MingcutePencilLineIcon,
+  Popperx,
+  usePopperxState,
+} from "@pency/ui/components";
 
 export function Right() {
   const me = useMeValue();
   const theme = useTheme();
+
+  const { anchorRef, isOpen, close, toggle } = usePopperxState();
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -72,9 +89,114 @@ export function Right() {
           </IconButton>
           <Avatar
             component={ButtonBase}
+            ref={anchorRef}
+            onClick={toggle}
             src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
             sx={{ width: 24, height: 24, mx: "6px" }}
           />
+
+          <Popperx
+            anchorEl={anchorRef.current}
+            open={isOpen}
+            onClose={close}
+            modifiers={[
+              {
+                name: "offset",
+                options: {
+                  offset: [0, 6],
+                },
+              },
+            ]}
+          >
+            <Stack sx={{ width: 360, maxWidth: 360, minHeight: 400, px: "8px", py: "6px" }}>
+              <Stack>
+                <ListItem
+                  secondaryAction={
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <Button variant="contained" size="small">
+                        스튜디오
+                      </Button>
+                      <IconButton variant="contained" size="small" sx={{ borderRadius: 1 }}>
+                        <MingcutePencilLineIcon />
+                      </IconButton>
+                    </Box>
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      variant="circular"
+                      src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                      sx={{ borderRadius: 1 }}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText primary="채널1" />
+                </ListItem>
+
+                <ListItem
+                  secondaryAction={
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <Button variant="contained" size="small">
+                        스튜디오
+                      </Button>
+                      <IconButton variant="contained" size="small" sx={{ borderRadius: 1 }}>
+                        <MingcutePencilLineIcon />
+                      </IconButton>
+                    </Box>
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      variant="circular"
+                      src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                      sx={{ borderRadius: 1 }}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText primary="채널2" />
+                </ListItem>
+
+                <ListItem
+                  secondaryAction={
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <Button variant="contained" size="small">
+                        스튜디오
+                      </Button>
+                      <IconButton variant="contained" size="small" sx={{ borderRadius: 1 }}>
+                        <MingcutePencilLineIcon />
+                      </IconButton>
+                    </Box>
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      variant="circular"
+                      src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                      sx={{ borderRadius: 1 }}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText primary="채널3" />
+                </ListItem>
+              </Stack>
+              <Divider />
+              <List>
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <MingcuteNotificationLineIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="알림" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <MingcuteBox2LineIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="보관함" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </Stack>
+          </Popperx>
         </>
       ) : (
         <>

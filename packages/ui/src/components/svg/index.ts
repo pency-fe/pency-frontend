@@ -34,6 +34,7 @@ export * from "./mingcute-box-2-line-icon";
 export * from "./mingcute-delete-3-line-icon";
 export * from "./mingcute-down-line-icon";
 export * from "./mingcute-notification-line-icon";
+export * from "./mingcute-pencil-line-icon";
 export * from "./nimbus-drag-dots-icon";
 export * from "./nineteen-circle-icon";
 export * from "./solar-check-circle-bold-icon";
