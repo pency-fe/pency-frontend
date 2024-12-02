@@ -174,7 +174,7 @@ export default function ChannelUrlLayout({ children }: Props) {
           >
             <Link
               component={NextLink}
-              href="/profile/${@TODO}"
+              href="/profile/${@TODO}git"
               color={theme.vars.palette.text.primary}
               sx={{
                 ...maxLine({ line: 1 }),
@@ -274,6 +274,11 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 function DetailDialog() {
   const theme = useTheme();
   const pathname = usePathname();
+  const { channelUrl } = useParams();
+  const decodedChannelUrl = useMemo(() => {
+    return decodeURIComponent(channelUrl as string);
+  }, [channelUrl]);
+
   const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
 
   const [open, setOpen] = useState(false);
@@ -374,7 +379,7 @@ function DetailDialog() {
             {/* 채널 정보_URL */}
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
               <EvaLink2FillIcon sx={{ fontSize: 20, mx: "10px" }} />
-              <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
+              <Typography variant="body2">{`https://pency.co.kr:3000${decodedChannelUrl}`}</Typography>
             </Box>
             {/* 채널 정보_구독자, 포스트 */}
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
