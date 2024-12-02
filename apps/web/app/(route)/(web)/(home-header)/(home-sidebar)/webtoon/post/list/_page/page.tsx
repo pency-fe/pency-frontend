@@ -7,11 +7,11 @@ import {
   Box,
   Typography,
   MenuItem,
-  Pagination,
   RadioGroup,
   Button,
   useTheme,
   buttonBaseClasses,
+  PaginationItem,
 } from "@mui/material";
 import {
   EvaArrowIosDownwardFillIcon,
@@ -25,6 +25,7 @@ import { createQueryString, objectEntries } from "@pency/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { WT_Post_RichList } from "_core/webtoon/post";
 import { useSearchParams } from "next/navigation";
+import { usePaginationx } from "@pency/ui/hooks";
 
 type Sort = "LATEST" | "POPULAR" | "WPOPULAR";
 
@@ -146,9 +147,39 @@ export function ListPage() {
         </Box>
         <WT_Post_RichList genre={genreParam} sort={sortParam} page={1} />
         <Box sx={{ margin: "auto", mt: 3 }}>
-          <Pagination count={10} />
+          <Pagination />
         </Box>
       </Stack>
     </Stack>
+  );
+}
+
+function Pagination() {
+  const searchParams = useSearchParams();
+  const pageParam = useMemo(() => {
+    const param = Number(searchParams.get("page"));
+    if (param && !isNaN(param) && param >= 1) {
+      return param;
+    }
+    return 1;
+  }, [searchParams]);
+
+  const paginations = usePaginationx({ totalCount: 20, currentPage: pageParam });
+
+  return (
+    <>
+      {paginations.map((pagination) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("page", `${pagination.page}`);
+        return (
+          <PaginationItem
+            component={NextLink}
+            href={`/webtoon/post/list${createQueryString(params)}`}
+            {...pagination}
+          />
+        );
+        return <PaginationItem {...pagination} />;
+      })}
+    </>
   );
 }
