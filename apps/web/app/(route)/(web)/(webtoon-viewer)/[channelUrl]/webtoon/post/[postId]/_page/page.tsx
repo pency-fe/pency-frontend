@@ -55,8 +55,8 @@ export function PostIdPage() {
             <Content />
             <PaidPostGuide />
             <AuthorTalk />
+            <ETC />
           </Stack>
-          <ETC />
           <ChannelAction />
           <PostLikeSummary />
           <PostPrevNext />
@@ -133,26 +133,36 @@ export function PostIdPage() {
 // ----------------------------------------------------------------------
 
 function Precaution() {
+  const theme = useTheme();
+
   return (
-    <Accordion
-      defaultExpanded
-      disableGutters
-      sx={{
-        [`&.${accordionClasses.expanded}`]: {
-          boxShadow: "none",
-        },
-      }}
-    >
-      <AccordionSummary expandIcon={<EvaArrowIosDownwardFillIcon />} aria-controls="panel1-content" id="panel1-header">
-        <Typography>읽기 전 주의사항</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo
-          lobortis eget.
-        </Typography>
-      </AccordionDetails>
-    </Accordion>
+    <Box sx={{ paddingX: 2.5, paddingY: 1.5 }}>
+      <Accordion
+        defaultExpanded
+        disableGutters
+        sx={{
+          bgcolor: theme.vars.palette.background.neutral,
+          [`&.${accordionClasses.expanded}`]: {
+            bgcolor: theme.vars.palette.background.neutral,
+            boxShadow: "none",
+          },
+        }}
+      >
+        <AccordionSummary
+          expandIcon={<EvaArrowIosDownwardFillIcon />}
+          aria-controls="panel1-content"
+          id="panel1-header"
+        >
+          <Typography>읽기 전 주의사항</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit
+            leo lobortis eget.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+    </Box>
   );
 }
 
@@ -206,18 +216,36 @@ function PaidPostGuide() {
 // ----------------------------------------------------------------------
 
 function AuthorTalk() {
+  const theme = useTheme();
+
   return (
-    <Accordion defaultExpanded>
-      <AccordionSummary expandIcon={<EvaArrowIosDownwardFillIcon />} aria-controls="panel1-content" id="panel1-header">
-        <Typography>작가의 말</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo
-          lobortis eget.
-        </Typography>
-      </AccordionDetails>
-    </Accordion>
+    <Box sx={{ paddingX: 2.5, paddingY: 1.5 }}>
+      <Accordion
+        defaultExpanded
+        disableGutters
+        sx={{
+          bgcolor: theme.vars.palette.background.neutral,
+          [`&.${accordionClasses.expanded}`]: {
+            bgcolor: theme.vars.palette.background.neutral,
+            boxShadow: "none",
+          },
+        }}
+      >
+        <AccordionSummary
+          expandIcon={<EvaArrowIosDownwardFillIcon />}
+          aria-controls="panel1-content"
+          id="panel1-header"
+        >
+          <Typography>작가의 말</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit
+            leo lobortis eget.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+    </Box>
   );
 }
 
