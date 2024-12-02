@@ -36,11 +36,23 @@ export function BottomAppBar() {
           <Button startIcon={<MaterialSymbolsChatBubbleOutlineIcon />}>5</Button>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Button startIcon={<EvaArrowIosBackFillIcon />}>이전화</Button>
+          <Button startIcon={<EvaArrowIosBackFillIcon />} sx={{ [theme.breakpoints.down("sm")]: { display: "none" } }}>
+            이전화
+          </Button>
+          <IconButton sx={{ [theme.breakpoints.up("sm")]: { display: "none" } }}>
+            <EvaArrowIosBackFillIcon />
+          </IconButton>
+
           <IconButton>
             <EvaListOutlineIcon />
           </IconButton>
-          <Button endIcon={<EvaArrowIosForwardFillIcon />}>다음화</Button>
+
+          <IconButton sx={{ [theme.breakpoints.up("sm")]: { display: "none" } }}>
+            <EvaArrowIosForwardFillIcon />
+          </IconButton>
+          <Button endIcon={<EvaArrowIosForwardFillIcon />} sx={{ [theme.breakpoints.down("sm")]: { display: "none" } }}>
+            다음화
+          </Button>
         </Box>
       </Box>
     </Box>
