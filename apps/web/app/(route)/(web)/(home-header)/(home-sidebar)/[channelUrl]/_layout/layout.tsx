@@ -174,7 +174,7 @@ export default function ChannelUrlLayout({ children }: Props) {
           >
             <Link
               component={NextLink}
-              href="TODO_프로필"
+              href="/profile/${@TODO}"
               color={theme.vars.palette.text.primary}
               sx={{
                 ...maxLine({ line: 1 }),
@@ -387,7 +387,7 @@ function DetailDialog() {
             <Typography variant="subtitle2">크리에이터 정보</Typography>
             <Box
               component={NextLink}
-              href={"/TODO_프로필"}
+              href={"/profile/${@TODO}"}
               sx={{ display: "flex", alignItems: "center", gap: 1.5, textDecoration: "none" }}
             >
               <Avatar src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
