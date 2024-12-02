@@ -136,7 +136,7 @@ function Precaution() {
   const theme = useTheme();
 
   return (
-    <Box sx={{ paddingX: 2.5, paddingY: 1.5 }}>
+    <Box sx={{ paddingX: 2.5, pt: 1.5 }}>
       <Accordion
         defaultExpanded
         disableGutters
@@ -219,7 +219,7 @@ function AuthorTalk() {
   const theme = useTheme();
 
   return (
-    <Box sx={{ paddingX: 2.5, paddingY: 1.5 }}>
+    <Box sx={{ paddingX: 2.5 }}>
       <Accordion
         defaultExpanded
         disableGutters
@@ -278,24 +278,21 @@ function ETC() {
           23-04-13
         </Typography>
       </Box>
-
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-        <Box sx={{ display: "flex", gap: 0.5 }}>
-          <Label variant="soft" color="secondary">
-            2차 창작
-          </Label>
-          <Label variant="soft" color="warning">
-            BL
-          </Label>
-          <Label variant="soft" color="warning">
-            액션
-          </Label>
-        </Box>
-        <Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
-          {Array.from({ length: 10 }, () => (
-            <Chip label="액션" variant="soft" size="small" />
-          ))}
-        </Box>
+      <Box sx={{ display: "flex", gap: 1 }}>
+        <Label variant="soft" color="secondary">
+          2차 창작
+        </Label>
+        <Label variant="soft" color="warning">
+          BL
+        </Label>
+        <Label variant="soft" color="warning">
+          액션
+        </Label>
+      </Box>
+      <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+        {Array.from({ length: 10 }, () => (
+          <Chip label="액션" variant="soft" size="small" sx={{ borderRadius: 3 }} />
+        ))}
       </Box>
     </Stack>
   );
