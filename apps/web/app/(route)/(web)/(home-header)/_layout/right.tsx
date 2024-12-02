@@ -99,11 +99,12 @@ export function Right() {
             anchorEl={anchorRef.current}
             open={isOpen}
             onClose={close}
+            placement="bottom-end"
             modifiers={[
               {
                 name: "offset",
                 options: {
-                  offset: [0, 6],
+                  offset: [0, 12],
                 },
               },
             ]}
@@ -113,10 +114,10 @@ export function Right() {
                 <ListItem
                   secondaryAction={
                     <Box sx={{ display: "flex", gap: 1 }}>
-                      <Button variant="contained" size="small">
+                      <Button variant="soft" size="small">
                         스튜디오
                       </Button>
-                      <IconButton variant="contained" size="small" sx={{ borderRadius: 1 }}>
+                      <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
                         <MingcutePencilLineIcon />
                       </IconButton>
                     </Box>
@@ -124,9 +125,8 @@ export function Right() {
                 >
                   <ListItemAvatar>
                     <Avatar
-                      variant="circular"
                       src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-                      sx={{ borderRadius: 1 }}
+                      sx={{ width: 32, height: 32, borderRadius: 1 }}
                     />
                   </ListItemAvatar>
                   <ListItemText primary="채널1" />
@@ -135,10 +135,10 @@ export function Right() {
                 <ListItem
                   secondaryAction={
                     <Box sx={{ display: "flex", gap: 1 }}>
-                      <Button variant="contained" size="small">
+                      <Button variant="soft" size="small">
                         스튜디오
                       </Button>
-                      <IconButton variant="contained" size="small" sx={{ borderRadius: 1 }}>
+                      <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
                         <MingcutePencilLineIcon />
                       </IconButton>
                     </Box>
@@ -146,34 +146,11 @@ export function Right() {
                 >
                   <ListItemAvatar>
                     <Avatar
-                      variant="circular"
                       src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-                      sx={{ borderRadius: 1 }}
+                      sx={{ width: 32, height: 32, borderRadius: 1 }}
                     />
                   </ListItemAvatar>
                   <ListItemText primary="채널2" />
-                </ListItem>
-
-                <ListItem
-                  secondaryAction={
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                      <Button variant="contained" size="small">
-                        스튜디오
-                      </Button>
-                      <IconButton variant="contained" size="small" sx={{ borderRadius: 1 }}>
-                        <MingcutePencilLineIcon />
-                      </IconButton>
-                    </Box>
-                  }
-                >
-                  <ListItemAvatar>
-                    <Avatar
-                      variant="circular"
-                      src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-                      sx={{ borderRadius: 1 }}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText primary="채널3" />
                 </ListItem>
               </Stack>
               <Divider />

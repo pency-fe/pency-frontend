@@ -2,6 +2,7 @@
 
 import {
   Accordion,
+  accordionClasses,
   AccordionDetails,
   AccordionSummary,
   Avatar,
@@ -133,7 +134,15 @@ export function PostIdPage() {
 
 function Precaution() {
   return (
-    <Accordion defaultExpanded>
+    <Accordion
+      defaultExpanded
+      disableGutters
+      sx={{
+        [`&.${accordionClasses.expanded}`]: {
+          boxShadow: "none",
+        },
+      }}
+    >
       <AccordionSummary expandIcon={<EvaArrowIosDownwardFillIcon />} aria-controls="panel1-content" id="panel1-header">
         <Typography>읽기 전 주의사항</Typography>
       </AccordionSummary>
