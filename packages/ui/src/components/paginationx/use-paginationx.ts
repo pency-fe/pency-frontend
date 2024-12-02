@@ -8,7 +8,7 @@ type Props = {
 };
 
 type Item = {
-  type: "prev" | "next" | "page";
+  type: "previous" | "next" | "page";
   page: number;
   disabled: boolean;
   selected: boolean;
@@ -24,7 +24,7 @@ export const usePaginationx = ({ totalCount, currentPage }: Props) => {
     const end = Math.min(start + 4, totalCount);
 
     const prevItem: Item = {
-      type: "prev",
+      type: "previous",
       page: currentPage - 1,
       disabled: currentPage <= 1,
       selected: false,
