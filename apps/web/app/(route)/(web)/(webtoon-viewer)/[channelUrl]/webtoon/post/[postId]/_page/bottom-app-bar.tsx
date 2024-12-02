@@ -29,6 +29,7 @@ export function BottomAppBar() {
           maxWidth: 700,
           height: 1,
           margin: "auto",
+          padding: "12px",
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>

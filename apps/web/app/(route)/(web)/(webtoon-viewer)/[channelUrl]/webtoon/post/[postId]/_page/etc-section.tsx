@@ -29,12 +29,12 @@ import { WT_Post_List_Comment } from "_core/webtoon/post";
 
 export function EtcSection() {
   return (
-    <>
+    <Stack spacing={1}>
       <ChannelAction />
       <PostLikeSummary />
       <PostPrevNext />
       <OtherPostOfAuthor />
-    </>
+    </Stack>
   );
 }
 

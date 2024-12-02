@@ -23,8 +23,12 @@ export function ViewerSection() {
     <Stack
       spacing={1.5}
       sx={{
-        borderRadius: 1.5,
-        bgcolor: theme.vars.palette.background.paper,
+        borderRadius: 0,
+        bgcolor: "inherit",
+        [theme.breakpoints.up("sm")]: {
+          borderRadius: 1.5,
+          bgcolor: theme.vars.palette.background.paper,
+        },
       }}
     >
       <Precaution />
@@ -229,8 +233,6 @@ function ETC() {
       sx={{
         display: "flex",
         gap: 1.5,
-        bgcolor: theme.vars.palette.background.paper,
-        borderRadius: 1.5,
         paddingX: 2.5,
         paddingY: 1.5,
       }}
