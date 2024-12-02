@@ -26,21 +26,21 @@ export function LatestSection() {
       <WT_Post_OverviewCarousel>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography variant="h4">최신 포스트</Typography>
-          <Button
-            component={NextLink}
-            href={genreParam !== "ALL" ? `/webtoon/post/list?genre=${genreParam}` : "/webtoon/post/list"}
-            size="small"
-            color="inherit"
-            sx={{
-              color: theme.vars.palette.grey[500],
-              [stylesColorScheme.dark]: {
-                color: theme.vars.palette.grey[500],
-              },
-            }}
-          >
-            더 보기
-          </Button>
           <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
+            <Button
+              component={NextLink}
+              href={genreParam !== "ALL" ? `/webtoon/post/list?genre=${genreParam}` : "/webtoon/post/list"}
+              size="small"
+              color="inherit"
+              sx={{
+                color: theme.vars.palette.grey[500],
+                [stylesColorScheme.dark]: {
+                  color: theme.vars.palette.grey[500],
+                },
+              }}
+            >
+              더 보기
+            </Button>
             <WT_Post_OverviewCarousel.PrevNav size={isUpMd ? "medium" : "small"} />
             <WT_Post_OverviewCarousel.NextNav size={isUpMd ? "medium" : "small"} />
           </Stack>
