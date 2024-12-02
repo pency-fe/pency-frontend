@@ -23,9 +23,9 @@ export function ViewerSection() {
     <Stack
       spacing={1.5}
       sx={{
-        borderRadius: 0,
-        bgcolor: "inherit",
+        mx: "-16px",
         [theme.breakpoints.up("sm")]: {
+          mx: 0,
           borderRadius: 1.5,
           bgcolor: theme.vars.palette.background.paper,
         },
@@ -180,7 +180,7 @@ function PaidPostGuide() {
           ...theme.typography.body2,
         }}
       >
-        여러 회차 선택 구매하기
+        여러 회차 구매하기
       </Button>
     </Stack>
   );

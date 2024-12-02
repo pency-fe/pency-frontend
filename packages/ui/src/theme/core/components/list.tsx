@@ -1,4 +1,18 @@
+import { maxLine } from "@/util";
 import type { Theme, Components } from "@mui/material/styles";
+
+// ----------------------------------------------------------------------
+
+const MuiListItemButton: Components<Theme>["MuiListItemButton"] = {
+  /** **************************************
+   * STYLE
+   *************************************** */
+  styleOverrides: {
+    root: ({ theme }) => ({
+      borderRadius: theme.shape.borderRadius * 0.75,
+    }),
+  },
+};
 
 // ----------------------------------------------------------------------
 
@@ -34,12 +48,13 @@ const MuiListItemText: Components<Theme>["MuiListItemText"] = {
   /** **************************************
    * STYLE
    *************************************** */
-  styleOverrides: { root: { margin: 0 }, multiline: { margin: 0 } },
+  styleOverrides: { root: { margin: 0 }, multiline: { margin: 0 }, primary: { ...maxLine({ line: 1 }) } },
 };
 
 // ----------------------------------------------------------------------
 
 export const list = {
+  MuiListItemButton,
   MuiListItemIcon,
   MuiListItemAvatar,
   MuiListItemText,

@@ -100,6 +100,7 @@ export function Right() {
             open={isOpen}
             onClose={close}
             placement="bottom-end"
+            disablePortal
             modifiers={[
               {
                 name: "offset",
@@ -108,49 +109,54 @@ export function Right() {
                 },
               },
             ]}
+            slotProps={{
+              paper: {
+                sx: {
+                  width: 360,
+                  maxWidth: 360,
+                  minHeight: 400,
+                  px: "8px",
+                  py: "6px",
+                },
+              },
+            }}
           >
-            <Stack sx={{ width: 360, maxWidth: 360, minHeight: 400, px: "8px", py: "6px" }}>
+            <Stack>
               <List>
-                <ListItem
-                  secondaryAction={
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                      <Button variant="soft" size="small">
-                        스튜디오
-                      </Button>
-                      <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
-                        <MingcutePencilLineIcon />
-                      </IconButton>
-                    </Box>
-                  }
-                >
+                <ListItem>
                   <ListItemAvatar>
                     <Avatar
                       src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
                       sx={{ width: 32, height: 32, borderRadius: 1 }}
                     />
                   </ListItemAvatar>
-                  <ListItemText primary="채널1채널1채널1채널1" />
+                  <ListItemText>채널 이름이 매우 너무 많이 미치게 긴 이름</ListItemText>
+                  <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
+                    <Button variant="soft" size="small">
+                      스튜디오
+                    </Button>
+                    <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
+                      <MingcutePencilLineIcon />
+                    </IconButton>
+                  </Box>
                 </ListItem>
 
-                <ListItem
-                  secondaryAction={
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                      <Button variant="soft" size="small">
-                        스튜디오
-                      </Button>
-                      <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
-                        <MingcutePencilLineIcon />
-                      </IconButton>
-                    </Box>
-                  }
-                >
+                <ListItem>
                   <ListItemAvatar>
                     <Avatar
                       src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
                       sx={{ width: 32, height: 32, borderRadius: 1 }}
                     />
                   </ListItemAvatar>
-                  <ListItemText primary="채널2" />
+                  <ListItemText>채널2</ListItemText>
+                  <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
+                    <Button variant="soft" size="small">
+                      스튜디오
+                    </Button>
+                    <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
+                      <MingcutePencilLineIcon />
+                    </IconButton>
+                  </Box>
                 </ListItem>
               </List>
               <Divider />
