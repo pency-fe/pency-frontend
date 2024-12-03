@@ -10,7 +10,6 @@ export function CreatePage() {
   return (
     <Main>
       <Stack spacing={4}>
-        <Typography variant="h4">새 채널 만들기</Typography>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -21,6 +20,7 @@ export function CreatePage() {
             <CH_Create_Form>
               <Box sx={{ backgroundColor: theme.vars.palette.background.paper, padding: 3, borderRadius: 2 }}>
                 <Stack spacing={4}>
+                  <Typography variant="h4">새 채널 만들기</Typography>
                   <CH_Create_Form.Title />
                   <CH_Create_Form.Description />
                   <CH_Create_Form.Url />
