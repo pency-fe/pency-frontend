@@ -67,7 +67,7 @@ function ChannelAction() {
           href="TODO_채널_이동"
           variant="subtitle1"
           underline="none"
-          sx={{ color: theme.vars.palette.text.primary, "&:hover": { color: theme.vars.palette.action.hover } }}
+          sx={{ color: theme.vars.palette.text.primary }}
         >
           김천재
         </Link>
