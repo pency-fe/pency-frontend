@@ -1,13 +1,14 @@
 "use client";
 
 import { AppBar, AppBarProps, Box, Container, GlobalStyles, Toolbar, useTheme } from "@mui/material";
+import { forwardRef, PropsWithoutRef } from "react";
 
 const token = {
   height: "--layout-header-height",
   upSmHeight: "--layout-header-up-sm-height",
 };
 
-type HeaderProps = AppBarProps & {
+type HeaderFnProps = PropsWithoutRef<AppBarProps> & {
   slots?: {
     left?: React.ReactNode;
     center?: React.ReactNode;
@@ -15,7 +16,7 @@ type HeaderProps = AppBarProps & {
   };
 };
 
-function HeaderFn({ slots }: HeaderProps) {
+const HeaderFn = forwardRef<HTMLHeadElement, HeaderFnProps>(({ slots }, ref) => {
   const theme = useTheme();
 
   return (
@@ -28,7 +29,7 @@ function HeaderFn({ slots }: HeaderProps) {
           },
         }}
       />
-      <AppBar>
+      <AppBar ref={ref}>
         <Toolbar
           disableGutters
           sx={{
@@ -62,6 +63,6 @@ function HeaderFn({ slots }: HeaderProps) {
       </AppBar>
     </>
   );
-}
+});
 
 export const Header = Object.assign(HeaderFn, { token });

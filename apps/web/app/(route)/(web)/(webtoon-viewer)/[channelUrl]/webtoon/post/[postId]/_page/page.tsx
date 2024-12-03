@@ -7,14 +7,14 @@ import { HeaderRight } from "./header-right";
 import { ViewerSection } from "./viewer-section";
 import { BottomAppBar } from "./bottom-app-bar";
 import { EtcSection } from "./etc-section";
-import { ReactElement } from "react";
+import { isClient } from "@pency/util";
 
 // ----------------------------------------------------------------------
 
 export function PostIdPage() {
   return (
     <>
-      <HideTopAppBar />
+      <HideHeader />
       <Main>
         <Stack spacing={1} sx={{ maxWidth: "700px" }}>
           <ViewerSection />
@@ -28,29 +28,14 @@ export function PostIdPage() {
 
 // ----------------------------------------------------------------------
 
-type HideOnScrollProps = {
-  window?: () => Window;
-  children?: ReactElement<unknown>;
-};
-
-function HideOnScroll({ children, window }: HideOnScrollProps) {
+function HideHeader() {
   const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-    disableHysteresis: true,
-    threshold: 0,
+    target: isClient() ? window : undefined,
   });
 
   return (
     <Slide appear={false} direction="down" in={!trigger}>
-      {children ?? <div />}
-    </Slide>
-  );
-}
-
-function HideTopAppBar(props: HideOnScrollProps) {
-  return (
-    <HideOnScroll {...props}>
       <Header slots={{ left: <HeaderLeft />, right: <HeaderRight /> }} />
-    </HideOnScroll>
+    </Slide>
   );
 }
