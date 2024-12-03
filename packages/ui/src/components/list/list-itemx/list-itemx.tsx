@@ -14,7 +14,7 @@ import { BrandPencyTextIcon } from "@/components/svg";
 type ListItemxFnProps = {
   slots: {
     overlayElement: ReactElement;
-    trailingLabel?: ReactElement;
+    leadingLabel?: ReactElement;
     thumbnail: ReactElement;
     order?: ReactElement | null;
     title: ReactElement;
@@ -48,7 +48,7 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...re
     >
       {slots.overlayElement}
 
-      {slots.trailingLabel}
+      {slots.leadingLabel}
 
       {slots.thumbnail}
 
@@ -103,9 +103,9 @@ const OverlayAnchorFn = forwardRef<HTMLAnchorElement, OverlayAnchorFnProps>((res
 
 // ----------------------------------------------------------------------
 
-type TrailingLabelFnProps = TypographyProps;
+type LeadingLabelFnProps = TypographyProps;
 
-const TrailingLabelFn = forwardRef<HTMLSpanElement, TrailingLabelFnProps>((rest, ref) => {
+const LeadingLabelFn = forwardRef<HTMLSpanElement, LeadingLabelFnProps>((rest, ref) => {
   return (
     <Typography
       ref={ref}
@@ -272,7 +272,7 @@ const DotFn = forwardRef<HTMLSpanElement, DotFnProps>((rest, ref) => {
 export const ListItemx = Object.assign(ListItemxFn, {
   OverlayAnchor: OverlayAnchorFn,
   OverlayButton: OverlayButtonFn,
-  TrailingLabel: TrailingLabelFn,
+  LeadingLabel: LeadingLabelFn,
   Thumbnail: Object.assign(ThumbnailFn, { Image: ImageFn }),
   Order: Label,
   Title: TitleFn,

@@ -172,7 +172,7 @@ function PostPrevNext() {
       <ListItemx
         slots={{
           overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
-          trailingLabel: <ListItemx.TrailingLabel>이전화</ListItemx.TrailingLabel>,
+          leadingLabel: <ListItemx.LeadingLabel>이전화</ListItemx.LeadingLabel>,
           thumbnail: (
             <ListItemx.Thumbnail
               slots={{
@@ -197,7 +197,7 @@ function PostPrevNext() {
       <ListItemx
         slots={{
           overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
-          trailingLabel: <ListItemx.TrailingLabel>다음화</ListItemx.TrailingLabel>,
+          leadingLabel: <ListItemx.LeadingLabel>다음화</ListItemx.LeadingLabel>,
           thumbnail: (
             <ListItemx.Thumbnail
               slots={{
