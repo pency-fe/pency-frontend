@@ -172,7 +172,11 @@ function PostPrevNext() {
       <ListItemx
         slots={{
           overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
-          leadingLabel: <ListItemx.LeadingLabel>이전화</ListItemx.LeadingLabel>,
+          leadingLabel: (
+            <ListItemx.LeadingLabel variant="button" color={theme.vars.palette.text.secondary} sx={{ flexShrink: 0 }}>
+              이전화
+            </ListItemx.LeadingLabel>
+          ),
           thumbnail: (
             <ListItemx.Thumbnail
               slots={{
@@ -197,12 +201,15 @@ function PostPrevNext() {
       <ListItemx
         slots={{
           overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
-          leadingLabel: <ListItemx.LeadingLabel>다음화</ListItemx.LeadingLabel>,
+          leadingLabel: (
+            <ListItemx.LeadingLabel variant="button" color={theme.vars.palette.text.secondary} sx={{ flexShrink: 0 }}>
+              다음화
+            </ListItemx.LeadingLabel>
+          ),
           thumbnail: (
             <ListItemx.Thumbnail
               slots={{
                 image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
-                // image: <ListItemx.Thumbnail.Image src={null} />,
                 topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
               }}
               sx={{ aspectRatio: "16/9" }}
