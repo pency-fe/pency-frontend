@@ -1,7 +1,17 @@
 "use client";
 
 import { iconAlignCenter, maxLine, varAlpha } from "@/util";
-import { Box, BoxProps, ButtonBase, ButtonBaseProps, Typography, TypographyProps, useTheme } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  Button,
+  ButtonBase,
+  ButtonBaseProps,
+  ButtonProps,
+  Typography,
+  TypographyProps,
+  useTheme,
+} from "@mui/material";
 import { forwardRef, ReactElement } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
@@ -14,11 +24,12 @@ import { BrandPencyTextIcon } from "@/components/svg";
 type ListItemxFnProps = {
   slots: {
     overlayElement: ReactElement;
-    leadingLabel?: ReactElement;
+    leadingLabel?: ReactElement | null;
     thumbnail: ReactElement;
     order?: ReactElement | null;
     title: ReactElement;
     attribute?: ReactElement | null;
+    trailingAction?: ReactElement | null;
   };
 } & BoxProps;
 
@@ -58,6 +69,8 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...re
         {slots.title}
         {slots.attribute}
       </Box>
+
+      <Box sx={{ ml: "auto" }}>{slots.trailingAction}</Box>
     </Box>
   );
 });
@@ -269,6 +282,17 @@ const DotFn = forwardRef<HTMLSpanElement, DotFnProps>((rest, ref) => {
 
 // ----------------------------------------------------------------------
 
+type TrailingActionFnProps = ButtonProps & { label: string };
+const TrailingActionFn = forwardRef<HTMLButtonElement, TrailingActionFnProps>(({ label, ...rest }, ref) => {
+  return (
+    <Button ref={ref} variant="soft" {...rest}>
+      {label}
+    </Button>
+  );
+});
+
+// ----------------------------------------------------------------------
+
 export const ListItemx = Object.assign(ListItemxFn, {
   OverlayAnchor: OverlayAnchorFn,
   OverlayButton: OverlayButtonFn,
@@ -277,4 +301,5 @@ export const ListItemx = Object.assign(ListItemxFn, {
   Order: Label,
   Title: TitleFn,
   Attribute: Object.assign(AttributeFn, { Dot: DotFn }),
+  TrailingAction: Object.assign(TrailingActionFn),
 });
