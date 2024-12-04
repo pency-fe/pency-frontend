@@ -44,6 +44,9 @@ export function SubscriptionChannelPage() {
           />
         </>
       ))}
+      <Box sx={{ margin: "auto", mt: 3 }}>
+        <Pagination />
+      </Box>
     </Stack>
   );
 }
