@@ -30,7 +30,7 @@ export function SubscriptionChannelPage() {
               title: <ListItemx.Title>김천재</ListItemx.Title>,
               attribute: (
                 <ListItemx.Attribute>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                     <Avatar
                       src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
                       sx={{ width: 20, height: 20 }}
