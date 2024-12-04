@@ -1,18 +1,7 @@
 "use client";
 
 import { iconAlignCenter, maxLine, varAlpha } from "@/util";
-import {
-  Box,
-  BoxProps,
-  Button,
-  ButtonBase,
-  ButtonBaseProps,
-  ButtonProps,
-  IconButton,
-  Typography,
-  TypographyProps,
-  useTheme,
-} from "@mui/material";
+import { Box, BoxProps, ButtonBase, ButtonBaseProps, Typography, TypographyProps, useTheme } from "@mui/material";
 import { forwardRef, ReactElement } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
@@ -84,7 +73,6 @@ const OverlayButtonFn = forwardRef<HTMLButtonElement, OverlayButtonFnProps>((res
   return (
     <ButtonBase
       ref={ref}
-      // disableRipple
       {...rest}
       sx={{
         position: "absolute",
@@ -103,7 +91,6 @@ const OverlayAnchorFn = forwardRef<HTMLAnchorElement, OverlayAnchorFnProps>((res
     <ButtonBase
       ref={ref}
       LinkComponent={NextLink}
-      // disableRipple
       {...rest}
       sx={{
         position: "absolute",

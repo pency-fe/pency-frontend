@@ -2,7 +2,7 @@
 
 import NextLink from "next/link";
 import { Avatar, Box, Button, PaginationItem, Stack } from "@mui/material";
-import { EvaArrowIosDownwardFillIcon, ListItemx } from "@pency/ui/components";
+import { ListItemx } from "@pency/ui/components";
 import { usePaginationx } from "@pency/ui/hooks";
 import { createQueryString } from "@pency/util";
 import { useSearchParams } from "next/navigation";
