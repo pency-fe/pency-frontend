@@ -1,8 +1,8 @@
 "use client";
 
 import NextLink from "next/link";
-import { Avatar, Box, PaginationItem, Stack } from "@mui/material";
-import { ListItemx } from "@pency/ui/components";
+import { Avatar, Box, Button, PaginationItem, Stack } from "@mui/material";
+import { EvaArrowIosDownwardFillIcon, ListItemx } from "@pency/ui/components";
 import { usePaginationx } from "@pency/ui/hooks";
 import { createQueryString } from "@pency/util";
 import { useSearchParams } from "next/navigation";
@@ -39,7 +39,11 @@ export function SubscriptionChannelPage() {
                   </Box>
                 </ListItemx.Attribute>
               ),
-              trailingAction: <ListItemx.TrailingAction label="구독 중" />,
+              trailing: (
+                <ListItemx.Trailing>
+                  <Button variant="soft">구독 중</Button>
+                </ListItemx.Trailing>
+              ),
             }}
           />
         </>

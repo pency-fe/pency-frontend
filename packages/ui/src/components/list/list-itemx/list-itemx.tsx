@@ -8,6 +8,7 @@ import {
   ButtonBase,
   ButtonBaseProps,
   ButtonProps,
+  IconButton,
   Typography,
   TypographyProps,
   useTheme,
@@ -29,7 +30,7 @@ type ListItemxFnProps = {
     order?: ReactElement | null;
     title: ReactElement;
     attribute?: ReactElement | null;
-    trailingAction?: ReactElement | null;
+    trailing?: ReactElement | null;
   };
 } & BoxProps;
 
@@ -70,7 +71,7 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...re
         {slots.attribute}
       </Box>
 
-      <Box sx={{ ml: "auto" }}>{slots.trailingAction}</Box>
+      <Box sx={{ ml: "auto" }}>{slots.trailing}</Box>
     </Box>
   );
 });
@@ -282,12 +283,13 @@ const DotFn = forwardRef<HTMLSpanElement, DotFnProps>((rest, ref) => {
 
 // ----------------------------------------------------------------------
 
-type TrailingActionFnProps = ButtonProps & { label: string };
-const TrailingActionFn = forwardRef<HTMLButtonElement, TrailingActionFnProps>(({ label, ...rest }, ref) => {
+type TrailingFnProps = BoxProps & { children: ReactElement };
+
+const TrailingFn = forwardRef<HTMLDivElement, TrailingFnProps>(({ children, ...rest }, ref) => {
   return (
-    <Button ref={ref} variant="soft" {...rest} sx={{ zIndex: 2 }}>
-      {label}
-    </Button>
+    <Box ref={ref} {...rest} sx={{ position: "relative", zIndex: 2, ...rest.sx }}>
+      {children}
+    </Box>
   );
 });
 
@@ -301,5 +303,5 @@ export const ListItemx = Object.assign(ListItemxFn, {
   Order: Label,
   Title: TitleFn,
   Attribute: Object.assign(AttributeFn, { Dot: DotFn }),
-  TrailingAction: Object.assign(TrailingActionFn),
+  Trailing: Object.assign(TrailingFn),
 });
