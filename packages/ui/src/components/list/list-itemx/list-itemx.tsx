@@ -285,7 +285,7 @@ const DotFn = forwardRef<HTMLSpanElement, DotFnProps>((rest, ref) => {
 type TrailingActionFnProps = ButtonProps & { label: string };
 const TrailingActionFn = forwardRef<HTMLButtonElement, TrailingActionFnProps>(({ label, ...rest }, ref) => {
   return (
-    <Button ref={ref} variant="soft" {...rest}>
+    <Button ref={ref} variant="soft" {...rest} sx={{ zIndex: 2 }}>
       {label}
     </Button>
   );
