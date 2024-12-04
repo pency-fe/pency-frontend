@@ -19,9 +19,9 @@ export const Default = () => {
   //   return 1;
   // }, [searchParams]);
 
-  // const paginations = usePaginationx({ totalCount: 20, currentPage: pageParam });
+  // const paginations = usePaginationx({ pageCount: 20, currentPage: pageParam });
 
-  const paginations = usePaginationx({ totalCount: 20, currentPage: 2 });
+  const paginations = usePaginationx({ pageCount: 20, currentPage: 2 });
 
   return (
     <>

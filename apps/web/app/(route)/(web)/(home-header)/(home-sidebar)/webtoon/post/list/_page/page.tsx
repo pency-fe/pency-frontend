@@ -172,7 +172,7 @@ function Pagination() {
     return 1;
   }, [searchParams]);
 
-  const paginations = usePaginationx({ totalCount: 20, currentPage: pageParam });
+  const paginations = usePaginationx({ pageCount: 20, currentPage: pageParam });
 
   return (
     <>

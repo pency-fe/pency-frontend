@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 
 type Props = {
-  totalCount: number;
+  pageCount: number;
   currentPage: number;
 };
 
@@ -14,14 +14,14 @@ type Item = {
   selected: boolean;
 };
 
-export const usePaginationx = ({ totalCount, currentPage }: Props) => {
+export const usePaginationx = ({ pageCount, currentPage }: Props) => {
   return useMemo(() => {
-    if (currentPage < 1 || currentPage > totalCount) {
+    if (currentPage < 1 || currentPage > pageCount) {
       return [];
     }
 
     const start = Math.floor((currentPage - 1) / 5) * 5 + 1;
-    const end = Math.min(start + 4, totalCount);
+    const end = Math.min(start + 4, pageCount);
 
     const prevItem: Item = {
       type: "previous",
@@ -38,10 +38,10 @@ export const usePaginationx = ({ totalCount, currentPage }: Props) => {
     const nextItem: Item = {
       type: "next",
       page: currentPage + 1,
-      disabled: currentPage >= totalCount,
+      disabled: currentPage >= pageCount,
       selected: false,
     };
 
     return [prevItem, ...pageItems, nextItem];
-  }, [totalCount, currentPage]);
+  }, [pageCount, currentPage]);
 };
