@@ -58,6 +58,7 @@ export function SubscriptionPage() {
               href={(() => {
                 const params = new URLSearchParams(searchParams.toString());
                 params.set("content", content);
+                params.delete("page");
                 return `/subscription${createQueryString(params)}`;
               })()}
               sx={{ flexShrink: 0 }}
