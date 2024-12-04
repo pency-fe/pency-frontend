@@ -2,12 +2,12 @@
 
 import NextLink from "next/link";
 import { Box, Grid, PaginationItem, RadioGroup, Stack } from "@mui/material";
-import { usePaginationx } from "@pency/ui/hooks";
+import { RadioButton } from "@pency/ui/components";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { createQueryString, objectEntries } from "@pency/util";
-import { RadioButton } from "@pency/ui/components";
 import { WT_Post_RichCard } from "_core/webtoon/post";
+import { usePaginationx } from "@pency/ui/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ const CONTENT_VALUE_LABEL: Record<contentValue, string> = {
 
 // ----------------------------------------------------------------------
 
-export function SubscriptionPage() {
+export default function LibraryPurchasePage() {
   const searchParams = useSearchParams();
 
   const contents = useMemo(() => objectEntries(CONTENT_VALUE_LABEL), []);
@@ -44,7 +44,7 @@ export function SubscriptionPage() {
             href={(() => {
               const params = new URLSearchParams(searchParams.toString());
               params.delete("content");
-              return `/subscription`;
+              return `/library/purchase`;
             })()}
             sx={{ flexShrink: 0 }}
           >
@@ -59,7 +59,7 @@ export function SubscriptionPage() {
                 const params = new URLSearchParams(searchParams.toString());
                 params.set("content", content);
                 params.delete("page");
-                return `/subscription${createQueryString(params)}`;
+                return `/library/purchase${createQueryString(params)}`;
               })()}
               sx={{ flexShrink: 0 }}
             >
@@ -137,7 +137,7 @@ function Pagination() {
         const params = new URLSearchParams(searchParams.toString());
         params.set("page", `${pagination.page}`);
         return (
-          <PaginationItem component={NextLink} href={`/subscription${createQueryString(params)}`} {...pagination} />
+          <PaginationItem component={NextLink} href={`/library/purchase${createQueryString(params)}`} {...pagination} />
         );
       })}
     </>
