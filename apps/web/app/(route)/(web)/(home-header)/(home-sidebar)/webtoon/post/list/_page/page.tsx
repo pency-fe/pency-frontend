@@ -190,12 +190,12 @@ export function ListPage() {
               <RadioGroup
                 sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
               >
-                <RadioButton value="ALL" sx={{ flexShrink: 0 }}>
+                <RadioButton value="ALL" sx={{ flexShrink: 0 }} size="small">
                   전체
                 </RadioButton>
                 {creationTypes.map(([creationType, label]) => {
                   return (
-                    <RadioButton key={creationType} value={creationType} sx={{ flexShrink: 0 }}>
+                    <RadioButton key={creationType} value={creationType} size="small" sx={{ flexShrink: 0 }}>
                       {label}
                     </RadioButton>
                   );
@@ -207,12 +207,12 @@ export function ListPage() {
               <RadioGroup
                 sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
               >
-                <RadioButton value="ALL" sx={{ flexShrink: 0 }}>
+                <RadioButton value="ALL" size="small" sx={{ flexShrink: 0 }}>
                   전체
                 </RadioButton>
                 {pairs.map(([pair, label]) => {
                   return (
-                    <RadioButton key={pair} value={pair} sx={{ flexShrink: 0 }}>
+                    <RadioButton key={pair} value={pair} size="small" sx={{ flexShrink: 0 }}>
                       {label}
                     </RadioButton>
                   );
@@ -221,6 +221,7 @@ export function ListPage() {
             </Box>
             <Button
               variant="contained"
+              size="small"
               sx={{ ml: "auto" }}
               onClick={() => {
                 setOpenFilter(false);
