@@ -7,9 +7,9 @@ type Props = {
     postId: string;
     thumbnail: string;
     age: Age;
-    // title: string,
     title: string;
     channel: {
+      channelUrl: string;
       name: string;
     };
     likeCount: number;
@@ -21,7 +21,7 @@ export const WT_Post_Rank_List_Itemx = forwardRef<HTMLDivElement, Props>(({ data
     <ListItemx
       ref={ref}
       slots={{
-        overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${data.postId}`} />,
+        overlayElement: <ListItemx.OverlayAnchor href={`/@${data.channel.channelUrl}/webtoon/post/${data.postId}`} />,
         thumbnail: (
           <ListItemx.Thumbnail
             slots={{

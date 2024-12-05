@@ -20,7 +20,7 @@ export const PostOverviewCard = () => {
     genre: "액션",
     title: "천재 궁수의 스트리밍",
     channel: {
-      channelId: "channel-id-123",
+      channelUrl: "channel-id-123",
       avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
       name: "김천재의 채널",
     },
@@ -29,7 +29,9 @@ export const PostOverviewCard = () => {
   return (
     <OverviewCard
       slots={{
-        overlayElement: <OverviewCard.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+        overlayElement: (
+          <OverviewCard.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
+        ),
         thumbnail: (
           <OverviewCard.Thumbnail
             slots={{
@@ -65,7 +67,7 @@ export const PostOverviewCard = () => {
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`/channel/${postData.channel.channelId}`}
+            href={`/channel/${postData.channel.channelUrl}`}
             slots={{
               avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
             }}
@@ -73,7 +75,7 @@ export const PostOverviewCard = () => {
         ),
         title: <OverviewCard.Title>{postData.title}</OverviewCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/channel/${postData.channel.channelId}`}>
+          <OverviewCard.NameLink href={`/channel/${postData.channel.channelUrl}`}>
             {postData.channel.name}
           </OverviewCard.NameLink>
         ),
@@ -93,7 +95,7 @@ export const SeriesOverviewCard = () => {
     completionState: "연재",
     title: "천재 궁수의 스트리밍",
     channel: {
-      channelId: "channel-id-123",
+      channelUrl: "channel-id-123",
       avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
       name: "김천재의 채널",
     },
@@ -123,7 +125,7 @@ export const SeriesOverviewCard = () => {
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`/channel/${seriesData.channel.channelId}`}
+            href={`/channel/${seriesData.channel.channelUrl}`}
             slots={{
               avatar: <OverviewCard.AvatarLink.Avatar src={seriesData.channel.avatar} />,
             }}
@@ -131,7 +133,7 @@ export const SeriesOverviewCard = () => {
         ),
         title: <OverviewCard.Title>{seriesData.title}</OverviewCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/channel/${seriesData.channel.channelId}`}>
+          <OverviewCard.NameLink href={`/channel/${seriesData.channel.channelUrl}`}>
             {seriesData.channel.name}
           </OverviewCard.NameLink>
         ),

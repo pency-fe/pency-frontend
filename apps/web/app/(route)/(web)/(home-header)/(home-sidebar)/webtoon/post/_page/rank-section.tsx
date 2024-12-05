@@ -13,6 +13,7 @@ export function RankSection() {
     age: "NINETEEN",
     title: "천재 궁수의 스트리밍",
     channel: {
+      channelUrl: "dddddd",
       name: "김천재의 채널",
     },
     likeCount: 100,
@@ -38,7 +39,11 @@ export function RankSection() {
                     {Array.from({ length: 3 }, () => (
                       <ListItemx
                         slots={{
-                          overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+                          overlayElement: (
+                            <ListItemx.OverlayAnchor
+                              href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`}
+                            />
+                          ),
                           thumbnail: (
                             <ListItemx.Thumbnail
                               sx={{ aspectRatio: "16/9" }}

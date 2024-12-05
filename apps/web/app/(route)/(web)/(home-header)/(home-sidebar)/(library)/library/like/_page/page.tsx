@@ -97,6 +97,7 @@ const postData = {
 
   title: "4화 천재 궁수의 스트리밍",
   channel: {
+    channelUrl: "dddddd",
     name: "김천재의 채널",
   },
   series: "천재 궁수의 스트리밍", // 값이 없으면 null
@@ -112,7 +113,9 @@ function WebtoonListItemx() {
         <ListItemx
           key={i}
           slots={{
-            overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+            overlayElement: (
+              <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
+            ),
             thumbnail: (
               <ListItemx.Thumbnail
                 slots={{

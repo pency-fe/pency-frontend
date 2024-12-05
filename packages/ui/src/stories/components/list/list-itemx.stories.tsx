@@ -15,6 +15,7 @@ const postData = {
   // title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
   title: "천재 궁수의 스트리밍",
   channel: {
+    channelUrl: "dddddd",
     name: "김천재의 채널",
   },
   likeCount: 100,
@@ -25,7 +26,9 @@ export const PostListItemx = () => {
     <>
       <ListItemx
         slots={{
-          overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+          overlayElement: (
+            <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
+          ),
           thumbnail: (
             <ListItemx.Thumbnail
               slots={{

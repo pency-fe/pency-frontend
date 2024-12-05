@@ -41,7 +41,7 @@ const postData = {
   title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
   // title: "천재 궁수의 스트리밍",
   channel: {
-    channelId: "channel-id-123",
+    channelUrl: "channel-id-123",
     avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
     name: "김천재의 채널",
   },
@@ -61,7 +61,9 @@ export const PostRichCard = () => {
     <>
       <RichCard
         slots={{
-          overlayElement: <RichCard.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+          overlayElement: (
+            <RichCard.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
+          ),
           thumbnail: (
             <RichCard.Thumbnail
               slots={{
@@ -96,7 +98,7 @@ export const PostRichCard = () => {
           ),
           avatarLink: (
             <RichCard.AvatarLink
-              href={`/channel/${postData.channel.channelId}`}
+              href={`/channel/${postData.channel.channelUrl}`}
               slots={{
                 avatar: <RichCard.AvatarLink.Avatar src={postData.channel.avatar} />,
               }}
@@ -104,7 +106,7 @@ export const PostRichCard = () => {
           ),
           title: <RichCard.Title>{postData.title}</RichCard.Title>,
           nameLink: (
-            <RichCard.NameLink href={`/channel/${postData.channel.channelId}`}>
+            <RichCard.NameLink href={`/channel/${postData.channel.channelUrl}`}>
               {postData.channel.name}
             </RichCard.NameLink>
           ),
@@ -213,7 +215,7 @@ export const SeriesRichCard = () => {
     completionState: "연재",
     title: "천재 궁수의 스트리밍",
     channel: {
-      channelId: "channel-id-123",
+      channelUrl: "channel-id-123",
       avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
       name: "김천재의 채널",
     },
@@ -246,7 +248,7 @@ export const SeriesRichCard = () => {
         ),
         avatarLink: (
           <RichCard.AvatarLink
-            href={`/channel/${seriesData.channel.channelId}`}
+            href={`/channel/${seriesData.channel.channelUrl}`}
             slots={{
               avatar: <RichCard.AvatarLink.Avatar src={seriesData.channel.avatar} />,
             }}
@@ -254,7 +256,7 @@ export const SeriesRichCard = () => {
         ),
         title: <RichCard.Title>{seriesData.title}</RichCard.Title>,
         nameLink: (
-          <RichCard.NameLink href={`/channel/${seriesData.channel.channelId}`}>
+          <RichCard.NameLink href={`/channel/${seriesData.channel.channelUrl}`}>
             {seriesData.channel.name}
           </RichCard.NameLink>
         ),

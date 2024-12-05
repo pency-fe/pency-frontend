@@ -40,7 +40,7 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data, hideG
     <RichCard
       ref={ref}
       slots={{
-        overlayElement: <RichCard.OverlayAnchor href={`/webtoon/post/${data.postId}`} />,
+        overlayElement: <RichCard.OverlayAnchor href={`/@${data.channel.channelUrl}/webtoon/post/${data.postId}`} />,
         thumbnail: (
           <RichCard.Thumbnail
             slots={{

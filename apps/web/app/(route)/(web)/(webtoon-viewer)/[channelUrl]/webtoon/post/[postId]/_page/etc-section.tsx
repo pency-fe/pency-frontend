@@ -126,7 +126,7 @@ function PostLikeSummary() {
         data={{
           commentId: "123",
           channel: {
-            channelId: "13",
+            channelUrl: "13",
             avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
             name: "김천재",
           },
@@ -155,6 +155,7 @@ function PostPrevNext() {
     // title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
     title: "천재 궁수의 스트리밍",
     channel: {
+      channelUrl: "dddddd",
       name: "김천재의 채널",
     },
     likeCount: 100,
@@ -172,7 +173,9 @@ function PostPrevNext() {
     >
       <ListItemx
         slots={{
-          overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+          overlayElement: (
+            <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
+          ),
           leadingLabel: (
             <ListItemx.LeadingLabel variant="button" color={theme.vars.palette.text.secondary} sx={{ flexShrink: 0 }}>
               이전화
@@ -201,7 +204,9 @@ function PostPrevNext() {
       />
       <ListItemx
         slots={{
-          overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+          overlayElement: (
+            <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
+          ),
           leadingLabel: (
             <ListItemx.LeadingLabel variant="button" color={theme.vars.palette.text.secondary} sx={{ flexShrink: 0 }}>
               다음화
@@ -247,7 +252,7 @@ function OtherPostOfAuthor() {
     genre: "액션",
     title: "천재 궁수의 스트리밍",
     channel: {
-      channelId: "channel-id-123",
+      channelUrl: "channel-id-123",
       avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
       name: "김천재의 채널",
     },
@@ -293,7 +298,11 @@ function OtherPostOfAuthor() {
                   <OverviewCardCarousel.Slide key={i}>
                     <OverviewCard
                       slots={{
-                        overlayElement: <OverviewCard.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+                        overlayElement: (
+                          <OverviewCard.OverlayAnchor
+                            href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`}
+                          />
+                        ),
                         thumbnail: (
                           <OverviewCard.Thumbnail
                             slots={{
@@ -329,7 +338,7 @@ function OtherPostOfAuthor() {
                         ),
                         avatarLink: (
                           <OverviewCard.AvatarLink
-                            href={`/channel/${postData.channel.channelId}`}
+                            href={`/channel/${postData.channel.channelUrl}`}
                             slots={{
                               avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
                             }}
@@ -337,7 +346,7 @@ function OtherPostOfAuthor() {
                         ),
                         title: <OverviewCard.Title>{postData.title}</OverviewCard.Title>,
                         nameLink: (
-                          <OverviewCard.NameLink href={`/channel/${postData.channel.channelId}`}>
+                          <OverviewCard.NameLink href={`/channel/${postData.channel.channelUrl}`}>
                             {postData.channel.name}
                           </OverviewCard.NameLink>
                         ),

@@ -30,7 +30,9 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data, h
     <OverviewCard
       ref={ref}
       slots={{
-        overlayElement: <OverviewCard.OverlayAnchor href={`/webtoon/post/${data.postId}`} />,
+        overlayElement: (
+          <OverviewCard.OverlayAnchor href={`/@${data.channel.channelUrl}/webtoon/post/${data.postId}`} />
+        ),
         thumbnail: (
           <OverviewCard.Thumbnail
             slots={{
