@@ -24,3 +24,5 @@ export const wtPostChannelKeys = {
       queryFn: () => getPostChannelList({ channelUrl, page, sort }),
     }),
 };
+
+export const wtPostChannelStudioKeys = {};
