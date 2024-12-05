@@ -82,7 +82,6 @@ export function Right() {
           </IconButton>
           <IconButton
             onClick={() => {
-              console.log("/");
               router.push("/library/view");
             }}
             sx={{

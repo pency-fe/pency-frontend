@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import NextLink from "next/link";
 import {
   Stack,
@@ -26,6 +26,7 @@ import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { WT_Post_RichList } from "_core/webtoon/post";
 import { useSearchParams } from "next/navigation";
 import { usePaginationx } from "@pency/ui/hooks";
+import { CREATION_TYPE_LABEL, PAIR_LABEL } from "_core/webtoon/post/const";
 
 type Sort = "LATEST" | "POPULAR" | "WPOPULAR";
 
@@ -38,10 +39,14 @@ const SORT_LABEL: Record<Sort, string> = {
 export function ListPage() {
   const searchParams = useSearchParams();
   const theme = useTheme();
+  const [openFilter, setOpenFilter] = useState(false);
+
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
   const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
   const sorts = useMemo(() => objectEntries(SORT_LABEL), []);
+  const creationTypes = useMemo(() => objectEntries(CREATION_TYPE_LABEL), []);
+  const pairs = useMemo(() => objectEntries(PAIR_LABEL), []);
 
   const genreParam = useMemo(() => {
     const param = searchParams.get("genre");
@@ -69,44 +74,65 @@ export function ListPage() {
 
   return (
     <Stack spacing={3}>
-      <RadioGroup
-        value={genreParam}
-        sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
-      >
-        <RadioButton
-          LinkComponent={NextLink}
-          value="ALL"
-          href={(() => {
-            const params = new URLSearchParams(searchParams.toString());
-            params.delete("genre");
-            params.delete("page");
-            return `/webtoon/post/list${createQueryString(params)}`;
-          })()}
-          sx={{ flexShrink: 0 }}
-        >
-          전체
-        </RadioButton>
-        {genres.map(([genre, label]) => {
-          const params = new URLSearchParams(searchParams.toString());
-          params.set("genre", genre);
-          params.delete("page");
-          return (
-            <RadioButton
-              key={genre}
-              LinkComponent={NextLink}
-              value={genre}
-              href={`/webtoon/post/list${createQueryString(params)}`}
-              sx={{ flexShrink: 0 }}
-            >
-              {label}
-            </RadioButton>
-          );
-        })}
-      </RadioGroup>
-
       <Stack spacing={2}>
+        <Typography variant="h4">웹툰 포스트</Typography>
+
+        <RadioGroup
+          value={genreParam}
+          sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
+        >
+          <RadioButton
+            LinkComponent={NextLink}
+            value="ALL"
+            href={(() => {
+              const params = new URLSearchParams(searchParams.toString());
+              params.delete("genre");
+              params.delete("page");
+              return `/webtoon/post/list${createQueryString(params)}`;
+            })()}
+            sx={{ flexShrink: 0 }}
+          >
+            전체
+          </RadioButton>
+          {genres.map(([genre, label]) => {
+            const params = new URLSearchParams(searchParams.toString());
+            params.set("genre", genre);
+            params.delete("page");
+            return (
+              <RadioButton
+                key={genre}
+                LinkComponent={NextLink}
+                value={genre}
+                href={`/webtoon/post/list${createQueryString(params)}`}
+                sx={{ flexShrink: 0 }}
+              >
+                {label}
+              </RadioButton>
+            );
+          })}
+        </RadioGroup>
+
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h4">웹툰 포스트</Typography>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Button
+              variant="outlined"
+              endIcon={<EvaArrowIosDownwardFillIcon />}
+              onClick={() => {
+                setOpenFilter(true);
+              }}
+            >
+              창작유형
+            </Button>
+            <Button
+              variant="outlined"
+              endIcon={<EvaArrowIosDownwardFillIcon />}
+              onClick={() => {
+                setOpenFilter(true);
+              }}
+            >
+              페어
+            </Button>
+          </Box>
 
           <Box ml="auto">
             <Button
@@ -153,6 +179,58 @@ export function ListPage() {
             </Menux>
           </Box>
         </Box>
+
+        {openFilter ? (
+          <Stack
+            spacing={2}
+            sx={{ bgcolor: theme.vars.palette.background.paper, borderRadius: 1, px: "20px", py: "12px" }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography sx={{ width: 100, flexShrink: 0 }}>창작유형</Typography>
+              <RadioGroup
+                sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
+              >
+                <RadioButton value="ALL" sx={{ flexShrink: 0 }}>
+                  전체
+                </RadioButton>
+                {creationTypes.map(([creationType, label]) => {
+                  return (
+                    <RadioButton key={creationType} value={creationType} sx={{ flexShrink: 0 }}>
+                      {label}
+                    </RadioButton>
+                  );
+                })}
+              </RadioGroup>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography sx={{ width: 100, flexShrink: 0 }}>페어</Typography>
+              <RadioGroup
+                sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
+              >
+                <RadioButton value="ALL" sx={{ flexShrink: 0 }}>
+                  전체
+                </RadioButton>
+                {pairs.map(([pair, label]) => {
+                  return (
+                    <RadioButton key={pair} value={pair} sx={{ flexShrink: 0 }}>
+                      {label}
+                    </RadioButton>
+                  );
+                })}
+              </RadioGroup>
+            </Box>
+            <Button
+              variant="contained"
+              sx={{ ml: "auto" }}
+              onClick={() => {
+                setOpenFilter(false);
+              }}
+            >
+              저장
+            </Button>
+          </Stack>
+        ) : null}
+
         <WT_Post_RichList genre={genreParam} sort={sortParam} page={pageParam} />
         <Box sx={{ margin: "auto", mt: 3 }}>
           <Pagination />
@@ -161,6 +239,8 @@ export function ListPage() {
     </Stack>
   );
 }
+
+// ----------------------------------------------------------------------
 
 function Pagination() {
   const searchParams = useSearchParams();
