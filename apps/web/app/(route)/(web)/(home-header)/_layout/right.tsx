@@ -29,10 +29,12 @@ import {
   Popperx,
   usePopperxState,
 } from "@pency/ui/components";
+import { useRouter } from "next/navigation";
 
 export function Right() {
   const me = useMeValue();
   const theme = useTheme();
+  const router = useRouter();
 
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
 
@@ -79,6 +81,10 @@ export function Right() {
             <MingcuteNotificationLineIcon />
           </IconButton>
           <IconButton
+            onClick={() => {
+              console.log("/");
+              router.push("/library/view");
+            }}
             sx={{
               [theme.breakpoints.down("sm")]: {
                 display: "none",
