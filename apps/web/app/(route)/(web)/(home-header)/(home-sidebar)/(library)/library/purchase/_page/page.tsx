@@ -73,10 +73,11 @@ export default function LibraryPurchasePage() {
           ))}
         </Box>
       </RadioGroup>
-
-      {/* {contentParam !== "WEBNOBEL" && contentParam !== "WEBTOON" ? <WebListItemx /> : null} */}
-      {contentParam === "WEBTOON" ? <WebtoonListItemx /> : null}
-      {/* {contentParam === "WEBNOBEL" ? <WebnobelListItemx /> : null} */}
+      <Stack spacing={0.5}>
+        {/* {contentParam !== "WEBNOBEL" && contentParam !== "WEBTOON" ? <WebListItemx /> : null} */}
+        {contentParam === "WEBTOON" ? <WebtoonListItemx /> : null}
+        {/* {contentParam === "WEBNOBEL" ? <WebnobelListItemx /> : null} */}
+      </Stack>
 
       <Box sx={{ margin: "auto", mt: 3 }}>
         <Pagination />
@@ -96,7 +97,7 @@ const postData = {
   channel: {
     name: "김천재의 채널",
   },
-  series: "천재 궁수의 스트리밍", // 값이 없으면 null
+  series: null, // 값이 없으면 null
 };
 
 function WebtoonListItemx() {
@@ -122,8 +123,12 @@ function WebtoonListItemx() {
             attribute: (
               <ListItemx.Attribute>
                 {postData.channel.name}
-                <ListItemx.Attribute.Dot />
-                {postData.series}
+                {postData.series ? (
+                  <>
+                    <ListItemx.Attribute.Dot />
+                    {postData.series}
+                  </>
+                ) : null}
               </ListItemx.Attribute>
             ),
             trailing: (
