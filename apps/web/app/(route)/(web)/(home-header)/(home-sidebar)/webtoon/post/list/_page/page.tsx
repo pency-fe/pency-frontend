@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import NextLink from "next/link";
 import {
   Stack,
@@ -12,6 +12,7 @@ import {
   useTheme,
   buttonBaseClasses,
   PaginationItem,
+  Collapse,
 } from "@mui/material";
 import {
   EvaArrowIosDownwardFillIcon,
@@ -21,7 +22,7 @@ import {
   useMenuxState,
 } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
-import { createQueryString, objectEntries } from "@pency/util";
+import { createQueryString, objectEntries, useBooleanState } from "@pency/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { WT_Post_RichList } from "_core/webtoon/post";
 import { useSearchParams } from "next/navigation";
@@ -39,9 +40,13 @@ const SORT_LABEL: Record<Sort, string> = {
 export function ListPage() {
   const searchParams = useSearchParams();
   const theme = useTheme();
-  const [openFilter, setOpenFilter] = useState(false);
+  const filter = useBooleanState(false);
 
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
+
+  const saveFilter = () => {
+    filter.setFalse();
+  };
 
   const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
   const sorts = useMemo(() => objectEntries(SORT_LABEL), []);
@@ -114,22 +119,10 @@ export function ListPage() {
 
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Box sx={{ display: "flex", gap: 1 }}>
-            <Button
-              variant="outlined"
-              endIcon={<EvaArrowIosDownwardFillIcon />}
-              onClick={() => {
-                setOpenFilter(true);
-              }}
-            >
+            <Button variant="outlined" endIcon={<EvaArrowIosDownwardFillIcon />} onClick={filter.toggle}>
               창작유형
             </Button>
-            <Button
-              variant="outlined"
-              endIcon={<EvaArrowIosDownwardFillIcon />}
-              onClick={() => {
-                setOpenFilter(true);
-              }}
-            >
+            <Button variant="outlined" endIcon={<EvaArrowIosDownwardFillIcon />} onClick={filter.toggle}>
               페어
             </Button>
           </Box>
@@ -180,7 +173,7 @@ export function ListPage() {
           </Box>
         </Box>
 
-        {openFilter ? (
+        <Collapse in={filter.bool}>
           <Stack
             spacing={2}
             sx={{ bgcolor: theme.vars.palette.background.paper, borderRadius: 1, px: "20px", py: "12px" }}
@@ -219,18 +212,11 @@ export function ListPage() {
                 })}
               </RadioGroup>
             </Box>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{ ml: "auto" }}
-              onClick={() => {
-                setOpenFilter(false);
-              }}
-            >
+            <Button variant="contained" size="small" sx={{ ml: "auto" }} onClick={saveFilter}>
               저장
             </Button>
           </Stack>
-        ) : null}
+        </Collapse>
 
         <WT_Post_RichList genre={genreParam} sort={sortParam} page={pageParam} />
         <Box sx={{ margin: "auto", mt: 3 }}>
