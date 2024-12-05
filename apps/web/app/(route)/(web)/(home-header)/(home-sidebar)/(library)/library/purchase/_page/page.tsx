@@ -1,12 +1,17 @@
 "use client";
 
 import NextLink from "next/link";
-import { Box, Grid, PaginationItem, RadioGroup, Stack } from "@mui/material";
-import { RadioButton } from "@pency/ui/components";
+import { Box, IconButton, PaginationItem, RadioGroup, Stack, useTheme } from "@mui/material";
+import {
+  EvaMoreVerticalOutlineIcon,
+  ListItemx,
+  listItemxClasses,
+  NineteenCircleIcon,
+  RadioButton,
+} from "@pency/ui/components";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { createQueryString, objectEntries } from "@pency/util";
-import { WT_Post_RichCard } from "_core/webtoon/post";
 import { usePaginationx } from "@pency/ui/hooks";
 
 // ----------------------------------------------------------------------
@@ -35,7 +40,7 @@ export default function LibraryPurchasePage() {
   }, [searchParams]);
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={1}>
       <RadioGroup value={contentParam}>
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
           <RadioButton
@@ -69,9 +74,9 @@ export default function LibraryPurchasePage() {
         </Box>
       </RadioGroup>
 
-      {/* {contentParam !== "WEBNOBEL" && contentParam !== "WEBTOON" ? <WebPostRichCard /> : null} */}
-      {contentParam === "WEBTOON" ? <WebtoonPostRichCard /> : null}
-      {/* {contentParam === "WEBNOBEL" ? <WebnobelPostRichCard /> : null} */}
+      {/* {contentParam !== "WEBNOBEL" && contentParam !== "WEBTOON" ? <WebListItemx /> : null} */}
+      {contentParam === "WEBTOON" ? <WebtoonListItemx /> : null}
+      {/* {contentParam === "WEBNOBEL" ? <WebnobelListItemx /> : null} */}
 
       <Box sx={{ margin: "auto", mt: 3 }}>
         <Pagination />
@@ -81,38 +86,64 @@ export default function LibraryPurchasePage() {
 }
 
 // ----------------------------------------------------------------------
+const postData = {
+  postId: "post-id-123",
+  thumbnail:
+    "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+  age: "NINETEEN",
 
-function WebtoonPostRichCard() {
+  title: "4화 천재 궁수의 스트리밍",
+  channel: {
+    name: "김천재의 채널",
+  },
+  series: "천재 궁수의 스트리밍", // 값이 없으면 null
+};
+
+function WebtoonListItemx() {
+  const theme = useTheme();
+
   return (
     <>
-      <Grid container spacing={1}>
-        {Array.from({ length: 18 }, (_, i) => (
-          <Grid item key={i} xs={12} sm={6} md={4}>
-            <WT_Post_RichCard
-              data={{
-                postId: "1",
-                thumbnail:
-                  "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
-                age: "ALL",
-                price: 0,
-                purchased: false,
-                creationType: "PRIMARY",
-                pair: "NONE",
-                genre: "ROMANCE",
-                title: "천재 궁수의 스트리밍",
-                channel: {
-                  channelUrl: "dddddd",
-                  image: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
-                  title: "김천재",
-                },
-                likeCount: 0,
-                createdAt: 0,
-                keywords: ["BJ", "스트리머"],
-              }}
-            />
-          </Grid>
-        ))}
-      </Grid>
+      {Array.from({ length: 18 }, (_, i) => (
+        <ListItemx
+          key={i}
+          slots={{
+            overlayElement: <ListItemx.OverlayAnchor href={`/webtoon/post/${postData.postId}`} />,
+            thumbnail: (
+              <ListItemx.Thumbnail
+                slots={{
+                  image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
+                  topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+                }}
+                sx={{ aspectRatio: "16/9" }}
+              />
+            ),
+            title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
+            attribute: (
+              <ListItemx.Attribute>
+                {postData.channel.name}
+                <ListItemx.Attribute.Dot />
+                {postData.series}
+              </ListItemx.Attribute>
+            ),
+            trailing: (
+              <ListItemx.Trailing>
+                <IconButton>
+                  <EvaMoreVerticalOutlineIcon />
+                </IconButton>
+              </ListItemx.Trailing>
+            ),
+          }}
+          sx={{
+            flexShrink: 0,
+            [`&.${listItemxClasses.root}`]: {
+              [theme.breakpoints.up("sm")]: {
+                height: "80px",
+              },
+            },
+          }}
+        />
+      ))}
     </>
   );
 }
