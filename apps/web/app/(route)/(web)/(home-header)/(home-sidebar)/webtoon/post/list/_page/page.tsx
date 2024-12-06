@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { ComponentProps, useMemo } from "react";
 import NextLink from "next/link";
 import {
   Stack,
@@ -24,10 +24,9 @@ import {
 import { hideScrollX } from "@pency/ui/util";
 import { createQueryString, objectEntries, useBooleanState } from "@pency/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { WT_Post_RichList } from "_core/webtoon/post";
+import { WT_Post_Filter_Form, WT_Post_RichList } from "_core/webtoon/post";
 import { useSearchParams } from "next/navigation";
 import { usePaginationx } from "@pency/ui/hooks";
-import { CREATION_TYPE_LABEL, PAIR_LABEL } from "_core/webtoon/post/const";
 
 type Sort = "LATEST" | "POPULAR" | "WPOPULAR";
 
@@ -44,14 +43,13 @@ export function ListPage() {
 
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
-  const saveFilter = () => {
+  const saveFilter: ComponentProps<typeof WT_Post_Filter_Form.SaveSubmit>["onSubmit"] = (data) => {
+    console.log(data);
     filter.setFalse();
   };
 
   const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
   const sorts = useMemo(() => objectEntries(SORT_LABEL), []);
-  const creationTypes = useMemo(() => objectEntries(CREATION_TYPE_LABEL), []);
-  const pairs = useMemo(() => objectEntries(PAIR_LABEL), []);
 
   const genreParam = useMemo(() => {
     const param = searchParams.get("genre");
@@ -182,48 +180,20 @@ export function ListPage() {
         </Box>
 
         <Collapse in={filter.bool}>
-          <Stack
-            spacing={2}
-            sx={{ bgcolor: theme.vars.palette.background.paper, borderRadius: 1, px: "20px", py: "12px" }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography sx={{ width: 100, flexShrink: 0 }}>창작유형</Typography>
-              <RadioGroup
-                sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
-              >
-                <RadioButton value="ALL" sx={{ flexShrink: 0 }} size="small">
-                  전체
-                </RadioButton>
-                {creationTypes.map(([creationType, label]) => {
-                  return (
-                    <RadioButton key={creationType} value={creationType} size="small" sx={{ flexShrink: 0 }}>
-                      {label}
-                    </RadioButton>
-                  );
-                })}
-              </RadioGroup>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography sx={{ width: 100, flexShrink: 0 }}>페어</Typography>
-              <RadioGroup
-                sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
-              >
-                <RadioButton value="ALL" size="small" sx={{ flexShrink: 0 }}>
-                  전체
-                </RadioButton>
-                {pairs.map(([pair, label]) => {
-                  return (
-                    <RadioButton key={pair} value={pair} size="small" sx={{ flexShrink: 0 }}>
-                      {label}
-                    </RadioButton>
-                  );
-                })}
-              </RadioGroup>
-            </Box>
-            <Button variant="contained" size="small" sx={{ ml: "auto" }} onClick={saveFilter}>
-              저장
-            </Button>
-          </Stack>
+          <WT_Post_Filter_Form>
+            <Stack
+              spacing={2}
+              sx={{ bgcolor: theme.vars.palette.background.paper, borderRadius: 1, px: "20px", py: "12px" }}
+            >
+              <WT_Post_Filter_Form.CreationTypes />
+              <WT_Post_Filter_Form.Pairs />
+
+              <Box sx={{ display: "flex", gap: 1, ml: "auto" }}>
+                <WT_Post_Filter_Form.Reset />
+                <WT_Post_Filter_Form.SaveSubmit onSubmit={saveFilter} />
+              </Box>
+            </Stack>
+          </WT_Post_Filter_Form>
         </Collapse>
 
         <WT_Post_RichList genre={genreParam} sort={sortParam} page={pageParam} />
@@ -251,11 +221,12 @@ function Pagination() {
 
   return (
     <>
-      {paginations.map((pagination) => {
+      {paginations.map((pagination, i) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set("page", `${pagination.page}`);
         return (
           <PaginationItem
+            key={i}
             component={NextLink}
             href={`/webtoon/post/list${createQueryString(params)}`}
             {...pagination}
