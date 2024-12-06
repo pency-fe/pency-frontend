@@ -6,8 +6,8 @@ import {
   Button,
   Collapse,
   IconButton,
-  ListItemIcon,
   MenuItem,
+  menuItemClasses,
   PaginationItem,
   RadioGroup,
   Stack,
@@ -17,13 +17,9 @@ import {
 import {
   EvaArrowIosDownwardFillIcon,
   EvaArrowIosUpwardFillIcon,
-  EvaBookmarkOutlineIcon,
   EvaMoreVerticalOutlineIcon,
-  FluentShare24RegularIcon,
   ListItemx,
   listItemxClasses,
-  MaterialSymbolsBlockIcon,
-  MaterialSymbolsReportOutlineIcon,
   Menux,
   NineteenCircleIcon,
   RadioButton,
@@ -190,7 +186,7 @@ export default function LibraryPurchasePage() {
 
       <Stack spacing={0.5}>
         {/* {contentParam !== "WEBNOBEL" && contentParam !== "WEBTOON" ? <WebListItemx /> : null} */}
-        {contentParam === "WEBTOON" ? <WebtoonListItemx /> : null}
+        {contentParam === "WEBTOON" ? Array.from({ length: 18 }, (_, i) => <WebtoonListItemx key={i} />) : null}
         {/* {contentParam === "WEBNOBEL" ? <WebnobelListItemx /> : null} */}
       </Stack>
 
@@ -221,87 +217,58 @@ function WebtoonListItemx() {
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
   return (
-    <>
-      {Array.from({ length: 18 }, (_, i) => (
-        <ListItemx
-          key={i}
-          slots={{
-            overlayElement: (
-              <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
-            ),
-            thumbnail: (
-              <ListItemx.Thumbnail
-                slots={{
-                  image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
-                  topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
-                }}
-                sx={{ aspectRatio: "16/9" }}
-              />
-            ),
-            title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
-            attribute: (
-              <ListItemx.Attribute>
-                {postData.channel.name}
-                {postData.series ? (
-                  <>
-                    <ListItemx.Attribute.Dot />
-                    {postData.series}
-                  </>
-                ) : null}
-              </ListItemx.Attribute>
-            ),
-            trailing: (
+    <ListItemx
+      slots={{
+        overlayElement: (
+          <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
+        ),
+        thumbnail: (
+          <ListItemx.Thumbnail
+            slots={{
+              image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
+              topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+            }}
+            sx={{ aspectRatio: "16/9" }}
+          />
+        ),
+        title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
+        attribute: (
+          <ListItemx.Attribute>
+            {postData.channel.name}
+            {postData.series ? (
               <>
-                <ListItemx.Trailing>
-                  <IconButton ref={anchorRef} onClick={toggle}>
-                    <EvaMoreVerticalOutlineIcon />
-                  </IconButton>
-                </ListItemx.Trailing>
-
-                {/* [?] */}
-                <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
-                  <MenuItem>
-                    <ListItemIcon>
-                      <EvaBookmarkOutlineIcon />
-                    </ListItemIcon>
-                    북마크
-                  </MenuItem>
-
-                  <MenuItem>
-                    <ListItemIcon>
-                      <FluentShare24RegularIcon />
-                    </ListItemIcon>
-                    공유하기
-                  </MenuItem>
-
-                  <MenuItem>
-                    <ListItemIcon>
-                      <MaterialSymbolsBlockIcon />
-                    </ListItemIcon>
-                    차단하기
-                  </MenuItem>
-
-                  <MenuItem>
-                    <ListItemIcon>
-                      <MaterialSymbolsReportOutlineIcon />
-                    </ListItemIcon>
-                    신고하기
-                  </MenuItem>
-                </Menux>
+                <ListItemx.Attribute.Dot />
+                {postData.series}
               </>
-            ),
-          }}
-          sx={{
-            flexShrink: 0,
-            [`&.${listItemxClasses.root}`]: {
-              [theme.breakpoints.up("sm")]: {
-                height: "80px",
-              },
-            },
-          }}
-        />
-      ))}
-    </>
+            ) : null}
+          </ListItemx.Attribute>
+        ),
+        trailing: (
+          <>
+            <ListItemx.Trailing>
+              <IconButton ref={anchorRef} onClick={toggle}>
+                <EvaMoreVerticalOutlineIcon />
+              </IconButton>
+            </ListItemx.Trailing>
+
+            <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
+              <MenuItem>소장본 보기</MenuItem>
+              <MenuItem sx={{ [`&.${menuItemClasses.root}`]: { color: theme.vars.palette.error.main } }}>
+                구매 목록에서 삭제
+              </MenuItem>
+            </Menux>
+          </>
+        ),
+      }}
+      sx={{
+        flexShrink: 0,
+        [`&.${listItemxClasses.root}`]: {
+          [theme.breakpoints.up("sm")]: {
+            height: "80px",
+          },
+        },
+      }}
+    />
   );
 }
 
