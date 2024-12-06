@@ -115,12 +115,56 @@ export function ListPage() {
           })}
         </RadioGroup>
 
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Box sx={{ display: "flex", gap: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Button
+            ref={anchorRef}
+            variant="outlined"
+            onClick={toggle}
+            endIcon={isOpen ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
+            sx={{
+              [`&.${buttonBaseClasses.root}`]: { color: theme.vars.palette.text.secondary },
+              flexShrink: 0,
+            }}
+          >
+            {SORT_LABEL[sortParam]}
+          </Button>
+          <Menux
+            open={isOpen}
+            anchorEl={anchorRef.current}
+            placement="bottom-start"
+            onClose={close}
+            modifiers={[
+              {
+                name: "offset",
+                options: {
+                  offset: [0, 6],
+                },
+              },
+            ]}
+            sx={{ width: "150px" }}
+          >
+            {sorts.map(([sort, label]) => {
+              const params = new URLSearchParams(searchParams.toString());
+              params.set("sort", sort);
+              return (
+                <MenuItem
+                  key={sort}
+                  component={NextLink}
+                  href={`/webtoon/post/list${createQueryString(params)}`}
+                  selected={sortParam === sort}
+                  onClick={close}
+                >
+                  {label}
+                </MenuItem>
+              );
+            })}
+          </Menux>
+          <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}>
             <Button
               variant="outlined"
               endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
               onClick={filter.toggle}
+              sx={{ flexShrink: 0 }}
             >
               창작유형
             </Button>
@@ -128,54 +172,10 @@ export function ListPage() {
               variant="outlined"
               endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
               onClick={filter.toggle}
+              sx={{ flexShrink: 0 }}
             >
               페어
             </Button>
-          </Box>
-
-          <Box ml="auto">
-            <Button
-              ref={anchorRef}
-              variant="outlined"
-              onClick={toggle}
-              endIcon={isOpen ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
-              sx={{
-                [`&.${buttonBaseClasses.root}`]: { color: theme.vars.palette.text.secondary },
-              }}
-            >
-              {SORT_LABEL[sortParam]}
-            </Button>
-            <Menux
-              open={isOpen}
-              anchorEl={anchorRef.current}
-              placement="bottom-end"
-              onClose={close}
-              modifiers={[
-                {
-                  name: "offset",
-                  options: {
-                    offset: [0, 6],
-                  },
-                },
-              ]}
-              sx={{ width: "150px" }}
-            >
-              {sorts.map(([sort, label]) => {
-                const params = new URLSearchParams(searchParams.toString());
-                params.set("sort", sort);
-                return (
-                  <MenuItem
-                    key={sort}
-                    component={NextLink}
-                    href={`/webtoon/post/list${createQueryString(params)}`}
-                    selected={sortParam === sort}
-                    onClick={close}
-                  >
-                    {label}
-                  </MenuItem>
-                );
-              })}
-            </Menux>
           </Box>
         </Box>
 
