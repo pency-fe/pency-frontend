@@ -119,7 +119,6 @@ export function ListPage() {
           <Box sx={{ display: "flex", gap: 1 }}>
             <Button
               variant="outlined"
-              size="small"
               endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
               onClick={filter.toggle}
             >
@@ -127,7 +126,6 @@ export function ListPage() {
             </Button>
             <Button
               variant="outlined"
-              size="small"
               endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
               onClick={filter.toggle}
             >
@@ -139,7 +137,6 @@ export function ListPage() {
             <Button
               ref={anchorRef}
               variant="outlined"
-              size="small"
               onClick={toggle}
               endIcon={isOpen ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
               sx={{

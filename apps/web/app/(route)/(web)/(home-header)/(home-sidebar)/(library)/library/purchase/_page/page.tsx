@@ -106,7 +106,6 @@ export default function LibraryPurchasePage() {
         <Box sx={{ display: "flex", gap: 1 }}>
           <Button
             variant="outlined"
-            size="small"
             endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
             onClick={filter.toggle}
           >
@@ -114,7 +113,6 @@ export default function LibraryPurchasePage() {
           </Button>
           <Button
             variant="outlined"
-            size="small"
             endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
             onClick={filter.toggle}
           >
@@ -122,7 +120,6 @@ export default function LibraryPurchasePage() {
           </Button>
           <Button
             variant="outlined"
-            size="small"
             endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
             onClick={filter.toggle}
           >
