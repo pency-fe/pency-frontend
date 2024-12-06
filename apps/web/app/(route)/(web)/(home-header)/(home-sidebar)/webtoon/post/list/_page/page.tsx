@@ -17,6 +17,7 @@ import {
 import {
   EvaArrowIosDownwardFillIcon,
   EvaArrowIosUpwardFillIcon,
+  FilterButton,
   Menux,
   RadioButton,
   useMenuxState,
@@ -159,23 +160,30 @@ export function ListPage() {
               );
             })}
           </Menux>
-          <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}>
-            <Button
-              variant="outlined"
-              endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
-              onClick={filter.toggle}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "nowrap",
+              gap: 1,
+              overflowX: "scroll",
+              ...hideScrollX,
+            }}
+          >
+            <FilterButton
+              label="창작유형"
+              open={filter.bool}
               sx={{ flexShrink: 0 }}
-            >
-              창작유형
-            </Button>
-            <Button
-              variant="outlined"
-              endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
               onClick={filter.toggle}
+              onDelete={filter.toggle}
+            />
+            <FilterButton
+              label="페어"
+              open={filter.bool}
               sx={{ flexShrink: 0 }}
-            >
-              페어
-            </Button>
+              onClick={filter.toggle}
+              onDelete={filter.toggle}
+            />
           </Box>
         </Box>
 
