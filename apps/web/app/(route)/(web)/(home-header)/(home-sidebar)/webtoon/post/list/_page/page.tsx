@@ -189,7 +189,7 @@ export function ListPage() {
               <WT_Post_Filter_Form.Pairs />
 
               <Box sx={{ display: "flex", gap: 1, ml: "auto" }}>
-                <WT_Post_Filter_Form.Reset />
+                <WT_Post_Filter_Form.Reset onReset={saveFilter} />
                 <WT_Post_Filter_Form.SaveSubmit onSubmit={saveFilter} />
               </Box>
             </Stack>

@@ -59,11 +59,11 @@ const SaveSubmitFn = ({ onSubmit, ...rest }: SaveSubmitFnProps) => {
 // ----------------------------------------------------------------------
 
 type ResetFnProps = PropsWithoutRef<IconButtonProps> & {
-  onReset?: () => void;
+  onReset?: SubmitHandler<Schema>;
 };
 
 const ResetFn = ({ onReset, ...rest }: ResetFnProps) => {
-  const { reset } = useWTPostFilterFormContext();
+  const { reset, handleSubmit } = useWTPostFilterFormContext();
 
   return (
     <IconButton
@@ -71,7 +71,9 @@ const ResetFn = ({ onReset, ...rest }: ResetFnProps) => {
       {...rest}
       onClick={() => {
         reset();
-        onReset?.();
+        handleSubmit((data) => {
+          onReset?.(data);
+        })();
       }}
     >
       <IcRoundRefreshIcon />
@@ -87,8 +89,8 @@ const CreationTypesFn = () => {
   const creationTypes = useMemo(() => objectEntries(CREATION_TYPE_LABEL), []);
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Typography sx={{ width: 100, flexShrink: 0 }}>창작유형</Typography>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <Typography sx={{ width: "4rem", flexShrink: 0 }}>창작유형</Typography>
       <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}>
         <Controller
           control={control}
@@ -126,8 +128,8 @@ const PairsFn = () => {
 
   const pairs = useMemo(() => objectEntries(PAIR_LABEL), []);
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Typography sx={{ width: 100, flexShrink: 0 }}>페어</Typography>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <Typography sx={{ width: "4rem", flexShrink: 0 }}>페어</Typography>
       <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}>
         <Controller
           control={control}
