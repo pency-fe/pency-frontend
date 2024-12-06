@@ -6,6 +6,8 @@ import {
   Button,
   Collapse,
   IconButton,
+  ListItemIcon,
+  MenuItem,
   PaginationItem,
   RadioGroup,
   Stack,
@@ -15,11 +17,17 @@ import {
 import {
   EvaArrowIosDownwardFillIcon,
   EvaArrowIosUpwardFillIcon,
+  EvaBookmarkOutlineIcon,
   EvaMoreVerticalOutlineIcon,
+  FluentShare24RegularIcon,
   ListItemx,
   listItemxClasses,
+  MaterialSymbolsBlockIcon,
+  MaterialSymbolsReportOutlineIcon,
+  Menux,
   NineteenCircleIcon,
   RadioButton,
+  useMenuxState,
 } from "@pency/ui/components";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
@@ -210,6 +218,7 @@ const postData = {
 
 function WebtoonListItemx() {
   const theme = useTheme();
+  const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
   return (
     <>
@@ -242,11 +251,44 @@ function WebtoonListItemx() {
               </ListItemx.Attribute>
             ),
             trailing: (
-              <ListItemx.Trailing>
-                <IconButton>
-                  <EvaMoreVerticalOutlineIcon />
-                </IconButton>
-              </ListItemx.Trailing>
+              <>
+                <ListItemx.Trailing>
+                  <IconButton ref={anchorRef} onClick={toggle}>
+                    <EvaMoreVerticalOutlineIcon />
+                  </IconButton>
+                </ListItemx.Trailing>
+
+                {/* [?] */}
+                <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <EvaBookmarkOutlineIcon />
+                    </ListItemIcon>
+                    북마크
+                  </MenuItem>
+
+                  <MenuItem>
+                    <ListItemIcon>
+                      <FluentShare24RegularIcon />
+                    </ListItemIcon>
+                    공유하기
+                  </MenuItem>
+
+                  <MenuItem>
+                    <ListItemIcon>
+                      <MaterialSymbolsBlockIcon />
+                    </ListItemIcon>
+                    차단하기
+                  </MenuItem>
+
+                  <MenuItem>
+                    <ListItemIcon>
+                      <MaterialSymbolsReportOutlineIcon />
+                    </ListItemIcon>
+                    신고하기
+                  </MenuItem>
+                </Menux>
+              </>
             ),
           }}
           sx={{
