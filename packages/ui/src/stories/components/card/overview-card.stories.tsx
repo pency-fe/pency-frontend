@@ -67,7 +67,7 @@ export const PostOverviewCard = () => {
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`/channel/${postData.channel.channelUrl}`}
+            href={`/@${postData.channel.channelUrl}`}
             slots={{
               avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
             }}
@@ -75,7 +75,7 @@ export const PostOverviewCard = () => {
         ),
         title: <OverviewCard.Title>{postData.title}</OverviewCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/channel/${postData.channel.channelUrl}`}>
+          <OverviewCard.NameLink href={`/@${postData.channel.channelUrl}`}>
             {postData.channel.name}
           </OverviewCard.NameLink>
         ),
@@ -125,7 +125,7 @@ export const SeriesOverviewCard = () => {
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`/channel/${seriesData.channel.channelUrl}`}
+            href={`/@${seriesData.channel.channelUrl}`}
             slots={{
               avatar: <OverviewCard.AvatarLink.Avatar src={seriesData.channel.avatar} />,
             }}
@@ -133,7 +133,7 @@ export const SeriesOverviewCard = () => {
         ),
         title: <OverviewCard.Title>{seriesData.title}</OverviewCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/channel/${seriesData.channel.channelUrl}`}>
+          <OverviewCard.NameLink href={`/@${seriesData.channel.channelUrl}`}>
             {seriesData.channel.name}
           </OverviewCard.NameLink>
         ),

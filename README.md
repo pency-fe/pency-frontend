@@ -104,14 +104,14 @@
         - 리스트
           - 포스트 리스트랑 똑같음
 
-    - 채널 홈: `/@channelId`
+    - 채널 홈: `/@channelUrl`
     - 프로필 홈: `/profile/profileId`
 
   - layout: setting sidebar `/setting`
 
-- layout(아마 page.tsx에서 구현할 듯): webtoon viewer header, footer `/@channelId/webtoon/post/postId`
+- layout(아마 page.tsx에서 구현할 듯): webtoon viewer header, footer `/@channelUrl/webtoon/post/postId`
 - layout(아마 page.tsx에서 구현할 듯): webnovel viewer header, footer
-- layout(아마 page.tsx에서 구현할 듯): webtoon editor: `/editor/@channelId/webtoon`, `/editor/@channelId/webtoon/postId`
-- layout(아마 page.tsx에서 구현할 듯): webnovel editor: `/editor/@channelId/webnovel`, `/editor/@channelId/webnovel/postId`
+- layout(아마 page.tsx에서 구현할 듯): webtoon editor: `/editor/@channelUrl/webtoon`, `/editor/@channelUrl/webtoon/postId`
+- layout(아마 page.tsx에서 구현할 듯): webnovel editor: `/editor/@channelUrl/webnovel`, `/editor/@channelUrl/webnovel/postId`
 
-- layout: studio header & sidebar: `/studio/@channelId`
+- layout: studio header & sidebar: `/studio/@channelUrl`

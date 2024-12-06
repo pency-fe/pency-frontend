@@ -338,7 +338,7 @@ function OtherPostOfAuthor() {
                         ),
                         avatarLink: (
                           <OverviewCard.AvatarLink
-                            href={`/channel/${postData.channel.channelUrl}`}
+                            href={`/@${postData.channel.channelUrl}`}
                             slots={{
                               avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
                             }}
@@ -346,7 +346,7 @@ function OtherPostOfAuthor() {
                         ),
                         title: <OverviewCard.Title>{postData.title}</OverviewCard.Title>,
                         nameLink: (
-                          <OverviewCard.NameLink href={`/channel/${postData.channel.channelUrl}`}>
+                          <OverviewCard.NameLink href={`/@/${postData.channel.channelUrl}`}>
                             {postData.channel.name}
                           </OverviewCard.NameLink>
                         ),

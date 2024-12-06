@@ -1,6 +1,5 @@
 import { api } from "_core/api";
 import { Genre } from "_core/webtoon/const";
-import { Options } from "ky";
 import { Age, CreationType, Pair } from "../const";
 
 // ----------------------------------------------------------------------

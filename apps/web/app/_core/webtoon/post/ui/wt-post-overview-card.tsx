@@ -68,7 +68,7 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data, h
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`/channel/${data.channel.channelUrl}`}
+            href={`@${data.channel.channelUrl}`}
             slots={{
               avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.image} />,
             }}
@@ -76,9 +76,7 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data, h
         ),
         title: <OverviewCard.Title>{data.title}</OverviewCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/channel/${data.channel.channelUrl}`}>
-            {data.channel.title}
-          </OverviewCard.NameLink>
+          <OverviewCard.NameLink href={`@${data.channel.channelUrl}`}>{data.channel.title}</OverviewCard.NameLink>
         ),
       }}
     />

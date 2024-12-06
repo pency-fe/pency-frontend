@@ -119,10 +119,18 @@ export function ListPage() {
 
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Box sx={{ display: "flex", gap: 1 }}>
-            <Button variant="outlined" endIcon={<EvaArrowIosDownwardFillIcon />} onClick={filter.toggle}>
+            <Button
+              variant="outlined"
+              endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
+              onClick={filter.toggle}
+            >
               창작유형
             </Button>
-            <Button variant="outlined" endIcon={<EvaArrowIosDownwardFillIcon />} onClick={filter.toggle}>
+            <Button
+              variant="outlined"
+              endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
+              onClick={filter.toggle}
+            >
               페어
             </Button>
           </Box>

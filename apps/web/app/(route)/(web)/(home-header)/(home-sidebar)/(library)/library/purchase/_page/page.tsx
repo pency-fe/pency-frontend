@@ -1,8 +1,20 @@
 "use client";
 
 import NextLink from "next/link";
-import { Box, IconButton, PaginationItem, RadioGroup, Stack, useTheme } from "@mui/material";
 import {
+  Box,
+  Button,
+  Collapse,
+  IconButton,
+  PaginationItem,
+  RadioGroup,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import {
+  EvaArrowIosDownwardFillIcon,
+  EvaArrowIosUpwardFillIcon,
   EvaMoreVerticalOutlineIcon,
   ListItemx,
   listItemxClasses,
@@ -11,8 +23,11 @@ import {
 } from "@pency/ui/components";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-import { createQueryString, objectEntries } from "@pency/util";
+import { createQueryString, objectEntries, useBooleanState } from "@pency/util";
 import { usePaginationx } from "@pency/ui/hooks";
+import { hideScrollX } from "@pency/ui/util";
+import { CREATION_TYPE_LABEL, PAIR_LABEL } from "_core/webtoon/post/const";
+import { GENRE_LABEL } from "_core/webtoon/const";
 
 // ----------------------------------------------------------------------
 
@@ -26,9 +41,18 @@ const CONTENT_VALUE_LABEL: Record<contentValue, string> = {
 // ----------------------------------------------------------------------
 
 export default function LibraryPurchasePage() {
+  const theme = useTheme();
   const searchParams = useSearchParams();
+  const filter = useBooleanState(false);
+
+  const saveFilter = () => {
+    filter.setFalse();
+  };
 
   const contents = useMemo(() => objectEntries(CONTENT_VALUE_LABEL), []);
+  const creationTypes = useMemo(() => objectEntries(CREATION_TYPE_LABEL), []);
+  const pairs = useMemo(() => objectEntries(PAIR_LABEL), []);
+  const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
 
   const contentParam = useMemo(() => {
     const param = searchParams.get("content");
@@ -73,6 +97,89 @@ export default function LibraryPurchasePage() {
           ))}
         </Box>
       </RadioGroup>
+
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <Button
+            variant="outlined"
+            endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
+            onClick={filter.toggle}
+          >
+            창작유형
+          </Button>
+          <Button
+            variant="outlined"
+            endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
+            onClick={filter.toggle}
+          >
+            페어
+          </Button>
+          <Button
+            variant="outlined"
+            endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
+            onClick={filter.toggle}
+          >
+            장르
+          </Button>
+        </Box>
+      </Box>
+
+      <Collapse in={filter.bool}>
+        <Stack
+          spacing={2}
+          sx={{ bgcolor: theme.vars.palette.background.paper, borderRadius: 1, px: "20px", py: "12px" }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography sx={{ width: 100, flexShrink: 0 }}>창작유형</Typography>
+            <RadioGroup sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}>
+              <RadioButton value="ALL" sx={{ flexShrink: 0 }} size="small">
+                전체
+              </RadioButton>
+              {creationTypes.map(([creationType, label]) => {
+                return (
+                  <RadioButton key={creationType} value={creationType} size="small" sx={{ flexShrink: 0 }}>
+                    {label}
+                  </RadioButton>
+                );
+              })}
+            </RadioGroup>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography sx={{ width: 100, flexShrink: 0 }}>페어</Typography>
+            <RadioGroup sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}>
+              <RadioButton value="ALL" size="small" sx={{ flexShrink: 0 }}>
+                전체
+              </RadioButton>
+              {pairs.map(([pair, label]) => {
+                return (
+                  <RadioButton key={pair} value={pair} size="small" sx={{ flexShrink: 0 }}>
+                    {label}
+                  </RadioButton>
+                );
+              })}
+            </RadioGroup>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography sx={{ width: 100, flexShrink: 0 }}>장르</Typography>
+            <RadioGroup sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}>
+              <RadioButton value="ALL" size="small" sx={{ flexShrink: 0 }}>
+                전체
+              </RadioButton>
+              {genres.map(([genre, label]) => {
+                return (
+                  <RadioButton key={genre} value={genre} size="small" sx={{ flexShrink: 0 }}>
+                    {label}
+                  </RadioButton>
+                );
+              })}
+            </RadioGroup>
+          </Box>
+          <Button variant="contained" size="small" sx={{ ml: "auto" }} onClick={saveFilter}>
+            저장
+          </Button>
+        </Stack>
+      </Collapse>
+
       <Stack spacing={0.5}>
         {/* {contentParam !== "WEBNOBEL" && contentParam !== "WEBTOON" ? <WebListItemx /> : null} */}
         {contentParam === "WEBTOON" ? <WebtoonListItemx /> : null}

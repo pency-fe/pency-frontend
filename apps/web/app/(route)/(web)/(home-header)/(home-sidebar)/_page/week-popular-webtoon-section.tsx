@@ -21,7 +21,7 @@ export function WeekPopularWebtoonSection() {
                       completionState: "SERIALIZATION",
                       title: "천재 궁수의 스트리밍",
                       channel: {
-                        channelId: "channel-id-123",
+                        channelUrl: "channel-id-123",
                         avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
                         name: "김천재의 채널",
                       },

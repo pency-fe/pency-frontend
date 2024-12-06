@@ -13,7 +13,7 @@ type Props = {
     completionState: CompletionState;
     title: string;
     channel: {
-      channelId: string;
+      channelUrl: string;
       avatar: string;
       name: string;
     };
@@ -46,7 +46,7 @@ export const WT_Series_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data 
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`/channel/${data.channel.channelId}`}
+            href={`/channel/${data.channel.channelUrl}`}
             slots={{
               avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.avatar} />,
             }}
@@ -54,7 +54,9 @@ export const WT_Series_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data 
         ),
         title: <OverviewCard.Title>{data.title}</OverviewCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/channel/${data.channel.channelId}`}>{data.channel.name}</OverviewCard.NameLink>
+          <OverviewCard.NameLink href={`/channel/${data.channel.channelUrl}`}>
+            {data.channel.name}
+          </OverviewCard.NameLink>
         ),
       }}
     />

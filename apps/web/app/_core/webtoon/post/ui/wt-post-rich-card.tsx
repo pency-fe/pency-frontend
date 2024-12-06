@@ -2,15 +2,22 @@
 
 import { forwardRef } from "react";
 import {
+  EvaBookmarkOutlineIcon,
   EvaHeartOutlineIcon,
   EvaMoreVerticalOutlineIcon,
+  FluentShare24RegularIcon,
   GravityUiCircleCheckFillIcon,
+  MaterialSymbolsBlockIcon,
+  MaterialSymbolsReportOutlineIcon,
+  Menux,
   NineteenCircleIcon,
   RichCard,
+  useMenuxState,
 } from "@pency/ui/components";
 import { Age, CreationType, CREATION_TYPE_LABEL, Pair, PAIR_LABEL } from "../const";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { formatRelativeTimeFromUTC } from "@pency/util";
+import { ListItemIcon, MenuItem } from "@mui/material";
 
 type Props = {
   data: {
@@ -36,6 +43,8 @@ type Props = {
 };
 
 export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data, hideGenre = false }, ref) => {
+  const { anchorRef, isOpen, close, toggle } = useMenuxState();
+
   return (
     <RichCard
       ref={ref}
@@ -78,16 +87,14 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data, hideG
         ),
         avatarLink: (
           <RichCard.AvatarLink
-            href={`/channel/${data.channel.channelUrl}`}
+            href={`/@${data.channel.channelUrl}`}
             slots={{
               avatar: <RichCard.AvatarLink.Avatar src={data.channel.image} />,
             }}
           />
         ),
         title: <RichCard.Title>{data.title}</RichCard.Title>,
-        nameLink: (
-          <RichCard.NameLink href={`/channel/${data.channel.channelUrl}`}>{data.channel.title}</RichCard.NameLink>
-        ),
+        nameLink: <RichCard.NameLink href={`/@${data.channel.channelUrl}`}>{data.channel.title}</RichCard.NameLink>,
         attributes: (
           <>
             <RichCard.AttributeDot />
@@ -100,21 +107,47 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data, hideG
           </>
         ),
         feedbackButton: (
-          <RichCard.FeedbackButton>
-            <EvaMoreVerticalOutlineIcon />
-          </RichCard.FeedbackButton>
+          <>
+            <RichCard.FeedbackButton ref={anchorRef} onClick={toggle}>
+              <EvaMoreVerticalOutlineIcon />
+            </RichCard.FeedbackButton>
+
+            <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
+              <MenuItem>
+                <ListItemIcon>
+                  <EvaBookmarkOutlineIcon />
+                </ListItemIcon>
+                북마크
+              </MenuItem>
+
+              <MenuItem>
+                <ListItemIcon>
+                  <FluentShare24RegularIcon />
+                </ListItemIcon>
+                공유하기
+              </MenuItem>
+
+              <MenuItem>
+                <ListItemIcon>
+                  <MaterialSymbolsBlockIcon />
+                </ListItemIcon>
+                차단하기
+              </MenuItem>
+
+              <MenuItem>
+                <ListItemIcon>
+                  <MaterialSymbolsReportOutlineIcon />
+                </ListItemIcon>
+                신고하기
+              </MenuItem>
+            </Menux>
+          </>
         ),
         chips: (
           <>
             {data.keywords.length
               ? Array.from(data.keywords, (keyword, i) => (
-                  <RichCard.Chip
-                    key={i}
-                    label={keyword}
-                    variant="soft"
-                    size="small"
-                    href={`/search?keyword=${keyword}`}
-                  />
+                  <RichCard.Chip key={i} label={keyword} variant="soft" size="small" href={`/[TODO]키워드_검색`} />
                 ))
               : null}
           </>

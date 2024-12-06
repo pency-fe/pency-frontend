@@ -16,7 +16,7 @@ type Props = {
   data: {
     commentId: string;
     channel: {
-      channelId: string;
+      channelUrl: string;
       avatar: string;
       name: string;
     };
@@ -37,14 +37,14 @@ export const WT_Post_List_Comment = forwardRef<HTMLDivElement, Props>(({ data },
       slots={{
         avatarLink: (
           <ListComment.AvatarLink
-            href={`/channel/${data.channel.channelId}`}
+            href={`/channel/${data.channel.channelUrl}`}
             slots={{
               avatar: <ListComment.AvatarLink.Avatar src={data.channel.avatar} />,
             }}
           />
         ),
         nameLink: (
-          <ListComment.NameLink href={`/channel/${data.channel.channelId}`}>{data.channel.name}</ListComment.NameLink>
+          <ListComment.NameLink href={`/channel/${data.channel.channelUrl}`}>{data.channel.name}</ListComment.NameLink>
         ),
         label: (
           <ListComment.Label variant="soft" color="info">

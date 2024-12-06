@@ -98,7 +98,7 @@ export const PostRichCard = () => {
           ),
           avatarLink: (
             <RichCard.AvatarLink
-              href={`/channel/${postData.channel.channelUrl}`}
+              href={`/@${postData.channel.channelUrl}`}
               slots={{
                 avatar: <RichCard.AvatarLink.Avatar src={postData.channel.avatar} />,
               }}
@@ -106,9 +106,7 @@ export const PostRichCard = () => {
           ),
           title: <RichCard.Title>{postData.title}</RichCard.Title>,
           nameLink: (
-            <RichCard.NameLink href={`/channel/${postData.channel.channelUrl}`}>
-              {postData.channel.name}
-            </RichCard.NameLink>
+            <RichCard.NameLink href={`/@${postData.channel.channelUrl}`}>{postData.channel.name}</RichCard.NameLink>
           ),
           attributes: (
             <>
@@ -248,7 +246,7 @@ export const SeriesRichCard = () => {
         ),
         avatarLink: (
           <RichCard.AvatarLink
-            href={`/channel/${seriesData.channel.channelUrl}`}
+            href={`/@${seriesData.channel.channelUrl}`}
             slots={{
               avatar: <RichCard.AvatarLink.Avatar src={seriesData.channel.avatar} />,
             }}
@@ -256,9 +254,7 @@ export const SeriesRichCard = () => {
         ),
         title: <RichCard.Title>{seriesData.title}</RichCard.Title>,
         nameLink: (
-          <RichCard.NameLink href={`/channel/${seriesData.channel.channelUrl}`}>
-            {seriesData.channel.name}
-          </RichCard.NameLink>
+          <RichCard.NameLink href={`/@${seriesData.channel.channelUrl}`}>{seriesData.channel.name}</RichCard.NameLink>
         ),
         attributes: (
           <>

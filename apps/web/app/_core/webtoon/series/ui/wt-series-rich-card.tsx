@@ -13,7 +13,7 @@ type Props = {
     completionState: CompletionState;
     title: string;
     channel: {
-      channelId: string;
+      channelUrl: string;
       avatar: string;
       name: string;
     };
@@ -49,7 +49,7 @@ export const WT_Series_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, r
         ),
         avatarLink: (
           <RichCard.AvatarLink
-            href={`/channel/${data.channel.channelId}`}
+            href={`/channel/${data.channel.channelUrl}`}
             slots={{
               avatar: <RichCard.AvatarLink.Avatar src={data.channel.avatar} />,
             }}
@@ -57,7 +57,7 @@ export const WT_Series_RichCard = forwardRef<HTMLDivElement, Props>(({ data }, r
         ),
         title: <RichCard.Title>{data.title}</RichCard.Title>,
         nameLink: (
-          <RichCard.NameLink href={`/channel/${data.channel.channelId}`}>{data.channel.name}</RichCard.NameLink>
+          <RichCard.NameLink href={`/channel/${data.channel.channelUrl}`}>{data.channel.name}</RichCard.NameLink>
         ),
         attributes: (
           <>

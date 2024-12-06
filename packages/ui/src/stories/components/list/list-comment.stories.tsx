@@ -25,7 +25,7 @@ export default meta;
 const commentData = {
   commentId: "comment-id-123",
   channel: {
-    channelId: "channel-id-123",
+    channelUrl: "channel-id-123",
     avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
     name: "김천재의 채널",
   },
@@ -47,14 +47,14 @@ export const Comment = () => {
       slots={{
         avatarLink: (
           <ListComment.AvatarLink
-            href={`/channel/${commentData.channel.channelId}`}
+            href={`/channel/${commentData.channel.channelUrl}`}
             slots={{
               avatar: <ListComment.AvatarLink.Avatar src={commentData.channel.avatar} />,
             }}
           />
         ),
         nameLink: (
-          <ListComment.NameLink href={`/channel/${commentData.channel.channelId}`}>
+          <ListComment.NameLink href={`/channel/${commentData.channel.channelUrl}`}>
             {commentData.channel.name}
           </ListComment.NameLink>
         ),
@@ -120,14 +120,14 @@ export const Reply = () => {
         slots={{
           avatarLink: (
             <ListComment.AvatarLink
-              href={`/channel/${commentData.channel.channelId}`}
+              href={`/channel/${commentData.channel.channelUrl}`}
               slots={{
                 avatar: <ListComment.AvatarLink.Avatar src={commentData.channel.avatar} />,
               }}
             />
           ),
           nameLink: (
-            <ListComment.NameLink href={`/channel/${commentData.channel.channelId}`}>
+            <ListComment.NameLink href={`/channel/${commentData.channel.channelUrl}`}>
               {commentData.channel.name}
             </ListComment.NameLink>
           ),
