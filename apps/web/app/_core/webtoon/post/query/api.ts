@@ -101,3 +101,23 @@ export const getPostChannelList = async ({
   //   .json();
   return await api.get<GetPostListRes>(`webtoon/post/list?sort=${sort}&page=${page}`).json();
 };
+
+// ----------------------------------------------------------------------
+
+type WebtoonPostLike = {
+  postId: string;
+};
+
+export const webtoonPostLike = async (req: WebtoonPostLike) => {
+  return await api.post(`webtoon/post/${req.postId}/like`, { json: req }).json();
+};
+
+// ----------------------------------------------------------------------
+
+type WebtoonPostLikeDelete = {
+  postId: string;
+};
+
+export const webtoonPostLikeDelete = async (req: WebtoonPostLikeDelete) => {
+  return await api.delete(`webtoon/post/${req.postId}/like`, { json: req }).json();
+};
