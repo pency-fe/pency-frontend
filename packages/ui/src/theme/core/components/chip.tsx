@@ -120,7 +120,7 @@ const MuiChip: Components<Theme>["MuiChip"] = {
         },
       };
 
-      return { ...styled.colors, ...styled.disabled };
+      return { ...styled.colors, ...styled.disabled, maxWidth: "none" };
     },
     label: ({ theme }) => ({ fontWeight: theme.typography.fontWeightMedium }),
     icon: { color: "currentColor" },

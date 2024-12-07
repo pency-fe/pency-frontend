@@ -42,7 +42,7 @@ const WT_Post_Filter_Form_Fn = ({ defaultValue, children }: WT_Post_Filter_Form_
 
 // ----------------------------------------------------------------------
 
-type SaveSubmitFnProps = Omit<ButtonProps, "children"> & {
+type SaveSubmitFnProps = Omit<ButtonProps, "children" | "onSubmit"> & {
   onSubmit: SubmitHandler<Schema>;
 };
 
@@ -58,19 +58,21 @@ const SaveSubmitFn = ({ onSubmit, ...rest }: SaveSubmitFnProps) => {
 
 // ----------------------------------------------------------------------
 
-type ResetFnProps = PropsWithoutRef<IconButtonProps> & {
+type ResetFnProps = PropsWithoutRef<Omit<IconButtonProps, "onReset">> & {
   onReset?: SubmitHandler<Schema>;
 };
 
 const ResetFn = ({ onReset, ...rest }: ResetFnProps) => {
-  const { reset, handleSubmit } = useWTPostFilterFormContext();
+  const { handleSubmit, setValue } = useWTPostFilterFormContext();
 
   return (
     <IconButton
       size="small"
       {...rest}
       onClick={() => {
-        reset();
+        setValue("creationTypes", []);
+        setValue("pairs", []);
+
         handleSubmit((data) => {
           onReset?.(data);
         })();

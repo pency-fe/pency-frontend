@@ -17,7 +17,7 @@ import {
 import {
   EvaArrowIosDownwardFillIcon,
   EvaArrowIosUpwardFillIcon,
-  FilterButton,
+  FilterChip,
   Menux,
   RadioButton,
   useMenuxState,
@@ -28,6 +28,8 @@ import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { WT_Post_Filter_Form, WT_Post_RichList } from "_core/webtoon/post";
 import { useSearchParams } from "next/navigation";
 import { usePaginationx } from "@pency/ui/hooks";
+import { useSessionStorage } from "usehooks-ts";
+import { CREATION_TYPE_LABEL, CreationType, Pair, PAIR_LABEL } from "_core/webtoon/post/const";
 
 type Sort = "LATEST" | "POPULAR" | "WPOPULAR";
 
@@ -39,18 +41,50 @@ const SORT_LABEL: Record<Sort, string> = {
 
 export function ListPage() {
   const searchParams = useSearchParams();
-  const theme = useTheme();
+  const [creationTypes, setCreationTypes] = useSessionStorage<CreationType[]>("wt-post-filter-creation-type", []);
+  const [pairs, setPairs] = useSessionStorage<Pair[]>("wt-post-filter-pair", []);
+
   const filter = useBooleanState(false);
+  const theme = useTheme();
 
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
   const saveFilter: ComponentProps<typeof WT_Post_Filter_Form.SaveSubmit>["onSubmit"] = (data) => {
-    console.log(data);
+    setCreationTypes(data.creationTypes);
+    setPairs(data.pairs);
+    filter.setFalse();
+  };
+
+  const resetFilter: ComponentProps<typeof WT_Post_Filter_Form.Reset>["onReset"] = (data) => {
+    setCreationTypes(data.creationTypes);
+    setPairs(data.pairs);
     filter.setFalse();
   };
 
   const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
   const sorts = useMemo(() => objectEntries(SORT_LABEL), []);
+
+  const creationTypesLabel = useMemo(() => {
+    let label = "창작유형";
+    if (creationTypes.length === 1) {
+      label = CREATION_TYPE_LABEL[creationTypes[0]!];
+    } else if (creationTypes.length > 1) {
+      label = `${CREATION_TYPE_LABEL[creationTypes[0]!]} 외 ${creationTypes.length - 1}`;
+    }
+
+    return label;
+  }, [creationTypes]);
+
+  const pairsLabel = useMemo(() => {
+    let label = "페어";
+    if (pairs.length === 1) {
+      label = PAIR_LABEL[pairs[0]!];
+    } else if (pairs.length > 1) {
+      label = `${PAIR_LABEL[pairs[0]!]} 외 ${pairs.length - 1}`;
+    }
+
+    return label;
+  }, [pairs]);
 
   const genreParam = useMemo(() => {
     const param = searchParams.get("genre");
@@ -170,25 +204,23 @@ export function ListPage() {
               ...hideScrollX,
             }}
           >
-            <FilterButton
-              label="창작유형"
+            <FilterChip
+              label={creationTypesLabel}
               open={filter.bool}
-              sx={{ flexShrink: 0 }}
+              active={!!creationTypes.length}
               onClick={filter.toggle}
-              onDelete={filter.toggle}
             />
-            <FilterButton
-              label="페어"
-              open={filter.bool}
-              sx={{ flexShrink: 0 }}
-              onClick={filter.toggle}
-              onDelete={filter.toggle}
-            />
+            <FilterChip label={pairsLabel} open={filter.bool} active={!!pairs.length} onClick={filter.toggle} />
           </Box>
         </Box>
 
         <Collapse in={filter.bool}>
-          <WT_Post_Filter_Form>
+          <WT_Post_Filter_Form
+            defaultValue={{
+              creationTypes,
+              pairs,
+            }}
+          >
             <Stack
               spacing={2}
               sx={{ bgcolor: theme.vars.palette.background.paper, borderRadius: 1, px: "20px", py: "12px" }}
@@ -197,7 +229,7 @@ export function ListPage() {
               <WT_Post_Filter_Form.Pairs />
 
               <Box sx={{ display: "flex", gap: 1, ml: "auto" }}>
-                <WT_Post_Filter_Form.Reset onReset={saveFilter} />
+                <WT_Post_Filter_Form.Reset onReset={resetFilter} />
                 <WT_Post_Filter_Form.SaveSubmit onSubmit={saveFilter} />
               </Box>
             </Stack>

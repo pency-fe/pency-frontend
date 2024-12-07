@@ -2,7 +2,7 @@ export * from "./card";
 export * from "./carousel";
 export * from "./checkbox-button";
 export * from "./dialog";
-export * from "./filter-button";
+export * from "./filter-chip";
 export * from "./item";
 export * from "./label";
 export * from "./list";
