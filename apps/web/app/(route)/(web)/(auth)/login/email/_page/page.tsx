@@ -42,11 +42,18 @@ export function EmailPage() {
       },
       onError: async (error) => {
         if (error.code === "UNVERIFIED_EMAIL") {
-          router.push(`/signup/email/resend?provisionUserId=${error.data.provisionUserId}`);
+          router.push(`/signup/email/resend?id=${error.data.id}`);
+          return;
         }
 
         if (error.code === "INVALID_LOGIN") {
           toast.error("이메일 또는 비밀번호를 잘못 입력했어요.");
+          return;
+        }
+
+        if (error.code === "BANNED_USER_BY_ADMIN") {
+          toast.error("관리자에 의해 서비스 이용이 제한된 계정이에요.");
+          return;
         }
       },
     });

@@ -5,7 +5,7 @@ import { Age, CreationType, Pair } from "../const";
 // ----------------------------------------------------------------------
 
 type WebtoonPostPublishReq = {
-  postId?: string;
+  id?: number;
   channelUrl: string;
   title: string;
   genre: string;
@@ -22,7 +22,7 @@ type WebtoonPostPublishReq = {
 };
 
 type WebtoonPostPublishRes = {
-  postId: string;
+  id: number;
 };
 
 export const webtoonPostPublish = async (req: WebtoonPostPublishReq) => {

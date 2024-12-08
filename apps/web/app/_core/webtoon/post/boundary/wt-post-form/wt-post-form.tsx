@@ -189,7 +189,7 @@ const CreateSubmitFn = ({ channelUrl, submitErrorHandler, ...rest }: CreateSubmi
     loading.setTrue();
     mutate(mutateData, {
       onSuccess: (data) => {
-        router.push(`/@${channelUrl}/webtoon/post/${data.postId}`);
+        router.push(`/@${channelUrl}/webtoon/post/${data.id}`);
       },
       onSettled: () => {
         loading.setFalse();

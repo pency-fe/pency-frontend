@@ -22,8 +22,8 @@ export const logout = async () => {
 
 type GetMeRes =
   | {
-      userId: string;
-      userProfileId: string;
+      userId: number;
+      userProfileId: number;
       isLoggedIn: true;
     }
   | {

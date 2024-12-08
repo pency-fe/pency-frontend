@@ -53,7 +53,7 @@ export function EmailPage() {
   const onSubmit = async (data: Schema) => {
     mutate(data, {
       onSuccess: (data) => {
-        router.push(`/signup/email/resend?provisionUserId=${data.provisionUserId}`);
+        router.push(`/signup/email/resend?id=${data.id}`);
       },
       onError: async (error) => {
         if (error.code === "DUPLICATE_EMAIL") {

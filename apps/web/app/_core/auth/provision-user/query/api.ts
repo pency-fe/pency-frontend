@@ -8,7 +8,7 @@ type SignupReq = {
 };
 
 type SignupRes = {
-  provisionUserId: string;
+  id: number;
 };
 
 export const signup = async (req: SignupReq) => {
@@ -18,7 +18,7 @@ export const signup = async (req: SignupReq) => {
 // ----------------------------------------------------------------------
 
 type EmailReq = {
-  provisionUserId: string;
+  id: number;
 };
 
 type EmailRes = { email: string };
@@ -30,7 +30,7 @@ export const email = async (req: EmailReq) => {
 // ----------------------------------------------------------------------
 
 type ResendReq = {
-  provisionUserId: string;
+  id: number;
 };
 
 export const resend = async (req: ResendReq) => {
