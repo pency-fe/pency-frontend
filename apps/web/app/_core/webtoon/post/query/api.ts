@@ -31,25 +31,29 @@ export const webtoonPostPublish = async (req: WebtoonPostPublishReq) => {
 
 // ----------------------------------------------------------------------
 
-type GetPostListRes = Array<{
-  id: number;
-  thumbnail: string;
-  age: Age;
-  price: number;
-  purchased: boolean;
-  creationType: CreationType;
-  pair: Pair;
-  genre: Genre;
-  title: string;
-  channel: {
-    channelUrl: string;
-    image: string;
+type GetPostListRes = {
+  currentPage: number;
+  pageCount: number;
+  posts: Array<{
+    id: number;
+    thumbnail: string;
+    age: Age;
+    price: number;
+    purchased: boolean;
+    creationType: CreationType;
+    pair: Pair;
+    genre: Genre;
     title: string;
-  };
-  likeCount: number;
-  createdAt: number;
-  keywords: string[];
-}>;
+    channel: {
+      channelUrl: string;
+      image: string;
+      title: string;
+    };
+    likeCount: number;
+    createdAt: number;
+    keywords: string[];
+  }>;
+};
 
 export const getPostList = async ({
   genre = "ALL",

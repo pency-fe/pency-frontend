@@ -15,7 +15,6 @@ export const useLogin = () => {
   >({
     mutationFn: login,
     meta: {
-      invalidates: [[]],
       awaits: [authUserKeys.me().queryKey],
     },
   });

@@ -3,6 +3,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { resend, signup, verify } from "./api";
 import { FailureRes, QueryError } from "_core/api";
+import { authUserKeys } from "_core/auth/user";
 
 export const useSignup = () => {
   return useMutation<
@@ -35,6 +36,9 @@ export const useVerify = () => {
     Parameters<typeof verify>[0]
   >({
     mutationFn: verify,
+    meta: {
+      awaits: [authUserKeys.me().queryKey],
+    },
   });
 };
 

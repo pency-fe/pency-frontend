@@ -2,32 +2,13 @@
 
 import { ComponentProps, useMemo } from "react";
 import NextLink from "next/link";
-import {
-  Stack,
-  Box,
-  Typography,
-  MenuItem,
-  RadioGroup,
-  Button,
-  useTheme,
-  buttonBaseClasses,
-  PaginationItem,
-  Collapse,
-} from "@mui/material";
-import {
-  EvaArrowIosDownwardFillIcon,
-  EvaArrowIosUpwardFillIcon,
-  FilterChip,
-  Menux,
-  RadioButton,
-  useMenuxState,
-} from "@pency/ui/components";
+import { Stack, Box, Typography, MenuItem, RadioGroup, useTheme, PaginationItem, Collapse } from "@mui/material";
+import { FilterChip, Menux, RadioButton, useMenuxState } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { createQueryString, objectEntries, useBooleanState } from "@pency/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { WT_Post_Filter_Form, WT_Post_RichList } from "_core/webtoon/post";
 import { useSearchParams } from "next/navigation";
-import { usePaginationx } from "@pency/ui/hooks";
 import { useSessionStorage } from "usehooks-ts";
 import { CREATION_TYPE_LABEL, CreationType, Pair, PAIR_LABEL } from "_core/webtoon/post/const";
 
@@ -44,10 +25,11 @@ export function ListPage() {
   const [creationTypes, setCreationTypes] = useSessionStorage<CreationType[]>("wt-post-filter-creation-type", []);
   const [pairs, setPairs] = useSessionStorage<Pair[]>("wt-post-filter-pair", []);
 
+  console.log(creationTypes, pairs);
   const filter = useBooleanState(false);
   const theme = useTheme();
 
-  const { anchorRef, isOpen, close, toggle } = useMenuxState();
+  const { anchorRef, isOpen, close, toggle } = useMenuxState<HTMLDivElement>();
 
   const saveFilter: ComponentProps<typeof WT_Post_Filter_Form.SaveSubmit>["onSubmit"] = (data) => {
     setCreationTypes(data.creationTypes);
@@ -151,18 +133,7 @@ export function ListPage() {
         </RadioGroup>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Button
-            ref={anchorRef}
-            variant="outlined"
-            onClick={toggle}
-            endIcon={isOpen ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
-            sx={{
-              [`&.${buttonBaseClasses.root}`]: { color: theme.vars.palette.text.secondary },
-              flexShrink: 0,
-            }}
-          >
-            {SORT_LABEL[sortParam]}
-          </Button>
+          <FilterChip ref={anchorRef} label={SORT_LABEL[sortParam]} open={isOpen} onClick={toggle} />
           <Menux
             open={isOpen}
             anchorEl={anchorRef.current}
@@ -236,10 +207,12 @@ export function ListPage() {
           </WT_Post_Filter_Form>
         </Collapse>
 
-        <WT_Post_RichList genre={genreParam} sort={sortParam} page={pageParam} />
-        <Box sx={{ margin: "auto", mt: 3 }}>
-          <Pagination />
-        </Box>
+        <WT_Post_RichList genre={genreParam} sort={sortParam} page={pageParam}>
+          <WT_Post_RichList.List />
+          <Box sx={{ margin: "auto", mt: 3 }}>
+            <Pagination />
+          </Box>
+        </WT_Post_RichList>
       </Stack>
     </Stack>
   );
@@ -249,15 +222,7 @@ export function ListPage() {
 
 function Pagination() {
   const searchParams = useSearchParams();
-  const pageParam = useMemo(() => {
-    const param = Number(searchParams.get("page"));
-    if (param && !isNaN(param) && param >= 1) {
-      return param;
-    }
-    return 1;
-  }, [searchParams]);
-
-  const paginations = usePaginationx({ pageCount: 20, currentPage: pageParam });
+  const paginations = WT_Post_RichList.usePagination();
 
   return (
     <>
