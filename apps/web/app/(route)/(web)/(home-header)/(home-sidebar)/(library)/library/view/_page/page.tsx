@@ -90,7 +90,7 @@ function WebtoonPostRichCard() {
           <Grid item key={i} xs={12} sm={6} md={4}>
             <WT_Post_RichCard
               data={{
-                postId: "1",
+                id: 1,
                 thumbnail:
                   "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
                 age: "ALL",

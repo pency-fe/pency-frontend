@@ -199,7 +199,7 @@ export default function LibraryPurchasePage() {
 
 // ----------------------------------------------------------------------
 const postData = {
-  postId: "post-id-123",
+  id: 123,
   thumbnail:
     "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
   age: "NINETEEN",
@@ -220,7 +220,7 @@ function WebtoonListItemx() {
     <ListItemx
       slots={{
         overlayElement: (
-          <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
+          <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`} />
         ),
         thumbnail: (
           <ListItemx.Thumbnail

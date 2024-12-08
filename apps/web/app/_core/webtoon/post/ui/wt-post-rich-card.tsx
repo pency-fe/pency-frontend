@@ -21,7 +21,7 @@ import { ListItemIcon, MenuItem } from "@mui/material";
 
 type Props = {
   data: {
-    postId: string;
+    id: number;
     thumbnail: string;
     age: Age;
     price: number;
@@ -49,7 +49,7 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data, hideG
     <RichCard
       ref={ref}
       slots={{
-        overlayElement: <RichCard.OverlayAnchor href={`/@${data.channel.channelUrl}/webtoon/post/${data.postId}`} />,
+        overlayElement: <RichCard.OverlayAnchor href={`/@${data.channel.channelUrl}/webtoon/post/${data.id}`} />,
         thumbnail: (
           <RichCard.Thumbnail
             slots={{

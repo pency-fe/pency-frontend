@@ -32,7 +32,7 @@ export const webtoonPostPublish = async (req: WebtoonPostPublishReq) => {
 // ----------------------------------------------------------------------
 
 type GetPostListRes = Array<{
-  postId: string;
+  id: number;
   thumbnail: string;
   age: Age;
   price: number;
@@ -65,8 +65,8 @@ export const getPostList = async ({
 
 // ----------------------------------------------------------------------
 
-type GetPosChannelListRes = Array<{
-  postId: string;
+type GetPostChannelListRes = Array<{
+  id: number;
   thumbnail: string;
   age: Age;
   price: number;
@@ -105,19 +105,19 @@ export const getPostChannelList = async ({
 // ----------------------------------------------------------------------
 
 type WebtoonPostLike = {
-  postId: string;
+  id: number;
 };
 
 export const webtoonPostLike = async (req: WebtoonPostLike) => {
-  return await api.post(`webtoon/post/${req.postId}/like`, { json: req }).json();
+  return await api.post(`webtoon/post/${req.id}/like`, { json: req }).json();
 };
 
 // ----------------------------------------------------------------------
 
 type WebtoonPostLikeDelete = {
-  postId: string;
+  id: number;
 };
 
 export const webtoonPostLikeDelete = async (req: WebtoonPostLikeDelete) => {
-  return await api.delete(`webtoon/post/${req.postId}/like`, { json: req }).json();
+  return await api.delete(`webtoon/post/${req.id}/like`, { json: req }).json();
 };

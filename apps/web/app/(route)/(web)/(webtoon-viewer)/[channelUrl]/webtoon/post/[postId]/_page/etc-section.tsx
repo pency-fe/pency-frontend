@@ -148,7 +148,7 @@ function PostPrevNext() {
   const theme = useTheme();
 
   const postData = {
-    postId: "post-id-123",
+    id: 123,
     thumbnail:
       "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
     age: "NINETEEN",
@@ -174,7 +174,7 @@ function PostPrevNext() {
       <ListItemx
         slots={{
           overlayElement: (
-            <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
+            <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`} />
           ),
           leadingLabel: (
             <ListItemx.LeadingLabel variant="button" color={theme.vars.palette.text.secondary} sx={{ flexShrink: 0 }}>
@@ -205,7 +205,7 @@ function PostPrevNext() {
       <ListItemx
         slots={{
           overlayElement: (
-            <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
+            <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`} />
           ),
           leadingLabel: (
             <ListItemx.LeadingLabel variant="button" color={theme.vars.palette.text.secondary} sx={{ flexShrink: 0 }}>
@@ -241,7 +241,7 @@ function OtherPostOfAuthor() {
   const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
 
   const postData = {
-    postId: "post-id-123",
+    id: 123,
     thumbnail:
       "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
     age: "NINETEEN",
@@ -300,7 +300,7 @@ function OtherPostOfAuthor() {
                       slots={{
                         overlayElement: (
                           <OverviewCard.OverlayAnchor
-                            href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`}
+                            href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`}
                           />
                         ),
                         thumbnail: (

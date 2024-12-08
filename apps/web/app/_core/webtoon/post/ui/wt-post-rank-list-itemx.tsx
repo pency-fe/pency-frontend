@@ -4,7 +4,7 @@ import { EvaHeartOutlineIcon, ListItemx, NineteenCircleIcon } from "@pency/ui/co
 
 type Props = {
   data: {
-    postId: string;
+    id: number;
     thumbnail: string;
     age: Age;
     title: string;
@@ -21,7 +21,7 @@ export const WT_Post_Rank_List_Itemx = forwardRef<HTMLDivElement, Props>(({ data
     <ListItemx
       ref={ref}
       slots={{
-        overlayElement: <ListItemx.OverlayAnchor href={`/@${data.channel.channelUrl}/webtoon/post/${data.postId}`} />,
+        overlayElement: <ListItemx.OverlayAnchor href={`/@${data.channel.channelUrl}/webtoon/post/${data.id}`} />,
         thumbnail: (
           <ListItemx.Thumbnail
             slots={{

@@ -9,7 +9,7 @@ export default meta;
 
 export const PostOverviewCard = () => {
   const postData = {
-    postId: "post-id-123",
+    id: 123,
     thumbnail:
       "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
     age: "NINETEEN",
@@ -30,7 +30,7 @@ export const PostOverviewCard = () => {
     <OverviewCard
       slots={{
         overlayElement: (
-          <OverviewCard.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.postId}`} />
+          <OverviewCard.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`} />
         ),
         thumbnail: (
           <OverviewCard.Thumbnail

@@ -7,7 +7,7 @@ import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 
 type Props = {
   data: {
-    postId: string;
+    id: number;
     thumbnail: string;
     age: Age;
     price: number;
@@ -30,9 +30,7 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data, h
     <OverviewCard
       ref={ref}
       slots={{
-        overlayElement: (
-          <OverviewCard.OverlayAnchor href={`/@${data.channel.channelUrl}/webtoon/post/${data.postId}`} />
-        ),
+        overlayElement: <OverviewCard.OverlayAnchor href={`/@${data.channel.channelUrl}/webtoon/post/${data.id}`} />,
         thumbnail: (
           <OverviewCard.Thumbnail
             slots={{
