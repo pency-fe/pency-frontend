@@ -1,12 +1,12 @@
 "use client";
 
-import { ComponentProps, createContext, Dispatch, SetStateAction, useContext, useMemo, useState } from "react";
+import { ComponentProps, createContext, useContext, useMemo, useState } from "react";
 import { createStore, useStore } from "zustand";
-import { useSessionStorage } from "usehooks-ts";
 import { Box, Collapse, NoSsr, Stack, useTheme } from "@mui/material";
 import { FilterChip } from "@pency/ui/components";
 import { CREATION_TYPE_LABEL, CreationType, Pair, PAIR_LABEL } from "_core/webtoon/post/const";
 import { WT_Post_Filter_Form } from "../../wt-post-filter";
+import { useSessionStorage } from "@pency/util";
 
 // ----------------------------------------------------------------------
 // 필터의 데이터를 구성합니다.
@@ -23,7 +23,7 @@ export function useFilterData() {
 // ----------------------------------------------------------------------
 // 필터의 수정 작업을 구성합니다.
 const FilterActionContext = createContext<
-  { setCreationTypes: Dispatch<SetStateAction<CreationType[]>>; setPairs: Dispatch<SetStateAction<Pair[]>> } | undefined
+  { setCreationTypes: (value: CreationType[]) => void; setPairs: (value: Pair[]) => void } | undefined
 >(undefined);
 
 function useFilterAction() {
