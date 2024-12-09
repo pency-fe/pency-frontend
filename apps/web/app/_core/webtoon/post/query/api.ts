@@ -103,7 +103,7 @@ export const getPostChannelList = async ({
   // return await api
   //   .get<GetPosChannelListRes>(`webtoon/post/channel/list?channelUrl=${channelUrl}&sort=${sort}&page=${page}`)
   //   .json();
-  return await api.get<GetPostPageRes>(`webtoon/post/list?sort=${sort}&page=${page}`).json();
+  return await api.get<GetPostPageRes>(`webtoon/post/page?sort=${sort}&page=${page}`).json();
 };
 
 // ----------------------------------------------------------------------

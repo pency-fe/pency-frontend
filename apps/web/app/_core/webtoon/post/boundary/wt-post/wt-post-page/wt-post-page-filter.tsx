@@ -3,7 +3,7 @@
 import { ComponentProps, createContext, Dispatch, SetStateAction, useContext, useMemo, useState } from "react";
 import { createStore, useStore } from "zustand";
 import { useSessionStorage } from "usehooks-ts";
-import { Box, Collapse, Stack, useTheme } from "@mui/material";
+import { Box, Collapse, NoSsr, Stack, useTheme } from "@mui/material";
 import { FilterChip } from "@pency/ui/components";
 import { CREATION_TYPE_LABEL, CreationType, Pair, PAIR_LABEL } from "_core/webtoon/post/const";
 import { WT_Post_Filter_Form } from "../../wt-post-filter";
@@ -95,6 +95,7 @@ const FilterProvider = ({ children }: { children?: React.ReactNode }) => {
 };
 
 // ----------------------------------------------------------------------
+// https://nextjs.org/docs/messages/react-hydration-error#solution-2-disabling-ssr-on-specific-components
 
 const CreationTypesFilterFn = () => {
   const { creationTypes } = useFilterData();
@@ -112,10 +113,15 @@ const CreationTypesFilterFn = () => {
     return label;
   }, [creationTypes]);
 
-  return <FilterChip label={creationTypesLabel} open={isOpen} active={!!creationTypes.length} onClick={toggle} />;
+  return (
+    <NoSsr>
+      <FilterChip label={creationTypesLabel} open={isOpen} active={!!creationTypes.length} onClick={toggle} />
+    </NoSsr>
+  );
 };
 
 // ----------------------------------------------------------------------
+// https://nextjs.org/docs/messages/react-hydration-error#solution-2-disabling-ssr-on-specific-components
 
 const PairsFilterFn = () => {
   const { pairs } = useFilterData();
@@ -133,10 +139,15 @@ const PairsFilterFn = () => {
     return label;
   }, [pairs]);
 
-  return <FilterChip label={pairsLabel} open={isOpen} active={!!pairs.length} onClick={toggle} />;
+  return (
+    <NoSsr>
+      <FilterChip label={pairsLabel} open={isOpen} active={!!pairs.length} onClick={toggle} />
+    </NoSsr>
+  );
 };
 
 // ----------------------------------------------------------------------
+// https://nextjs.org/docs/messages/react-hydration-error#solution-2-disabling-ssr-on-specific-components
 
 const FilterFormFn = () => {
   const { creationTypes, pairs } = useFilterData();
@@ -160,27 +171,29 @@ const FilterFormFn = () => {
   };
 
   return (
-    <Collapse in={isOpen}>
-      <WT_Post_Filter_Form
-        defaultValue={{
-          creationTypes,
-          pairs,
-        }}
-      >
-        <Stack
-          spacing={2}
-          sx={{ bgcolor: theme.vars.palette.background.paper, borderRadius: 1, px: "20px", py: "12px" }}
+    <NoSsr>
+      <Collapse in={isOpen}>
+        <WT_Post_Filter_Form
+          defaultValue={{
+            creationTypes,
+            pairs,
+          }}
         >
-          <WT_Post_Filter_Form.CreationTypes />
-          <WT_Post_Filter_Form.Pairs />
+          <Stack
+            spacing={2}
+            sx={{ bgcolor: theme.vars.palette.background.paper, borderRadius: 1, px: "20px", py: "12px" }}
+          >
+            <WT_Post_Filter_Form.CreationTypes />
+            <WT_Post_Filter_Form.Pairs />
 
-          <Box sx={{ display: "flex", gap: 1, ml: "auto" }}>
-            <WT_Post_Filter_Form.Reset onReset={resetFilter} />
-            <WT_Post_Filter_Form.SaveSubmit onSubmit={saveFilter} />
-          </Box>
-        </Stack>
-      </WT_Post_Filter_Form>
-    </Collapse>
+            <Box sx={{ display: "flex", gap: 1, ml: "auto" }}>
+              <WT_Post_Filter_Form.Reset onReset={resetFilter} />
+              <WT_Post_Filter_Form.SaveSubmit onSubmit={saveFilter} />
+            </Box>
+          </Stack>
+        </WT_Post_Filter_Form>
+      </Collapse>
+    </NoSsr>
   );
 };
 
