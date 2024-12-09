@@ -31,7 +31,7 @@ export const webtoonPostPublish = async (req: WebtoonPostPublishReq) => {
 
 // ----------------------------------------------------------------------
 
-type GetPostListRes = {
+type GetPostPageRes = {
   currentPage: number;
   pageCount: number;
   posts: Array<{
@@ -55,7 +55,7 @@ type GetPostListRes = {
   }>;
 };
 
-export const getPostList = async ({
+export const getPostPage = async ({
   genre = "ALL",
   sort = "LATEST",
   page = 1,
@@ -64,7 +64,7 @@ export const getPostList = async ({
   sort?: "LATEST" | "POPULAR" | "WPOPULAR";
   page?: number;
 }) => {
-  return await api.get<GetPostListRes>(`webtoon/post/list?genre=${genre}&sort=${sort}&page=${page}`).json();
+  return await api.get<GetPostPageRes>(`webtoon/post/page?genre=${genre}&sort=${sort}&page=${page}`).json();
 };
 
 // ----------------------------------------------------------------------
@@ -103,7 +103,7 @@ export const getPostChannelList = async ({
   // return await api
   //   .get<GetPosChannelListRes>(`webtoon/post/channel/list?channelUrl=${channelUrl}&sort=${sort}&page=${page}`)
   //   .json();
-  return await api.get<GetPostListRes>(`webtoon/post/list?sort=${sort}&page=${page}`).json();
+  return await api.get<GetPostPageRes>(`webtoon/post/list?sort=${sort}&page=${page}`).json();
 };
 
 // ----------------------------------------------------------------------

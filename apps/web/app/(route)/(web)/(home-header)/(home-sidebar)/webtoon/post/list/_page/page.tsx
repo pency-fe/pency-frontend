@@ -2,14 +2,14 @@
 
 import { ComponentProps, useMemo } from "react";
 import NextLink from "next/link";
-import { Stack, Box, Typography, MenuItem, RadioGroup, useTheme, PaginationItem, Collapse } from "@mui/material";
+import { useSearchParams } from "next/navigation";
+import { Stack, Box, Typography, MenuItem, RadioGroup, useTheme, Collapse } from "@mui/material";
+import { useSessionStorage } from "usehooks-ts";
 import { FilterChip, Menux, RadioButton, useMenuxState } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { createQueryString, objectEntries, useBooleanState } from "@pency/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { WT_Post_Filter_Form, WT_Post_RichList } from "_core/webtoon/post";
-import { useSearchParams } from "next/navigation";
-import { useSessionStorage } from "usehooks-ts";
+import { WT_Post_Filter_Form, WT_Post_Page } from "_core/webtoon/post";
 import { CREATION_TYPE_LABEL, CreationType, Pair, PAIR_LABEL } from "_core/webtoon/post/const";
 
 type Sort = "LATEST" | "POPULAR" | "WPOPULAR";
@@ -207,37 +207,13 @@ export function ListPage() {
           </WT_Post_Filter_Form>
         </Collapse>
 
-        <WT_Post_RichList genre={genreParam} sort={sortParam} page={pageParam}>
-          <WT_Post_RichList.List />
+        <WT_Post_Page genre={genreParam} sort={sortParam} page={pageParam}>
+          <WT_Post_Page.Cards />
           <Box sx={{ margin: "auto", mt: 3 }}>
-            <Pagination />
+            <WT_Post_Page.Pagination />
           </Box>
-        </WT_Post_RichList>
+        </WT_Post_Page>
       </Stack>
     </Stack>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-function Pagination() {
-  const searchParams = useSearchParams();
-  const paginations = WT_Post_RichList.usePagination();
-
-  return (
-    <>
-      {paginations.map((pagination, i) => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set("page", `${pagination.page}`);
-        return (
-          <PaginationItem
-            key={i}
-            component={NextLink}
-            href={`/webtoon/post/list${createQueryString(params)}`}
-            {...pagination}
-          />
-        );
-      })}
-    </>
   );
 }

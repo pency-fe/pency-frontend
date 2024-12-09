@@ -17,9 +17,9 @@ import {
 import { Age, CreationType, CREATION_TYPE_LABEL, Pair, PAIR_LABEL } from "../const";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { formatRelativeTimeFromUTC } from "@pency/util";
-import { ListItemIcon, MenuItem } from "@mui/material";
+import { Box, ListItemIcon, MenuItem, Skeleton, Stack } from "@mui/material";
 
-type Props = {
+type WT_Post_RichCardFnProps = {
   data: {
     id: number;
     thumbnail: string;
@@ -42,7 +42,7 @@ type Props = {
   hideGenre?: boolean;
 };
 
-export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data, hideGenre = false }, ref) => {
+const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(({ data, hideGenre = false }, ref) => {
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
   return (
@@ -155,4 +155,27 @@ export const WT_Post_RichCard = forwardRef<HTMLDivElement, Props>(({ data, hideG
       }}
     />
   );
+});
+
+// ----------------------------------------------------------------------
+
+const LoadingFn = () => {
+  return (
+    <Stack gap={1.5}>
+      <Skeleton animation="wave" sx={{ height: "auto", aspectRatio: "16/9" }} />
+      <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+        <Skeleton variant="circular" animation="wave" width={36} height={36} />
+        <Stack sx={{ flex: "1 1 auto", gap: 0.5 }}>
+          <Skeleton animation="wave" height={14} />
+          <Skeleton animation="wave" height={12} />
+        </Stack>
+      </Box>
+    </Stack>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+export const WT_Post_RichCard = Object.assign(WT_Post_RichCardFn, {
+  Loading: LoadingFn,
 });
