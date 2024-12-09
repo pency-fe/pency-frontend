@@ -2,9 +2,10 @@
 
 import { Stack, Typography, TextField, Button, useTheme, Skeleton } from "@mui/material";
 import { toast } from "@pency/ui/components";
+import { isClient } from "@pency/util";
 import { useQuery } from "@tanstack/react-query";
 import { authProvisionUserKeys, useResend } from "_core/auth/provision-user";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
 export function ResendPage() {
@@ -14,8 +15,12 @@ export function ResendPage() {
   const idParam = useSearchParams().get("id");
 
   if (idParam === null || isNaN(Number(idParam))) {
-    router.push("/");
-    return;
+    if (isClient()) {
+      router.push("/");
+      return;
+    } else {
+      redirect("/");
+    }
   }
 
   const id = useMemo(() => Number(idParam), [idParam]);

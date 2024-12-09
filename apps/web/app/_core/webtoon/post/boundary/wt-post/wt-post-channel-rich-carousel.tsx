@@ -24,14 +24,16 @@ export const WT_Post_Channel_RichCarousel = Object.assign(
 type WT_Post_Channel_RichCarousel_Fn_Props = Parameters<typeof wtPostChannelKeys.list>[0];
 
 function WT_Post_Channel_RichCarousel_Fn({ channelUrl, sort, page }: WT_Post_Channel_RichCarousel_Fn_Props) {
-  const { data } = useSuspenseQuery(wtPostChannelKeys.list({ channelUrl, sort, page }));
+  const {
+    data: { posts },
+  } = useSuspenseQuery(wtPostChannelKeys.list({ channelUrl, sort, page }));
 
   return (
     <RichCardCarousel.Container
       slots={{
         slides: (
           <>
-            {data.map((post, i) => (
+            {posts.map((post, i) => (
               <RichCardCarousel.Slide key={i}>
                 <WT_Post_RichCard data={post} />
               </RichCardCarousel.Slide>

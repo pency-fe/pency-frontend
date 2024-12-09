@@ -1,4 +1,3 @@
-import "@pency/ui/global.css";
 import { AuthLayout } from "./_layout/layout";
 
 type Props = {

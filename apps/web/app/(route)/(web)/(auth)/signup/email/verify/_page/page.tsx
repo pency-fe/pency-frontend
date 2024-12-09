@@ -1,8 +1,9 @@
 "use client";
 
 import { CircularProgress, Stack, Typography } from "@mui/material";
+import { isClient } from "@pency/util";
 import { useVerify } from "_core/auth/provision-user";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 export function VerifyPage() {
@@ -11,8 +12,12 @@ export function VerifyPage() {
   const token = useSearchParams().get("token");
 
   if (token === null || !token.length) {
-    router.push("/signup/email/not-verify");
-    return;
+    if (isClient()) {
+      router.push("/signup/email/not-verify");
+      return;
+    } else {
+      redirect("/signup/email/not-verify");
+    }
   }
 
   useEffect(() => {

@@ -3,8 +3,9 @@
 import Left from "./left";
 import Right from "./right";
 import { useMeValue } from "(route)/(web)/me-provider";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Header, Main } from "@pency/ui/layouts";
+import { isClient } from "@pency/util";
 
 type Props = {
   children: React.ReactNode;
@@ -15,9 +16,14 @@ export function AuthLayout({ children }: Props) {
   const me = useMeValue();
 
   if (me.isLoggedIn) {
-    router.push("/");
-    return;
+    if (isClient()) {
+      router.push("/");
+      return;
+    } else {
+      redirect("/");
+    }
   }
+
   return (
     <>
       <Header
