@@ -15,7 +15,7 @@ import {
 import { ReactNode } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
-import { useChannelCreate } from "../query";
+import { useCreateChannel } from "../query";
 import { BrandPencyTextIcon, toast } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
 import { useBooleanState } from "@pency/util";
@@ -90,7 +90,7 @@ type CreateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   const router = useRouter();
-  const { mutate } = useChannelCreate();
+  const { mutate } = useCreateChannel();
 
   const { handleSubmit, setError } = useFormContext<Schema>();
 

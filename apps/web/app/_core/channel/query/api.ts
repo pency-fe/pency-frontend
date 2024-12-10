@@ -2,19 +2,19 @@ import { api } from "_core/api";
 
 // ----------------------------------------------------------------------
 
-type ChannelCreateReq = {
+type CreateChannelReq = {
   title: string;
   description?: string;
   url: string;
   image?: string;
 };
 
-type ChannelCreateRes = {
+type CreateChannelRes = {
   url: string;
 };
 
-export const channelCreate = async (req: ChannelCreateReq) => {
-  return await api.post<ChannelCreateRes>("channel/create", { json: req }).json();
+export const createChannel = async (req: CreateChannelReq) => {
+  return await api.post<CreateChannelRes>("channel", { json: req }).json();
 };
 
 // ----------------------------------------------------------------------

@@ -92,7 +92,9 @@ const CreationTypesFn = () => {
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <Typography sx={{ width: "4rem", flexShrink: 0 }}>창작유형</Typography>
+      <Typography variant="body2" sx={{ width: "4rem", flexShrink: 0, fontWeight: 600 }}>
+        창작유형
+      </Typography>
       <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}>
         <Controller
           control={control}
@@ -131,7 +133,9 @@ const PairsFn = () => {
   const pairs = useMemo(() => objectEntries(PAIR_LABEL), []);
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <Typography sx={{ width: "4rem", flexShrink: 0 }}>페어</Typography>
+      <Typography variant="body2" sx={{ width: "4rem", flexShrink: 0, fontWeight: 600 }}>
+        페어
+      </Typography>
       <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}>
         <Controller
           control={control}
