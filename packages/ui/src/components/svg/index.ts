@@ -24,6 +24,7 @@ export * from "./fluent-draw-image-24-filled-icon";
 export * from "./fluent-draw-text-24-filled-icon";
 export * from "./fluent-home-24-regular-icon";
 export * from "./fluent-share-24-regular-icon";
+export * from "./gg-add-r-icon";
 export * from "./gravity-ui-circle-check-fill-icon";
 export * from "./ic-outline-email-icon";
 export * from "./ic-round-refresh-icon";

@@ -22,6 +22,7 @@ import {
   useTheme,
 } from "@mui/material";
 import {
+  GgAddRIcon,
   IcRoundSearchIcon,
   MingcuteBox2LineIcon,
   MingcuteNotificationLineIcon,
@@ -145,7 +146,6 @@ export function Right() {
                     </IconButton>
                   </Box>
                 </ListItem>
-
                 <ListItem>
                   <ListItemAvatar>
                     <Avatar
@@ -153,7 +153,7 @@ export function Right() {
                       sx={{ width: 32, height: 32, borderRadius: 1 }}
                     />
                   </ListItemAvatar>
-                  <ListItemText>채널2</ListItemText>
+                  <ListItemText>채널 이름이 매우 너무 많이 미치게 긴 이름</ListItemText>
                   <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
                     <Button variant="soft" size="small">
                       스튜디오
@@ -175,11 +175,27 @@ export function Right() {
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
-                  <ListItemButton>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push("/library/view");
+                    }}
+                  >
                     <ListItemIcon>
                       <MingcuteBox2LineIcon fontSize="medium" />
                     </ListItemIcon>
                     <ListItemText primary="보관함" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push("/channel/create");
+                    }}
+                  >
+                    <ListItemIcon>
+                      <GgAddRIcon fontSize="medium" />
+                    </ListItemIcon>
+                    <ListItemText primary="새 채널 만들기" />
                   </ListItemButton>
                 </ListItem>
               </List>
