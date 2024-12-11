@@ -45,7 +45,7 @@ const ContentProvider = withAsyncBoundary(
       return 1;
     }, [searchParams]);
 
-    const { data } = useSuspenseQuery(wtPostKeys.list({ genre, sort, page }));
+    const { data } = useSuspenseQuery(wtPostKeys.list({ genre, sort, page, creationTypes, pairs }));
 
     return <ContentDataContext.Provider value={data}>{children}</ContentDataContext.Provider>;
   },

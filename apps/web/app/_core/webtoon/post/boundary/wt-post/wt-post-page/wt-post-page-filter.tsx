@@ -172,7 +172,7 @@ const FilterFormFn = () => {
 
   return (
     <NoSsr>
-      <Collapse in={isOpen}>
+      <Collapse in={isOpen} unmountOnExit>
         <WT_Post_Filter_Form
           defaultValue={{
             creationTypes,

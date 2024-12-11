@@ -6,10 +6,10 @@ import { getPostChannelList, getPostPage } from "./api";
 export const wtPostKeys = {
   all: ["wt", "posts"],
   lists: () => [...wtPostKeys.all, "list"],
-  list: ({ genre, sort, page }: Required<Parameters<typeof getPostPage>[0]>) =>
+  list: ({ genre, sort, page, creationTypes, pairs }: Required<Parameters<typeof getPostPage>[0]>) =>
     queryOptions<Awaited<ReturnType<typeof getPostPage>>>({
-      queryKey: [...wtPostKeys.lists(), { genre, sort, page }],
-      queryFn: () => getPostPage({ genre, sort, page }),
+      queryKey: [...wtPostKeys.lists(), { genre, sort, page, creationTypes, pairs }],
+      queryFn: () => getPostPage({ genre, sort, page, creationTypes, pairs }),
     }),
 };
 

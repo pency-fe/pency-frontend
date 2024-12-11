@@ -1,6 +1,7 @@
 import { api } from "_core/api";
 import { Genre } from "_core/webtoon/const";
 import { Age, CreationType, Pair } from "../const";
+import { createSearchParamString } from "@pency/util";
 
 // ----------------------------------------------------------------------
 
@@ -59,12 +60,26 @@ export const getPostPage = async ({
   genre = "ALL",
   sort = "LATEST",
   page = 1,
+  creationTypes = ["ALL"],
+  pairs = ["ALL"],
 }: {
   genre?: Genre | "ALL";
   sort?: "LATEST" | "POPULAR" | "WPOPULAR";
   page?: number;
+  creationTypes?: Array<CreationType | "ALL">;
+  pairs?: Array<Pair | "ALL">;
 }) => {
-  return await api.get<GetPostPageRes>(`webtoon/post/page?genre=${genre}&sort=${sort}&page=${page}`).json();
+  return await api
+    .get<GetPostPageRes>(
+      `webtoon/post/page${createSearchParamString({
+        genre,
+        sort,
+        page,
+        creationTypes,
+        pairs,
+      })}`,
+    )
+    .json();
 };
 
 // ----------------------------------------------------------------------
