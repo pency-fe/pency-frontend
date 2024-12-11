@@ -7,7 +7,7 @@ import { authUserKeys } from "_core/auth/user";
 
 const MeContext = createContext<Awaited<ReturnType<typeof getMe>> | undefined>(undefined);
 
-export function useMeValue() {
+export function useMe() {
   const context = useContext(MeContext);
 
   if (!context) throw new Error(`부모로 <MeProvider /> 컴포넌트가 있어야 합니다.`);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMeValue } from "(route)/(web)/me-provider";
+import { useMe } from "(route)/(web)/me-provider";
 import NextLink from "next/link";
 import {
   Avatar,
@@ -31,9 +31,13 @@ import {
   usePopperxState,
 } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
+import { channelUserProfileKeys } from "_core/channel/query/queries";
+import { useQuery } from "@tanstack/react-query";
+
+// ----------------------------------------------------------------------
 
 export function Right() {
-  const me = useMeValue();
+  const me = useMe();
   const theme = useTheme();
   const router = useRouter();
 
@@ -128,43 +132,7 @@ export function Right() {
             }}
           >
             <Stack>
-              <List>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar
-                      src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-                      sx={{ width: 32, height: 32, borderRadius: 1 }}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText>채널 이름이 매우 너무 많이 미치게 긴 이름</ListItemText>
-                  <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
-                    <Button variant="soft" size="small">
-                      스튜디오
-                    </Button>
-                    <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
-                      <MingcutePencilLineIcon />
-                    </IconButton>
-                  </Box>
-                </ListItem>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar
-                      src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-                      sx={{ width: 32, height: 32, borderRadius: 1 }}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText>채널 이름이 매우 너무 많이 미치게 긴 이름</ListItemText>
-                  <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
-                    <Button variant="soft" size="small">
-                      스튜디오
-                    </Button>
-                    <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
-                      <MingcutePencilLineIcon />
-                    </IconButton>
-                  </Box>
-                </ListItem>
-              </List>
-              <Divider />
+              <ChannelUserProfileList />
               <List>
                 <ListItem disablePadding>
                   <ListItemButton>
@@ -213,5 +181,57 @@ export function Right() {
         </>
       )}
     </Box>
+  );
+}
+
+// ----------------------------------------------------------------------
+
+function ChannelUserProfileList() {
+  const test = {
+    test: 1,
+  };
+  const me = useMe();
+  const id = me.userProfileId;
+  const { data } = useQuery(channelUserProfileKeys.list({ id: 1 }));
+  return (
+    <>
+      <List>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar
+              src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+              sx={{ width: 32, height: 32, borderRadius: 1 }}
+            />
+          </ListItemAvatar>
+          <ListItemText>채널 이름이 매우 너무 많이 미치게 긴 이름</ListItemText>
+          <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
+            <Button variant="soft" size="small">
+              스튜디오
+            </Button>
+            <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
+              <MingcutePencilLineIcon />
+            </IconButton>
+          </Box>
+        </ListItem>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar
+              src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+              sx={{ width: 32, height: 32, borderRadius: 1 }}
+            />
+          </ListItemAvatar>
+          <ListItemText>채널 이름이 매우 너무 많이 미치게 긴 이름</ListItemText>
+          <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
+            <Button variant="soft" size="small">
+              스튜디오
+            </Button>
+            <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
+              <MingcutePencilLineIcon />
+            </IconButton>
+          </Box>
+        </ListItem>
+      </List>
+      <Divider />
+    </>
   );
 }

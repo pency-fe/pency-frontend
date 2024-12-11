@@ -18,3 +18,22 @@ export const createChannel = async (req: CreateChannelReq) => {
 };
 
 // ----------------------------------------------------------------------
+
+type GetChannelUserProfileListReq = {
+  id: number;
+};
+
+type GetChannelUserProfileListRes = Array<{
+  id: number;
+  title: string;
+  description: string | null;
+  url: string;
+  image: string | null;
+  subscriberCount: number;
+}>;
+
+export const getChannelUserProfileList = async (req: GetChannelUserProfileListReq) => {
+  return await api.get<GetChannelUserProfileListRes>(`channel/user-profile/${req.id}/list`).json();
+};
+
+// ----------------------------------------------------------------------

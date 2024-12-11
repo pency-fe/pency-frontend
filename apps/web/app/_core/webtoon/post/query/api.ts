@@ -32,6 +32,14 @@ export const webtoonPostPublish = async (req: WebtoonPostPublishReq) => {
 
 // ----------------------------------------------------------------------
 
+type GetPostPageReq = {
+  genre?: Genre | "ALL";
+  sort?: "LATEST" | "POPULAR" | "WPOPULAR";
+  page?: number;
+  creationTypes?: Array<CreationType | "ALL">;
+  pairs?: Array<Pair | "ALL">;
+};
+
 type GetPostPageRes = {
   currentPage: number;
   pageCount: number;
@@ -62,13 +70,7 @@ export const getPostPage = async ({
   page = 1,
   creationTypes = ["ALL"],
   pairs = ["ALL"],
-}: {
-  genre?: Genre | "ALL";
-  sort?: "LATEST" | "POPULAR" | "WPOPULAR";
-  page?: number;
-  creationTypes?: Array<CreationType | "ALL">;
-  pairs?: Array<Pair | "ALL">;
-}) => {
+}: GetPostPageReq) => {
   return await api
     .get<GetPostPageRes>(
       `webtoon/post/page${createSearchParamString({
