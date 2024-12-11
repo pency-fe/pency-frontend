@@ -187,12 +187,12 @@ export function Right() {
 // ----------------------------------------------------------------------
 
 function ChannelUserProfileList() {
-  const test = {
-    test: 1,
-  };
   const me = useMe();
-  const id = me.userProfileId;
-  const { data } = useQuery(channelUserProfileKeys.list({ id: 1 }));
+
+  const data = useQuery({
+    ...channelUserProfileKeys.list({ id: me.userProfileId as number }),
+    enabled: !!me.userProfileId,
+  });
   return (
     <>
       <List>

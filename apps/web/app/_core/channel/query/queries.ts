@@ -8,12 +8,11 @@ export const channelKeys = {
 export const channelUserProfileKeys = {
   all: [...channelKeys.all, "user-profile"],
   lists: () => [...channelUserProfileKeys.all, "lists"],
-  list: ({ id }: Required<Parameters<typeof getChannelUserProfileList>[0]>) => {
+  list: ({ id }: Required<Parameters<typeof getChannelUserProfileList>[0]>) =>
     queryOptions<Awaited<ReturnType<typeof getChannelUserProfileList>>>({
       queryKey: [...channelUserProfileKeys.lists(), { id }],
       queryFn: () => getChannelUserProfileList({ id }),
-    });
-  },
+    }),
   detail: () => {},
 };
 
