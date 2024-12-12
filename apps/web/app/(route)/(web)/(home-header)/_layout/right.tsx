@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   ButtonBase,
-  Collapse,
   Divider,
   IconButton,
   InputAdornment,
@@ -33,22 +32,17 @@ import {
   usePopperxState,
 } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
-import { channelUserProfileKeys } from "_core/channel/query/queries";
-import { useQuery } from "@tanstack/react-query";
+import { useMeChannel } from "../me-channel-provider";
 
 // ----------------------------------------------------------------------
 
 export function Right() {
   const me = useMe();
+  const meChannel = useMeChannel();
   const theme = useTheme();
   const router = useRouter();
 
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
-
-  const { data } = useQuery({
-    ...channelUserProfileKeys.list({ id: me.userProfileId as number }),
-    enabled: !!me.userProfileId,
-  });
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -182,7 +176,7 @@ export function Right() {
                   */}
                   <ListItemButton
                     onClick={() => {
-                      if (data !== undefined && data.length < 5) {
+                      if (meChannel.length < 5) {
                         router.push("/channel/create");
                       } else {
                         toast.error("프로필당 최대 5개까지 채널을 개설할 수 있어요.");
@@ -217,19 +211,14 @@ export function Right() {
 
 function ChannelUserProfileList() {
   const theme = useTheme();
-  const me = useMe();
-
-  const { data } = useQuery({
-    ...channelUserProfileKeys.list({ id: me.userProfileId as number }),
-    enabled: !!me.userProfileId,
-  });
+  const meChannel = useMeChannel();
 
   return (
     <>
-      {data !== undefined && data?.length >= 0 ? (
+      {meChannel.length >= 0 ? (
         <>
           <List>
-            {Array.from(data, (channel) => (
+            {Array.from(meChannel, (channel) => (
               <ListItem component={NextLink} href={`/@${channel.url}`} key={channel.id}>
                 <ListItemAvatar>
                   <Avatar src={channel.image} sx={{ width: 32, height: 32, borderRadius: 1 }} />
