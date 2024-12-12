@@ -2,7 +2,7 @@
 
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { isClient } from "@pency/util";
-import { useVerify } from "_core/auth/provision-user";
+import { useVerify } from "_core/provision-user";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 

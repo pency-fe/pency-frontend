@@ -2,7 +2,7 @@
 
 import Left from "./left";
 import Right from "./right";
-import { useMe } from "(route)/(web)/me-provider";
+import { useMe } from "_core/user/provider/auth-me-provider";
 import { redirect, useRouter } from "next/navigation";
 import { Header, Main } from "@pency/ui/layouts";
 import { isClient } from "@pency/util";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMe } from "(route)/(web)/me-provider";
+import { useMe } from "_core/user/provider/auth-me-provider";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { channelMeKeys } from "_core/channel/query/queries";
 import { createContext, useContext } from "react";

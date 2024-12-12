@@ -1,18 +1,18 @@
 import { api } from "_core/api";
 
-type SignupForEmailReq = {
+type SignupWithEmailReq = {
   email: string;
   password: string;
   terms: boolean;
   privacy: boolean;
 };
 
-type SignupForEmailRes = {
+type SignupWithEmailRes = {
   id: number;
 };
 
-export const signupForEmail = async (req: SignupForEmailReq) => {
-  return await api.post<SignupForEmailRes>("auth/signup/email", { json: req }).json();
+export const signupWithEmail = async (req: SignupWithEmailReq) => {
+  return await api.post<SignupWithEmailRes>("provision-user", { json: req }).json();
 };
 
 // ----------------------------------------------------------------------
@@ -24,26 +24,26 @@ type GetProvisionUserReq = {
 type GetProvisionUserRes = { email: string };
 
 export const getProvisionUser = async (req: GetProvisionUserReq) => {
-  return await api.get<GetProvisionUserRes>(`auth/provision-user/${req.id}`).json();
+  return await api.get<GetProvisionUserRes>(`provision-user/${req.id}`).json();
 };
 
 // ----------------------------------------------------------------------
 
-type ResendReq = {
+type ResendEmailReq = {
   id: number;
 };
 
-export const resend = async (req: ResendReq) => {
-  return await api.post(`auth/provision-user/${req.id}/resend`).json();
+export const resendEmail = async (req: ResendEmailReq) => {
+  return await api.post(`provision-user/${req.id}/resend`).json();
 };
 
 // ----------------------------------------------------------------------
 
-type VerifyReq = { id: number; token: string };
+type VerifyEmailReq = { id: number; token: string };
 
-export const verify = async (req: VerifyReq) => {
+export const verifyEmail = async (req: VerifyEmailReq) => {
   return await api
-    .post(`auth/provision-user/${req.id}/verify`, {
+    .post(`provision-user/${req.id}/verify`, {
       json: {
         token: req.token,
       },

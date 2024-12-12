@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { MeProvider } from "./me-provider";
+import { MeProvider } from "../../_core/user/provider/auth-me-provider";
 import { cookies } from "next/headers";
-import { authUserKeys } from "_core/auth/user";
+import { authUserKeys } from "_core/user";
 import { getQueryClient } from "(route)/get-query-client";
 
 type Props = {

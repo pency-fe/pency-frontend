@@ -4,7 +4,7 @@ import { Stack, Typography, TextField, Button, useTheme, Skeleton } from "@mui/m
 import { toast } from "@pency/ui/components";
 import { isClient } from "@pency/util";
 import { useQuery } from "@tanstack/react-query";
-import { authProvisionUserKeys, useResend } from "_core/auth/provision-user";
+import { authProvisionUserKeys, useResend } from "_core/provision-user";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 

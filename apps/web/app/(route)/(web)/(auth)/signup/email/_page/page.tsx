@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { EvaEyeFillIcon, EvaEyeOffFillIcon } from "@pency/ui/components";
 import { useBooleanState } from "@pency/util";
-import { useSignupForEmail } from "_core/auth/provision-user";
+import { useSignupForEmail } from "_core/provision-user";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";

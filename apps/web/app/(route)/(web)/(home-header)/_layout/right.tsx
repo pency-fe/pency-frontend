@@ -1,6 +1,6 @@
 "use client";
 
-import { useMe } from "(route)/(web)/me-provider";
+import { useMe } from "_core/user/provider/auth-me-provider";
 import NextLink from "next/link";
 import {
   Avatar,

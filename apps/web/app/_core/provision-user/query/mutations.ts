@@ -1,41 +1,40 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { resend, signupForEmail, verify } from "./api";
 import { FailureRes, QueryError } from "_core/api";
-import { authUserKeys } from "_core/auth/user";
+import { resendEmail, signupWithEmail, verifyEmail } from "./api";
 
-export const useSignupForEmail = () => {
+export const useSignupWithEmail = () => {
   return useMutation<
-    Awaited<ReturnType<typeof signupForEmail>>,
+    Awaited<ReturnType<typeof signupWithEmail>>,
     QueryError<FailureRes<409, "DUPLICATE_EMAIL">>,
-    Parameters<typeof signupForEmail>[0]
+    Parameters<typeof signupWithEmail>[0]
   >({
-    mutationFn: signupForEmail,
+    mutationFn: signupWithEmail,
   });
 };
 
 // ----------------------------------------------------------------------
 
-export const useResend = () => {
+export const useResendEmail = () => {
   return useMutation<
-    Awaited<ReturnType<typeof resend>>,
+    Awaited<ReturnType<typeof resendEmail>>,
     QueryError<FailureRes<401, "EXPIRED_EMAIL_TOKEN" | "EXCEEDED_EMAIL_SEND">>,
-    Parameters<typeof resend>[0]
+    Parameters<typeof resendEmail>[0]
   >({
-    mutationFn: resend,
+    mutationFn: resendEmail,
   });
 };
 
 // ----------------------------------------------------------------------
 
-export const useVerify = () => {
+export const useVerifyEmail = () => {
   return useMutation<
-    Awaited<ReturnType<typeof verify>>,
+    Awaited<ReturnType<typeof verifyEmail>>,
     QueryError<FailureRes<401, "EXPIRED_EMAIL_TOKEN">>,
-    Parameters<typeof verify>[0]
+    Parameters<typeof verifyEmail>[0]
   >({
-    mutationFn: verify,
+    mutationFn: verifyEmail,
     meta: {
       awaits: [authUserKeys.me().queryKey],
     },
