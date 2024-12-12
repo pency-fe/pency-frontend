@@ -2,10 +2,10 @@
 
 import Left from "./left";
 import Right from "./right";
-import { useMe } from "_core/user/provider/auth-me-provider";
 import { redirect, useRouter } from "next/navigation";
 import { Header, Main } from "@pency/ui/layouts";
 import { isClient } from "@pency/util";
+import { useUserAuthMe } from "_core/user";
 
 type Props = {
   children: React.ReactNode;
@@ -13,7 +13,7 @@ type Props = {
 
 export function AuthLayout({ children }: Props) {
   const router = useRouter();
-  const me = useMe();
+  const me = useUserAuthMe();
 
   if (me.isLoggedIn) {
     if (isClient()) {

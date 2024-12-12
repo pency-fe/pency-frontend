@@ -3,9 +3,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { login, logout } from "./api";
 import { FailureRes, QueryError } from "_core/api";
-import { authUserKeys } from "./queries";
+import { userAuthMeKeys } from "./queries";
 
 export const useLogin = () => {
+  const queryClient = useQueryClient();
+
   return useMutation<
     Awaited<ReturnType<typeof login>>,
     | QueryError<FailureRes<401, "INVALID_LOGIN">>
@@ -14,8 +16,11 @@ export const useLogin = () => {
     Parameters<typeof login>[0]
   >({
     mutationFn: login,
+    onSuccess: () => {
+      queryClient.clear();
+    },
     meta: {
-      awaits: [authUserKeys.me().queryKey],
+      awaits: [userAuthMeKeys.detail().queryKey],
     },
   });
 };

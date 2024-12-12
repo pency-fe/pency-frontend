@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getAuthMe } from "./api";
+import { getUserAuthMe } from "./api";
 import { Options } from "ky";
 
 // ----------------------------------------------------------------------
@@ -24,9 +24,9 @@ export const userAuthMeKeys = {
   lists: () => [...userAuthMeKeys.all, "list"],
   details: () => [...userAuthMeKeys.all, "detail"],
   detail: (options?: Options) =>
-    queryOptions<Awaited<ReturnType<typeof getAuthMe>>>({
+    queryOptions<Awaited<ReturnType<typeof getUserAuthMe>>>({
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: [...userAuthMeKeys.details(), "unique"],
-      queryFn: () => getAuthMe(options),
+      queryFn: () => getUserAuthMe(options),
     }),
 };

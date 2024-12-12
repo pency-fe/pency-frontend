@@ -9,18 +9,18 @@ type LoginReq = {
 };
 
 export const login = async (req: LoginReq) => {
-  return await api.post("auth/login", { json: req }).json();
+  return await api.post("user/auth/me/login", { json: req }).json();
 };
 
 // ----------------------------------------------------------------------
 
 export const logout = async () => {
-  return await api.post("auth/logout").json();
+  return await api.post("user/auth/me/logout").json();
 };
 
 // ----------------------------------------------------------------------
 
-type GetAuthMeRes =
+type GetUserAuthMeRes =
   | {
       userId: number;
       userProfileId: number;
@@ -32,6 +32,6 @@ type GetAuthMeRes =
       isLoggedIn: false;
     };
 
-export const getAuthMe = async (options?: Options) => {
-  return await api.get<GetAuthMeRes>("auth/me", options).json();
+export const getUserAuthMe = async (options?: Options) => {
+  return await api.get<GetUserAuthMeRes>("user/auth/me", options).json();
 };

@@ -1,8 +1,8 @@
 "use client";
 
-import { useMe } from "_core/user/provider/auth-me-provider";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { channelMeKeys } from "_core/channel/query/queries";
+import { useUserAuthMe } from "_core/user";
 import { createContext, useContext } from "react";
 
 const MeChannelContext = createContext<
@@ -23,7 +23,7 @@ type MeChannelProviderProps = {
 };
 
 export function MeChannelProvider({ children }: MeChannelProviderProps) {
-  const { isLoggedIn } = useMe();
+  const { isLoggedIn } = useUserAuthMe();
 
   const { data } = useQuery({
     ...channelMeKeys.list(),

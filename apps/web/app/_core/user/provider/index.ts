@@ -1,1 +1,1 @@
-export * from "./auth-me-provider";
+export * from "./user-auth-me-provider";

@@ -4,14 +4,14 @@ import { Stack, Typography, TextField, Button, useTheme, Skeleton } from "@mui/m
 import { toast } from "@pency/ui/components";
 import { isClient } from "@pency/util";
 import { useQuery } from "@tanstack/react-query";
-import { authProvisionUserKeys, useResend } from "_core/provision-user";
+import { provisionUserKeys, useResendEmail } from "_core/provision-user";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
 export function ResendPage() {
   const theme = useTheme();
   const router = useRouter();
-  const { mutate } = useResend();
+  const { mutate } = useResendEmail();
   const idParam = useSearchParams().get("id");
 
   if (idParam === null || isNaN(Number(idParam))) {
@@ -25,7 +25,7 @@ export function ResendPage() {
 
   const id = useMemo(() => Number(idParam), [idParam]);
 
-  const query = useQuery(authProvisionUserKeys.detail({ id }));
+  const query = useQuery(provisionUserKeys.detail({ id }));
 
   if (query.isError && query.error.code === "EXPIRED_EMAIL_TOKEN") {
     router.push("/signup/email/not-verify");

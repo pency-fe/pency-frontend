@@ -2,13 +2,13 @@
 
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { isClient } from "@pency/util";
-import { useVerify } from "_core/provision-user";
+import { useVerifyEmail } from "_core/provision-user";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
 export function VerifyPage() {
   const router = useRouter();
-  const { mutate } = useVerify();
+  const { mutate } = useVerifyEmail();
   const idParam = useSearchParams().get("id");
   const token = useSearchParams().get("token");
 
@@ -24,6 +24,7 @@ export function VerifyPage() {
   const id = useMemo(() => Number(idParam), [idParam]);
 
   useEffect(() => {
+    console.log("hi!");
     mutate(
       { id, token },
       {
@@ -37,7 +38,7 @@ export function VerifyPage() {
         },
       },
     );
-  }, [id, token]);
+  }, []);
 
   return (
     <Stack spacing={4} alignItems="center">

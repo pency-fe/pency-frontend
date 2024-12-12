@@ -1,6 +1,5 @@
 "use client";
 
-import { useMe } from "_core/user/provider/auth-me-provider";
 import NextLink from "next/link";
 import {
   Avatar,
@@ -34,12 +33,12 @@ import {
 } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
 import { useMeChannel } from "../me-channel-provider";
-import { useLogout } from "_core/auth/user";
+import { useLogout, useUserAuthMe } from "_core/user";
 
 // ----------------------------------------------------------------------
 
 export function Right() {
-  const me = useMe();
+  const me = useUserAuthMe();
   const meChannel = useMeChannel();
   const theme = useTheme();
   const router = useRouter();
