@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   ButtonBase,
+  Collapse,
   Divider,
   IconButton,
   InputAdornment,
@@ -28,6 +29,7 @@ import {
   MingcuteNotificationLineIcon,
   MingcutePencilLineIcon,
   Popperx,
+  toast,
   usePopperxState,
 } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
@@ -42,6 +44,11 @@ export function Right() {
   const router = useRouter();
 
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
+
+  const { data } = useQuery({
+    ...channelUserProfileKeys.list({ id: me.userProfileId as number }),
+    enabled: !!me.userProfileId,
+  });
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -86,9 +93,8 @@ export function Right() {
             <MingcuteNotificationLineIcon />
           </IconButton>
           <IconButton
-            onClick={() => {
-              router.push("/library/view");
-            }}
+            LinkComponent={NextLink}
+            href="/library/view"
             sx={{
               [theme.breakpoints.down("sm")]: {
                 display: "none",
@@ -143,11 +149,7 @@ export function Right() {
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
-                  <ListItemButton
-                    onClick={() => {
-                      router.push("/library/view");
-                    }}
-                  >
+                  <ListItemButton LinkComponent={NextLink} href="/library/view">
                     <ListItemIcon>
                       <MingcuteBox2LineIcon fontSize="medium" />
                     </ListItemIcon>
@@ -157,7 +159,11 @@ export function Right() {
                 <ListItem disablePadding>
                   <ListItemButton
                     onClick={() => {
-                      router.push("/channel/create");
+                      if (data !== undefined && data.length < 5) {
+                        router.push("/channel/create");
+                      } else {
+                        toast.error("프로필당 최대 5개까지 채널을 개설할 수 있어요.");
+                      }
                     }}
                   >
                     <ListItemIcon>
@@ -194,6 +200,7 @@ function ChannelUserProfileList() {
     ...channelUserProfileKeys.list({ id: me.userProfileId as number }),
     enabled: !!me.userProfileId,
   });
+
   return (
     <>
       {data !== undefined && data?.length >= 0 ? (
