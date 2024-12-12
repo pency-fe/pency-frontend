@@ -187,51 +187,45 @@ export function Right() {
 // ----------------------------------------------------------------------
 
 function ChannelUserProfileList() {
+  const theme = useTheme();
   const me = useMe();
 
-  const data = useQuery({
+  const { data } = useQuery({
     ...channelUserProfileKeys.list({ id: me.userProfileId as number }),
     enabled: !!me.userProfileId,
   });
   return (
     <>
-      <List>
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar
-              src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-              sx={{ width: 32, height: 32, borderRadius: 1 }}
-            />
-          </ListItemAvatar>
-          <ListItemText>채널 이름이 매우 너무 많이 미치게 긴 이름</ListItemText>
-          <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
-            <Button variant="soft" size="small">
-              스튜디오
-            </Button>
-            <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
-              <MingcutePencilLineIcon />
-            </IconButton>
-          </Box>
-        </ListItem>
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar
-              src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-              sx={{ width: 32, height: 32, borderRadius: 1 }}
-            />
-          </ListItemAvatar>
-          <ListItemText>채널 이름이 매우 너무 많이 미치게 긴 이름</ListItemText>
-          <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
-            <Button variant="soft" size="small">
-              스튜디오
-            </Button>
-            <IconButton variant="soft" size="small" sx={{ borderRadius: 1 }}>
-              <MingcutePencilLineIcon />
-            </IconButton>
-          </Box>
-        </ListItem>
-      </List>
-      <Divider />
+      {data !== undefined && data?.length >= 0 ? (
+        <>
+          <List>
+            {Array.from(data, (channel) => (
+              <ListItem component={NextLink} href={`/@${channel.url}`} key={channel.id}>
+                <ListItemAvatar>
+                  <Avatar src={channel.image} sx={{ width: 32, height: 32, borderRadius: 1 }} />
+                </ListItemAvatar>
+                <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{channel.title}</ListItemText>
+                <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
+                  <Button LinkComponent={NextLink} href="TODO_스튜디오" variant="soft" size="small">
+                    스튜디오
+                  </Button>
+                  <IconButton
+                    LinkComponent={NextLink}
+                    href={`editor/@${channel.url}/webtoon`}
+                    variant="soft"
+                    size="small"
+                    sx={{ borderRadius: 1 }}
+                  >
+                    <MingcutePencilLineIcon />
+                  </IconButton>
+                </Box>
+              </ListItem>
+            ))}
+          </List>
+
+          <Divider />
+        </>
+      ) : null}
     </>
   );
 }

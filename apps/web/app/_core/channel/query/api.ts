@@ -26,9 +26,9 @@ type GetChannelUserProfileListReq = {
 type GetChannelUserProfileListRes = Array<{
   id: number;
   title: string;
-  description: string | null;
+  description: string;
   url: string;
-  image: string | null;
+  image: string;
   subscriberCount: number;
 }>;
 
