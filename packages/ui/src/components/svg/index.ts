@@ -33,6 +33,7 @@ export * from "./icomoon-free-youtube2-icon";
 export * from "./material-symbols-block-icon";
 export * from "./material-symbols-chat-bubble-outline";
 export * from "./material-symbols-close-icon";
+export * from "./material-symbols-logout-icon";
 export * from "./material-symbols-report-outline-icon";
 export * from "./mingcute-box-2-line-icon";
 export * from "./mingcute-delete-3-line-icon";

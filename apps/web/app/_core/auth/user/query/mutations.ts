@@ -25,12 +25,10 @@ export const useLogin = () => {
 export const useLogout = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<Awaited<ReturnType<typeof logout>>, void, Parameters<typeof logout>>({
+  return useMutation<Awaited<ReturnType<typeof logout>>, void, void>({
     mutationFn: logout,
     onSuccess: () => {
       queryClient.clear();
     },
   });
 };
-
-// ----------------------------------------------------------------------

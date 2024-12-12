@@ -24,6 +24,7 @@ import {
 import {
   GgAddRIcon,
   IcRoundSearchIcon,
+  MaterialSymbolsLogoutIcon,
   MingcuteBox2LineIcon,
   MingcuteNotificationLineIcon,
   MingcutePencilLineIcon,
@@ -33,6 +34,7 @@ import {
 } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
 import { useMeChannel } from "../me-channel-provider";
+import { useLogout } from "_core/auth/user";
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +45,8 @@ export function Right() {
   const router = useRouter();
 
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
+
+  const { mutate } = useLogout();
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -151,29 +155,6 @@ export function Right() {
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
-                  {/* 요구사항: 클릭했을 때 채널 최대 5개를 넘기면 이동을 안시키겠다.
-                  문제: 채널 몇 개인지 어떻게 알지?
-                  왜 이런 문제가 발생할까? 이 컴포넌트에서 데이터를 가져오지 않아서.
-                  해결:
-                  1. 이 컴포넌트에서 데이터를 가져오면 된다. -> 장단점
-                     지금은 간단하다.
-                     /channel/create -> 여기서도 개수가 필요하지, 데이터 쏘겠지
-                     쿼리를 세번 사용한다. -> 로딩, 에러, 완료 9번 작성해야 한다.
-
-                     결론: 이 해결책은 지금 당장의 문제만 해결하기 편해. 현재 문제에 대해서만 코드를 쉽게 작성할 수 있다.
-                     
-                  2. 상위 컴포넌트에서 데이터를 가져와서 밑으로 내려주면 된다. -> 장단점
-                     지금은 복잡하다.
-                     /channel/create -> 여기서도 개수가 필요하지,
-                     쿼리를 한번 사용한다. -> 3번만 작성하면 된다.
-
-                     결론: 이 해결책은 지금과 가까운 미래의 문제들을 해결하기 편해. 하지만 코드를 좀 더 작성해야 된다.
-
-
-                  해결책 구현 전략
-                  데이터를 가져와서 밑으로 내려주면 된다. context, provier, hook 구현들어가면 될 것 같해.
-                  provider 위치가 위치가 중요하다. context-provider는 의존성 관리 도구야.
-                  */}
                   <ListItemButton
                     onClick={() => {
                       if (meChannel.length < 5) {
@@ -187,6 +168,22 @@ export function Right() {
                       <GgAddRIcon fontSize="medium" />
                     </ListItemIcon>
                     <ListItemText primary="새 채널 만들기" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+
+              <Divider />
+              <List>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    onClick={() => {
+                      mutate();
+                    }}
+                  >
+                    <ListItemIcon>
+                      <MaterialSymbolsLogoutIcon fontSize="medium" />
+                    </ListItemIcon>
+                    <ListItemText primary="로그아웃" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -230,7 +227,7 @@ function ChannelUserProfileList() {
                   </Button>
                   <IconButton
                     LinkComponent={NextLink}
-                    href={`editor/@${channel.url}/webtoon`}
+                    href={`editor/${channel.url}/webtoon`}
                     variant="soft"
                     size="small"
                     sx={{ borderRadius: 1 }}
