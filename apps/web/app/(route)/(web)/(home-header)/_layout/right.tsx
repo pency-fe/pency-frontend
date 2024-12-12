@@ -215,7 +215,7 @@ function ChannelUserProfileList() {
 
   return (
     <>
-      {meChannel.length >= 0 ? (
+      {meChannel.length > 0 ? (
         <>
           <List>
             {Array.from(meChannel, (channel) => (
@@ -241,7 +241,6 @@ function ChannelUserProfileList() {
               </ListItem>
             ))}
           </List>
-
           <Divider />
         </>
       ) : null}
