@@ -1,4 +1,5 @@
 import { api } from "_core/api";
+import { Options } from "ky";
 
 // ----------------------------------------------------------------------
 
@@ -32,8 +33,8 @@ type GetChannelUserProfileListRes = Array<{
   subscriberCount: number;
 }>;
 
-export const getChannelUserProfileList = async (req: GetChannelUserProfileListReq) => {
-  return await api.get<GetChannelUserProfileListRes>(`channel/user-profile/${req.id}/list`).json();
+export const getChannelUserProfileList = async (req: GetChannelUserProfileListReq, options?: Options) => {
+  return await api.get<GetChannelUserProfileListRes>(`channel/user-profile/${req.id}/list`, options).json();
 };
 
 // ----------------------------------------------------------------------
