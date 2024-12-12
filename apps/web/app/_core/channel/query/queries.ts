@@ -6,6 +6,16 @@ export const channelKeys = {
   all: ["channels"],
 };
 
+// default
+// 전체 채널 리스트
+// 특정 프로필의 채널 리스트 + 대시보드를 위한 데이터 필요 없잖아.
+// 독자 입장에서 채널 디테일
+
+// studio의 단위는 채널.
+// studio vs me
+// 나의 프로필의 채널 리스트 + 대시보드를 위한 데이터 필요할 수 있잖아.
+// 나의 프로필의 채널 디테일
+
 export const channelUserProfileKeys = {
   all: [...channelKeys.all, "user-profile"],
   lists: () => [...channelUserProfileKeys.all, "lists"],

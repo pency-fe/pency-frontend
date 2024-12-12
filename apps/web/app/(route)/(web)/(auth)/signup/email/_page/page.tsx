@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { EvaEyeFillIcon, EvaEyeOffFillIcon } from "@pency/ui/components";
 import { useBooleanState } from "@pency/util";
-import { useSignup } from "_core/auth/provision-user";
+import { useSignupForEmail } from "_core/auth/provision-user";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -47,7 +47,7 @@ export function EmailPage() {
     mode: "onTouched",
   });
   const { bool: passwordShow, toggle: togglePasswordShow } = useBooleanState(false);
-  const { mutate } = useSignup();
+  const { mutate } = useSignupForEmail();
   const router = useRouter();
 
   const onSubmit = async (data: Schema) => {

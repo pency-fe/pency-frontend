@@ -4,14 +4,15 @@ import { CircularProgress, Stack, Typography } from "@mui/material";
 import { isClient } from "@pency/util";
 import { useVerify } from "_core/auth/provision-user";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export function VerifyPage() {
   const router = useRouter();
   const { mutate } = useVerify();
+  const idParam = useSearchParams().get("id");
   const token = useSearchParams().get("token");
 
-  if (token === null || !token.length) {
+  if (idParam === null || isNaN(Number(idParam)) || token === null || !token.length) {
     if (isClient()) {
       router.push("/signup/email/not-verify");
       return;
@@ -20,9 +21,11 @@ export function VerifyPage() {
     }
   }
 
+  const id = useMemo(() => Number(idParam), [idParam]);
+
   useEffect(() => {
     mutate(
-      { token },
+      { id, token },
       {
         onSuccess: () => {
           router.push("/");
@@ -34,7 +37,7 @@ export function VerifyPage() {
         },
       },
     );
-  }, []);
+  }, [id, token]);
 
   return (
     <Stack spacing={4} alignItems="center">

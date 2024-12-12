@@ -25,7 +25,7 @@ export function ResendPage() {
 
   const id = useMemo(() => Number(idParam), [idParam]);
 
-  const query = useQuery(authProvisionUserKeys.email({ id }));
+  const query = useQuery(authProvisionUserKeys.detail({ id }));
 
   if (query.isError && query.error.code === "EXPIRED_EMAIL_TOKEN") {
     router.push("/signup/email/not-verify");

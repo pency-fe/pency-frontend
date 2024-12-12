@@ -1,17 +1,17 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { resend, signup, verify } from "./api";
+import { resend, signupForEmail, verify } from "./api";
 import { FailureRes, QueryError } from "_core/api";
 import { authUserKeys } from "_core/auth/user";
 
-export const useSignup = () => {
+export const useSignupForEmail = () => {
   return useMutation<
-    Awaited<ReturnType<typeof signup>>,
+    Awaited<ReturnType<typeof signupForEmail>>,
     QueryError<FailureRes<409, "DUPLICATE_EMAIL">>,
-    Parameters<typeof signup>[0]
+    Parameters<typeof signupForEmail>[0]
   >({
-    mutationFn: signup,
+    mutationFn: signupForEmail,
   });
 };
 
