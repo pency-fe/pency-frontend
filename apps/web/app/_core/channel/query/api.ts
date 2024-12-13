@@ -40,7 +40,12 @@ export const getChannelUserProfileList = async (req: GetChannelUserProfileListRe
 
 // ----------------------------------------------------------------------
 
-type GetChannelMeListRes = GetChannelUserProfileListRes;
+type GetChannelMeListRes = Array<{
+  id: number;
+  title: string;
+  url: string;
+  image: string;
+}>;
 
 export const getChannelMeList = async (options?: Options) => {
   return await api.get<GetChannelMeListRes>("channel/me/list", options).json();
