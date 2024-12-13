@@ -5,7 +5,7 @@ import Right from "./right";
 import { redirect, useRouter } from "next/navigation";
 import { Header, Main } from "@pency/ui/layouts";
 import { isClient, useFirstMountState } from "@pency/util";
-import { useUserAuthMe } from "_core/user";
+import { useUserAuthMeContext } from "_core/user";
 
 type Props = {
   children: React.ReactNode;
@@ -13,7 +13,7 @@ type Props = {
 
 export function AuthLayout({ children }: Props) {
   const router = useRouter();
-  const me = useUserAuthMe();
+  const me = useUserAuthMeContext();
   const isFirstMount = useFirstMountState();
 
   if (isFirstMount && me.isLoggedIn) {

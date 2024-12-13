@@ -1,12 +1,10 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { login, logout } from "./api";
 import { FailureRes, QueryError } from "_core/api";
 
 export const useLogin = () => {
-  const queryClient = useQueryClient();
-
   return useMutation<
     Awaited<ReturnType<typeof login>>,
     | QueryError<FailureRes<401, "INVALID_LOGIN">>
@@ -15,21 +13,13 @@ export const useLogin = () => {
     Parameters<typeof login>[0]
   >({
     mutationFn: login,
-    onSuccess: () => {
-      return queryClient.resetQueries();
-    },
   });
 };
 
 // ----------------------------------------------------------------------
 
 export const useLogout = () => {
-  const queryClient = useQueryClient();
-
   return useMutation<Awaited<ReturnType<typeof logout>>, void, void>({
     mutationFn: logout,
-    onSuccess: () => {
-      return queryClient.resetQueries();
-    },
   });
 };

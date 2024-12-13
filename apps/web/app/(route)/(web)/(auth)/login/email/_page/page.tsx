@@ -38,7 +38,7 @@ export function EmailPage() {
   const onSubmit = async (data: Schema) => {
     mutate(data, {
       onSuccess: () => {
-        router.push("/");
+        window.location.pathname = "/";
       },
       onError: async (error) => {
         if (error.code === "UNVERIFIED_EMAIL") {

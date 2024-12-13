@@ -20,8 +20,8 @@ import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { formatRelativeTimeFromUTC } from "@pency/util";
 import { Box, ListItemIcon, MenuItem, Skeleton, Stack } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useUserAuthMe } from "_core/user";
-import { useChannelMeList } from "_core/channel";
+import { useUserAuthMeContext } from "_core/user";
+import { useChannelMeListContext } from "_core/channel";
 import { useBookmark } from "../query";
 
 type WT_Post_RichCardFnProps = {
@@ -49,8 +49,8 @@ type WT_Post_RichCardFnProps = {
 };
 
 const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(({ data, hideGenre = false }, ref) => {
-  const me = useUserAuthMe();
-  const meChannel = useChannelMeList();
+  const me = useUserAuthMeContext();
+  const meChannel = me.isLoggedIn ? useChannelMeListContext() : [];
   const { mutate: bookmark } = useBookmark();
 
   const { anchorRef, isOpen, close, toggle } = useMenuxState();

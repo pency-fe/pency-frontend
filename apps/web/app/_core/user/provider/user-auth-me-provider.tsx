@@ -9,7 +9,7 @@ const UserAuthMeContext = createContext<
   | undefined
 >(undefined);
 
-export function useUserAuthMe() {
+export function useUserAuthMeContext() {
   const context = useContext(UserAuthMeContext);
 
   if (!context) throw new Error(`부모로 <UserAuthMeProvider /> 컴포넌트가 있어야 합니다.`);
@@ -19,10 +19,6 @@ export function useUserAuthMe() {
 
 export function UserAuthMeProvider({ children }: { children?: React.ReactNode }) {
   const query = useQuery(userAuthMeKeys.detail());
-
-  if (query.isPending) {
-    return;
-  }
 
   return <UserAuthMeContext.Provider value={query.data}>{children}</UserAuthMeContext.Provider>;
 }
