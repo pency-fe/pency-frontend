@@ -1,22 +1,9 @@
 import { api } from "_core/api";
 import { Options } from "ky";
 
-// ----------------------------------------------------------------------
-
-type CreateChannelReq = {
-  title: string;
-  description?: string;
-  url: string;
-  image?: string;
-};
-
-type CreateChannelRes = {
-  url: string;
-};
-
-export const createChannel = async (req: CreateChannelReq) => {
-  return await api.post<CreateChannelRes>("channel", { json: req }).json();
-};
+/** **************************************
+ * channel-user-profile
+ *************************************** */
 
 // ----------------------------------------------------------------------
 
@@ -39,10 +26,33 @@ export const getChannelUserProfileList = async (req: GetChannelUserProfileListRe
 
 // ----------------------------------------------------------------------
 
+/** **************************************
+ * channel-me
+ *************************************** */
+
+// ----------------------------------------------------------------------
+
 type GetChannelMeListRes = GetChannelUserProfileListRes;
 
 export const getChannelMeList = async (options?: Options) => {
   return await api.get<GetChannelMeListRes>("channel/me/list", options).json();
+};
+
+// ----------------------------------------------------------------------
+
+type CreateChannelReq = {
+  title: string;
+  description?: string;
+  url: string;
+  image?: string;
+};
+
+type CreateChannelRes = {
+  url: string;
+};
+
+export const createChannel = async (req: CreateChannelReq) => {
+  return await api.post<CreateChannelRes>("channel/me", { json: req }).json();
 };
 
 // ----------------------------------------------------------------------

@@ -17,12 +17,12 @@ import {
 } from "@pency/ui/components";
 import { Age, CreationType, CREATION_TYPE_LABEL, Pair, PAIR_LABEL } from "../const";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { arrayIncludes, formatRelativeTimeFromUTC } from "@pency/util";
+import { formatRelativeTimeFromUTC } from "@pency/util";
 import { Box, ListItemIcon, MenuItem, Skeleton, Stack } from "@mui/material";
-import { useMeChannel } from "(route)/(web)/(home-header)/me-channel-provider";
 import { useRouter } from "next/navigation";
-import { useWebtoonPostBookmark } from "../query";
 import { useUserAuthMe } from "_core/user";
+import { useChannelMeList } from "_core/channel";
+import { useBookmark } from "../query";
 
 type WT_Post_RichCardFnProps = {
   data: {
@@ -49,20 +49,17 @@ type WT_Post_RichCardFnProps = {
 };
 
 const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(({ data, hideGenre = false }, ref) => {
-  const router = useRouter();
+  const me = useUserAuthMe();
+  const meChannel = useChannelMeList();
+  const { mutate: bookmark } = useBookmark();
 
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
-  const me = useUserAuthMe();
-  const meChannel = useMeChannel();
+  const router = useRouter();
 
-  const { mutate } = useWebtoonPostBookmark();
-
-  const meChannels = useMemo(() => {
-    const channel: string[] = [];
-    Array.from(meChannel, (post) => channel.push(post.url));
-    return channel;
-  }, [meChannel]);
+  const isMyPost = useMemo(() => {
+    return meChannel.some((channel) => channel.id === data.channel.id);
+  }, [meChannel, data]);
 
   const handleBookmarkClick = (data: { id: number }) => {
     if (!me.isLoggedIn) {
@@ -70,7 +67,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
       return;
     }
 
-    mutate(data, {
+    bookmark(data, {
       onSuccess: () => {
         console.log("북마크 성공!");
       },
@@ -154,7 +151,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
             </RichCard.FeedbackButton>
 
             <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
-              {arrayIncludes(meChannels, data.channel.url) ? null : (
+              {!isMyPost ? (
                 <MenuItem
                   onClick={() => {
                     handleBookmarkClick({ id: data.id });
@@ -165,7 +162,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
                   </ListItemIcon>
                   북마크
                 </MenuItem>
-              )}
+              ) : null}
 
               <MenuItem>
                 <ListItemIcon>
@@ -174,7 +171,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
                 공유하기
               </MenuItem>
 
-              {arrayIncludes(meChannels, data.channel.url) ? null : (
+              {!isMyPost ? (
                 <>
                   <MenuItem>
                     <ListItemIcon>
@@ -190,14 +187,14 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
                     신고하기
                   </MenuItem>
                 </>
-              )}
+              ) : null}
             </Menux>
           </>
         ),
         chips: (
           <>
             {data.keywords.length
-              ? Array.from(data.keywords, (keyword, i) => (
+              ? data.keywords.map((keyword, i) => (
                   <RichCard.Chip key={i} label={keyword} variant="soft" size="small" href={`/[TODO]키워드_검색`} />
                 ))
               : null}

@@ -1,6 +1,10 @@
 import { Options } from "ky";
 import { api } from "_core/api";
 
+/** **************************************
+ * user-auth-me
+ *************************************** */
+
 // ----------------------------------------------------------------------
 
 type LoginReq = {
@@ -35,3 +39,5 @@ type GetUserAuthMeRes =
 export const getUserAuthMe = async (options?: Options) => {
   return await api.get<GetUserAuthMeRes>("user/auth/me", options).json();
 };
+
+// ----------------------------------------------------------------------

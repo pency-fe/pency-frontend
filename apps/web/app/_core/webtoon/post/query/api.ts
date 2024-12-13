@@ -3,9 +3,13 @@ import { Genre } from "_core/webtoon/const";
 import { Age, CreationType, Pair } from "../const";
 import { createSearchParamString } from "@pency/util";
 
+/** **************************************
+ * webtoon-me
+ *************************************** */
+
 // ----------------------------------------------------------------------
 
-type WebtoonPostPublishReq = {
+type PublishReq = {
   id?: number;
   channelUrl: string;
   title: string;
@@ -22,17 +26,23 @@ type WebtoonPostPublishReq = {
   precaution?: string;
 };
 
-type WebtoonPostPublishRes = {
+type PublishRes = {
   id: number;
 };
 
-export const webtoonPostPublish = async (req: WebtoonPostPublishReq) => {
-  return await api.post<WebtoonPostPublishRes>("webtoon/post/publish", { json: req }).json();
+export const publish = async (req: PublishReq) => {
+  return await api.post<PublishRes>("webtoon/me/post/publish", { json: req }).json();
 };
 
 // ----------------------------------------------------------------------
 
-type GetPostPageReq = {
+/** **************************************
+ * webtoon
+ *************************************** */
+
+// ----------------------------------------------------------------------
+
+type GetWebtoonPostPageReq = {
   genre?: Genre | "ALL";
   sort?: "LATEST" | "POPULAR" | "WPOPULAR";
   page?: number;
@@ -40,7 +50,7 @@ type GetPostPageReq = {
   pairs?: Array<Pair | "ALL">;
 };
 
-type GetPostPageRes = {
+type GetWebtoonPostPageRes = {
   currentPage: number;
   pageCount: number;
   posts: Array<{
@@ -65,15 +75,15 @@ type GetPostPageRes = {
   }>;
 };
 
-export const getPostPage = async ({
+export const getWebtoonPostPage = async ({
   genre = "ALL",
   sort = "LATEST",
   page = 1,
   creationTypes = ["ALL"],
   pairs = ["ALL"],
-}: GetPostPageReq) => {
+}: GetWebtoonPostPageReq) => {
   return await api
-    .get<GetPostPageRes>(
+    .get<GetWebtoonPostPageRes>(
       `webtoon/post/page${createSearchParamString({
         genre,
         sort,
@@ -87,7 +97,53 @@ export const getPostPage = async ({
 
 // ----------------------------------------------------------------------
 
-type GetPostChannelListRes = Array<{
+type LikeReq = {
+  id: number;
+};
+
+export const like = async (req: LikeReq) => {
+  return await api.post(`webtoon/post/${req.id}/like`).json();
+};
+
+// ----------------------------------------------------------------------
+
+type UnlikeReq = {
+  id: number;
+};
+
+export const unlike = async (req: UnlikeReq) => {
+  return await api.delete(`webtoon/post/${req.id}/like`).json();
+};
+
+// ----------------------------------------------------------------------
+
+type BookmarkReq = {
+  id: number;
+};
+
+export const bookmark = async (req: BookmarkReq) => {
+  return await api.post(`webtoon/post/${req.id}/bookmark`).json();
+};
+
+// ----------------------------------------------------------------------
+
+type UnbookmarkReq = {
+  id: number;
+};
+
+export const unbookmark = async (req: UnbookmarkReq) => {
+  return await api.delete(`webtoon/post/${req.id}/bookmark`).json();
+};
+
+// ----------------------------------------------------------------------
+
+/** **************************************
+ * webtoon-channel
+ *************************************** */
+
+// ----------------------------------------------------------------------
+
+type GetWebtoonChannelPostPageRes = Array<{
   id: number;
   thumbnail: string;
   age: Age;
@@ -108,58 +164,16 @@ type GetPostChannelListRes = Array<{
   keywords: string[];
 }>;
 
-export const getPostChannelList = async ({
-  channelUrl,
+export const getWebtoonChannelPostPage = async ({
+  url,
   sort = "LATEST",
   page = 1,
 }: {
-  channelUrl: string;
+  url: string;
   sort?: "LATEST" | "POPULAR" | "WPOPULAR";
   page?: number;
 }) => {
-  // [TODO] aip 수정하기
-  // return await api
-  //   .get<GetPosChannelListRes>(`webtoon/post/channel/list?channelUrl=${channelUrl}&sort=${sort}&page=${page}`)
-  //   .json();
-  return await api.get<GetPostPageRes>(`webtoon/post/page?sort=${sort}&page=${page}`).json();
-};
-
-// ----------------------------------------------------------------------
-
-type WebtoonPostLike = {
-  id: number;
-};
-
-export const webtoonPostLike = async (req: WebtoonPostLike) => {
-  return await api.post(`webtoon/post/${req.id}/like`).json();
-};
-
-// ----------------------------------------------------------------------
-
-type WebtoonPostLikeDelete = {
-  id: number;
-};
-
-export const webtoonPostLikeDelete = async (req: WebtoonPostLikeDelete) => {
-  return await api.delete(`webtoon/post/${req.id}/like`).json();
-};
-
-// ----------------------------------------------------------------------
-
-type WebtoonPostBookmark = {
-  id: number;
-};
-
-export const webtoonPostBookmark = async (req: WebtoonPostBookmark) => {
-  return await api.post(`webtoon/post/${req.id}/bookmark`).json();
-};
-
-// ----------------------------------------------------------------------
-
-type WebtoonPostBookmarkDelete = {
-  id: number;
-};
-
-export const webtoonPostBookmarkDelete = async (req: WebtoonPostBookmarkDelete) => {
-  return await api.delete(`webtoon/post/${req.id}/bookmark`).json();
+  return await api
+    .get<GetWebtoonChannelPostPageRes>(`webtoon/channel/@${url}/post/page?sort=${sort}&page=${page}`)
+    .json();
 };

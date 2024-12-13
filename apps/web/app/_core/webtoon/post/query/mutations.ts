@@ -1,61 +1,57 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import {
-  webtoonPostBookmark,
-  webtoonPostBookmarkDelete,
-  webtoonPostLike,
-  webtoonPostLikeDelete,
-  webtoonPostPublish,
-} from "./api";
 import { FailureRes, QueryError } from "_core/api";
+import { bookmark, like, publish, unbookmark, unlike } from "./api";
 
 // ----------------------------------------------------------------------
 
-export const useWebtoonPostPublish = () => {
+export const usePublish = () => {
   return useMutation<
-    Awaited<ReturnType<typeof webtoonPostPublish>>,
+    Awaited<ReturnType<typeof publish>>,
     QueryError<FailureRes<409, "DUPLICATE_URL">>,
-    Parameters<typeof webtoonPostPublish>[0]
-  >({ mutationFn: webtoonPostPublish });
+    Parameters<typeof publish>[0]
+  >({ mutationFn: publish });
 };
 
 // ----------------------------------------------------------------------
 
-export const useWebtoonPostLike = () => {
+export const useLike = () => {
   return useMutation<
-    Awaited<ReturnType<typeof webtoonPostLike>>,
+    Awaited<ReturnType<typeof like>>,
     QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">> | QueryError<FailureRes<403, "SELF_FORBIDDEN">>,
-    Parameters<typeof webtoonPostLike>[0]
-  >({ mutationFn: webtoonPostLike });
+    Parameters<typeof like>[0]
+  >({ mutationFn: like });
 };
 
 // ----------------------------------------------------------------------
 
-export const useWebtoonPostLikeDelete = () => {
+export const useUnlike = () => {
   return useMutation<
-    Awaited<ReturnType<typeof webtoonPostLikeDelete>>,
-    void,
-    Parameters<typeof webtoonPostLikeDelete>[0]
-  >({ mutationFn: webtoonPostLikeDelete });
+    Awaited<ReturnType<typeof unlike>>,
+    QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">>,
+    Parameters<typeof unlike>[0]
+  >({ mutationFn: unlike });
 };
 
 // ----------------------------------------------------------------------
 
-export const useWebtoonPostBookmark = () => {
+export const useBookmark = () => {
   return useMutation<
-    Awaited<ReturnType<typeof webtoonPostBookmark>>,
+    Awaited<ReturnType<typeof bookmark>>,
     QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">> | QueryError<FailureRes<403, "SELF_FORBIDDEN">>,
-    Parameters<typeof webtoonPostBookmark>[0]
-  >({ mutationFn: webtoonPostBookmark });
+    Parameters<typeof bookmark>[0]
+  >({ mutationFn: bookmark });
 };
 
 // ----------------------------------------------------------------------
 
-export const useWebtoonPostBookmarkDelete = () => {
+export const useUnbookmark = () => {
   return useMutation<
-    Awaited<ReturnType<typeof webtoonPostBookmarkDelete>>,
-    void,
-    Parameters<typeof webtoonPostBookmarkDelete>[0]
-  >({ mutationFn: webtoonPostBookmarkDelete });
+    Awaited<ReturnType<typeof unbookmark>>,
+    QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">>,
+    Parameters<typeof unbookmark>[0]
+  >({
+    mutationFn: unbookmark,
+  });
 };

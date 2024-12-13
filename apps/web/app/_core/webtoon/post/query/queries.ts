@@ -1,15 +1,15 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getPostChannelList, getPostPage } from "./api";
+import { getWebtoonChannelPostPage, getWebtoonPostPage } from "./api";
 
 // ----------------------------------------------------------------------
 
 export const wtPostKeys = {
   all: ["wt", "posts"],
-  lists: () => [...wtPostKeys.all, "list"],
-  list: ({ genre, sort, page, creationTypes, pairs }: Required<Parameters<typeof getPostPage>[0]>) =>
-    queryOptions<Awaited<ReturnType<typeof getPostPage>>>({
-      queryKey: [...wtPostKeys.lists(), { genre, sort, page, creationTypes, pairs }],
-      queryFn: () => getPostPage({ genre, sort, page, creationTypes, pairs }),
+  pages: () => [...wtPostKeys.all, "page"],
+  page: ({ genre, sort, page, creationTypes, pairs }: Required<Parameters<typeof getWebtoonPostPage>[0]>) =>
+    queryOptions<Awaited<ReturnType<typeof getWebtoonPostPage>>>({
+      queryKey: [...wtPostKeys.pages(), { genre, sort, page, creationTypes, pairs }],
+      queryFn: () => getWebtoonPostPage({ genre, sort, page, creationTypes, pairs }),
     }),
 };
 
@@ -18,10 +18,10 @@ export const wtPostKeys = {
 export const wtPostChannelKeys = {
   all: [...wtPostKeys.all, "channel"],
   lists: () => [...wtPostChannelKeys.all, "list"],
-  list: ({ channelUrl, sort, page }: Required<Parameters<typeof getPostChannelList>[0]>) =>
-    queryOptions<Awaited<ReturnType<typeof getPostChannelList>>>({
-      queryKey: [...wtPostChannelKeys.lists(), { channelUrl, sort, page }],
-      queryFn: () => getPostChannelList({ channelUrl, page, sort }),
+  list: ({ url, sort, page }: Required<Parameters<typeof getWebtoonChannelPostPage>[0]>) =>
+    queryOptions<Awaited<ReturnType<typeof getWebtoonChannelPostPage>>>({
+      queryKey: [...wtPostChannelKeys.lists(), { url, sort, page }],
+      queryFn: () => getWebtoonChannelPostPage({ url, page, sort }),
     }),
 };
 
