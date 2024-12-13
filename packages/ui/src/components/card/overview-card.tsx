@@ -17,7 +17,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
-import { useBooleanState } from "@pency/util";
+import { useToggle } from "@pency/util";
 import { Label } from "@/components/label";
 import { maxLine } from "@/util";
 import { ButtonBaseProps } from "@mui/material";
@@ -49,7 +49,7 @@ type OverviewCardFnProps = {
 } & CardProps;
 
 const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots, ...rest }, ref) => {
-  const { bool: hover, setTrue: setHoverTrue, setFalse: setHoverFalse } = useBooleanState(false);
+  const [hover, toggleHover] = useToggle(false);
 
   const value = useMemo(() => ({ hover }), [hover]);
 
@@ -59,8 +59,8 @@ const OverviewCardFn = forwardRef<HTMLDivElement, OverviewCardFnProps>(({ slots,
         ref={ref}
         {...rest}
         sx={{ width: 1, boxShadow: "none", ...rest.sx }}
-        onMouseEnter={setHoverTrue}
-        onMouseLeave={setHoverFalse}
+        onMouseEnter={() => toggleHover(true)}
+        onMouseLeave={() => toggleHover(false)}
       >
         {/* 카드 버튼 */}
         {slots.overlayElement}

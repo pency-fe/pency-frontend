@@ -27,7 +27,7 @@ import {
 } from "@pency/ui/components";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-import { createQueryString, objectEntries, useBooleanState } from "@pency/util";
+import { createQueryString, objectEntries, useToggle } from "@pency/util";
 import { usePaginationx } from "@pency/ui/hooks";
 import { hideScrollX } from "@pency/ui/util";
 import { CREATION_TYPE_LABEL, PAIR_LABEL } from "_core/webtoon/post/const";
@@ -47,10 +47,10 @@ const CONTENT_VALUE_LABEL: Record<contentValue, string> = {
 export default function LibraryPurchasePage() {
   const theme = useTheme();
   const searchParams = useSearchParams();
-  const filter = useBooleanState(false);
+  const [filter, toggleFilter] = useToggle(false);
 
   const saveFilter = () => {
-    filter.setFalse();
+    toggleFilter(false);
   };
 
   const contents = useMemo(() => objectEntries(CONTENT_VALUE_LABEL), []);
@@ -106,29 +106,29 @@ export default function LibraryPurchasePage() {
         <Box sx={{ display: "flex", gap: 1 }}>
           <Button
             variant="outlined"
-            endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
-            onClick={filter.toggle}
+            endIcon={filter ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
+            onClick={toggleFilter}
           >
             창작유형
           </Button>
           <Button
             variant="outlined"
-            endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
-            onClick={filter.toggle}
+            endIcon={filter ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
+            onClick={toggleFilter}
           >
             페어
           </Button>
           <Button
             variant="outlined"
-            endIcon={filter.bool ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
-            onClick={filter.toggle}
+            endIcon={filter ? <EvaArrowIosUpwardFillIcon /> : <EvaArrowIosDownwardFillIcon />}
+            onClick={toggleFilter}
           >
             장르
           </Button>
         </Box>
       </Box>
 
-      <Collapse in={filter.bool}>
+      <Collapse in={filter}>
         <Stack
           spacing={2}
           sx={{ bgcolor: theme.vars.palette.background.paper, borderRadius: 1, px: "20px", py: "12px" }}

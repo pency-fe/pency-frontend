@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useBooleanState } from "@pency/util";
+import { useToggle } from "@pency/util";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {
@@ -20,18 +20,18 @@ export default meta;
 
 export const Design1 = () => {
   const theme = useTheme();
-  const { bool, setTrue, setFalse } = useBooleanState(false);
+  const [bool, toggle] = useToggle(false);
 
   const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
 
   return (
     <>
-      <Button variant="contained" onClick={setTrue}>
+      <Button variant="contained" onClick={() => toggle(true)}>
         발행
       </Button>
       <FormDialog
         open={bool}
-        onClose={setFalse}
+        onClose={() => toggle(false)}
         fullWidth
         fullScreen={!isUpSm}
         sx={{
@@ -49,7 +49,7 @@ export const Design1 = () => {
             발행 옵션
           </Typography>
 
-          <IconButton edge="end" color="inherit" onClick={setFalse}>
+          <IconButton edge="end" color="inherit" onClick={() => toggle(false)}>
             <MaterialSymbolsCloseIcon />
           </IconButton>
         </FormDialog.Header>

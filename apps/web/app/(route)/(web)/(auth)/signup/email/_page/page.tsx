@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { EvaEyeFillIcon, EvaEyeOffFillIcon } from "@pency/ui/components";
-import { useBooleanState } from "@pency/util";
+import { useToggle } from "@pency/util";
 import { useSignupWithEmail } from "_core/provision-user";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
@@ -46,7 +46,7 @@ export function EmailPage() {
     },
     mode: "onTouched",
   });
-  const { bool: passwordShow, toggle: togglePasswordShow } = useBooleanState(false);
+  const [passwordShow, togglePasswordShow] = useToggle(false);
   const { mutate } = useSignupWithEmail();
   const router = useRouter();
 

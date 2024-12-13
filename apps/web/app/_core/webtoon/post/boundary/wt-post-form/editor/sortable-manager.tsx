@@ -9,7 +9,7 @@ import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortabl
 import { varAlpha } from "@pency/ui/util";
 import { SortableCut, SortableDividerCut } from "./sortable-cut";
 import { DIVIDER_CUT_ID } from "./const";
-import { useBooleanState } from "@pency/util";
+import { useToggle } from "@pency/util";
 import { LoadingButton } from "@mui/lab";
 import { toast } from "@pency/ui/components";
 import { getUploadImageUrl } from "_core/common";
@@ -71,7 +71,7 @@ export const SortableManager = () => {
   const [activeCutIdsStore] = useState(createActiveCutIdsStore);
   const store = useStore(activeCutIdsStore);
 
-  const loading = useBooleanState(false);
+  const [loading, toggleLoading] = useToggle(false);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   const theme = useTheme();
@@ -106,7 +106,7 @@ export const SortableManager = () => {
           }
         }
 
-        loading.setTrue();
+        toggleLoading(true);
         const cuts = await Promise.all(
           [...picker.files].map(async (file) => {
             const res = await getUploadImageUrl({
@@ -121,7 +121,7 @@ export const SortableManager = () => {
             };
           }),
         );
-        loading.setFalse();
+        toggleLoading(false);
 
         if (paid.length) {
           onChange({
@@ -180,7 +180,7 @@ export const SortableManager = () => {
           {free.length !== 0 || paid.length !== 0 ? (
             <>
               <Box sx={{ display: "flex", gap: 1 }}>
-                <LoadingButton variant="soft" color="primary" loading={loading.bool} name={name} onClick={handleUpload}>
+                <LoadingButton variant="soft" color="primary" loading={loading} name={name} onClick={handleUpload}>
                   업로드
                 </LoadingButton>
                 {store.activeCutIds.size !== 0 && (
@@ -227,7 +227,7 @@ export const SortableManager = () => {
                 <LoadingButton
                   variant="soft"
                   color={error ? "error" : "primary"}
-                  loading={loading.bool}
+                  loading={loading}
                   name={name}
                   onClick={handleUpload}
                 >

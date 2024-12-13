@@ -1,10 +1,10 @@
 "use client";
 
-import { useBooleanState } from "@pency/util";
+import { useToggle } from "@pency/util";
 import { useCallback, useRef } from "react";
 
 export const useMenuxState = <T extends HTMLElement = HTMLButtonElement>() => {
-  const { bool, setFalse, toggle } = useBooleanState();
+  const [isOpen, toggle] = useToggle(false);
 
   const anchorRef = useRef<T>(null);
 
@@ -14,14 +14,14 @@ export const useMenuxState = <T extends HTMLElement = HTMLButtonElement>() => {
         return;
       }
 
-      setFalse();
+      toggle(false);
     },
-    [setFalse],
+    [toggle],
   );
 
   return {
     anchorRef,
-    isOpen: bool,
+    isOpen,
     close,
     toggle,
   };

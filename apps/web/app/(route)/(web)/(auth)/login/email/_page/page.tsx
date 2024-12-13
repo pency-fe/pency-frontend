@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, IconButton, InputAdornment, Link, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { EvaEyeFillIcon, EvaEyeOffFillIcon, toast } from "@pency/ui/components";
-import { useBooleanState } from "@pency/util";
+import { useToggle } from "@pency/util";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import NextLink from "next/link";
@@ -33,7 +33,7 @@ export function EmailPage() {
     },
     mode: "onTouched",
   });
-  const { bool: passwordShow, toggle: togglePasswordShow } = useBooleanState(false);
+  const [passwordShow, togglePasswordShow] = useToggle(false);
 
   const onSubmit = async (data: Schema) => {
     mutate(data, {

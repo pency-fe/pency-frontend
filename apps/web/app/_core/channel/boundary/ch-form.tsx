@@ -18,7 +18,7 @@ import { z } from "zod";
 import { useCreateChannel } from "../query";
 import { BrandPencyTextIcon, toast } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
-import { useBooleanState } from "@pency/util";
+import { useToggle } from "@pency/util";
 import { getUploadImageUrl } from "_core/common";
 import { LoadingButton } from "@mui/lab";
 import { varAlpha } from "@pency/ui/util";
@@ -245,7 +245,7 @@ const ImageFn = () => {
   const theme = useTheme();
   const { watch, setValue } = useCHFormContext();
   const image = watch("image");
-  const loading = useBooleanState(false);
+  const [loading, toggleLoading] = useToggle(false);
 
   const upload = () => {
     const picker = document.createElement("input");
@@ -259,13 +259,13 @@ const ImageFn = () => {
           return;
         }
 
-        loading.setTrue();
+        toggleLoading(true);
         const res = await getUploadImageUrl({
           contentLength: picker.files[0].size,
           contentType: picker.files[0].type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
         });
         await ky.put(res.signedUploadUrl, { body: picker.files[0] });
-        loading.setFalse();
+        toggleLoading(false);
         setValue("image", res.url);
         console.log("res.url: ", res.url);
       }
@@ -314,7 +314,7 @@ const ImageFn = () => {
             </Button>
           )}
 
-          <LoadingButton variant="soft" color="primary" loading={loading.bool} onClick={upload} sx={{}}>
+          <LoadingButton variant="soft" color="primary" loading={loading} onClick={upload} sx={{}}>
             업로드
           </LoadingButton>
 

@@ -21,15 +21,15 @@ import { ChangeEventHandler, KeyboardEventHandler, ReactNode, useMemo, useState 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
-import { objectEntries, useBooleanState, zodObjectKeys } from "@pency/util";
+import { objectEntries, useToggle, zodObjectKeys } from "@pency/util";
 import { BrandPencyTextIcon, RadioButton, toast } from "@pency/ui/components";
 import { varAlpha } from "@pency/ui/util";
 import { getUploadImageUrl } from "_core/common";
 import ky from "ky";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/navigation";
-import { useWebtoonPostPublish } from "../../query";
 import { Editor } from "./editor";
+import { usePublish } from "../../query";
 
 // ----------------------------------------------------------------------
 
@@ -174,9 +174,9 @@ type CreateSubmitFnProps = Omit<ButtonProps, "children"> & {
 const CreateSubmitFn = ({ channelUrl, submitErrorHandler, ...rest }: CreateSubmitFnProps) => {
   const router = useRouter();
   const { handleSubmit } = useWTPostFormContext();
-  const loading = useBooleanState(false);
+  const [loading, toggleLoading] = useToggle(false);
 
-  const { mutate } = useWebtoonPostPublish();
+  const { mutate } = usePublish();
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const { content, ...rest } = data;
@@ -186,13 +186,13 @@ const CreateSubmitFn = ({ channelUrl, submitErrorHandler, ...rest }: CreateSubmi
       ...rest,
       ...content,
     };
-    loading.setTrue();
+    toggleLoading(true);
     mutate(mutateData, {
       onSuccess: (data) => {
         router.push(`/@${channelUrl}/webtoon/post/${data.id}`);
       },
       onSettled: () => {
-        loading.setFalse();
+        toggleLoading(false);
       },
     });
   };
@@ -206,7 +206,7 @@ const CreateSubmitFn = ({ channelUrl, submitErrorHandler, ...rest }: CreateSubmi
       type="submit"
       variant="contained"
       color="primary"
-      loading={loading.bool}
+      loading={loading}
       onClick={handleSubmit(onSubmit, onSubmitError)}
       {...rest}
     >
@@ -608,7 +608,7 @@ const ThumbnailFn = () => {
   const theme = useTheme();
   const { watch, setValue } = useWTPostFormContext();
   const thumbnail = watch("thumbnail");
-  const loading = useBooleanState(false);
+  const [loading, toggleLoading] = useToggle(false);
 
   const upload = () => {
     const picker = document.createElement("input");
@@ -622,13 +622,13 @@ const ThumbnailFn = () => {
           return;
         }
 
-        loading.setTrue();
+        toggleLoading(true);
         const res = await getUploadImageUrl({
           contentLength: picker.files[0].size,
           contentType: picker.files[0].type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
         });
         await ky.put(res.signedUploadUrl, { body: picker.files[0] });
-        loading.setFalse();
+        toggleLoading(false);
         setValue("thumbnail", res.url);
       }
     });
@@ -679,7 +679,7 @@ const ThumbnailFn = () => {
             </Button>
           )}
 
-          <LoadingButton variant="soft" color="primary" loading={loading.bool} onClick={upload}>
+          <LoadingButton variant="soft" color="primary" loading={loading} onClick={upload}>
             업로드
           </LoadingButton>
         </Stack>

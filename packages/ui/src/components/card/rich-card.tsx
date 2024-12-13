@@ -27,7 +27,7 @@ import {
   TypographyProps,
   useTheme,
 } from "@mui/material";
-import { useBooleanState } from "@pency/util";
+import { useToggle } from "@pency/util";
 import { createContext, forwardRef, ReactElement, useContext, useMemo } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImageProps, LazyLoadImage } from "react-lazy-load-image-component";
@@ -67,7 +67,7 @@ type RichCardFnProps = {
 
 const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest }, ref) => {
   const theme = useTheme();
-  const { bool: hover, setTrue: setHoverTrue, setFalse: setHoverFalse } = useBooleanState(false);
+  const [hover, toggleHover] = useToggle(false);
 
   const value = useMemo(() => ({ hover }), [hover]);
 
@@ -83,8 +83,8 @@ const RichCardFn = forwardRef<HTMLDivElement, RichCardFnProps>(({ slots, ...rest
           borderRadius: 0,
           ...rest.sx,
         }}
-        onMouseEnter={setHoverTrue}
-        onMouseLeave={setHoverFalse}
+        onMouseEnter={() => toggleHover(true)}
+        onMouseLeave={() => toggleHover(false)}
       >
         {slots.overlayElement}
 

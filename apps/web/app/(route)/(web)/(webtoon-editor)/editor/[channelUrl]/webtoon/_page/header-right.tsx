@@ -15,7 +15,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { FormDialog, MaterialSymbolsCloseIcon, RadioMenuItem } from "@pency/ui/components";
-import { objectEntries, objectKeys, useBooleanState } from "@pency/util";
+import { objectEntries, objectKeys, useToggle } from "@pency/util";
 import { useWTPostFormContext, WT_Post_Create_Form } from "_core/webtoon/post";
 import { useParams } from "next/navigation";
 import { ComponentProps, useState } from "react";
@@ -53,7 +53,7 @@ export default function HeaderRight() {
 
   const { trigger, getFieldState } = useWTPostFormContext();
 
-  const { bool: dialogShow, setTrue: openDialog, setFalse: closeDialog } = useBooleanState(false);
+  const [dialog, toggleDialog] = useToggle(false);
 
   const handleClickOpen = async () => {
     const names = ["title", "genre", "content", "price"] as const;
@@ -68,7 +68,7 @@ export default function HeaderRight() {
       }
     }
 
-    openDialog();
+    toggleDialog(true);
   };
 
   const submitErrorHandler: ComponentProps<typeof WT_Post_Create_Form.CreateSubmitButton>["submitErrorHandler"] = (
@@ -95,8 +95,8 @@ export default function HeaderRight() {
       </Button>
 
       <FormDialog
-        open={dialogShow}
-        onClose={closeDialog}
+        open={dialog}
+        onClose={() => toggleDialog(false)}
         fullWidth
         fullScreen={!isUpSm}
         closeAfterTransition={false}
@@ -117,13 +117,13 @@ export default function HeaderRight() {
                 발행 옵션
               </Typography>
 
-              <IconButton edge="end" color="inherit" onClick={closeDialog}>
+              <IconButton edge="end" color="inherit" onClick={() => toggleDialog(false)}>
                 <MaterialSymbolsCloseIcon />
               </IconButton>
             </>
           ) : (
             <>
-              <IconButton color="inherit" onClick={closeDialog}>
+              <IconButton color="inherit" onClick={() => toggleDialog(false)}>
                 <MaterialSymbolsCloseIcon />
               </IconButton>
               <Typography variant="h6" sx={{ ml: theme.spacing(1) }}>

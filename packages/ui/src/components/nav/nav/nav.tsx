@@ -14,7 +14,7 @@ import {
   StackProps,
   useTheme,
 } from "@mui/material";
-import { useBooleanState } from "@pency/util";
+import { useToggle } from "@pency/util";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { PropsWithoutRef, useMemo } from "react";
@@ -131,7 +131,7 @@ type BranchFnProps = {
 
 const BranchFn = ({ icon, label, startsWith, children }: BranchFnProps) => {
   const pathname = usePathname();
-  const { bool: isOpen, toggle: toggleOpen } = useBooleanState(pathname.startsWith(startsWith));
+  const [isOpen, toggle] = useToggle(pathname.startsWith(startsWith));
   const theme = useTheme();
 
   const active = useMemo(() => pathname.startsWith(startsWith), [startsWith, pathname]);
@@ -150,7 +150,7 @@ const BranchFn = ({ icon, label, startsWith, children }: BranchFnProps) => {
   return (
     <Li>
       <ButtonBase
-        onClick={toggleOpen}
+        onClick={toggle}
         sx={{
           minHeight: `var(${navToken.branch.minHeight})`,
           padding: `var(${navToken.branch.padding})`,
