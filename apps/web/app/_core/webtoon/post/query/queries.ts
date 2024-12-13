@@ -24,5 +24,3 @@ export const wtPostChannelKeys = {
       queryFn: () => getWebtoonChannelPostPage({ url, page, sort }),
     }),
 };
-
-export const wtPostChannelStudioKeys = {};
