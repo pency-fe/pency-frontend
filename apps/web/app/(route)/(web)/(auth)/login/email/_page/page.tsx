@@ -7,8 +7,8 @@ import { useBooleanState } from "@pency/util";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import NextLink from "next/link";
-import { useLogin } from "_core/auth/user";
 import { useRouter } from "next/navigation";
+import { useLogin } from "_core/user";
 
 // ----------------------------------------------------------------------
 

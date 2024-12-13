@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useMemo } from "react";
 import {
   EvaBookmarkOutlineIcon,
   EvaHeartOutlineIcon,
@@ -12,12 +12,17 @@ import {
   Menux,
   NineteenCircleIcon,
   RichCard,
+  toast,
   useMenuxState,
 } from "@pency/ui/components";
 import { Age, CreationType, CREATION_TYPE_LABEL, Pair, PAIR_LABEL } from "../const";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { formatRelativeTimeFromUTC } from "@pency/util";
+import { arrayIncludes, formatRelativeTimeFromUTC } from "@pency/util";
 import { Box, ListItemIcon, MenuItem, Skeleton, Stack } from "@mui/material";
+import { useMeChannel } from "(route)/(web)/(home-header)/me-channel-provider";
+import { useRouter } from "next/navigation";
+import { useWebtoonPostBookmark } from "../query";
+import { useUserAuthMe } from "_core/user";
 
 type WT_Post_RichCardFnProps = {
   data: {
@@ -31,7 +36,8 @@ type WT_Post_RichCardFnProps = {
     genre: Genre;
     title: string;
     channel: {
-      channelUrl: string;
+      id: number;
+      url: string;
       image: string;
       title: string;
     };
@@ -43,13 +49,48 @@ type WT_Post_RichCardFnProps = {
 };
 
 const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(({ data, hideGenre = false }, ref) => {
+  const router = useRouter();
+
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
+
+  const me = useUserAuthMe();
+  const meChannel = useMeChannel();
+
+  const { mutate } = useWebtoonPostBookmark();
+
+  const meChannels = useMemo(() => {
+    const channel: string[] = [];
+    Array.from(meChannel, (post) => channel.push(post.url));
+    return channel;
+  }, [meChannel]);
+
+  const handleBookmarkClick = (data: { id: number }) => {
+    if (!me.isLoggedIn) {
+      router.push("/login");
+      return;
+    }
+
+    mutate(data, {
+      onSuccess: () => {
+        console.log("북마크 성공!");
+      },
+      onError: async (error) => {
+        if (error.code === "ALREADY_PROCESSED_REQUEST") {
+          toast.error("이미 북마크가 되었어요.");
+        }
+
+        if (error.code === "SELF_FORBIDDEN") {
+          toast.error("자신의 포스트는 북마크할 수 없어요.");
+        }
+      },
+    });
+  };
 
   return (
     <RichCard
       ref={ref}
       slots={{
-        overlayElement: <RichCard.OverlayAnchor href={`/@${data.channel.channelUrl}/webtoon/post/${data.id}`} />,
+        overlayElement: <RichCard.OverlayAnchor href={`/@${data.channel.url}/webtoon/post/${data.id}`} />,
         thumbnail: (
           <RichCard.Thumbnail
             slots={{
@@ -87,14 +128,14 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
         ),
         avatarLink: (
           <RichCard.AvatarLink
-            href={`/@${data.channel.channelUrl}`}
+            href={`/@${data.channel.url}`}
             slots={{
               avatar: <RichCard.AvatarLink.Avatar src={data.channel.image} />,
             }}
           />
         ),
         title: <RichCard.Title>{data.title}</RichCard.Title>,
-        nameLink: <RichCard.NameLink href={`/@${data.channel.channelUrl}`}>{data.channel.title}</RichCard.NameLink>,
+        nameLink: <RichCard.NameLink href={`/@${data.channel.url}`}>{data.channel.title}</RichCard.NameLink>,
         attributes: (
           <>
             <RichCard.AttributeDot />
@@ -113,12 +154,18 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
             </RichCard.FeedbackButton>
 
             <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
-              <MenuItem>
-                <ListItemIcon>
-                  <EvaBookmarkOutlineIcon />
-                </ListItemIcon>
-                북마크
-              </MenuItem>
+              {arrayIncludes(meChannels, data.channel.url) ? null : (
+                <MenuItem
+                  onClick={() => {
+                    handleBookmarkClick({ id: data.id });
+                  }}
+                >
+                  <ListItemIcon>
+                    <EvaBookmarkOutlineIcon />
+                  </ListItemIcon>
+                  북마크
+                </MenuItem>
+              )}
 
               <MenuItem>
                 <ListItemIcon>
@@ -127,19 +174,23 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
                 공유하기
               </MenuItem>
 
-              <MenuItem>
-                <ListItemIcon>
-                  <MaterialSymbolsBlockIcon />
-                </ListItemIcon>
-                차단하기
-              </MenuItem>
+              {arrayIncludes(meChannels, data.channel.url) ? null : (
+                <>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <MaterialSymbolsBlockIcon />
+                    </ListItemIcon>
+                    차단하기
+                  </MenuItem>
 
-              <MenuItem>
-                <ListItemIcon>
-                  <MaterialSymbolsReportOutlineIcon />
-                </ListItemIcon>
-                신고하기
-              </MenuItem>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <MaterialSymbolsReportOutlineIcon />
+                    </ListItemIcon>
+                    신고하기
+                  </MenuItem>
+                </>
+              )}
             </Menux>
           </>
         ),

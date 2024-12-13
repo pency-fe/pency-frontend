@@ -54,7 +54,8 @@ type GetPostPageRes = {
     genre: Genre;
     title: string;
     channel: {
-      channelUrl: string;
+      id: number;
+      url: string;
       image: string;
       title: string;
     };
@@ -97,14 +98,14 @@ type GetPostChannelListRes = Array<{
   genre: Genre;
   title: string;
   channel: {
-    channelUrl: string;
+    id: number;
+    url: string;
     image: string;
     title: string;
   };
   likeCount: number;
   createdAt: number;
   keywords: string[];
-  preview: string;
 }>;
 
 export const getPostChannelList = async ({
@@ -130,7 +131,7 @@ type WebtoonPostLike = {
 };
 
 export const webtoonPostLike = async (req: WebtoonPostLike) => {
-  return await api.post(`webtoon/post/${req.id}/like`, { json: req }).json();
+  return await api.post(`webtoon/post/${req.id}/like`).json();
 };
 
 // ----------------------------------------------------------------------
@@ -140,5 +141,25 @@ type WebtoonPostLikeDelete = {
 };
 
 export const webtoonPostLikeDelete = async (req: WebtoonPostLikeDelete) => {
-  return await api.delete(`webtoon/post/${req.id}/like`, { json: req }).json();
+  return await api.delete(`webtoon/post/${req.id}/like`).json();
+};
+
+// ----------------------------------------------------------------------
+
+type WebtoonPostBookmark = {
+  id: number;
+};
+
+export const webtoonPostBookmark = async (req: WebtoonPostBookmark) => {
+  return await api.post(`webtoon/post/${req.id}/bookmark`).json();
+};
+
+// ----------------------------------------------------------------------
+
+type WebtoonPostBookmarkDelete = {
+  id: number;
+};
+
+export const webtoonPostBookmarkDelete = async (req: WebtoonPostBookmarkDelete) => {
+  return await api.delete(`webtoon/post/${req.id}/bookmark`).json();
 };

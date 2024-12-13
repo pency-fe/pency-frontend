@@ -14,13 +14,13 @@ const miniNavToken = {
     gap: "--mini-nav-ul-gap",
   },
   branch: {
-    minHeight: "--mini-nav-branch-min-heihgt",
+    minHeight: "--mini-nav-branch-min-height",
     padding: "--mini-nav-branch-padding",
     borderRadius: "--mini-nav-branch-border-radius",
     iconSize: "--mini-nav-branch-icon-size",
   },
   leaf: {
-    minHeight: "--mini-nav-leaf-min-heihgt",
+    minHeight: "--mini-nav-leaf-min-height",
     padding: "--mini-nav-leaf-padding",
     borderRadius: "--mini-nav-leaf-border-radius",
     iconSize: "--mini-nav-leaf-icon-size",
