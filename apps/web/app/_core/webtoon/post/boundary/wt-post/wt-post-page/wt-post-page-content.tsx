@@ -17,7 +17,7 @@ import { useFilterData } from "./wt-post-page-filter";
 
 const ContentDataContext = createContext<
   | UseSuspenseQueryResult<
-      Awaited<ReturnType<Exclude<ReturnType<typeof wtPostKeys.list>["queryFn"], undefined>>>
+      Awaited<ReturnType<Exclude<ReturnType<typeof wtPostKeys.page>["queryFn"], undefined>>>
     >["data"]
   | undefined
 >(undefined);
@@ -45,7 +45,7 @@ const ContentProvider = withAsyncBoundary(
       return 1;
     }, [searchParams]);
 
-    const { data } = useSuspenseQuery(wtPostKeys.list({ genre, sort, page, creationTypes, pairs }));
+    const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, page, creationTypes, pairs }));
 
     return <ContentDataContext.Provider value={data}>{children}</ContentDataContext.Provider>;
   },

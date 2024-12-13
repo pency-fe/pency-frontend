@@ -21,10 +21,10 @@ export function useChannelMeList() {
 export function ChannelMeListProvider({ children }: { children?: React.ReactNode }) {
   const { isLoggedIn } = useUserAuthMe();
 
-  const { data } = useQuery({
+  const query = useQuery({
     ...channelMeKeys.list(),
     enabled: isLoggedIn,
   });
 
-  return <ChannelMeListContext.Provider value={data}>{children}</ChannelMeListContext.Provider>;
+  return <ChannelMeListContext.Provider value={query.data ?? []}>{children}</ChannelMeListContext.Provider>;
 }

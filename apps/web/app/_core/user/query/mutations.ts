@@ -3,7 +3,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { login, logout } from "./api";
 import { FailureRes, QueryError } from "_core/api";
-import { userAuthMeKeys } from "./queries";
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -17,10 +16,7 @@ export const useLogin = () => {
   >({
     mutationFn: login,
     onSuccess: () => {
-      queryClient.clear();
-    },
-    meta: {
-      awaits: [userAuthMeKeys.detail().queryKey],
+      return queryClient.resetQueries();
     },
   });
 };
@@ -33,7 +29,7 @@ export const useLogout = () => {
   return useMutation<Awaited<ReturnType<typeof logout>>, void, void>({
     mutationFn: logout,
     onSuccess: () => {
-      queryClient.clear();
+      return queryClient.resetQueries();
     },
   });
 };

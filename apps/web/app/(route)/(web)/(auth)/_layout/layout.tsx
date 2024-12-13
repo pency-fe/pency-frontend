@@ -4,7 +4,7 @@ import Left from "./left";
 import Right from "./right";
 import { redirect, useRouter } from "next/navigation";
 import { Header, Main } from "@pency/ui/layouts";
-import { isClient } from "@pency/util";
+import { isClient, useFirstMountState } from "@pency/util";
 import { useUserAuthMe } from "_core/user";
 
 type Props = {
@@ -14,8 +14,9 @@ type Props = {
 export function AuthLayout({ children }: Props) {
   const router = useRouter();
   const me = useUserAuthMe();
+  const isFirstMount = useFirstMountState();
 
-  if (me.isLoggedIn) {
+  if (isFirstMount && me.isLoggedIn) {
     if (isClient()) {
       router.push("/");
       return;

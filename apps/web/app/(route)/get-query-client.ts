@@ -12,12 +12,20 @@ function makeQueryClient() {
   });
 
   queryClient.getMutationCache().config.onSuccess = (_data, _variables, _context, mutation) => {
-    queryClient.invalidateQueries({
-      predicate: (query) =>
-        mutation.meta?.invalidates?.some((queryKey) => {
-          return matchQuery({ queryKey }, query);
-        }) ?? false,
-    });
+    const invalidates = mutation.meta?.invalidates;
+
+    if (invalidates && invalidates.length) {
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          invalidates.some((queryKey) => {
+            return matchQuery({ queryKey }, query);
+          }) ?? false,
+      });
+    }
+
+    if (invalidates && !invalidates.length) {
+      queryClient.invalidateQueries();
+    }
 
     return queryClient.invalidateQueries(
       {

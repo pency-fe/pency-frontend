@@ -18,7 +18,11 @@ export function useUserAuthMe() {
 }
 
 export function UserAuthMeProvider({ children }: { children?: React.ReactNode }) {
-  const { data } = useQuery(userAuthMeKeys.detail());
+  const query = useQuery(userAuthMeKeys.detail());
 
-  return <UserAuthMeContext.Provider value={data}>{children}</UserAuthMeContext.Provider>;
+  if (query.isPending) {
+    return;
+  }
+
+  return <UserAuthMeContext.Provider value={query.data}>{children}</UserAuthMeContext.Provider>;
 }

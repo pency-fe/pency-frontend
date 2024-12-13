@@ -2,7 +2,7 @@
 
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { Main } from "@pency/ui/layouts";
-import { CH_Create_Form } from "_core/channel/boundary/ch-form";
+import { CH_Create_Form } from "_core/channel";
 
 export function CreatePage() {
   const theme = useTheme();

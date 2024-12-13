@@ -8,7 +8,9 @@ import { ChannelMeListProvider } from "_core/channel";
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery(channelMeKeys.list({ headers: { Cookie: cookies().toString() } }));
+  if (cookies().get("pency-uupid")) {
+    await queryClient.prefetchQuery(channelMeKeys.list({ headers: { Cookie: cookies().toString() } }));
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
