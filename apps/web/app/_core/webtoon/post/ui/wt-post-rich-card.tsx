@@ -177,7 +177,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
                     <ListItemIcon>
                       <MaterialSymbolsBlockIcon />
                     </ListItemIcon>
-                    차단하기
+                    채널 차단하기
                   </MenuItem>
 
                   <MenuItem>
