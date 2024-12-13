@@ -26,7 +26,7 @@ export const userAuthMeKeys = {
   detail: (options?: Options) =>
     queryOptions<Awaited<ReturnType<typeof getUserAuthMe>>>({
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
-      queryKey: [...userAuthMeKeys.details(), "unique"],
+      queryKey: [...userAuthMeKeys.details()],
       queryFn: () => getUserAuthMe(options),
     }),
 };

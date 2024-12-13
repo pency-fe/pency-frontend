@@ -32,14 +32,14 @@ import {
   usePopperxState,
 } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
-import { useMeChannel } from "../me-channel-provider";
 import { useLogout, useUserAuthMe } from "_core/user";
+import { useChannelMeList } from "_core/channel";
 
 // ----------------------------------------------------------------------
 
 export function Right() {
   const me = useUserAuthMe();
-  const meChannel = useMeChannel();
+  const meChannel = useChannelMeList();
   const theme = useTheme();
   const router = useRouter();
 
@@ -207,7 +207,7 @@ export function Right() {
 
 function ChannelUserProfileList() {
   const theme = useTheme();
-  const meChannel = useMeChannel();
+  const meChannel = useChannelMeList();
 
   return (
     <>
