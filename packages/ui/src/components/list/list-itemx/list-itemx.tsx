@@ -178,7 +178,7 @@ const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, re
       {src ? (
         <Box
           ref={ref}
-          src={src}
+          src={src ?? process.env["NEXT_PUBLIC_TEXT_LOGO"]}
           component={LazyLoadImage}
           {...rest}
           sx={{

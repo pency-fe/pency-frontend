@@ -21,7 +21,6 @@ import { useToggle } from "@pency/util";
 import { Label } from "@/components/label";
 import { maxLine } from "@/util";
 import { ButtonBaseProps } from "@mui/material";
-import { BrandPencyTextIcon } from "../svg";
 
 // ----------------------------------------------------------------------
 
@@ -186,30 +185,24 @@ const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, re
   const theme = useTheme();
 
   return (
-    <>
-      {src ? (
-        <Box
-          ref={ref}
-          component={LazyLoadImage}
-          src={src}
-          {...rest}
-          sx={{
-            width: 1,
-            objectFit: "cover",
-            transition: theme.transitions.create("transform", {
-              easing: theme.transitions.easing.easeInOut,
-              duration: theme.transitions.duration.shorter,
-            }),
-            ...(hover && {
-              transform: "scale(1.05)",
-            }),
-            ...rest.sx,
-          }}
-        />
-      ) : (
-        <BrandPencyTextIcon sx={{ width: "25%", height: "auto" }} />
-      )}
-    </>
+    <Box
+      ref={ref}
+      component={LazyLoadImage}
+      src={src ?? process.env["NEXT_PUBLIC_TEXT_LOGO"]}
+      {...rest}
+      sx={{
+        width: 1,
+        objectFit: "cover",
+        transition: theme.transitions.create("transform", {
+          easing: theme.transitions.easing.easeInOut,
+          duration: theme.transitions.duration.shorter,
+        }),
+        ...(hover && {
+          transform: "scale(1.05)",
+        }),
+        ...rest.sx,
+      }}
+    />
   );
 });
 
@@ -227,8 +220,15 @@ const AvatarLinkFn = forwardRef<HTMLAnchorElement, AvatarLinkFnProps>(({ slots, 
 
 type AvatarFnProps = AvatarProps;
 
-const AvatarFn = forwardRef<HTMLDivElement, AvatarFnProps>((rest, ref) => {
-  return <Avatar ref={ref} {...rest} sx={{ width: 36, height: 36, ...rest.sx }} />;
+const AvatarFn = forwardRef<HTMLDivElement, AvatarFnProps>(({ src, ...rest }, ref) => {
+  return (
+    <Avatar
+      ref={ref}
+      src={src ?? process.env["NEXT_PUBLIC_AVATAR"]}
+      {...rest}
+      sx={{ width: 36, height: 36, ...rest.sx }}
+    />
+  );
 });
 
 // ----------------------------------------------------------------------

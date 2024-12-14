@@ -1,6 +1,6 @@
 "use client";
 
-import { hideScrollY, iconAlignCenter, maxLine, varAlpha } from "@/util";
+import { hideScrollY, iconAlignCenter, maxLine } from "@/util";
 import {
   Accordion,
   AccordionDetails,
@@ -32,7 +32,6 @@ import { createContext, forwardRef, ReactElement, useContext, useMemo } from "re
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImageProps, LazyLoadImage } from "react-lazy-load-image-component";
 import { Label } from "../label";
-import { BrandPencyTextIcon } from "../svg";
 
 // ----------------------------------------------------------------------
 
@@ -264,8 +263,15 @@ const AvatarLinkFn = forwardRef<HTMLAnchorElement, AvatarLinkFnProps>(({ slots, 
 
 type AvatarFnProps = AvatarProps;
 
-const AvatarFn = forwardRef<HTMLDivElement, AvatarFnProps>((rest, ref) => {
-  return <Avatar ref={ref} {...rest} sx={{ width: 36, height: 36, ...rest.sx }} />;
+const AvatarFn = forwardRef<HTMLDivElement, AvatarFnProps>(({ src, ...rest }, ref) => {
+  return (
+    <Avatar
+      ref={ref}
+      src={src ?? process.env["NEXT_PUBLIC_AVATAR"]}
+      {...rest}
+      sx={{ width: 36, height: 36, ...rest.sx }}
+    />
+  );
 });
 
 // ----------------------------------------------------------------------

@@ -76,8 +76,15 @@ const AvatarLinkFn = forwardRef<HTMLAnchorElement, AvatarLinkFnProps>(({ slots, 
 
 type AvatarFnProps = AvatarProps;
 
-const AvatarFn = forwardRef<HTMLDivElement, AvatarFnProps>((rest, ref) => {
-  return <Avatar ref={ref} {...rest} sx={{ width: 32, height: 32, ...rest.sx }} />;
+const AvatarFn = forwardRef<HTMLDivElement, AvatarFnProps>(({ src, ...rest }, ref) => {
+  return (
+    <Avatar
+      ref={ref}
+      src={src ?? process.env["NEXT_PUBLIC_AVATAR"]}
+      {...rest}
+      sx={{ width: 32, height: 32, ...rest.sx }}
+    />
+  );
 });
 
 // ----------------------------------------------------------------------
