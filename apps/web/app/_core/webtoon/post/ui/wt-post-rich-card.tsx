@@ -247,7 +247,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
                 {!isMyPost ? (
                   <MenuItem
                     onClick={() => {
-                      handleBlockClick(data.id);
+                      handleBlockClick(data.channel.id);
                     }}
                   >
                     <ListItemIcon>

@@ -110,7 +110,7 @@ const PageFn = () => {
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
-          draft.posts.find((post) => post.id === id)!.block = true;
+          draft.posts.find((post) => post.channel.id === id)!.block = true;
         }),
     );
   };
@@ -121,7 +121,7 @@ const PageFn = () => {
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
-          draft.posts.find((post) => post.id === id)!.block = false;
+          draft.posts.find((post) => post.channel.id === id)!.block = false;
         }),
     );
   };
