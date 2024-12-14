@@ -69,3 +69,21 @@ export const createChannel = async (req: CreateChannelReq) => {
 };
 
 // ----------------------------------------------------------------------
+
+type BlockReq = {
+  id: number;
+};
+
+export const block = async (req: BlockReq) => {
+  return await api.post(`channel/${req.id}/block`).json();
+};
+
+// ----------------------------------------------------------------------
+
+type UnblockReq = {
+  id: number;
+};
+
+export const unblock = async (req: UnblockReq) => {
+  return await api.delete(`channel/${req.id}/block`).json();
+};

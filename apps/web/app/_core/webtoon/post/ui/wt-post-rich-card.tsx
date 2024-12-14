@@ -8,7 +8,6 @@ import {
   FluentShare24RegularIcon,
   GravityUiCircleCheckFillIcon,
   MaterialSymbolsBlockIcon,
-  MaterialSymbolsReportOutlineIcon,
   Menux,
   NineteenCircleIcon,
   RichCard,
@@ -21,7 +20,7 @@ import { formatRelativeTimeFromUTC } from "@pency/util";
 import { Box, ListItemIcon, MenuItem, Skeleton, Stack } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useUserAuthMeContext } from "_core/user";
-import { useChannelMeListContext } from "_core/channel";
+import { useBlock, useChannelMeListContext, useUnblock } from "_core/channel";
 import { useBookmark, useUnbookmark } from "../query";
 
 type WT_Post_RichCardFnProps = {
@@ -45,19 +44,23 @@ type WT_Post_RichCardFnProps = {
     createdAt: number;
     keywords: string[];
     bookmark: boolean;
-    block: true;
+    block: boolean;
   };
   onBookmark: (id: number) => void;
   onUnbookmark: (id: number) => void;
+  onBlock: (id: number) => void;
+  onUnblock: (id: number) => void;
   hideGenre?: boolean;
 };
 
 const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
-  ({ data, onBookmark, onUnbookmark, hideGenre = false }, ref) => {
+  ({ data, onBookmark, onUnbookmark, onBlock, onUnblock, hideGenre = false }, ref) => {
     const me = useUserAuthMeContext();
     const meChannel = me.isLoggedIn ? useChannelMeListContext() : [];
     const { mutate: bookmark } = useBookmark();
-    const { mutate: unBookmark } = useUnbookmark();
+    const { mutate: unbookmark } = useUnbookmark();
+    const { mutate: block } = useBlock();
+    const { mutate: unblock } = useUnblock();
 
     const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
@@ -73,8 +76,8 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
         return;
       }
 
-      if (data.bookmark) {
-        unBookmark(
+      if (data.block) {
+        unbookmark(
           { id },
           {
             onSuccess: () => {
@@ -102,7 +105,50 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
               }
 
               if (error.code === "SELF_FORBIDDEN") {
-                toast.error("자신의 포스트는 북마크 할 수 없어요.");
+                toast.error("자신의 포스트는 북마크할 수 없어요.");
+              }
+            },
+          },
+        );
+      }
+    };
+
+    const handleBlockClick = (id: number) => {
+      if (!me.isLoggedIn) {
+        router.push("/login");
+        return;
+      }
+
+      if (data.block) {
+        unblock(
+          { id },
+          {
+            onSuccess: () => {
+              onUnblock(id);
+              toast.success("채널을 차단했어요.");
+            },
+            onError: async (error) => {
+              if (error.code === "ALREADY_PROCESSED_REQUEST") {
+                toast.error("이미 채널을 차단했어요.");
+              }
+            },
+          },
+        );
+      } else {
+        block(
+          { id },
+          {
+            onSuccess: () => {
+              onBlock(id);
+              toast.success("채널 차단을 해제했어요.");
+            },
+            onError: async (error) => {
+              if (error.code === "ALREADY_PROCESSED_REQUEST") {
+                toast.error("이미 채널 차단을 해제했어요.");
+              }
+
+              if (error.code === "SELF_FORBIDDEN") {
+                toast.error("자신의 채널은 차단할 수 없어요.");
               }
             },
           },
@@ -199,20 +245,15 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
                 </MenuItem>
 
                 {!isMyPost ? (
-                  <MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleBlockClick(data.id);
+                    }}
+                  >
                     <ListItemIcon>
                       <MaterialSymbolsBlockIcon />
                     </ListItemIcon>
                     {data.block ? "채널차단 해제" : "채널차단"}
-                  </MenuItem>
-                ) : null}
-
-                {!isMyPost ? (
-                  <MenuItem>
-                    <ListItemIcon>
-                      <MaterialSymbolsReportOutlineIcon />
-                    </ListItemIcon>
-                    신고하기
                   </MenuItem>
                 ) : null}
               </Menux>

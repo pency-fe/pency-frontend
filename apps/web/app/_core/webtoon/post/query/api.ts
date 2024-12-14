@@ -73,7 +73,7 @@ type GetWebtoonPostPageRes = {
     createdAt: number;
     keywords: string[];
     bookmark: boolean;
-    block: true;
+    block: boolean;
   }>;
 };
 

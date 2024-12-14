@@ -104,6 +104,28 @@ const PageFn = () => {
     );
   };
 
+  const handleBlock = (id: number) => {
+    queryClient.setQueryData(
+      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs }).queryKey,
+      (oldData) =>
+        oldData &&
+        produce(oldData, (draft) => {
+          draft.posts.find((post) => post.id === id)!.block = true;
+        }),
+    );
+  };
+
+  const handleUnblock = (id: number) => {
+    queryClient.setQueryData(
+      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs }).queryKey,
+      (oldData) =>
+        oldData &&
+        produce(oldData, (draft) => {
+          draft.posts.find((post) => post.id === id)!.block = false;
+        }),
+    );
+  };
+
   return (
     <Grid container spacing={1}>
       {data.posts.map((post, i) => (
@@ -112,6 +134,8 @@ const PageFn = () => {
             data={post}
             onBookmark={handleBookmark}
             onUnbookmark={handleUnbookmark}
+            onBlock={handleBlock}
+            onUnblock={handleUnblock}
             hideGenre={genre !== "ALL"}
           />
         </Grid>
