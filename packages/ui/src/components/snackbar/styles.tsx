@@ -92,7 +92,7 @@ export const StyledToaster = styled(Toaster)(({ theme }) => {
       right: 0,
       left: "auto",
       color: "currentColor",
-      backgroundColor: "transparent",
+      backgroundColor: "transparent !important",
       transform: "translate(-6px, 6px)",
       borderColor: varAlpha(theme.vars.palette.grey["500Channel"], 0.16),
       transition: theme.transitions.create(["background-color", "border-color"]),

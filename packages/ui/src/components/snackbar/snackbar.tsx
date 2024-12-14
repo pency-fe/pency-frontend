@@ -8,10 +8,13 @@ import {
   SolarDangerTriangleBoldIcon,
   SolarInfoCircleBoldIcon,
 } from "../svg";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
 export function Snackbar() {
+  const theme = useTheme();
+  const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <StyledToaster
       expand
@@ -20,7 +23,7 @@ export function Snackbar() {
       offset={16}
       visibleToasts={4}
       duration={4000}
-      position="bottom-center"
+      position={isUpSm ? "top-center" : "bottom-center"}
       className={toasterClasses.root}
       toastOptions={{
         unstyled: true,
