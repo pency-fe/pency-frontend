@@ -30,8 +30,9 @@ export default meta;
 
 const postData = {
   id: 123,
-  thumbnail:
-    "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+  // thumbnail:
+  //   "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+  thumbnail: null,
   age: "NINETEEN",
   price: 300,
   purchased: true,

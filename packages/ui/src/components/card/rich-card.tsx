@@ -228,42 +228,25 @@ const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, re
   const theme = useTheme();
 
   return (
-    <>
-      {src ? (
-        <Box
-          ref={ref}
-          component={LazyLoadImage}
-          src={src}
-          {...rest}
-          sx={{
-            width: 1,
-            height: 1,
-            objectFit: "cover",
-            transition: theme.transitions.create("transform", {
-              easing: theme.transitions.easing.easeInOut,
-              duration: theme.transitions.duration.shorter,
-            }),
-            ...(hover && {
-              transform: "scale(1.05)",
-            }),
-            ...rest.sx,
-          }}
-        />
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: 1,
-            height: 1,
-            bgcolor: varAlpha(theme.vars.palette.grey["500Channel"], 0.16),
-          }}
-        >
-          <BrandPencyTextIcon sx={{ width: "25%", height: "auto" }} />
-        </Box>
-      )}
-    </>
+    <Box
+      ref={ref}
+      component={LazyLoadImage}
+      src={src ?? process.env["NEXT_PUBLIC_TEXT_LOGO"]}
+      {...rest}
+      sx={{
+        width: 1,
+        height: 1,
+        objectFit: "cover",
+        transition: theme.transitions.create("transform", {
+          easing: theme.transitions.easing.easeInOut,
+          duration: theme.transitions.duration.shorter,
+        }),
+        ...(hover && {
+          transform: "scale(1.05)",
+        }),
+        ...rest.sx,
+      }}
+    />
   );
 });
 
