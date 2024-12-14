@@ -161,8 +161,8 @@ function ChannelMeList() {
                   />
                 </ListItemAvatar>
                 <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{channel.title}</ListItemText>
-                <Box sx={{ flexShrink: 0, display: "flex", gap: 1, zIndex: 1 }}>
-                  <Button LinkComponent={NextLink} href="TODO_스튜디오" variant="soft" size="small">
+                <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
+                  <Button LinkComponent={NextLink} href="TODO_스튜디오" variant="soft" size="small" sx={{ zIndex: 2 }}>
                     스튜디오
                   </Button>
                   <IconButton
@@ -170,7 +170,7 @@ function ChannelMeList() {
                     href={`/editor/${channel.url}/webtoon`}
                     variant="soft"
                     size="small"
-                    sx={{ borderRadius: 1 }}
+                    sx={{ borderRadius: 1, zIndex: 2 }}
                   >
                     <MingcutePencilLineIcon />
                   </IconButton>
