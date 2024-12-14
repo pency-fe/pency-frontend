@@ -84,11 +84,11 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
           {
             onSuccess: () => {
               onUnbookmark(id);
-              toast.success("북마크에 추가했어요.");
+              toast.success("북마크에서 제외했어요.");
             },
             onError: async (error) => {
               if (error.code === "ALREADY_PROCESSED_REQUEST") {
-                toast.error("이미 북마크에 추가했어요.");
+                toast.error("이미 북마크에서 제외했어요.");
               }
             },
           },
@@ -99,11 +99,11 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
           {
             onSuccess: () => {
               onBookmark(id);
-              toast.success("북마크에서 제외했어요.");
+              toast.success("북마크에 추가했어요.");
             },
             onError: async (error) => {
               if (error.code === "ALREADY_PROCESSED_REQUEST") {
-                toast.error("이미 북마크에서 제외했어요.");
+                toast.error("이미 북마크에 추가했어요.");
               }
 
               if (error.code === "SELF_FORBIDDEN") {
@@ -129,11 +129,11 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
           {
             onSuccess: () => {
               onUnblock(id);
-              toast.success("채널을 차단했어요.");
+              toast.success("채널 차단을 해제했어요.");
             },
             onError: async (error) => {
               if (error.code === "ALREADY_PROCESSED_REQUEST") {
-                toast.error("이미 채널을 차단했어요.");
+                toast.error("이미 채널 차단을 해제했어요.");
               }
             },
           },
@@ -144,11 +144,11 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
           {
             onSuccess: () => {
               onBlock(id);
-              toast.success("채널 차단을 해제했어요.");
+              toast.success("채널을 차단했어요.");
             },
             onError: async (error) => {
               if (error.code === "ALREADY_PROCESSED_REQUEST") {
-                toast.error("이미 채널 차단을 해제했어요.");
+                toast.error("이미 채널을 차단했어요.");
               }
 
               if (error.code === "SELF_FORBIDDEN") {
