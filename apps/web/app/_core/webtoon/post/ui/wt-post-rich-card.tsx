@@ -199,21 +199,21 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
                 </MenuItem>
 
                 {!isMyPost ? (
-                  <>
-                    <MenuItem>
-                      <ListItemIcon>
-                        <MaterialSymbolsBlockIcon />
-                      </ListItemIcon>
-                      {data.block ? "채널차단 해제" : "채널차단"}
-                    </MenuItem>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <MaterialSymbolsBlockIcon />
+                    </ListItemIcon>
+                    {data.block ? "채널차단 해제" : "채널차단"}
+                  </MenuItem>
+                ) : null}
 
-                    <MenuItem>
-                      <ListItemIcon>
-                        <MaterialSymbolsReportOutlineIcon />
-                      </ListItemIcon>
-                      신고하기
-                    </MenuItem>
-                  </>
+                {!isMyPost ? (
+                  <MenuItem>
+                    <ListItemIcon>
+                      <MaterialSymbolsReportOutlineIcon />
+                    </ListItemIcon>
+                    신고하기
+                  </MenuItem>
                 ) : null}
               </Menux>
             </>
