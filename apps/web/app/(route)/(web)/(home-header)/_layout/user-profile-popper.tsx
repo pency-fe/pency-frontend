@@ -149,7 +149,10 @@ function ChannelMeList() {
             {Array.from(meChannel, (channel) => (
               <ListItem component={NextLink} href={`/@${channel.url}`} key={channel.id}>
                 <ListItemAvatar>
-                  <Avatar src={channel.image} sx={{ width: 32, height: 32, borderRadius: 1 }} />
+                  <Avatar
+                    src={channel.image ?? process.env["NEXT_PUBLIC_AVATAR"]}
+                    sx={{ width: 32, height: 32, borderRadius: 1 }}
+                  />
                 </ListItemAvatar>
                 <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{channel.title}</ListItemText>
                 <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
