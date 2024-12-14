@@ -72,6 +72,8 @@ type GetWebtoonPostPageRes = {
     likeCount: number;
     createdAt: number;
     keywords: string[];
+    bookmark: boolean;
+    block: true;
   }>;
 };
 

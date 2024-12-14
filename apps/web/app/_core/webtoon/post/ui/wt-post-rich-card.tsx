@@ -22,7 +22,7 @@ import { Box, ListItemIcon, MenuItem, Skeleton, Stack } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useUserAuthMeContext } from "_core/user";
 import { useChannelMeListContext } from "_core/channel";
-import { useBookmark } from "../query";
+import { useBookmark, useUnbookmark } from "../query";
 
 type WT_Post_RichCardFnProps = {
   data: {
@@ -44,6 +44,8 @@ type WT_Post_RichCardFnProps = {
     likeCount: number;
     createdAt: number;
     keywords: string[];
+    bookmark: boolean;
+    block: true;
   };
   hideGenre?: boolean;
 };
@@ -52,6 +54,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
   const me = useUserAuthMeContext();
   const meChannel = me.isLoggedIn ? useChannelMeListContext() : [];
   const { mutate: bookmark } = useBookmark();
+  const { mutate: unBookmark } = useUnbookmark();
 
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
@@ -61,26 +64,38 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
     return meChannel.some((channel) => channel.id === data.channel.id);
   }, [meChannel, data]);
 
-  const handleBookmarkClick = (data: { id: number }) => {
+  const handleBookmarkClick = (id: { id: number }) => {
     if (!me.isLoggedIn) {
       router.push("/login");
       return;
     }
+    if (data.bookmark) {
+      unBookmark(id, {
+        onSuccess: () => {
+          console.log("북마크 성공!");
+        },
+        onError: async (error) => {
+          if (error.code === "ALREADY_PROCESSED_REQUEST") {
+            toast.error("이미 북마크가 해체되었어요.");
+          }
+        },
+      });
+    } else {
+      bookmark(id, {
+        onSuccess: () => {
+          console.log("북마크 성공!");
+        },
+        onError: async (error) => {
+          if (error.code === "ALREADY_PROCESSED_REQUEST") {
+            toast.error("이미 북마크가 되었어요.");
+          }
 
-    bookmark(data, {
-      onSuccess: () => {
-        console.log("북마크 성공!");
-      },
-      onError: async (error) => {
-        if (error.code === "ALREADY_PROCESSED_REQUEST") {
-          toast.error("이미 북마크가 되었어요.");
-        }
-
-        if (error.code === "SELF_FORBIDDEN") {
-          toast.error("자신의 포스트는 북마크할 수 없어요.");
-        }
-      },
-    });
+          if (error.code === "SELF_FORBIDDEN") {
+            toast.error("자신의 포스트는 북마크할 수 없어요.");
+          }
+        },
+      });
+    }
   };
 
   return (
@@ -160,7 +175,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
                   <ListItemIcon>
                     <EvaBookmarkOutlineIcon />
                   </ListItemIcon>
-                  북마크
+                  {data.bookmark ? "북마크 해제" : "북마크"}
                 </MenuItem>
               ) : null}
 
@@ -177,7 +192,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>((
                     <ListItemIcon>
                       <MaterialSymbolsBlockIcon />
                     </ListItemIcon>
-                    채널 차단하기
+                    {data.block ? "차단 해제하기" : "차단하기"}
                   </MenuItem>
 
                   <MenuItem>
