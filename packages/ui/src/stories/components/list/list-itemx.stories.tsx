@@ -32,8 +32,8 @@ export const PostListItemx = () => {
           thumbnail: (
             <ListItemx.Thumbnail
               slots={{
-                image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
-                // image: <ListItemx.Thumbnail.Image src={null} />,
+                // image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
+                image: <ListItemx.Thumbnail.Image src={null} />,
                 topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
               }}
               sx={{ aspectRatio: "16/9" }}

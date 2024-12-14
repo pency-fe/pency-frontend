@@ -49,7 +49,8 @@ export const Comment = () => {
           <ListComment.AvatarLink
             href={`/channel/${commentData.channel.channelUrl}`}
             slots={{
-              avatar: <ListComment.AvatarLink.Avatar src={commentData.channel.avatar} />,
+              // avatar: <ListComment.AvatarLink.Avatar src={commentData.channel.avatar} />,
+              avatar: <ListComment.AvatarLink.Avatar src={null} />,
             }}
           />
         ),

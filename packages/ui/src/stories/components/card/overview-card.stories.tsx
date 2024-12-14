@@ -35,8 +35,8 @@ export const PostOverviewCard = () => {
         thumbnail: (
           <OverviewCard.Thumbnail
             slots={{
-              image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} />,
-              // image: <OverviewCard.Thumbnail.Image src={null} />,
+              // image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} />,
+              image: <OverviewCard.Thumbnail.Image src={null} />,
 
               topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
             }}
@@ -69,7 +69,8 @@ export const PostOverviewCard = () => {
           <OverviewCard.AvatarLink
             href={`/@${postData.channel.channelUrl}`}
             slots={{
-              avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
+              // avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
+              avatar: <OverviewCard.AvatarLink.Avatar src={null} />,
             }}
           />
         ),

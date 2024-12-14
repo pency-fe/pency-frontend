@@ -101,7 +101,8 @@ export const PostRichCard = () => {
             <RichCard.AvatarLink
               href={`/@${postData.channel.channelUrl}`}
               slots={{
-                avatar: <RichCard.AvatarLink.Avatar src={postData.channel.avatar} />,
+                // avatar: <RichCard.AvatarLink.Avatar src={postData.channel.avatar} />,
+                avatar: <RichCard.AvatarLink.Avatar src={null} />,
               }}
             />
           ),

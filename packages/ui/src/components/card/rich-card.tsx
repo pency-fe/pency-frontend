@@ -261,7 +261,7 @@ const AvatarLinkFn = forwardRef<HTMLAnchorElement, AvatarLinkFnProps>(({ slots, 
   );
 });
 
-type AvatarFnProps = AvatarProps;
+type AvatarFnProps = Omit<AvatarProps<"img", LazyLoadImageProps>, "children" | "src"> & { src?: string | null };
 
 const AvatarFn = forwardRef<HTMLDivElement, AvatarFnProps>(({ src, ...rest }, ref) => {
   return (

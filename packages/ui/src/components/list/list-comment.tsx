@@ -21,6 +21,7 @@ import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { maxLine } from "@/util";
 import { EvaHeartOutlineIcon, MaterialSymbolsChatBubbleOutlineIcon } from "../svg";
 import { Label } from "../label";
+import { LazyLoadImageProps } from "react-lazy-load-image-component";
 
 // ----------------------------------------------------------------------
 
@@ -74,7 +75,7 @@ const AvatarLinkFn = forwardRef<HTMLAnchorElement, AvatarLinkFnProps>(({ slots, 
   );
 });
 
-type AvatarFnProps = AvatarProps;
+type AvatarFnProps = Omit<AvatarProps<"img", LazyLoadImageProps>, "children" | "src"> & { src?: string | null };
 
 const AvatarFn = forwardRef<HTMLDivElement, AvatarFnProps>(({ src, ...rest }, ref) => {
   return (
