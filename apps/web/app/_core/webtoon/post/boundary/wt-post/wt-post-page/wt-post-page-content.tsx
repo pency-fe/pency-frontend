@@ -3,7 +3,7 @@
 import { createContext, useContext, useMemo } from "react";
 import NextLink from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useSuspenseQuery, UseSuspenseQueryResult } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { Grid, PaginationItem } from "@mui/material";
 import { usePaginationx } from "@pency/ui/hooks";
 import { createQueryString, withAsyncBoundary } from "@pency/util";
@@ -12,6 +12,7 @@ import { WT_Post_RichCard } from "_core/webtoon/post/ui";
 import { useTabData } from "./wt-post-page-tab";
 import { useOrderData } from "./wt-post-page-order";
 import { useFilterData } from "./wt-post-page-filter";
+import { produce } from "immer";
 
 // ----------------------------------------------------------------------
 
@@ -76,12 +77,43 @@ function Loading() {
 const PageFn = () => {
   const data = useContentData();
   const { genre } = useTabData();
+  const { sort } = useOrderData();
+  const { creationTypes, pairs } = useFilterData();
+
+  const queryClient = useQueryClient();
+
+  const handleBookmark = (id: number) => {
+    queryClient.setQueryData(
+      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs }).queryKey,
+      (oldData) =>
+        oldData &&
+        produce(oldData, (draft) => {
+          draft.posts.find((post) => post.id === id)!.bookmark = true;
+        }),
+    );
+  };
+
+  const handleUnbookmark = (id: number) => {
+    queryClient.setQueryData(
+      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs }).queryKey,
+      (oldData) =>
+        oldData &&
+        produce(oldData, (draft) => {
+          draft.posts.find((post) => post.id === id)!.bookmark = false;
+        }),
+    );
+  };
 
   return (
     <Grid container spacing={1}>
       {data.posts.map((post, i) => (
         <Grid item key={i} xs={12} sm={6} md={4}>
-          <WT_Post_RichCard data={post} hideGenre={genre !== "ALL"} />
+          <WT_Post_RichCard
+            data={post}
+            onBookmark={handleBookmark}
+            onUnbookmark={handleUnbookmark}
+            hideGenre={genre !== "ALL"}
+          />
         </Grid>
       ))}
     </Grid>

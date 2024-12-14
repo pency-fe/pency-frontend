@@ -83,7 +83,7 @@ export const getWebtoonPostPage = async ({
   page = 1,
   creationTypes = ["ALL"],
   pairs = ["ALL"],
-}: GetWebtoonPostPageReq) => {
+}: GetWebtoonPostPageReq = {}) => {
   return await api
     .get<GetWebtoonPostPageRes>(
       `webtoon/post/page${createSearchParamString({
