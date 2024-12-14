@@ -76,7 +76,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
         return;
       }
 
-      if (data.block) {
+      if (data.bookmark) {
         unbookmark(
           { id },
           {
