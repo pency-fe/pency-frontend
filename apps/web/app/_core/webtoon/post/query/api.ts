@@ -4,7 +4,7 @@ import { Age, CreationType, Pair } from "../const";
 import { createSearchParamString } from "@pency/util";
 
 /** **************************************
- * webtoon-me
+ * webtoon-post-me
  *************************************** */
 
 // ----------------------------------------------------------------------
@@ -31,13 +31,13 @@ type PublishRes = {
 };
 
 export const publish = async (req: PublishReq) => {
-  return await api.post<PublishRes>("webtoon/me/post/publish", { json: req }).json();
+  return await api.post<PublishRes>("webtoon/post/me/publish", { json: req }).json();
 };
 
 // ----------------------------------------------------------------------
 
 /** **************************************
- * webtoon
+ * webtoon-post
  *************************************** */
 
 // ----------------------------------------------------------------------
@@ -140,12 +140,12 @@ export const unbookmark = async (req: UnbookmarkReq) => {
 // ----------------------------------------------------------------------
 
 /** **************************************
- * webtoon-channel
+ * webtoon-post-channel
  *************************************** */
 
 // ----------------------------------------------------------------------
 
-type GetWebtoonChannelPostPageRes = Array<{
+type GetWebtoonPostChannelPageRes = Array<{
   id: number;
   thumbnail: string;
   age: Age;
@@ -166,7 +166,7 @@ type GetWebtoonChannelPostPageRes = Array<{
   keywords: string[];
 }>;
 
-export const getWebtoonChannelPostPage = async ({
+export const getWebtoonPostChannelPage = async ({
   url,
   sort = "LATEST",
   page = 1,
@@ -176,6 +176,6 @@ export const getWebtoonChannelPostPage = async ({
   page?: number;
 }) => {
   return await api
-    .get<GetWebtoonChannelPostPageRes>(`webtoon/channel/@${url}/post/page?sort=${sort}&page=${page}`)
+    .get<GetWebtoonPostChannelPageRes>(`webtoon/post/channel/@${url}/page?sort=${sort}&page=${page}`)
     .json();
 };
