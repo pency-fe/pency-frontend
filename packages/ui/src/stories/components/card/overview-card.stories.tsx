@@ -141,13 +141,3 @@ export const SeriesOverviewCard = () => {
     />
   );
 };
-
-export const Test = () => {
-  console.log(process.env);
-  return (
-    <>
-      <h1>test</h1>
-      <img src={process.env["NEXT_PUBLIC_LOGO"]} />
-    </>
-  );
-};

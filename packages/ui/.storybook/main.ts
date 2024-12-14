@@ -22,12 +22,6 @@ const config: StorybookConfig = {
     name: getAbsolutePath("@storybook/react-vite"),
     options: {},
   },
-  env: (config) => ({
-    ...config,
-    NEXT_PUBLIC_LOGO: "https://dev-s3.pency.co.kr/logo.png",
-    NEXT_PUBLIC_TEXT_LOGO: "https://dev-s3.pency.co.kr/text_logo.png",
-    NEXT_PUBLIC_AVATAR: "https://dev-s3.pency.co.kr/avatar.png",
-  }),
   async viteFinal(config) {
     if (config.resolve) {
       config.resolve.alias = {
@@ -36,7 +30,11 @@ const config: StorybookConfig = {
       };
       config.define = {
         ...config.define,
-        "process.env": {},
+        "process.env": {
+          NEXT_PUBLIC_LOGO: "https://dev-s3.pency.co.kr/logo.png",
+          NEXT_PUBLIC_TEXT_LOGO: "https://dev-s3.pency.co.kr/text_logo.png",
+          NEXT_PUBLIC_AVATAR: "https://dev-s3.pency.co.kr/avatar.png",
+        },
       };
     }
 
