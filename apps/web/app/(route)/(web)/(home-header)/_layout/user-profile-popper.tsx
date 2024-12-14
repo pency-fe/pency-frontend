@@ -154,7 +154,10 @@ function ChannelMeList() {
                   sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}
                 >
                   <ListItemAvatar>
-                    <Avatar src={channel.image} sx={{ width: 32, height: 32, borderRadius: 1 }} />
+                    <Avatar
+                      src={channel.image ?? process.env["NEXT_PUBLIC_LOGO"]}
+                      sx={{ width: 32, height: 32, borderRadius: 1 }}
+                    />
                   </ListItemAvatar>
                   <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{channel.title}</ListItemText>
                 </Box>
