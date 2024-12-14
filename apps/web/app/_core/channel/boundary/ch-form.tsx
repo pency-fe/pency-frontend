@@ -299,10 +299,13 @@ const ImageFn = () => {
                 alignItems: "center",
                 width: 1,
                 height: 1,
-                bgcolor: varAlpha(theme.vars.palette.grey["500Channel"], 0.16),
               }}
             >
-              <BrandPencyTextIcon sx={{ width: "25%", height: "auto" }} />
+              <Box
+                component="img"
+                src={process.env["NEXT_PUBLIC_TEXT_LOGO"]}
+                sx={{ width: 1, height: 1, objectFit: "cover" }}
+              />
             </Box>
           )}
         </Box>
