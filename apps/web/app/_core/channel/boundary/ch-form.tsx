@@ -16,12 +16,11 @@ import { ReactNode } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
 import { useCreateChannel } from "../query";
-import { BrandPencyTextIcon, toast } from "@pency/ui/components";
+import { toast } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
 import { useToggle } from "@pency/util";
 import { getUploadImageUrl } from "_core/common";
 import { LoadingButton } from "@mui/lab";
-import { varAlpha } from "@pency/ui/util";
 import ky from "ky";
 
 // ----------------------------------------------------------------------
