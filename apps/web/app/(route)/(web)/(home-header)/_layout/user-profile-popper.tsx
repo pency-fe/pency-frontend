@@ -147,14 +147,17 @@ function ChannelMeList() {
         <>
           <List>
             {Array.from(meChannel, (channel) => (
-              <ListItem component={NextLink} href={`/@${channel.url}`} key={channel.id}>
-                <ListItemAvatar>
-                  <Avatar
-                    src={channel.image ?? process.env["NEXT_PUBLIC_AVATAR"]}
-                    sx={{ width: 32, height: 32, borderRadius: 1 }}
-                  />
-                </ListItemAvatar>
-                <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{channel.title}</ListItemText>
+              <ListItem key={channel.id} sx={{ display: "flex", alignItems: "center" }}>
+                <Box
+                  component={NextLink}
+                  href={`/@${channel.url}`}
+                  sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}
+                >
+                  <ListItemAvatar>
+                    <Avatar src={channel.image} sx={{ width: 32, height: 32, borderRadius: 1 }} />
+                  </ListItemAvatar>
+                  <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{channel.title}</ListItemText>
+                </Box>
                 <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
                   <Button LinkComponent={NextLink} href="TODO_스튜디오" variant="soft" size="small">
                     스튜디오
