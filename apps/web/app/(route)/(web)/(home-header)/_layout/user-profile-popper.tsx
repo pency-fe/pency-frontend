@@ -146,7 +146,7 @@ function ChannelMeList() {
       {meChannel.length > 0 ? (
         <>
           <List>
-            {Array.from(meChannel, (channel) => (
+            {meChannel.map((channel) => (
               <ListItem key={channel.id} sx={{ display: "flex", alignItems: "center" }}>
                 <ButtonBase
                   disableRipple
