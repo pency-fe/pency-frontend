@@ -70,11 +70,13 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
       return meChannel.some((channel) => channel.id === data.channel.id);
     }, [meChannel, data]);
 
-    const handleBookmarkClick = (id: number) => {
+    const handleBookmarkClick = () => {
       if (!me.isLoggedIn) {
         router.push("/login");
         return;
       }
+
+      const id = data.id;
 
       if (data.bookmark) {
         unbookmark(
@@ -113,11 +115,13 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
       }
     };
 
-    const handleBlockClick = (id: number) => {
+    const handleBlockClick = () => {
       if (!me.isLoggedIn) {
         router.push("/login");
         return;
       }
+
+      const id = data.channel.id;
 
       if (data.block) {
         unblock(
@@ -225,11 +229,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
 
               <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
                 {!isMyPost ? (
-                  <MenuItem
-                    onClick={() => {
-                      handleBookmarkClick(data.id);
-                    }}
-                  >
+                  <MenuItem onClick={handleBookmarkClick}>
                     <ListItemIcon>
                       <EvaBookmarkOutlineIcon />
                     </ListItemIcon>
@@ -245,11 +245,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
                 </MenuItem>
 
                 {!isMyPost ? (
-                  <MenuItem
-                    onClick={() => {
-                      handleBlockClick(data.channel.id);
-                    }}
-                  >
+                  <MenuItem onClick={handleBlockClick}>
                     <ListItemIcon>
                       <MaterialSymbolsBlockIcon />
                     </ListItemIcon>
