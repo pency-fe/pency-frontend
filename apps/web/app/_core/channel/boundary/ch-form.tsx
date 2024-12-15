@@ -13,12 +13,12 @@ import {
   useTheme,
 } from "@mui/material";
 import { ReactNode } from "react";
-import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
+import { Controller, FormProvider, SubmitErrorHandler, useController, useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
 import { useCreateChannel } from "../query";
 import { toast } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
-import { useToggle } from "@pency/util";
+import { objectKeys, useToggle } from "@pency/util";
 import { getUploadImageUrl } from "_core/common";
 import { LoadingButton } from "@mui/lab";
 import ky from "ky";
@@ -91,7 +91,7 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   const router = useRouter();
   const { mutate } = useCreateChannel();
 
-  const { handleSubmit, setError, trigger, getFieldState } = useFormContext<Schema>();
+  const { handleSubmit, setError } = useFormContext<Schema>();
 
   const onSubmit = (data: Schema) => {
     mutate(data, {
@@ -108,17 +108,10 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
     });
   };
 
-  const onErrorSubmit = async () => {
-    const names = ["title", "url"] as const;
-
-    const isValidate = await trigger(names);
-    if (!isValidate) {
-      for (const name of names) {
-        if (getFieldState(name).error) {
-          document.getElementsByName(name)[0]?.scrollIntoView({ behavior: "smooth", block: "center" });
-          return;
-        }
-      }
+  const onErrorSubmit: SubmitErrorHandler<Schema> = (errors) => {
+    const names = objectKeys(errors);
+    if (names[0]) {
+      document.getElementsByName(names[0])[0]?.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   };
 
@@ -262,8 +255,10 @@ const UrlFn = () => {
 
 const ImageFn = () => {
   const theme = useTheme();
-  const { watch, setValue } = useCHFormContext();
-  const image = watch("image");
+  const { control } = useCHFormContext();
+  const {
+    field: { value, onChange },
+  } = useController({ control, name: "image" });
   const [loading, toggleLoading] = useToggle(false);
 
   const upload = () => {
@@ -285,7 +280,7 @@ const ImageFn = () => {
         });
         await ky.put(res.signedUploadUrl, { body: picker.files[0] });
         toggleLoading(false);
-        setValue("image", res.url);
+        onChange(res.url);
         console.log("res.url: ", res.url);
       }
     });
@@ -293,7 +288,7 @@ const ImageFn = () => {
   };
 
   const remove = () => {
-    setValue("image", "");
+    onChange("");
   };
 
   return (
@@ -308,37 +303,25 @@ const ImageFn = () => {
             width: "128px",
           }}
         >
-          {image ? (
-            <Box component="img" src={image} sx={{ width: 1, height: 1, objectFit: "cover" }} />
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: 1,
-                height: 1,
-              }}
-            >
-              <Box
-                component="img"
-                src={process.env["NEXT_PUBLIC_TEXT_LOGO"]}
-                sx={{ width: 1, height: 1, objectFit: "cover" }}
-              />
-            </Box>
-          )}
+          <Box
+            component="img"
+            src={value.length ? value : process.env["NEXT_PUBLIC_LOGO"]}
+            sx={{ width: 1, height: 1, objectFit: "cover" }}
+          />
         </Box>
 
-        <Stack alignItems="flex-start">
-          {image && (
-            <Button variant="text" sx={{ mr: 1 }} onClick={remove}>
-              삭제
-            </Button>
-          )}
+        <Stack alignItems="flex-start" gap={0.5}>
+          <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1 }}>
+            <LoadingButton variant="soft" color="primary" loading={loading} onClick={upload} sx={{}}>
+              업로드
+            </LoadingButton>
 
-          <LoadingButton variant="soft" color="primary" loading={loading} onClick={upload} sx={{}}>
-            업로드
-          </LoadingButton>
+            {value && (
+              <Button variant="soft" color="error" sx={{ mr: 1 }} onClick={remove}>
+                삭제
+              </Button>
+            )}
+          </Box>
 
           <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
             추천 비율(1:1) / 최대 50MB 이미지 파일

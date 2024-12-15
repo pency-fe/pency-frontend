@@ -1,7 +1,15 @@
 "use client";
 
 import { z, ZodError } from "zod";
-import { Controller, FormProvider, SubmitErrorHandler, SubmitHandler, useForm, useFormContext } from "react-hook-form";
+import {
+  Controller,
+  FormProvider,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useController,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
 import {
   Box,
   Button,
@@ -23,7 +31,6 @@ import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries, useToggle, zodObjectKeys } from "@pency/util";
 import { RadioButton, toast } from "@pency/ui/components";
-import { varAlpha } from "@pency/ui/util";
 import { getUploadImageUrl } from "_core/common";
 import ky from "ky";
 import { LoadingButton } from "@mui/lab";
@@ -606,8 +613,10 @@ const SeriesFn = () => {
 
 const ThumbnailFn = () => {
   const theme = useTheme();
-  const { watch, setValue } = useWTPostFormContext();
-  const thumbnail = watch("thumbnail");
+  const { control } = useWTPostFormContext();
+  const {
+    field: { value, onChange },
+  } = useController({ control, name: "thumbnail" });
   const [loading, toggleLoading] = useToggle(false);
 
   const upload = () => {
@@ -629,14 +638,14 @@ const ThumbnailFn = () => {
         });
         await ky.put(res.signedUploadUrl, { body: picker.files[0] });
         toggleLoading(false);
-        setValue("thumbnail", res.url);
+        onChange(res.url);
       }
     });
     picker.click();
   };
 
   const remove = () => {
-    setValue("thumbnail", "");
+    onChange("");
   };
 
   return (
@@ -652,7 +661,7 @@ const ThumbnailFn = () => {
         >
           <Box
             component="img"
-            src={thumbnail ?? process.env["NEXT_PUBLIC_TEXT_LOGO"]}
+            src={value ?? process.env["NEXT_PUBLIC_TEXT_LOGO"]}
             sx={{ width: 1, height: 1, objectFit: "cover" }}
           />
         </Box>
@@ -662,8 +671,8 @@ const ThumbnailFn = () => {
             추천 비율(16:9) / 최대 50MB 이미지 파일
           </Typography>
 
-          {thumbnail && (
-            <Button variant="text" sx={{ mr: 1 }} onClick={remove}>
+          {value && (
+            <Button variant="soft" color="error" sx={{ mr: 1 }} onClick={remove}>
               삭제
             </Button>
           )}
