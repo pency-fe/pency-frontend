@@ -2,11 +2,28 @@
 
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { Main } from "@pency/ui/layouts";
+import { isClient, useFirstMountState } from "@pency/util";
 import { CH_Create_Form, useChannelMeListContext } from "_core/channel";
+import { useUserAuthMeContext } from "_core/user";
+import { redirect, useRouter } from "next/navigation";
 
 export function CreatePage() {
   const theme = useTheme();
+  const router = useRouter();
   const meChannel = useChannelMeListContext();
+  const me = useUserAuthMeContext();
+  const isFirstMount = useFirstMountState();
+
+  // [?]
+  console.log("?");
+
+  if (isFirstMount && !me.isLoggedIn) {
+    if (isClient()) {
+      router.push("/login");
+    } else {
+      redirect("/login");
+    }
+  }
 
   return (
     <Main>

@@ -9,7 +9,7 @@ import { FailureRes, QueryError } from "_core/api";
 export const useCreateChannel = () => {
   return useMutation<
     Awaited<ReturnType<typeof createChannel>>,
-    QueryError<FailureRes<409, "DUPLICATE_URL">>,
+    QueryError<FailureRes<409, "DUPLICATE_URL">> | QueryError<FailureRes<409, "EXCEEDED_CHANNEL_CREATION">>,
     Parameters<typeof createChannel>[0]
   >({ mutationFn: createChannel });
 };

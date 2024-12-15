@@ -74,10 +74,14 @@ export function UserProfile() {
         }}
       >
         <Stack>
-          <ChannelMeList />
+          <ChannelMeList toggle={toggle} />
           <List>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton
+                onClick={() => {
+                  toggle(false);
+                }}
+              >
                 <ListItemIcon>
                   <MingcuteNotificationLineIcon fontSize="medium" />
                 </ListItemIcon>
@@ -85,7 +89,13 @@ export function UserProfile() {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton LinkComponent={NextLink} href="/library/view">
+              <ListItemButton
+                LinkComponent={NextLink}
+                href="/library/view"
+                onClick={() => {
+                  toggle(false);
+                }}
+              >
                 <ListItemIcon>
                   <MingcuteBox2LineIcon fontSize="medium" />
                 </ListItemIcon>
@@ -96,6 +106,7 @@ export function UserProfile() {
               <ListItemButton
                 onClick={() => {
                   if (meChannel.length < 5) {
+                    toggle(false);
                     router.push("/channel/create");
                   } else {
                     toast.error("프로필당 최대 5개까지 채널을 개설할 수 있어요.");
@@ -136,8 +147,12 @@ export function UserProfile() {
 }
 
 // ----------------------------------------------------------------------
+type ChannelMeListProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  toggle: (nextValue?: any) => void;
+};
 
-function ChannelMeList() {
+function ChannelMeList({ toggle }: ChannelMeListProps) {
   const theme = useTheme();
   const meChannel = useChannelMeListContext();
 
@@ -152,6 +167,9 @@ function ChannelMeList() {
                   disableRipple
                   component={NextLink}
                   href={`/@${channel.url}`}
+                  onClick={() => {
+                    toggle(false);
+                  }}
                   sx={{ position: "absolute", inset: 0, zIndex: 1 }}
                 />
                 <ListItemAvatar>
@@ -162,7 +180,16 @@ function ChannelMeList() {
                 </ListItemAvatar>
                 <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{channel.title}</ListItemText>
                 <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
-                  <Button LinkComponent={NextLink} href="TODO_스튜디오" variant="soft" size="small" sx={{ zIndex: 2 }}>
+                  <Button
+                    LinkComponent={NextLink}
+                    href="TODO_스튜디오"
+                    variant="soft"
+                    size="small"
+                    sx={{ zIndex: 2 }}
+                    onClick={() => {
+                      toggle(false);
+                    }}
+                  >
                     스튜디오
                   </Button>
                   <IconButton
@@ -170,6 +197,9 @@ function ChannelMeList() {
                     href={`/editor/${channel.url}/webtoon`}
                     variant="soft"
                     size="small"
+                    onClick={() => {
+                      toggle(false);
+                    }}
                     sx={{ borderRadius: 1, zIndex: 2 }}
                   >
                     <MingcutePencilLineIcon />
