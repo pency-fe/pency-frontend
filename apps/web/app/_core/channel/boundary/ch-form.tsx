@@ -108,6 +108,11 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
     });
   };
 
+  // 1. 새 채널 만들기를 클릭했잖아.
+  // 2. 성공, 실패가 있는거네. -> 성공을 다루는 코드는 onSubmit으로 작성했다.
+  // 3. 실패를 다루는 코드가 필요하다.
+  // 에러가 있을 경우, 에러가 있는 첫 번째 위치로 스크롤 이동
+
   return (
     <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(onSubmit)} {...props}>
       새 채널 만들기
@@ -179,7 +184,7 @@ const DescriptionFn = () => {
           variant="outlined"
           fullWidth
           multiline
-          minRows={5}
+          minRows={2}
           maxRows={7}
           type="text"
           label="채널 설명"

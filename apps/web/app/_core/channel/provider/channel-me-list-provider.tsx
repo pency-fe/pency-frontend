@@ -15,7 +15,7 @@ export function useChannelMeListContext() {
   const context = useContext(ChannelMeListContext);
 
   if (context === undefined) throw new Error(`부모로 <ChannelMeListProvider /> 컴포넌트가 있어야 합니다.`);
-  if (context === null) throw new Error("로그인한 사용자가 아닙니다.");
+  if (context === null) throw new Error("isLoggedIn이 true일 때만 사용 가능합니다.");
 
   return context;
 }

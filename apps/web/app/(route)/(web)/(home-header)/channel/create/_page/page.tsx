@@ -10,12 +10,9 @@ import { redirect, useRouter } from "next/navigation";
 export function CreatePage() {
   const theme = useTheme();
   const router = useRouter();
-  const meChannel = useChannelMeListContext();
   const me = useUserAuthMeContext();
+  const meChannel = me.isLoggedIn ? useChannelMeListContext() : [];
   const isFirstMount = useFirstMountState();
-
-  // [?]
-  console.log("?");
 
   if (isFirstMount && !me.isLoggedIn) {
     if (isClient()) {
