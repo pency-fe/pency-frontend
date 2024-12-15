@@ -6,6 +6,7 @@ export const userProfileMeKeys = {
   lists: () => [...userProfileMeKeys.all, "list"],
   list: () =>
     queryOptions<Awaited<ReturnType<typeof getUserProfileMeList>>>({
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: [...userProfileMeKeys.lists()],
       queryFn: () => getUserProfileMeList(),
     }),

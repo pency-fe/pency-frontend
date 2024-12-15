@@ -30,13 +30,22 @@ import {
 } from "@pency/ui/components";
 import { useChannelMeListContext } from "_core/channel";
 import { useLogout } from "_core/user";
+import { useQuery } from "@tanstack/react-query";
+import { userProfileMeKeys } from "_core/user-profile";
 
 export function UserProfile() {
+  const theme = useTheme();
   const meChannel = useChannelMeListContext();
   const { mutate: logout } = useLogout();
 
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
   const router = useRouter();
+
+  const { data } = useQuery({
+    ...userProfileMeKeys.list(),
+  });
+
+  const userProfileMe = data;
 
   return (
     <>
@@ -75,11 +84,11 @@ export function UserProfile() {
       >
         <Stack>
           <List>
-            <ListItem key={channel.id} sx={{ display: "flex", alignItems: "center" }}>
+            <ListItem key={userProfileMe?.id} sx={{ display: "flex", alignItems: "center" }}>
               <ButtonBase
                 disableRipple
                 component={NextLink}
-                href={`/@${channel.url}`}
+                href={`/profile/@${userProfileMe?.url}`}
                 onClick={() => {
                   toggle(false);
                 }}
@@ -87,37 +96,11 @@ export function UserProfile() {
               />
               <ListItemAvatar>
                 <Avatar
-                  src={channel.image ?? process.env["NEXT_PUBLIC_LOGO"]}
+                  src={userProfileMe?.image ?? process.env["NEXT_PUBLIC_LOGO"]}
                   sx={{ width: 32, height: 32, borderRadius: 1 }}
                 />
               </ListItemAvatar>
-              <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{channel.title}</ListItemText>
-              <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
-                <Button
-                  LinkComponent={NextLink}
-                  href="TODO_스튜디오"
-                  variant="soft"
-                  size="small"
-                  sx={{ zIndex: 2 }}
-                  onClick={() => {
-                    toggle(false);
-                  }}
-                >
-                  스튜디오
-                </Button>
-                <IconButton
-                  LinkComponent={NextLink}
-                  href={`/editor/${channel.url}/webtoon`}
-                  variant="soft"
-                  size="small"
-                  onClick={() => {
-                    toggle(false);
-                  }}
-                  sx={{ borderRadius: 1, zIndex: 2 }}
-                >
-                  <MingcutePencilLineIcon />
-                </IconButton>
-              </Box>
+              <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{userProfileMe?.nickname}</ListItemText>
             </ListItem>
           </List>
           <ChannelMeList toggle={toggle} />
