@@ -11,7 +11,7 @@ export function CreatePage() {
   const theme = useTheme();
   const router = useRouter();
   const me = useUserAuthMeContext();
-  const meChannel = me.isLoggedIn ? useChannelMeListContext() : [];
+  const channelMe = me.isLoggedIn ? useChannelMeListContext() : [];
   const isFirstMount = useFirstMountState();
 
   if (isFirstMount && !me.isLoggedIn) {
@@ -32,7 +32,7 @@ export function CreatePage() {
           noValidate
         >
           <Stack spacing={3}>
-            {meChannel.length > 5 ? (
+            {channelMe.length > 5 ? (
               <Box
                 sx={{
                   display: "flex",

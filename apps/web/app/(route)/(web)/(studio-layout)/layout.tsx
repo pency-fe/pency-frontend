@@ -1,8 +1,8 @@
-import { HomeHeaderLayout } from "./_layout/layout";
 import { getQueryClient } from "(route)/get-query-client";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { cookies } from "next/headers";
 import { channelMeKeys, ChannelMeListProvider } from "_core/channel";
+import { cookies } from "next/headers";
+import { StudioLayout } from "./_layout/layout";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
@@ -14,7 +14,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <ChannelMeListProvider>
-        <HomeHeaderLayout>{children}</HomeHeaderLayout>
+        <StudioLayout>{children}</StudioLayout>
       </ChannelMeListProvider>
     </HydrationBoundary>
   );

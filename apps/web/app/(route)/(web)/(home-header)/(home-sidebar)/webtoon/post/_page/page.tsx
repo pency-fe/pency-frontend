@@ -14,7 +14,7 @@ import { LatestSection } from "./latest-section";
 import { PopularSection } from "./popular-section";
 import { WeekPopularSection } from "./week-popular-section";
 
-export default function PostPage() {
+export function PostPage() {
   return (
     <Stack spacing={5}>
       <Stack spacing={1.5}>

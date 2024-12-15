@@ -35,7 +35,7 @@ import { userProfileMeKeys } from "_core/user-profile";
 
 export function UserProfile() {
   const theme = useTheme();
-  const meChannel = useChannelMeListContext();
+  const channelMe = useChannelMeListContext();
   const { mutate: logout } = useLogout();
 
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
@@ -134,7 +134,7 @@ export function UserProfile() {
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  if (meChannel.length < 5) {
+                  if (channelMe.length < 5) {
                     toggle(false);
                     router.push("/channel/create");
                   } else {
@@ -182,14 +182,14 @@ type ChannelMeListProps = {
 
 function ChannelMeList({ toggle }: ChannelMeListProps) {
   const theme = useTheme();
-  const meChannel = useChannelMeListContext();
+  const channelMe = useChannelMeListContext();
 
   return (
     <>
-      {meChannel.length > 0 ? (
+      {channelMe.length > 0 ? (
         <>
           <List>
-            {meChannel.map((channel) => (
+            {channelMe.map((channel) => (
               <ListItem key={channel.id} sx={{ display: "flex", alignItems: "center" }}>
                 <ButtonBase
                   disableRipple
