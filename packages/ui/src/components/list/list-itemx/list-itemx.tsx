@@ -1,13 +1,12 @@
 "use client";
 
-import { iconAlignCenter, maxLine, varAlpha } from "@/util";
+import { iconAlignCenter, maxLine } from "@/util";
 import { Box, BoxProps, ButtonBase, ButtonBaseProps, Typography, TypographyProps, useTheme } from "@mui/material";
 import { forwardRef, ReactElement } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
 import { Label } from "../../label";
 import { listItemxClasses } from "./list-itemx-classes";
-import { BrandPencyTextIcon } from "@/components/svg";
 
 // ----------------------------------------------------------------------
 
@@ -172,36 +171,18 @@ const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...re
 type ImageFnProps = Omit<BoxProps<"img", LazyLoadImageProps>, "children" | "src"> & { src?: string | null };
 
 const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, ref) => {
-  const theme = useTheme();
   return (
-    <>
-      {src ? (
-        <Box
-          ref={ref}
-          src={src ?? process.env["NEXT_PUBLIC_TEXT_LOGO"]}
-          component={LazyLoadImage}
-          {...rest}
-          sx={{
-            width: 1,
-            objectFit: "cover",
-            ...rest.sx,
-          }}
-        />
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: 1,
-            height: 1,
-            bgcolor: varAlpha(theme.vars.palette.grey["500Channel"], 0.16),
-          }}
-        >
-          <BrandPencyTextIcon sx={{ width: "50%" }} />
-        </Box>
-      )}
-    </>
+    <Box
+      ref={ref}
+      src={src ?? process.env["NEXT_PUBLIC_TEXT_LOGO"]}
+      component={LazyLoadImage}
+      {...rest}
+      sx={{
+        width: 1,
+        objectFit: "cover",
+        ...rest.sx,
+      }}
+    />
   );
 });
 

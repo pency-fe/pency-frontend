@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries, useToggle, zodObjectKeys } from "@pency/util";
-import { BrandPencyTextIcon, RadioButton, toast } from "@pency/ui/components";
+import { RadioButton, toast } from "@pency/ui/components";
 import { varAlpha } from "@pency/ui/util";
 import { getUploadImageUrl } from "_core/common";
 import ky from "ky";
@@ -650,22 +650,11 @@ const ThumbnailFn = () => {
             overflow: "hidden",
           }}
         >
-          {thumbnail ? (
-            <Box component="img" src={thumbnail} sx={{ width: 1, height: 1, objectFit: "cover" }} />
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: 1,
-                height: 1,
-                bgcolor: varAlpha(theme.vars.palette.grey["500Channel"], 0.16),
-              }}
-            >
-              <BrandPencyTextIcon sx={{ width: "25%", height: "auto" }} />
-            </Box>
-          )}
+          <Box
+            component="img"
+            src={thumbnail ?? process.env["NEXT_PUBLIC_TEXT_LOGO"]}
+            sx={{ width: 1, height: 1, objectFit: "cover" }}
+          />
         </Box>
 
         <Stack direction="row" alignItems="center">

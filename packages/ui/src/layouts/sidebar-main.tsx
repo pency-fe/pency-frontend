@@ -1,8 +1,8 @@
 "use client";
 
 import { Box, Container, useTheme } from "@mui/material";
-import { Header } from "./header";
-import { Sidebar } from "./sidebar";
+import { headerTokens } from "./header";
+import { sidebarTokens } from "./sidebar";
 
 type SidebarMainProps = {
   slots?: {
@@ -19,17 +19,17 @@ export const SidebarMain = ({ slots, children }: SidebarMainProps) => {
         flex: "1 1 auto",
         display: "flex",
         flexDirection: "column",
-        mt: `var(${Header.token.height})`,
-        [theme.breakpoints.up("lg")]: { mt: `var(${Header.token.upSmHeight})` },
+        mt: `var(${headerTokens.height})`,
+        [theme.breakpoints.up("lg")]: { mt: `var(${headerTokens.upSmHeight})` },
         transition: theme.transitions.create(["padding-left"], {
-          easing: `var(${Sidebar.token.easing})`,
-          duration: `var(${Sidebar.token.duration})`,
+          easing: `var(${sidebarTokens.easing})`,
+          duration: `var(${sidebarTokens.duration})`,
         }),
         [theme.breakpoints.up("sm")]: {
-          pl: `var(${Sidebar.token.upSmWidth})`,
+          pl: `var(${sidebarTokens.upSmWidth})`,
         },
         [theme.breakpoints.up("lg")]: {
-          pl: `var(${Sidebar.token.upLgWidth})`,
+          pl: `var(${sidebarTokens.upLgWidth})`,
         },
       }}
     >

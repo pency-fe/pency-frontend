@@ -3,12 +3,12 @@
 import { AppBar, AppBarProps, Box, Container, GlobalStyles, Toolbar, useTheme } from "@mui/material";
 import { forwardRef, PropsWithoutRef } from "react";
 
-const token = {
+export const headerTokens = {
   height: "--layout-header-height",
   upSmHeight: "--layout-header-up-sm-height",
 };
 
-type HeaderFnProps = PropsWithoutRef<AppBarProps> & {
+type HeaderProps = PropsWithoutRef<AppBarProps> & {
   slots?: {
     left?: React.ReactNode;
     center?: React.ReactNode;
@@ -16,7 +16,7 @@ type HeaderFnProps = PropsWithoutRef<AppBarProps> & {
   };
 };
 
-const HeaderFn = forwardRef<HTMLHeadElement, HeaderFnProps>(({ slots }, ref) => {
+export const Header = forwardRef<HTMLHeadElement, HeaderProps>(({ slots }, ref) => {
   const theme = useTheme();
 
   return (
@@ -24,8 +24,8 @@ const HeaderFn = forwardRef<HTMLHeadElement, HeaderFnProps>(({ slots }, ref) => 
       <GlobalStyles
         styles={{
           body: {
-            [token.height]: "52px",
-            [token.upSmHeight]: "56px",
+            [headerTokens.height]: "52px",
+            [headerTokens.upSmHeight]: "56px",
           },
         }}
       />
@@ -34,7 +34,7 @@ const HeaderFn = forwardRef<HTMLHeadElement, HeaderFnProps>(({ slots }, ref) => 
           disableGutters
           sx={{
             minHeight: "auto",
-            height: `var(${token.height})`,
+            height: `var(${headerTokens.height})`,
             transition: theme.transitions.create(["height"], {
               easing: theme.transitions.easing.easeInOut,
               duration: theme.transitions.duration.shorter,
@@ -43,7 +43,7 @@ const HeaderFn = forwardRef<HTMLHeadElement, HeaderFnProps>(({ slots }, ref) => 
 
             [theme.breakpoints.up("sm")]: {
               minHeight: "auto",
-              height: `var(${token.upSmHeight})`,
+              height: `var(${headerTokens.upSmHeight})`,
             },
           }}
         >
@@ -64,5 +64,3 @@ const HeaderFn = forwardRef<HTMLHeadElement, HeaderFnProps>(({ slots }, ref) => 
     </>
   );
 });
-
-export const Header = Object.assign(HeaderFn, { token });

@@ -1,12 +1,13 @@
 "use client";
 
 import { Box, GlobalStyles, useTheme } from "@mui/material";
-import { Header } from "./header";
+import { headerTokens } from "./header";
 import { miniNavClasses, navClasses } from "@/components";
+import { sidebarClasses } from "./classes";
 
 // ----------------------------------------------------------------------
 
-const token = {
+export const sidebarTokens = {
   easing: "--layout-sidebar-easing",
   duration: "--layout-sidebar-duration",
   upSmWidth: "--layout-sidebar-up-sm-width",
@@ -15,14 +16,14 @@ const token = {
 
 // ----------------------------------------------------------------------
 
-type SidebarFnProps = {
+type SidebarProps = {
   slots: {
     nav: React.ReactElement;
     miniNav: React.ReactElement;
   };
 };
 
-function SidebarFn({ slots }: SidebarFnProps) {
+export function Sidebar({ slots }: SidebarProps) {
   const theme = useTheme();
 
   return (
@@ -30,14 +31,15 @@ function SidebarFn({ slots }: SidebarFnProps) {
       <GlobalStyles
         styles={{
           body: {
-            [token.easing]: "linear",
-            [token.duration]: "120ms",
-            [token.upSmWidth]: "88px",
-            [token.upLgWidth]: "300px",
+            [sidebarTokens.easing]: "linear",
+            [sidebarTokens.duration]: "120ms",
+            [sidebarTokens.upSmWidth]: "88px",
+            [sidebarTokens.upLgWidth]: "300px",
           },
         }}
       />
       <Box
+        className={sidebarClasses.root}
         sx={{
           position: "fixed",
           zIndex: 1101,
@@ -48,8 +50,8 @@ function SidebarFn({ slots }: SidebarFnProps) {
           mt: theme.spacing(1),
           bgcolor: theme.vars.palette.background.default,
           transition: theme.transitions.create(["width"], {
-            easing: `var(${token.easing})`,
-            duration: `var(${token.duration})`,
+            easing: `var(${sidebarTokens.easing})`,
+            duration: `var(${sidebarTokens.duration})`,
           }),
           [theme.breakpoints.down("sm")]: {
             [`& .${miniNavClasses.root}`]: {
@@ -57,9 +59,9 @@ function SidebarFn({ slots }: SidebarFnProps) {
             },
           },
           [theme.breakpoints.up("sm")]: {
-            top: `var(${Header.token.upSmHeight})`,
+            top: `var(${headerTokens.upSmHeight})`,
             display: "flex",
-            width: `var(${token.upSmWidth})`,
+            width: `var(${sidebarTokens.upSmWidth})`,
             px: theme.spacing(0.5),
           },
 
@@ -69,7 +71,7 @@ function SidebarFn({ slots }: SidebarFnProps) {
             },
           },
           [theme.breakpoints.up("lg")]: {
-            width: `var(${token.upLgWidth})`,
+            width: `var(${sidebarTokens.upLgWidth})`,
             px: theme.spacing(2),
             [`& .${miniNavClasses.root}`]: {
               display: "none",
@@ -83,5 +85,3 @@ function SidebarFn({ slots }: SidebarFnProps) {
     </>
   );
 }
-
-export const Sidebar = Object.assign(SidebarFn, { token });

@@ -1,8 +1,8 @@
 "use client";
 
 import { Container, ContainerProps, useTheme } from "@mui/material";
-import { Header } from "./header";
 import { useMemo } from "react";
+import { headerTokens } from "./header";
 
 type Props = ContainerProps & { variant?: "compact" | "simple" };
 
@@ -27,8 +27,8 @@ export function Main({ variant = "simple", ...rest }: Props) {
         maxWidth: maxWidth,
         pt: theme.spacing(1),
         pb: theme.spacing(8),
-        mt: `var(${Header.token.height})`,
-        [theme.breakpoints.up("lg")]: { maxWidth: maxWidth, mt: `var(${Header.token.upSmHeight})` },
+        mt: `var(${headerTokens.height})`,
+        [theme.breakpoints.up("lg")]: { maxWidth: maxWidth, mt: `var(${headerTokens.upSmHeight})` },
         ...rest.sx,
       }}
     />
