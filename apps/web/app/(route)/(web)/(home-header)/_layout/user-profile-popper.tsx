@@ -148,7 +148,6 @@ export function UserProfile() {
 
 // ----------------------------------------------------------------------
 type ChannelMeListProps = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   toggle: (nextValue?: any) => void;
 };
 
