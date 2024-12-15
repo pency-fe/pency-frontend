@@ -1,11 +1,9 @@
 "use client";
 
-import { Box, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { EvaHeartOutlineIcon, ListItemx, ListItemxCarousel, NineteenCircleIcon } from "@pency/ui/components";
 
 export function RankSection() {
-  const theme = useTheme();
-  const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const postData = {
     id: 123,
     thumbnail:
@@ -25,8 +23,8 @@ export function RankSection() {
         <Box sx={{ display: "flex", gap: 1 }}>
           <Typography variant="h4">포스트 랭킹</Typography>
           <Box sx={{ display: "flex", gap: 1, ml: "auto" }}>
-            <ListItemxCarousel.PrevNav size={isUpMd ? "medium" : "small"} />
-            <ListItemxCarousel.NextNav size={isUpMd ? "medium" : "small"} />
+            <ListItemxCarousel.PrevNav />
+            <ListItemxCarousel.NextNav />
           </Box>
         </Box>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import NextLink from "next/link";
 import { stylesColorScheme } from "@pency/ui/util";
@@ -10,7 +10,7 @@ import { WT_Post_OverviewCarousel } from "_core/webtoon/post";
 
 export function LatestSection() {
   const theme = useTheme();
-  const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
+
   const searchParams = useSearchParams();
 
   const genreParam = useMemo(() => {
@@ -41,8 +41,8 @@ export function LatestSection() {
             >
               더 보기
             </Button>
-            <WT_Post_OverviewCarousel.PrevNav size={isUpMd ? "medium" : "small"} />
-            <WT_Post_OverviewCarousel.NextNav size={isUpMd ? "medium" : "small"} />
+            <WT_Post_OverviewCarousel.PrevNav />
+            <WT_Post_OverviewCarousel.NextNav />
           </Stack>
         </Box>
         <WT_Post_OverviewCarousel.Container genre={genreParam} sort={"LATEST"} page={1} />

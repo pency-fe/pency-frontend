@@ -10,7 +10,6 @@ import {
   avatarClasses,
   IconButton,
   Stack,
-  useMediaQuery,
   useTheme,
   Link,
 } from "@mui/material";
@@ -238,7 +237,6 @@ function PostPrevNext() {
 
 function OtherPostOfAuthor() {
   const theme = useTheme();
-  const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
 
   const postData = {
     id: 123,
@@ -285,8 +283,8 @@ function OtherPostOfAuthor() {
             더 보기
           </Button>
           <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
-            <OverviewCardCarousel.PrevNav size={isUpMd ? "medium" : "small"} />
-            <OverviewCardCarousel.NextNav size={isUpMd ? "medium" : "small"} />
+            <OverviewCardCarousel.PrevNav />
+            <OverviewCardCarousel.NextNav />
           </Stack>
         </Box>
 
