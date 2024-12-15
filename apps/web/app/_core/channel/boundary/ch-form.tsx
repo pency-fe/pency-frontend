@@ -91,7 +91,7 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   const router = useRouter();
   const { mutate } = useCreateChannel();
 
-  const { handleSubmit, setError } = useFormContext<Schema>();
+  const { handleSubmit, setError, trigger, getFieldState } = useFormContext<Schema>();
 
   const onSubmit = (data: Schema) => {
     mutate(data, {
@@ -108,13 +108,33 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
     });
   };
 
+  const onErrorSubmit = async () => {
+    const names = ["title", "url"] as const;
+
+    const isValidate = await trigger(names);
+    if (!isValidate) {
+      for (const name of names) {
+        if (getFieldState(name).error) {
+          document.getElementsByName(name)[0]?.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+      }
+    }
+  };
+
   // 1. 새 채널 만들기를 클릭했잖아.
   // 2. 성공, 실패가 있는거네. -> 성공을 다루는 코드는 onSubmit으로 작성했다.
   // 3. 실패를 다루는 코드가 필요하다.
   // 에러가 있을 경우, 에러가 있는 첫 번째 위치로 스크롤 이동
 
   return (
-    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(onSubmit)} {...props}>
+    <Button
+      type="submit"
+      variant="contained"
+      color="primary"
+      onClick={handleSubmit(onSubmit, onErrorSubmit)}
+      {...props}
+    >
       새 채널 만들기
     </Button>
   );
