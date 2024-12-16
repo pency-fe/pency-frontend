@@ -4,12 +4,16 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { cookies } from "next/headers";
 import { channelMeKeys, ChannelMeListProvider } from "_core/channel";
 import { UserProfileMeListProvider } from "_core/user-profile/provider";
+import { userProfileMeKeys } from "_core/user-profile";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
 
-  if (cookies().get("pency-uupid")) {
-    await queryClient.prefetchQuery(channelMeKeys.list({ headers: { Cookie: cookies().toString() } }));
+  if (cookies().has("pency-uupid")) {
+    await Promise.all([
+      queryClient.prefetchQuery(channelMeKeys.list({ headers: { Cookie: cookies().toString() } })),
+      queryClient.prefetchQuery(userProfileMeKeys.list({ headers: { Cookie: cookies().toString() } })),
+    ]);
   }
 
   return (

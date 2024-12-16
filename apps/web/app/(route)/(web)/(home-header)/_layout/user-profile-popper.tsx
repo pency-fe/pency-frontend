@@ -64,7 +64,7 @@ export function UserProfile() {
         slotProps={{
           paper: {
             sx: {
-              maxWidth: 360,
+              width: "min(100vw, 360px)",
               minHeight: 400,
               px: "8px",
               py: "6px",

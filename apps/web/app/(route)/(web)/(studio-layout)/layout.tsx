@@ -7,7 +7,7 @@ import { StudioLayout } from "./_layout/layout";
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
 
-  if (cookies().get("pency-uupid")) {
+  if (cookies().has("pency-uupid")) {
     await queryClient.prefetchQuery(channelMeKeys.list({ headers: { Cookie: cookies().toString() } }));
   }
 

@@ -1,4 +1,9 @@
 import { api } from "_core/api";
+import { Options } from "ky";
+
+/** **************************************
+ * user-profile-me
+ *************************************** */
 
 // ----------------------------------------------------------------------
 
@@ -9,8 +14,8 @@ type UserProfileMeListRes = Array<{
   image: string;
 }>;
 
-export const getUserProfileMeList = async () => {
-  return await api.get<UserProfileMeListRes>("user-profile/me/list").json();
+export const getUserProfileMeList = async (option?: Options) => {
+  return await api.get<UserProfileMeListRes>("user-profile/me/list", option).json();
 };
 
 // ----------------------------------------------------------------------
