@@ -29,6 +29,7 @@ export * from "./gravity-ui-circle-check-fill-icon";
 export * from "./ic-outline-email-icon";
 export * from "./ic-round-refresh-icon";
 export * from "./ic-round-search-icon";
+export * from "./ic-round-settings-icon";
 export * from "./material-symbols-block-icon";
 export * from "./material-symbols-chat-bubble-outline";
 export * from "./material-symbols-close-icon";

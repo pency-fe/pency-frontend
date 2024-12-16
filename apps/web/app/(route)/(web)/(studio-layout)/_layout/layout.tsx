@@ -1,31 +1,31 @@
 "use client";
 
-import { Header } from "@pency/ui/layouts";
+import { Header, Sidebar, SidebarMain } from "@pency/ui/layouts";
 import { isClient, useFirstMountState } from "@pency/util";
 import { useChannelMeListContext } from "_core/channel";
 import { useUserAuthMeContext } from "_core/user";
 import { redirect, useParams, useRouter } from "next/navigation";
 import { useMemo } from "react";
+import { StudioSidebarNav } from "./studio-sidebar-nav";
+import { StudioSidebarMiniNav } from "./studio-sidebar-mini-nav";
 
 export function StudioLayout({ children }: { children: React.ReactNode }) {
   const me = useUserAuthMeContext();
-  const channelMe = me.isLoggedIn ? useChannelMeListContext() : [];
-  const router = useRouter();
-  const isFirstMount = useFirstMountState();
-  const params = useParams();
-
-  const channelUrl = useMemo(() => {}, [params]);
+  // const channelMe = me.isLoggedIn ? useChannelMeListContext() : [];
+  // const router = useRouter();
+  // const isFirstMount = useFirstMountState();
+  const channelUrl = useParams<{ channelUrl: string }>()["channelUrl"];
 
   console.log(channelUrl);
 
-  if (isFirstMount && !me.isLoggedIn) {
-    if (isClient()) {
-      router.push("/login");
-      return;
-    } else {
-      redirect("/login");
-    }
-  }
+  // if (isFirstMount && !me.isLoggedIn) {
+  //   if (isClient()) {
+  //     router.push("/login");
+  //     return;
+  //   } else {
+  //     redirect("/login");
+  //   }
+  // }
 
   // if (
   //   isFirstMount &&
@@ -44,6 +44,8 @@ export function StudioLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
+      <Sidebar slots={{ nav: <StudioSidebarNav />, miniNav: <StudioSidebarMiniNav /> }} />
+      <SidebarMain>{children}</SidebarMain>
     </>
   );
 }
