@@ -20,10 +20,15 @@ export const WT_Post_OverviewCarousel = Object.assign(
   },
 );
 
-type WT_Post_OverviewCarousel_Fn_Props = Parameters<typeof wtPostKeys.list>[0];
+type WT_Post_OverviewCarousel_Fn_Props = Required<
+  Omit<Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>, "sort" | "page" | "creationTypes" | "pairs">
+>;
 
-function WT_Post_OverviewCarousel_Fn({ genre, sort, page }: WT_Post_OverviewCarousel_Fn_Props) {
-  const { status, data } = useQuery({ ...wtPostKeys.list({ genre, sort, page }), throwOnError: true });
+function WT_Post_OverviewCarousel_Fn({ genre }: WT_Post_OverviewCarousel_Fn_Props) {
+  const { status, data } = useQuery({
+    ...wtPostKeys.page({ genre }),
+    throwOnError: true,
+  });
 
   if (status !== "success") {
     return <Loading />;
@@ -34,7 +39,7 @@ function WT_Post_OverviewCarousel_Fn({ genre, sort, page }: WT_Post_OverviewCaro
       slots={{
         slides: (
           <>
-            {data.map((post, i) => (
+            {data.posts.map((post, i) => (
               <OverviewCardCarousel.Slide key={i}>
                 <WT_Post_OverviewCard data={post} hideGenre={genre !== "ALL"} />
               </OverviewCardCarousel.Slide>

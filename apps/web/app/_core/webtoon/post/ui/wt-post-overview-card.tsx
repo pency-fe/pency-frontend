@@ -17,7 +17,8 @@ type Props = {
     genre: Genre;
     title: string;
     channel: {
-      channelUrl: string;
+      id: number;
+      url: string;
       image: string;
       title: string;
     };
