@@ -73,6 +73,7 @@ export function UserProfile() {
         }}
       >
         <Stack>
+          <UserProfileMe toggle={toggle} />
           <ChannelMeList toggle={toggle} />
           <List>
             <ListItem disablePadding>
@@ -147,6 +148,19 @@ export function UserProfile() {
 
 // ----------------------------------------------------------------------
 
+<<<<<<< HEAD
+=======
+type UserProfileMeProps = {
+  toggle: (nextValue?: any) => void;
+};
+
+function UserProfileMe({ toggle }: UserProfileMeProps) {
+  return <></>;
+}
+
+// ----------------------------------------------------------------------
+
+>>>>>>> a3f7e51 (.)
 type ChannelMeListProps = {
   toggle: (nextValue?: any) => void;
 };
