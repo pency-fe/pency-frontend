@@ -30,22 +30,13 @@ import {
 } from "@pency/ui/components";
 import { useChannelMeListContext } from "_core/channel";
 import { useLogout } from "_core/user";
-import { useQuery } from "@tanstack/react-query";
-import { userProfileMeKeys } from "_core/user-profile";
 
 export function UserProfile() {
-  const theme = useTheme();
   const channelMe = useChannelMeListContext();
   const { mutate: logout } = useLogout();
 
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
   const router = useRouter();
-
-  const { data } = useQuery({
-    ...userProfileMeKeys.list(),
-  });
-
-  const userProfileMe = data;
 
   return (
     <>
@@ -73,7 +64,6 @@ export function UserProfile() {
         slotProps={{
           paper: {
             sx: {
-              width: 360,
               maxWidth: 360,
               minHeight: 400,
               px: "8px",
@@ -83,26 +73,6 @@ export function UserProfile() {
         }}
       >
         <Stack>
-          <List>
-            <ListItem key={userProfileMe?.id} sx={{ display: "flex", alignItems: "center" }}>
-              <ButtonBase
-                disableRipple
-                component={NextLink}
-                href={`/profile/@${userProfileMe?.url}`}
-                onClick={() => {
-                  toggle(false);
-                }}
-                sx={{ position: "absolute", inset: 0, zIndex: 1 }}
-              />
-              <ListItemAvatar>
-                <Avatar
-                  src={userProfileMe?.image ?? process.env["NEXT_PUBLIC_LOGO"]}
-                  sx={{ width: 32, height: 32, borderRadius: 1 }}
-                />
-              </ListItemAvatar>
-              <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{userProfileMe?.nickname}</ListItemText>
-            </ListItem>
-          </List>
           <ChannelMeList toggle={toggle} />
           <List>
             <ListItem disablePadding>
