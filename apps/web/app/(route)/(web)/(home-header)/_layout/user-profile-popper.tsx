@@ -16,6 +16,7 @@ import {
   ListItemIcon,
   ListItemText,
   Stack,
+  Typography,
   useTheme,
 } from "@mui/material";
 import {
@@ -201,7 +202,9 @@ function UserProfileMeList() {
                 sx={{ width: 24, height: 24, mx: 0.5 }}
               />
             </ListItemAvatar>
-            <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{profile.nickname}</ListItemText>
+            <ListItemText sx={{ color: theme.vars.palette.text.primary }}>
+              <Typography variant="body1">{profile.nickname}</Typography>
+            </ListItemText>
           </ListItemButton>
         </ListItem>
       ))}
