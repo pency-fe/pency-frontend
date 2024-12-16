@@ -1,16 +1,12 @@
-import { getQueryClient } from "(route)/get-query-client";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { channelMeKeys, ChannelMeListProvider } from "_core/channel";
 import { cookies } from "next/headers";
-import { StudioLayout } from "./_layout/layout";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { getQueryClient } from "(route)/get-query-client";
+import { channelMeKeys, ChannelMeListProvider } from "_core/channel";
 import { SelectedUserProfileProvider, userProfileMeKeys, UserProfileMeListProvider } from "_core/user-profile";
+import { StudioLayout } from "./_layout/layout";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
-
-  // notfound
-
-  // 권환이 없다.
 
   if (cookies().has("pency-uupid")) {
     await Promise.all([

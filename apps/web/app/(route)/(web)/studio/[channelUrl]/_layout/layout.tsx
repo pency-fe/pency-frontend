@@ -4,7 +4,7 @@ import { Header, Sidebar, SidebarMain } from "@pency/ui/layouts";
 import { isClient, useFirstMountState } from "@pency/util";
 import { useChannelMeListContext } from "_core/channel";
 import { useUserAuthMeContext } from "_core/user";
-import { redirect, useParams, useRouter } from "next/navigation";
+import { notFound, redirect, useParams, useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { StudioSidebarNav } from "./studio-sidebar-nav";
 import { StudioSidebarMiniNav } from "./studio-sidebar-mini-nav";
@@ -16,7 +16,15 @@ export function StudioLayout({ children }: { children: React.ReactNode }) {
   // const isFirstMount = useFirstMountState();
   const channelUrl = useParams<{ channelUrl: string }>()["channelUrl"];
 
-  console.log(channelUrl);
+  const decodedChannelUrl = useMemo(() => {
+    return decodeURIComponent(channelUrl);
+  }, [channelUrl]);
+
+  if (!decodedChannelUrl.startsWith("@")) {
+    notFound();
+  }
+
+  // console.log(channelUrl);
 
   // if (isFirstMount && !me.isLoggedIn) {
   //   if (isClient()) {
