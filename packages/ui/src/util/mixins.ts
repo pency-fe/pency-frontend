@@ -178,6 +178,7 @@ export function maxLine({ line, persistent }: MaxLineProps): CSSObject {
     textOverflow: "ellipsis",
     WebkitLineClamp: line,
     WebkitBoxOrient: "vertical",
+    overflowWrap: "anywhere",
   };
 
   if (persistent) {
