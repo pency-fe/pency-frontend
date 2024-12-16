@@ -2,8 +2,11 @@
 
 import NextLink from "next/link";
 import { IcRoundSettingsIcon, Nav } from "@pency/ui/components";
+import { useChannelUrlParam } from "_hooks";
 
 export function StudioSidebarNav() {
+  const channelUrl = useChannelUrlParam();
+
   return (
     <Nav>
       <Nav.Tree>
@@ -11,7 +14,7 @@ export function StudioSidebarNav() {
           component={NextLink}
           label="설정"
           icon={<IcRoundSettingsIcon />}
-          href="/studio/@채널url/setting"
+          href={`/studio/${channelUrl}/setting`}
         />
       </Nav.Tree>
     </Nav>

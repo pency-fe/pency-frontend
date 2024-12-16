@@ -1,53 +1,40 @@
 "use client";
 
+import { notFound } from "next/navigation";
 import { Header, Sidebar, SidebarMain } from "@pency/ui/layouts";
-import { isClient, useFirstMountState } from "@pency/util";
 import { useChannelMeListContext } from "_core/channel";
 import { useUserAuthMeContext } from "_core/user";
-import { notFound, redirect, useParams, useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useChannelUrlParam } from "_hooks";
+import { AccessDenied } from "_views";
 import { StudioSidebarNav } from "./studio-sidebar-nav";
 import { StudioSidebarMiniNav } from "./studio-sidebar-mini-nav";
 
 export function StudioLayout({ children }: { children: React.ReactNode }) {
   const me = useUserAuthMeContext();
-  // const channelMe = me.isLoggedIn ? useChannelMeListContext() : [];
-  // const router = useRouter();
-  // const isFirstMount = useFirstMountState();
-  const channelUrl = useParams<{ channelUrl: string }>()["channelUrl"];
+  const channelMeList = me.isLoggedIn ? useChannelMeListContext() : [];
+  const channelUrl = useChannelUrlParam();
 
-  const decodedChannelUrl = useMemo(() => {
-    return decodeURIComponent(channelUrl);
-  }, [channelUrl]);
-
-  if (!decodedChannelUrl.startsWith("@")) {
+  if (!channelUrl.startsWith("@")) {
     notFound();
   }
 
-  // console.log(channelUrl);
+  // 프로필 포스타입처럼 만들고 싶어. (목표) -> 이부분을!!!!
+  // 1. 문제가 뭔지를 모르는 상태로 해결하려고 해.
 
-  // if (isFirstMount && !me.isLoggedIn) {
-  //   if (isClient()) {
-  //     router.push("/login");
-  //     return;
-  //   } else {
-  //     redirect("/login");
-  //   }
-  // }
+  // 문제를 잘 찾았어. 목표를 잘 찾았어. -> 설계 (제일 중요해...)
+  // 문법의 문제를 찾은 다음에. -> 왜 문제인지 생각하고 ->
+  // 그 이후에 코드를 어떻게 짤지 생각(머리 속으로 생각x) 적어!!
+  // a4 용지 이틀에 한 번 꼴로 쓴다.
 
-  // if (
-  //   isFirstMount &&
-  //   (channelMe.length === 0 || !channelMe.some((channel) => channel.url === decodeURIComponent(channelUrl as string)))
-  // ) {
-  //   if (isClient()) {
-  //     // 권한이 없습니다.
-  //     router.push("/");
-  //     return;
-  //   } else {
-  //     // 권한이 없습니다.
-  //     redirect("/");
-  //   }
-  // }
+  // 현지는 항상 결과만 중요해....
+
+  // 센스가 부족하고, 생각이 부족하다.
+  // 키우기 위해서는 현지가 노력하는 수 밖에 없어. -> 현지의 모든 이상한 습관들 버리는거.
+  //
+
+  if (channelMeList.length === 0 || !channelMeList.some((channel) => channel.url === channelUrl.slice(1))) {
+    return <AccessDenied />;
+  }
 
   return (
     <>

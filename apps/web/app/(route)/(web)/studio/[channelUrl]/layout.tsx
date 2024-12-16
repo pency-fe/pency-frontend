@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getQueryClient } from "(route)/get-query-client";
 import { channelMeKeys, ChannelMeListProvider } from "_core/channel";
-import { SelectedUserProfileProvider, userProfileMeKeys, UserProfileMeListProvider } from "_core/user-profile";
+import { SelectedUserProfileMeProvider, userProfileMeKeys, UserProfileMeListProvider } from "_core/user-profile";
 import { StudioLayout } from "./_layout/layout";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
@@ -18,11 +18,11 @@ export default async function Layout({ children }: { children: React.ReactNode }
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <UserProfileMeListProvider>
-        <SelectedUserProfileProvider>
+        <SelectedUserProfileMeProvider>
           <ChannelMeListProvider>
             <StudioLayout>{children}</StudioLayout>
           </ChannelMeListProvider>
-        </SelectedUserProfileProvider>
+        </SelectedUserProfileMeProvider>
       </UserProfileMeListProvider>
     </HydrationBoundary>
   );
