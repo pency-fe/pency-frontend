@@ -30,6 +30,7 @@ import {
 } from "@pency/ui/components";
 import { useChannelMeListContext } from "_core/channel";
 import { useLogout } from "_core/user";
+import { useUserProfileMeListContext } from "_core/user-profile";
 
 export function UserProfile() {
   const channelMe = useChannelMeListContext();
@@ -148,19 +149,45 @@ export function UserProfile() {
 
 // ----------------------------------------------------------------------
 
-<<<<<<< HEAD
-=======
 type UserProfileMeProps = {
   toggle: (nextValue?: any) => void;
 };
 
 function UserProfileMe({ toggle }: UserProfileMeProps) {
-  return <></>;
+  const theme = useTheme();
+  const userProfileMeList = useUserProfileMeListContext();
+
+  return (
+    <>
+      <List>
+        {userProfileMeList.map((profile) => (
+          <ListItem key={profile.id} sx={{ display: "flex", alignItems: "center" }}>
+            <ButtonBase
+              disableRipple
+              component={NextLink}
+              href={`/profile/@${profile.url}`}
+              onClick={() => {
+                toggle(false);
+              }}
+              sx={{ position: "absolute", inset: 0, zIndex: 1 }}
+            />
+            <ListItemAvatar>
+              <Avatar
+                src={profile.image ?? process.env["NEXT_PUBLIC_LOGO"]}
+                sx={{ width: 32, height: 32, borderRadius: 1 }}
+              />
+            </ListItemAvatar>
+            <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{profile.nickname}</ListItemText>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+    </>
+  );
 }
 
 // ----------------------------------------------------------------------
 
->>>>>>> a3f7e51 (.)
 type ChannelMeListProps = {
   toggle: (nextValue?: any) => void;
 };
