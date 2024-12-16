@@ -10,10 +10,11 @@ import {
   Menux,
 } from "@pency/ui/components";
 import { createQueryString, objectEntries } from "@pency/util";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { WT_Post_Channel_RichList } from "_core/webtoon/post";
 import { usePaginationx } from "@pency/ui/hooks";
+import { useChannelUrlParam } from "_hooks";
 
 // ----------------------------------------------------------------------
 
@@ -37,11 +38,7 @@ export function WebtoonPage() {
   const searchParams = useSearchParams();
   const theme = useTheme();
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
-
-  const { channelUrl } = useParams();
-  const decodedChannelUrl = useMemo(() => {
-    return decodeURIComponent(channelUrl as string);
-  }, [channelUrl]);
+  const channelUrl = useChannelUrlParam();
 
   const contents = useMemo(() => objectEntries(CONTENT_VALUE_LABEL), []);
   const sorts = useMemo(() => objectEntries(SORT_LABEL), []);
@@ -85,7 +82,7 @@ export function WebtoonPage() {
                 href={(() => {
                   const params = new URLSearchParams(searchParams.toString());
                   params.set("content", content);
-                  return `/${decodedChannelUrl}/webtoon${createQueryString(params)}`;
+                  return `/${channelUrl}/webtoon${createQueryString(params)}`;
                 })()}
                 sx={{ flexShrink: 0 }}
               >
@@ -129,7 +126,7 @@ export function WebtoonPage() {
                 <MenuItem
                   key={sort}
                   component={NextLink}
-                  href={`/${decodedChannelUrl}/webtoon${createQueryString(params)}`}
+                  href={`/${channelUrl}/webtoon${createQueryString(params)}`}
                   selected={sortParam === sort}
                   onClick={close}
                 >
@@ -140,7 +137,7 @@ export function WebtoonPage() {
           </Menux>
         </Box>
       </Box>
-      <WT_Post_Channel_RichList channelUrl={decodedChannelUrl} sort={sortParam} page={pageParam} />
+      <WT_Post_Channel_RichList channelUrl={channelUrl} sort={sortParam} page={pageParam} />
       <Box sx={{ margin: "auto", mt: 3 }}>
         <Pagination />
       </Box>
@@ -149,10 +146,7 @@ export function WebtoonPage() {
 }
 
 function Pagination() {
-  const { channelUrl } = useParams();
-  const decodedChannelUrl = useMemo(() => {
-    return decodeURIComponent(channelUrl as string);
-  }, [channelUrl]);
+  const channelUrl = useChannelUrlParam();
 
   const searchParams = useSearchParams();
   const pageParam = useMemo(() => {
@@ -173,7 +167,7 @@ function Pagination() {
         return (
           <PaginationItem
             component={NextLink}
-            href={`/${decodedChannelUrl}/webtoon${createQueryString(params)}`}
+            href={`/${channelUrl}/webtoon${createQueryString(params)}`}
             {...pagination}
           />
         );

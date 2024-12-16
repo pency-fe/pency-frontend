@@ -3,11 +3,12 @@
 import NextLink from "next/link";
 import { Stack, Box, Typography, RadioGroup, Button, useTheme } from "@mui/material";
 import { RadioButton } from "@pency/ui/components";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { objectEntries } from "@pency/util";
 import { WT_Post_Channel_RichCarousel } from "_core/webtoon/post";
 import { stylesColorScheme } from "@pency/ui/util";
+import { useChannelUrlParam } from "_hooks";
 
 // ----------------------------------------------------------------------
 
@@ -22,13 +23,8 @@ const WEBTOON_VALUE_LABEL: Record<webtoonValue, string> = {
 
 export function WebtoonSection() {
   const theme = useTheme();
-
   const searchParams = useSearchParams();
-
-  const { channelUrl } = useParams();
-  const decodedChannelUrl = useMemo(() => {
-    return decodeURIComponent(channelUrl as string);
-  }, [channelUrl]);
+  const channelUrl = useChannelUrlParam();
 
   const webtoon = useMemo(() => objectEntries(WEBTOON_VALUE_LABEL), []);
   const webtoonParam = useMemo(() => {
@@ -56,7 +52,7 @@ export function WebtoonSection() {
                   value={webtoon}
                   key={webtoon}
                   LinkComponent={NextLink}
-                  href={`/${decodedChannelUrl}/?webtoon=${webtoon}`}
+                  href={`/${channelUrl}/?webtoon=${webtoon}`}
                   sx={{ flexShrink: 0 }}
                 >
                   {label}
@@ -67,7 +63,7 @@ export function WebtoonSection() {
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: "auto" }}>
             <Button
               component={NextLink}
-              href={`${decodedChannelUrl}/webtoon?webtoon=${webtoonParam}`}
+              href={`${channelUrl}/webtoon?webtoon=${webtoonParam}`}
               size="small"
               color="inherit"
               sx={{
@@ -84,7 +80,7 @@ export function WebtoonSection() {
           </Box>
         </Box>
 
-        <WT_Post_Channel_RichCarousel.Container channelUrl={decodedChannelUrl} sort="LATEST" page={1} />
+        <WT_Post_Channel_RichCarousel.Container channelUrl={channelUrl} sort="LATEST" page={1} />
       </WT_Post_Channel_RichCarousel>
     </Stack>
   );

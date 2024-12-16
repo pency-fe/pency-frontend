@@ -31,8 +31,9 @@ import {
 } from "@pency/ui/components";
 import { maxLine } from "@pency/ui/util";
 import { objectEntries } from "@pency/util";
+import { useChannelUrlParam } from "_hooks";
 import NextLink from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 
 // ----------------------------------------------------------------------
@@ -52,10 +53,7 @@ type Props = {
 export default function ChannelUrlLayout({ children }: Props) {
   const theme = useTheme();
   const pathname = usePathname();
-  const { channelUrl } = useParams();
-  const decodedChannelUrl = useMemo(() => {
-    return decodeURIComponent(channelUrl as string);
-  }, [channelUrl]);
+  const channelUrl = useChannelUrlParam();
 
   const navValue = useMemo(() => {
     const platform = pathname.split("/")[2];
@@ -236,7 +234,7 @@ export default function ChannelUrlLayout({ children }: Props) {
       >
         <Tab
           LinkComponent={NextLink}
-          href={`/${decodedChannelUrl}`}
+          href={`/${channelUrl}`}
           label={<Typography variant="h6">홈</Typography>}
           value="home"
           wrapped
@@ -245,7 +243,7 @@ export default function ChannelUrlLayout({ children }: Props) {
           <Tab
             key={value}
             LinkComponent={NextLink}
-            href={`/${decodedChannelUrl}/${value}`}
+            href={`/${channelUrl}/${value}`}
             label={<Typography variant="h6">{label}</Typography>}
             value={value}
             wrapped
@@ -271,10 +269,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 function DetailDialog() {
   const theme = useTheme();
   const pathname = usePathname();
-  const { channelUrl } = useParams();
-  const decodedChannelUrl = useMemo(() => {
-    return decodeURIComponent(channelUrl as string);
-  }, [channelUrl]);
+  const channelUrl = useChannelUrlParam();
 
   const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -384,7 +379,7 @@ function DetailDialog() {
             {/* 채널 정보_URL */}
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
               <EvaLink2FillIcon sx={{ fontSize: 20, mx: "10px" }} />
-              <Typography variant="body2">{`https://pency.co.kr:3000${decodedChannelUrl}`}</Typography>
+              <Typography variant="body2">{`https://pency.co.kr:3000/${channelUrl}`}</Typography>
             </Box>
             {/* 채널 정보_구독자, 포스트 */}
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
