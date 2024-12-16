@@ -4,7 +4,7 @@ import { RichCardCarousel } from "@pency/ui/components";
 import { withAsyncBoundary } from "@pency/util";
 import { ComponentProps } from "react";
 import { wtPostChannelKeys } from "../../query";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { WT_Post_RichCard } from "../../ui";
 import { Box, Skeleton, Stack } from "@mui/material";
 
@@ -13,7 +13,6 @@ export const WT_Post_Channel_RichCarousel = Object.assign(
   {
     ...RichCardCarousel,
     Container: withAsyncBoundary(WT_Post_Channel_RichCarousel_Fn, {
-      suspense: { fallback: <Loading /> },
       errorBoundary: {
         fallback: <Loading />,
       },
@@ -24,16 +23,18 @@ export const WT_Post_Channel_RichCarousel = Object.assign(
 type WT_Post_Channel_RichCarousel_Fn_Props = Parameters<typeof wtPostChannelKeys.list>[0];
 
 function WT_Post_Channel_RichCarousel_Fn({ channelUrl, sort, page }: WT_Post_Channel_RichCarousel_Fn_Props) {
-  const {
-    data: { posts },
-  } = useSuspenseQuery(wtPostChannelKeys.list({ channelUrl, sort, page }));
+  const { status, data } = useQuery({ ...wtPostChannelKeys.list({ channelUrl, sort, page }), throwOnError: true });
+
+  if (status !== "success") {
+    return <Loading />;
+  }
 
   return (
     <RichCardCarousel.Container
       slots={{
         slides: (
           <>
-            {posts.map((post, i) => (
+            {data.posts.map((post, i) => (
               <RichCardCarousel.Slide key={i}>
                 <WT_Post_RichCard data={post} />
               </RichCardCarousel.Slide>

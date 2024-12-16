@@ -28,15 +28,14 @@ export function useOrderData() {
 }
 
 const OrderProvider = ({ children }: { children?: React.ReactNode }) => {
-  const searchParams = useSearchParams();
+  const sortParam = useSearchParams().get("sort");
 
   const sort = useMemo(() => {
-    const param = searchParams.get("sort");
-    if (param && Object.keys(SORT_LABEL).includes(param)) {
-      return param as Sort;
+    if (sortParam && Object.keys(SORT_LABEL).includes(sortParam)) {
+      return sortParam as Sort;
     }
     return "LATEST" as Sort;
-  }, [searchParams]);
+  }, [sortParam]);
 
   return <OrderDataContext.Provider value={{ sort }}>{children}</OrderDataContext.Provider>;
 };

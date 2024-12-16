@@ -1,6 +1,6 @@
 "use client";
 
-import { IcomoonFreeYoutube2Icon } from "@pency/ui/components";
+import { BrandPencyTextLogoIcon } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
 
 export default function Left() {
@@ -10,7 +10,7 @@ export default function Left() {
   };
 
   return (
-    <IcomoonFreeYoutube2Icon
+    <BrandPencyTextLogoIcon
       onClick={handleHomeClick}
       sx={{ width: "fit-content", height: "24px", overflow: "unset", cursor: "pointer" }}
     />

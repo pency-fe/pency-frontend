@@ -1,14 +1,13 @@
 "use client";
 
 import { withAsyncBoundary } from "@pency/util";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Box, Grid, Skeleton, Stack } from "@mui/material";
 import { WT_Post_RichCard } from "../../ui";
 import React from "react";
 import { wtPostChannelKeys } from "../../query";
 
 export const WT_Post_Channel_RichList = withAsyncBoundary(WT_Post_Channel_RichListFn, {
-  suspense: { fallback: <Loading /> },
   errorBoundary: {
     fallback: <Loading />,
   },
@@ -17,7 +16,11 @@ export const WT_Post_Channel_RichList = withAsyncBoundary(WT_Post_Channel_RichLi
 type WT_Post_Channel_RichListFnProps = Parameters<typeof wtPostChannelKeys.list>[0];
 
 function WT_Post_Channel_RichListFn({ channelUrl, sort, page }: WT_Post_Channel_RichListFnProps) {
-  const { data } = useSuspenseQuery(wtPostChannelKeys.list({ channelUrl, sort, page }));
+  const { status, data } = useQuery({ ...wtPostChannelKeys.list({ channelUrl, sort, page }), throwOnError: true });
+
+  if (status !== "success") {
+    return <Loading />;
+  }
 
   return (
     <Grid container spacing={1}>

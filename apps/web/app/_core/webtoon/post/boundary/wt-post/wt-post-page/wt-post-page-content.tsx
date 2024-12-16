@@ -3,7 +3,7 @@
 import { createContext, useContext, useMemo } from "react";
 import NextLink from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useQueryClient, useSuspenseQuery, UseSuspenseQueryResult } from "@tanstack/react-query";
+import { useQuery, useQueryClient, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { Grid, PaginationItem } from "@mui/material";
 import { usePaginationx } from "@pency/ui/hooks";
 import { createQueryString, withAsyncBoundary } from "@pency/util";
@@ -36,22 +36,28 @@ const ContentProvider = withAsyncBoundary(
     const { genre } = useTabData();
     const { sort } = useOrderData();
     const { creationTypes, pairs } = useFilterData();
-    const searchParams = useSearchParams();
+    const pageParam = useSearchParams().get("page");
 
     const page = useMemo(() => {
-      const param = Number(searchParams.get("page"));
+      const param = Number(pageParam);
       if (param && !isNaN(param) && param >= 1) {
         return param;
       }
       return 1;
-    }, [searchParams]);
+    }, [pageParam]);
 
-    const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, page, creationTypes, pairs }));
+    const { status, data } = useQuery({
+      ...wtPostKeys.page({ genre, sort, page, creationTypes, pairs }),
+      throwOnError: true,
+    });
+
+    if (status !== "success") {
+      return <Loading />;
+    }
 
     return <ContentDataContext.Provider value={data}>{children}</ContentDataContext.Provider>;
   },
   {
-    suspense: { fallback: <Loading /> },
     errorBoundary: {
       fallback: <Loading />,
     },

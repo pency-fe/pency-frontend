@@ -22,15 +22,14 @@ export function useTabData() {
 }
 
 const TabProvider = ({ children }: { children?: React.ReactNode }) => {
-  const searchParams = useSearchParams();
+  const genreParam = useSearchParams().get("genre");
 
   const genre = useMemo(() => {
-    const param = searchParams.get("genre");
-    if (param && Object.keys(GENRE_LABEL).includes(param)) {
-      return param as Genre;
+    if (genreParam && Object.keys(GENRE_LABEL).includes(genreParam)) {
+      return genreParam as Genre;
     }
     return "ALL" as const;
-  }, [searchParams]);
+  }, [genreParam]);
 
   return <TabDataContext.Provider value={{ genre }}>{children}</TabDataContext.Provider>;
 };
