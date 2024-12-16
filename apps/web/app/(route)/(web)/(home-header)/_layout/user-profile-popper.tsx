@@ -16,12 +16,9 @@ import {
   ListItemIcon,
   ListItemText,
   Stack,
-  Typography,
   useTheme,
 } from "@mui/material";
 import {
-  EvaArrowIosDownwardFillIcon,
-  EvaArrowIosUpwardFillIcon,
   GgAddRIcon,
   MaterialSymbolsLogoutIcon,
   MingcuteBox2LineIcon,
@@ -33,8 +30,7 @@ import {
 } from "@pency/ui/components";
 import { useChannelMeListContext } from "_core/channel";
 import { useLogout } from "_core/user";
-import { useSelectedUserProfileContext, useUserProfileMeListContext } from "_core/user-profile";
-import { useToggle } from "@pency/util";
+import { useSelectedUserProfileMeContext } from "_core/user-profile";
 
 export function UserProfile() {
   const channelMe = useChannelMeListContext();
@@ -42,6 +38,15 @@ export function UserProfile() {
 
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
   const router = useRouter();
+
+  const handleNewChannelCreateClick = () => {
+    if (channelMe.length < 5) {
+      toggle(false);
+      router.push("/channel/create");
+    } else {
+      toast.error("프로필당 최대 5개까지 채널을 개설할 수 있어요.");
+    }
+  };
 
   return (
     <>
@@ -78,7 +83,8 @@ export function UserProfile() {
         }}
       >
         <Stack>
-          <UserProfileMe togglePopper={toggle} />
+          <UserProfileMe />
+          <ChannelMeList />
           <Divider />
           <List>
             <ListItem disablePadding>
@@ -108,16 +114,7 @@ export function UserProfile() {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => {
-                  if (channelMe.length < 5) {
-                    toggle(false);
-                    router.push("/channel/create");
-                  } else {
-                    toast.error("프로필당 최대 5개까지 채널을 개설할 수 있어요.");
-                  }
-                }}
-              >
+              <ListItemButton onClick={handleNewChannelCreateClick}>
                 <ListItemIcon>
                   <GgAddRIcon fontSize="medium" />
                 </ListItemIcon>
@@ -152,91 +149,46 @@ export function UserProfile() {
 }
 
 // ----------------------------------------------------------------------
-type UserProfileMeProps = {
-  togglePopper: (nextValue?: any) => void;
-};
 
-function UserProfileMe({ togglePopper }: UserProfileMeProps) {
+function UserProfileMe() {
+  const selectedUserProfile = useSelectedUserProfileMeContext();
   const theme = useTheme();
-  const userProfileMeList = useSelectedUserProfileContext();
-  const [open, toggle] = useToggle(true);
 
   return (
     <>
       <List>
-        <ListItem
-          key={userProfileMeList.id}
-          onClick={() => {
-            toggle();
-          }}
-          sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
-        >
+        <ListItem key={selectedUserProfile.id} sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
           <ListItemAvatar>
-            <Avatar src={userProfileMeList.image ?? process.env["NEXT_PUBLIC_AVATAR"]} sx={{ width: 32, height: 32 }} />
+            <Avatar
+              src={selectedUserProfile.image ?? process.env["NEXT_PUBLIC_AVATAR"]}
+              sx={{ width: 32, height: 32 }}
+            />
           </ListItemAvatar>
-          <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{userProfileMeList.nickname}</ListItemText>
-
-          {open ? <EvaArrowIosDownwardFillIcon /> : <EvaArrowIosUpwardFillIcon />}
+          <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{selectedUserProfile.nickname}</ListItemText>
         </ListItem>
-        {!open ? <UserProfileMeList /> : null}
       </List>
-      {open ? <ChannelMeList togglePopper={togglePopper} /> : null}
     </>
   );
 }
 
 // ----------------------------------------------------------------------
 
-function UserProfileMeList() {
+function ChannelMeList() {
+  const channelMeList = useChannelMeListContext();
   const theme = useTheme();
-  const userProfileMeList = useUserProfileMeListContext();
-
-  return (
-    <>
-      {userProfileMeList.map((profile) => (
-        <ListItem key={profile.id} disablePadding sx={{ display: "flex", alignItems: "center" }}>
-          <ListItemButton>
-            <ListItemAvatar>
-              <Avatar
-                src={profile.image ?? process.env["NEXT_PUBLIC_AVATAR"]}
-                sx={{ width: 24, height: 24, mx: 0.5 }}
-              />
-            </ListItemAvatar>
-            <ListItemText sx={{ color: theme.vars.palette.text.primary }}>
-              <Typography variant="body1">{profile.nickname}</Typography>
-            </ListItemText>
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-type ChannelMeListProps = {
-  togglePopper: (nextValue?: any) => void;
-};
-
-function ChannelMeList({ togglePopper }: ChannelMeListProps) {
-  const theme = useTheme();
-  const channelMe = useChannelMeListContext();
 
   return (
     <>
       <Divider />
-      {channelMe.length > 0 ? (
+      {channelMeList.length > 0 ? (
         <>
           <List>
-            {channelMe.map((channel) => (
+            {channelMeList.map((channel) => (
               <ListItem key={channel.id} sx={{ display: "flex", alignItems: "center" }}>
                 <ButtonBase
                   disableRipple
                   component={NextLink}
                   href={`/@${channel.url}`}
-                  onClick={() => {
-                    togglePopper(false);
-                  }}
                   sx={{ position: "absolute", inset: 0, zIndex: 1 }}
                 />
                 <ListItemAvatar>
@@ -247,16 +199,7 @@ function ChannelMeList({ togglePopper }: ChannelMeListProps) {
                 </ListItemAvatar>
                 <ListItemText sx={{ color: theme.vars.palette.text.primary }}>{channel.title}</ListItemText>
                 <Box sx={{ flexShrink: 0, display: "flex", gap: 1 }}>
-                  <Button
-                    LinkComponent={NextLink}
-                    href="TODO_스튜디오"
-                    variant="soft"
-                    size="small"
-                    sx={{ zIndex: 2 }}
-                    onClick={() => {
-                      togglePopper(false);
-                    }}
-                  >
+                  <Button LinkComponent={NextLink} href="TODO_스튜디오" variant="soft" size="small" sx={{ zIndex: 2 }}>
                     스튜디오
                   </Button>
                   <IconButton
@@ -264,9 +207,6 @@ function ChannelMeList({ togglePopper }: ChannelMeListProps) {
                     href={`/editor/${channel.url}/webtoon`}
                     variant="soft"
                     size="small"
-                    onClick={() => {
-                      togglePopper(false);
-                    }}
                     sx={{ borderRadius: 1, zIndex: 2 }}
                   >
                     <MingcutePencilLineIcon />
