@@ -32,3 +32,5 @@ export function ChannelMeListProvider({ children }: { children?: React.ReactNode
     <ChannelMeListContext.Provider value={isLoggedIn ? query.data : null}>{children}</ChannelMeListContext.Provider>
   );
 }
+
+// 선택된 채널 프로바이더
