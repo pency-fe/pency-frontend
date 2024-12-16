@@ -34,6 +34,7 @@ import { useSelectedUserProfileMeContext } from "_core/user-profile";
 
 export function UserProfile() {
   const channelMe = useChannelMeListContext();
+  const selectedUserProfileMe = useSelectedUserProfileMeContext();
   const { mutate: logout } = useLogout();
 
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
@@ -54,7 +55,7 @@ export function UserProfile() {
         component={ButtonBase}
         ref={anchorRef}
         onClick={toggle}
-        src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+        src={selectedUserProfileMe.image ?? process.env["NEXT_PUBLIC_AVATAR"]}
         sx={{ width: 24, height: 24, mx: "6px" }}
       />
       <Popperx

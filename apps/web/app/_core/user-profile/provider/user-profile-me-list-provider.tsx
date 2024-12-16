@@ -36,10 +36,6 @@ export function UserProfileMeListProvider({ children }: { children?: React.React
   );
 }
 
-// 1. layout에서 Prefetch했잖아.
-// 2. List Provider에서 prefetch했던 데이터 내려보내지.
-// 3. List Provider에서 내려줬던 데이터를 me Provider에서 받아. -> 선택된 유저프로필 추출한다. -> 추출한 데이터를 내려보내.
-
 // ----------------------------------------------------------------------
 
 const SelectedUserProfileMeContext = createContext<ContextValue[number] | null | undefined>(undefined);
