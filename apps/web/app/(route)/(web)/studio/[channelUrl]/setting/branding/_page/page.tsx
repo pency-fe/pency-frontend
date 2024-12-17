@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { isClient, useFirstMountState } from "@pency/util";
 import { CH_Update_Form } from "_core/channel";
 import { useUserAuthMeContext } from "_core/user";
@@ -9,7 +9,6 @@ import { redirect, useRouter } from "next/navigation";
 // ----------------------------------------------------------------------
 
 export default function SettingBrandingPage() {
-  const theme = useTheme();
   const router = useRouter();
   const me = useUserAuthMeContext();
   const isFirstMount = useFirstMountState();
