@@ -31,16 +31,13 @@ export default function SettingBrandingPage() {
     >
       <Stack spacing={3}>
         <CH_Update_Form>
-          {/* <Box sx={{ backgroundColor: theme.vars.palette.background.paper, padding: 3, borderRadius: 2 }}> */}
           <Stack spacing={4}>
             <Typography variant="h4">채널 정보 수정</Typography>
-            <CH_Update_Form.Title />
-            <CH_Update_Form.Description />
-            <CH_Update_Form.Url />
-            {/* [?] */}
-            {/* <CH_Update_Form.Image /> */}
+            <CH_Update_Form.Title variant="filled" />
+            <CH_Update_Form.Description variant="filled" />
+            <CH_Update_Form.Url variant="filled" />
+            <CH_Update_Form.Image />
           </Stack>
-          {/* </Box> */}
           <CH_Update_Form.UpdateSubmitButton
             sx={{
               alignSelf: "flex-end",

@@ -9,6 +9,7 @@ import {
   inputBaseClasses,
   Stack,
   TextField,
+  TextFieldProps,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -76,6 +77,7 @@ const CH_Update_Form_Fn = ({ children }: CH_Update_Form_Fn_Props) => {
       title: "",
       description: "",
       url: "",
+      image: "",
     },
     mode: "onTouched",
   });
@@ -148,7 +150,9 @@ const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
 
 // ----------------------------------------------------------------------
 
-const TitleFn = () => {
+type TitleFnProps = TextFieldProps;
+
+const TitleFn = (rest: TitleFnProps) => {
   const { control } = useFormContext<Schema>();
 
   return (
@@ -159,6 +163,7 @@ const TitleFn = () => {
         <TextField
           {...field}
           variant="outlined"
+          {...rest}
           type="text"
           label="채널 제목"
           required
@@ -179,7 +184,9 @@ const TitleFn = () => {
 
 // ----------------------------------------------------------------------
 
-const DescriptionFn = () => {
+type DescriptionFnProps = TextFieldProps;
+
+const DescriptionFn = (rest: DescriptionFnProps) => {
   const { control } = useFormContext<Schema>();
 
   return (
@@ -190,6 +197,7 @@ const DescriptionFn = () => {
         <TextField
           {...field}
           variant="outlined"
+          {...rest}
           fullWidth
           multiline
           minRows={2}
@@ -220,7 +228,9 @@ const DescriptionFn = () => {
 
 // ----------------------------------------------------------------------
 
-const UrlFn = () => {
+type UrlFnProps = TextFieldProps;
+
+const UrlFn = (rest: UrlFnProps) => {
   const { control } = useFormContext<Schema>();
 
   return (
@@ -231,6 +241,7 @@ const UrlFn = () => {
         <TextField
           {...field}
           variant="outlined"
+          {...rest}
           fullWidth
           type="text"
           label="채널 URL"
