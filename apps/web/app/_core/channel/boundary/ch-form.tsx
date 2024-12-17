@@ -160,7 +160,7 @@ const DeleteFn = (props: DeleteFnProps) => {
   };
 
   return (
-    <Button type="submit" variant="soft" color="error" onClick={handleSubmit(() => onSubmit)} {...props}>
+    <Button type="submit" variant="text" color="error" onClick={handleSubmit(() => onSubmit)} {...props}>
       채널 삭제
     </Button>
   );

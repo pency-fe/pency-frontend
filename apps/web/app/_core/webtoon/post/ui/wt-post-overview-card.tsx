@@ -31,7 +31,7 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data, h
     <OverviewCard
       ref={ref}
       slots={{
-        overlayElement: <OverviewCard.OverlayAnchor href={`/@${data.channel.channelUrl}/webtoon/post/${data.id}`} />,
+        overlayElement: <OverviewCard.OverlayAnchor href={`/@${data.channel.url}/webtoon/post/${data.id}`} />,
         thumbnail: (
           <OverviewCard.Thumbnail
             slots={{
@@ -55,9 +55,12 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data, h
             <OverviewCard.Label variant="soft" color="secondary">
               {CREATION_TYPE_LABEL[data.creationType]}
             </OverviewCard.Label>
-            <OverviewCard.Label variant="soft" color="warning">
-              {PAIR_LABEL[data.pair]}
-            </OverviewCard.Label>
+            {PAIR_LABEL[data.pair] !== "없음" ? (
+              <OverviewCard.Label variant="soft" color="warning">
+                {PAIR_LABEL[data.pair]}
+              </OverviewCard.Label>
+            ) : null}
+
             {!hideGenre ? (
               <OverviewCard.Label variant="soft" color="warning">
                 {GENRE_LABEL[data.genre]}
@@ -67,16 +70,14 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data, h
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`@${data.channel.channelUrl}`}
+            href={`@${data.channel.url}`}
             slots={{
               avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.image} />,
             }}
           />
         ),
         title: <OverviewCard.Title>{data.title}</OverviewCard.Title>,
-        nameLink: (
-          <OverviewCard.NameLink href={`@${data.channel.channelUrl}`}>{data.channel.title}</OverviewCard.NameLink>
-        ),
+        nameLink: <OverviewCard.NameLink href={`@${data.channel.url}`}>{data.channel.title}</OverviewCard.NameLink>,
       }}
     />
   );
