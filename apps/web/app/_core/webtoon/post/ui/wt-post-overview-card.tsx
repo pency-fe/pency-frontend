@@ -70,14 +70,14 @@ export const WT_Post_OverviewCard = forwardRef<HTMLDivElement, Props>(({ data, h
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`@${data.channel.url}`}
+            href={`/@${data.channel.url}`}
             slots={{
               avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.image} />,
             }}
           />
         ),
         title: <OverviewCard.Title>{data.title}</OverviewCard.Title>,
-        nameLink: <OverviewCard.NameLink href={`@${data.channel.url}`}>{data.channel.title}</OverviewCard.NameLink>,
+        nameLink: <OverviewCard.NameLink href={`/@${data.channel.url}`}>{data.channel.title}</OverviewCard.NameLink>,
       }}
     />
   );
