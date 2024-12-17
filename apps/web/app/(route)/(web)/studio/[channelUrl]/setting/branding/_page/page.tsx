@@ -37,7 +37,7 @@ export default function SettingBrandingPage() {
             <CH_Update_Form.Title />
             <CH_Update_Form.Description />
             <CH_Update_Form.Url />
-            // [?]
+            {/* [?] */}
             {/* <CH_Update_Form.Image /> */}
           </Stack>
           {/* </Box> */}
