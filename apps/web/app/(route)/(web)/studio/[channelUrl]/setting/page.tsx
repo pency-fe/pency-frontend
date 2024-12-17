@@ -1,3 +1,7 @@
+"use client";
+
+import SettingPage from "./_page/page";
+
 export default function Page() {
-  return <h1>setting!</h1>;
+  return <SettingPage />;
 }
