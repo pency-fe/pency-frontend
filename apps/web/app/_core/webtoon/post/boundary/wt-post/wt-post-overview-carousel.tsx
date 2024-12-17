@@ -20,13 +20,13 @@ export const WT_Post_OverviewCarousel = Object.assign(
   },
 );
 
-type WT_Post_OverviewCarousel_Fn_Props = Required<
-  Omit<Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>, "sort" | "page" | "creationTypes" | "pairs">
->;
+type Props = Omit<Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>, "page" | "creationTypes" | "pairs">;
 
-function WT_Post_OverviewCarousel_Fn({ genre }: WT_Post_OverviewCarousel_Fn_Props) {
+type WT_Post_OverviewCarousel_Fn_Props = Omit<Props, "genre"> & Required<Pick<Props, "genre">>;
+
+function WT_Post_OverviewCarousel_Fn({ genre, sort }: WT_Post_OverviewCarousel_Fn_Props) {
   const { status, data } = useQuery({
-    ...wtPostKeys.page({ genre }),
+    ...wtPostKeys.page({ genre, sort }),
     throwOnError: true,
   });
 

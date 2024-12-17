@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactElement, ReactNode, createContext, forwardRef, useContext } from "react";
-import { Box, BoxProps, Grid, GridProps, IconButton, IconButtonProps, useMediaQuery, useTheme } from "@mui/material";
+import { Box, BoxProps, Grid, GridProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
 import { noneUserSelect, queriesWithoutMedia } from "@/util";
@@ -141,7 +141,6 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
   const theme = useTheme();
   const { prevNavDisabled } = useData("ListItemxCarousel.PrevNav");
   const { onPrevNavClick } = useActions("ListItemxCarousel.PrevNav");
-  const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <>
@@ -150,7 +149,7 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
         variant="outlined"
         disabled={prevNavDisabled}
         onClick={onPrevNavClick}
-        size={isUpMd ? "medium" : "small"}
+        size="small"
         {...rest}
         sx={{
           [theme.breakpoints.down("sm")]: {
@@ -173,7 +172,6 @@ const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
   const theme = useTheme();
   const { nextNavDisabled } = useData("ListItemxCarousel.NextNav");
   const { onNextNavClick } = useActions("ListItemxCarousel.NextNav");
-  const isUpMd = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <IconButton
@@ -181,7 +179,7 @@ const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
       variant="outlined"
       disabled={nextNavDisabled}
       onClick={onNextNavClick}
-      size={isUpMd ? "medium" : "small"}
+      size="small"
       {...rest}
       sx={{
         [theme.breakpoints.down("sm")]: {

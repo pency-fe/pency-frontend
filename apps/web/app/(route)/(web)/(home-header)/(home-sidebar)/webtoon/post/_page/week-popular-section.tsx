@@ -51,7 +51,7 @@ export function WeekPopularSection() {
           </Stack>
         </Box>
 
-        <WT_Post_OverviewCarousel.Container genre={genreParam} sort={"WPOPULAR"} page={1} />
+        <WT_Post_OverviewCarousel.Container genre={genreParam} sort="WPOPULAR" />
       </WT_Post_OverviewCarousel>
     </Stack>
   );

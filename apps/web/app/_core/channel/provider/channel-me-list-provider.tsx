@@ -3,13 +3,14 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { channelMeKeys } from "_core/channel/query/queries";
 import { useUserAuthMeContext } from "_core/user";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo, useRef } from "react";
 
-const ChannelMeListContext = createContext<
-  | UseQueryResult<Awaited<ReturnType<Exclude<ReturnType<typeof channelMeKeys.list>["queryFn"], undefined>>>>["data"]
-  | null
-  | undefined
->(undefined);
+type ContextValue = Exclude<
+  UseQueryResult<Awaited<ReturnType<Exclude<ReturnType<typeof channelMeKeys.list>["queryFn"], undefined>>>>["data"],
+  undefined
+>;
+
+const ChannelMeListContext = createContext<ContextValue | null | undefined>(undefined);
 
 export function useChannelMeListContext() {
   const context = useContext(ChannelMeListContext);
@@ -32,5 +33,3 @@ export function ChannelMeListProvider({ children }: { children?: React.ReactNode
     <ChannelMeListContext.Provider value={isLoggedIn ? query.data : null}>{children}</ChannelMeListContext.Provider>
   );
 }
-
-// 선택된 채널 프로바이더

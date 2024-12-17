@@ -1,52 +1,42 @@
 "use client";
 
-import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import NextLink from "next/link";
-import { stylesColorScheme } from "@pency/ui/util";
 import { useMemo } from "react";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { WT_Post_OverviewCarousel } from "_core/webtoon/post";
+import { OverviewCardCtemplate } from "@pency/ui/components";
 
 export function LatestSection() {
-  const theme = useTheme();
+  const genreParam = useSearchParams().get("genre");
 
-  const searchParams = useSearchParams();
-
-  const genreParam = useMemo(() => {
-    const param = searchParams.get("genre");
-    if (param && Object.keys(GENRE_LABEL).includes(param)) {
-      return param as Genre;
+  const genre = useMemo(() => {
+    if (genreParam && Object.keys(GENRE_LABEL).includes(genreParam)) {
+      return genreParam as Genre;
     }
     return "ALL" as const;
-  }, [searchParams]);
+  }, [genreParam]);
 
   return (
-    <Stack spacing={1}>
-      <WT_Post_OverviewCarousel>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Typography variant="h4">최신 포스트</Typography>
-          <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
-            <Button
+    <WT_Post_OverviewCarousel>
+      <OverviewCardCtemplate
+        slots={{
+          title: <OverviewCardCtemplate.Title>최신 포스트</OverviewCardCtemplate.Title>,
+          moreButton: (
+            <OverviewCardCtemplate.MoreButton
               component={NextLink}
               href={genreParam !== "ALL" ? `/webtoon/post/list?genre=${genreParam}` : "/webtoon/post/list"}
-              size="small"
-              color="inherit"
-              sx={{
-                color: theme.vars.palette.grey[500],
-                [stylesColorScheme.dark]: {
-                  color: theme.vars.palette.grey[500],
-                },
-              }}
-            >
-              더 보기
-            </Button>
-            <WT_Post_OverviewCarousel.PrevNav />
-            <WT_Post_OverviewCarousel.NextNav />
-          </Stack>
-        </Box>
-        <WT_Post_OverviewCarousel.Container genre={genreParam} />
-      </WT_Post_OverviewCarousel>
-    </Stack>
+            />
+          ),
+          prevNextNav: (
+            <>
+              <WT_Post_OverviewCarousel.PrevNav />
+              <WT_Post_OverviewCarousel.NextNav />
+            </>
+          ),
+          overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre={genre} />,
+        }}
+      />
+    </WT_Post_OverviewCarousel>
   );
 }
