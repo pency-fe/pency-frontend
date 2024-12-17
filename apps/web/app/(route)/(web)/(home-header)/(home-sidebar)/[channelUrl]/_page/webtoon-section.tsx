@@ -1,13 +1,12 @@
 "use client";
 
 import NextLink from "next/link";
-import { Stack, Box, Typography, RadioGroup, Button, useTheme } from "@mui/material";
-import { RadioButton } from "@pency/ui/components";
+import { Box, RadioGroup, useTheme } from "@mui/material";
+import { OverviewCardTCtemplate, RadioButton } from "@pency/ui/components";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { objectEntries } from "@pency/util";
 import { WT_Post_Channel_RichCarousel } from "_core/webtoon/post";
-import { stylesColorScheme } from "@pency/ui/util";
 import { useChannelUrlParam } from "_hooks";
 
 // ----------------------------------------------------------------------
@@ -38,49 +37,43 @@ export function WebtoonSection() {
 
   return (
     <WT_Post_Channel_RichCarousel>
-      <Stack spacing={1}>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Typography variant="h4">웹툰</Typography>
-        </Box>
-
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <RadioGroup value={webtoonParam}>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              {webtoon.map(([webtoon, label]) => (
-                <RadioButton
-                  value={webtoon}
-                  key={webtoon}
-                  LinkComponent={NextLink}
-                  href={`/${channelUrl}/?webtoon=${webtoon}`}
-                  sx={{ flexShrink: 0 }}
-                >
-                  {label}
-                </RadioButton>
-              ))}
-            </Box>
-          </RadioGroup>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: "auto" }}>
-            <Button
+      <OverviewCardTCtemplate
+        slots={{
+          title: <OverviewCardTCtemplate.Title>웹툰</OverviewCardTCtemplate.Title>,
+          tabs: (
+            <RadioGroup value={webtoonParam}>
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                {webtoon.map(([webtoon, label]) => (
+                  <RadioButton
+                    value={webtoon}
+                    key={webtoon}
+                    LinkComponent={NextLink}
+                    href={`/${channelUrl}/?webtoon=${webtoon}`}
+                    sx={{ flexShrink: 0 }}
+                  >
+                    {label}
+                  </RadioButton>
+                ))}
+              </Box>
+            </RadioGroup>
+          ),
+          moreButton: (
+            <OverviewCardTCtemplate.MoreButton
               component={NextLink}
-              href={`${channelUrl}/webtoon?webtoon=${webtoonParam}`}
-              size="small"
-              color="inherit"
-              sx={{
-                color: theme.vars.palette.grey[500],
-                [stylesColorScheme.dark]: {
-                  color: theme.vars.palette.grey[500],
-                },
-              }}
-            >
-              더 보기
-            </Button>
-            <WT_Post_Channel_RichCarousel.PrevNav />
-            <WT_Post_Channel_RichCarousel.NextNav />
-          </Box>
-        </Box>
-
-        <WT_Post_Channel_RichCarousel.Container channelUrl={channelUrl} sort="LATEST" page={1} />
-      </Stack>
+              href={`/${channelUrl}/webtoon?webtoon=${webtoonParam}`}
+            />
+          ),
+          prevNextNav: (
+            <>
+              <WT_Post_Channel_RichCarousel.PrevNav />
+              <WT_Post_Channel_RichCarousel.NextNav />
+            </>
+          ),
+          overviewCarouselContainer: (
+            <WT_Post_Channel_RichCarousel.Container url={channelUrl.replace("@", "")} sort="LATEST" page={1} />
+          ),
+        }}
+      />
     </WT_Post_Channel_RichCarousel>
   );
 }

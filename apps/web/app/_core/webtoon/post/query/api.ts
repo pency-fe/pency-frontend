@@ -164,6 +164,8 @@ type GetWebtoonPostChannelPageRes = Array<{
   likeCount: number;
   createdAt: number;
   keywords: string[];
+  bookmark: boolean;
+  block: boolean;
 }>;
 
 export const getWebtoonPostChannelPage = async ({

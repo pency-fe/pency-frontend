@@ -22,8 +22,8 @@ export const WT_Post_Channel_RichCarousel = Object.assign(
 
 type WT_Post_Channel_RichCarousel_Fn_Props = Parameters<typeof wtPostChannelKeys.list>[0];
 
-function WT_Post_Channel_RichCarousel_Fn({ channelUrl, sort, page }: WT_Post_Channel_RichCarousel_Fn_Props) {
-  const { status, data } = useQuery({ ...wtPostChannelKeys.list({ channelUrl, sort, page }), throwOnError: true });
+function WT_Post_Channel_RichCarousel_Fn({ url, sort, page }: WT_Post_Channel_RichCarousel_Fn_Props) {
+  const { status, data } = useQuery({ ...wtPostChannelKeys.list({ url, sort, page }), throwOnError: true });
 
   if (status !== "success") {
     return <Loading />;
@@ -34,9 +34,15 @@ function WT_Post_Channel_RichCarousel_Fn({ channelUrl, sort, page }: WT_Post_Cha
       slots={{
         slides: (
           <>
-            {data.posts.map((post, i) => (
+            {data.map((post, i) => (
               <RichCardCarousel.Slide key={i}>
-                <WT_Post_RichCard data={post} />
+                <WT_Post_RichCard
+                  data={post}
+                  onBlock={() => {}}
+                  onBookmark={() => {}}
+                  onUnblock={() => {}}
+                  onUnbookmark={() => {}}
+                />
               </RichCardCarousel.Slide>
             ))}
           </>
