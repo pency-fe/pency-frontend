@@ -38,11 +38,10 @@ export default function SettingBrandingPage() {
             <CH_Update_Form.Url variant="filled" />
             <CH_Update_Form.Image />
           </Stack>
-          <CH_Update_Form.UpdateSubmitButton
-            sx={{
-              alignSelf: "flex-end",
-            }}
-          />
+          <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+            <CH_Update_Form.DeleteButton />
+            <CH_Update_Form.UpdateSubmitButton />
+          </Box>
         </CH_Update_Form>
       </Stack>
     </form>

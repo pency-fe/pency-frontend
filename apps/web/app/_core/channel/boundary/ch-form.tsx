@@ -143,7 +143,25 @@ const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
 
   return (
     <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(() => onSubmit)} {...props}>
-      채널 수정하기
+      변경 내용 저장
+    </Button>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+type DeleteFnProps = Omit<ButtonProps, "children">;
+
+const DeleteFn = (props: DeleteFnProps) => {
+  const { handleSubmit } = useFormContext<Schema>();
+
+  const onSubmit = (data: Schema) => {
+    console.log(data);
+  };
+
+  return (
+    <Button type="submit" variant="soft" color="error" onClick={handleSubmit(() => onSubmit)} {...props}>
+      채널 삭제
     </Button>
   );
 };
@@ -359,4 +377,5 @@ export const CH_Update_Form = Object.assign(CH_Update_Form_Fn, {
   Url: UrlFn,
   Image: ImageFn,
   UpdateSubmitButton: UpdateSubmitFn,
+  DeleteButton: DeleteFn,
 });
