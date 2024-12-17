@@ -19,7 +19,7 @@ type Schema = z.infer<typeof schema>;
 
 // ----------------------------------------------------------------------
 
-export const useWTPostFilterFormContext = () => useFormContext<Schema>();
+const useWTPostFilterFormContext = () => useFormContext<Schema>();
 
 // ----------------------------------------------------------------------
 

@@ -41,7 +41,7 @@ type Schema = z.infer<typeof schema>;
 
 // ----------------------------------------------------------------------
 
-export const useCHFormContext = () => useFormContext<Schema>();
+const useCHFormContext = () => useFormContext<Schema>();
 
 // ----------------------------------------------------------------------
 

@@ -51,7 +51,7 @@ export default function SettingLinkPage() {
                 <FluentHome24RegularIcon fontSize="medium" />
               </ListItemIcon>
               <TextField
-                variant="outlined"
+                variant="filled"
                 type="text"
                 fullWidth
                 label="홈"
@@ -64,7 +64,7 @@ export default function SettingLinkPage() {
                 <BrandTwitterIcon fontSize="medium" />
               </ListItemIcon>
               <TextField
-                variant="outlined"
+                variant="filled"
                 type="text"
                 fullWidth
                 label="트위터(Twitter)"
@@ -77,7 +77,7 @@ export default function SettingLinkPage() {
                 <BrandInstagramIcon fontSize="medium" />
               </ListItemIcon>
               <TextField
-                variant="outlined"
+                variant="filled"
                 type="text"
                 fullWidth
                 label="인스타그램(Instagram)"
