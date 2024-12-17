@@ -1,6 +1,6 @@
 import { Box, Drawer, drawerClasses, DrawerProps, useTheme } from "@mui/material";
 import { sidebarTokens } from "./sidebar";
-import { headerTokens } from "./header";
+import { headerTokens } from "../header";
 
 type SidebarDrawerProps = {
   slots: {

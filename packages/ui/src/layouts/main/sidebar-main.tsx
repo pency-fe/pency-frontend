@@ -1,8 +1,8 @@
 "use client";
 
 import { Box, Container, useTheme } from "@mui/material";
-import { headerTokens } from "./header";
-import { sidebarTokens } from "./sidebar";
+import { headerTokens } from "../header";
+import { sidebarTokens } from "../sidebar";
 
 type SidebarMainProps = {
   slots?: {
@@ -20,12 +20,12 @@ export const SidebarMain = ({ slots, children }: SidebarMainProps) => {
         display: "flex",
         flexDirection: "column",
         mt: `var(${headerTokens.height})`,
-        [theme.breakpoints.up("lg")]: { mt: `var(${headerTokens.upSmHeight})` },
         transition: theme.transitions.create(["padding-left"], {
           easing: `var(${sidebarTokens.easing})`,
           duration: `var(${sidebarTokens.duration})`,
         }),
         [theme.breakpoints.up("sm")]: {
+          mt: `var(${headerTokens.upSmHeight})`,
           pl: `var(${sidebarTokens.upSmWidth})`,
         },
         [theme.breakpoints.up("lg")]: {
