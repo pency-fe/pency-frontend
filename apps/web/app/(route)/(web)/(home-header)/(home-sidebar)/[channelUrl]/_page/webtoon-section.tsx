@@ -37,14 +37,13 @@ export function WebtoonSection() {
   }, [searchParams]);
 
   return (
-    <Stack spacing={1}>
-      <WT_Post_Channel_RichCarousel>
+    <WT_Post_Channel_RichCarousel>
+      <Stack spacing={1}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography variant="h4">웹툰</Typography>
         </Box>
 
-        {/* 라디오 버튼 */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <RadioGroup value={webtoonParam}>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
               {webtoon.map(([webtoon, label]) => (
@@ -81,7 +80,7 @@ export function WebtoonSection() {
         </Box>
 
         <WT_Post_Channel_RichCarousel.Container channelUrl={channelUrl} sort="LATEST" page={1} />
-      </WT_Post_Channel_RichCarousel>
-    </Stack>
+      </Stack>
+    </WT_Post_Channel_RichCarousel>
   );
 }

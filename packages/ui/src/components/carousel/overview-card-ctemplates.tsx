@@ -31,6 +31,34 @@ const OverviewCardCtemplateFn = ({ slots }: OverviewCardCtemplateFnProps) => {
 
 // ----------------------------------------------------------------------
 
+type OverviewCardTCtemplateFnProps = {
+  slots: {
+    title: React.ReactElement;
+    tabs: React.ReactElement;
+    moreButton: React.ReactElement;
+    prevNextNav: React.ReactElement;
+    overviewCarouselContainer: React.ReactElement;
+  };
+};
+
+const OverviewCardTCtemplateFn = ({ slots }: OverviewCardTCtemplateFnProps) => {
+  return (
+    <Stack spacing={1}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>{slots.title}</Box>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        {slots.tabs}
+        <Box sx={{ display: "flex", alignItems: "center", ml: "auto", gap: 1 }}>
+          {slots.moreButton}
+          {slots.prevNextNav}
+        </Box>
+      </Box>
+      {slots.overviewCarouselContainer}
+    </Stack>
+  );
+};
+
+// ----------------------------------------------------------------------
+
 type TitleFnProps = TypographyProps;
 
 const TitleFn = (rest: TitleFnProps) => {
@@ -64,6 +92,12 @@ const MoreButtonFn = (rest: MoreButtonFnProps) => {
 
 // ----------------------------------------------------------------------
 
+const TabsFn = ({ children }: { children?: React.ReactNode }) => {
+  return <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>{children}</Box>;
+};
+
+// ----------------------------------------------------------------------
+
 const PrevNextNavFn = ({ children }: { children?: React.ReactNode }) => {
   return children;
 };
@@ -78,6 +112,14 @@ const OverviewCarouselContainerFn = ({ children }: { children?: React.ReactNode 
 
 export const OverviewCardCtemplate = Object.assign(OverviewCardCtemplateFn, {
   Title: TitleFn,
+  MoreButton: MoreButtonFn,
+  PrevNextNav: PrevNextNavFn,
+  OverviewCarouselContainer: OverviewCarouselContainerFn,
+});
+
+export const OverviewCardTCtemplate = Object.assign(OverviewCardTCtemplateFn, {
+  Title: TitleFn,
+  Tabs: TabsFn,
   MoreButton: MoreButtonFn,
   PrevNextNav: PrevNextNavFn,
   OverviewCarouselContainer: OverviewCarouselContainerFn,
