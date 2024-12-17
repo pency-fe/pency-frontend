@@ -87,3 +87,22 @@ type UnblockReq = {
 export const unblock = async (req: UnblockReq) => {
   return await api.delete(`channel/${req.id}/block`).json();
 };
+
+// ----------------------------------------------------------------------
+
+type GetChannelMeBrandingDetailReq = {
+  url: string;
+};
+
+type GetChannelMeBrandingDetailRes = {
+  id: number;
+  title: string;
+  description: string;
+  url: string;
+  image: string;
+  bgImage: string;
+};
+
+export const getChannelMeBrandingDetail = async (req: GetChannelMeBrandingDetailReq) => {
+  return await api.get<GetChannelMeBrandingDetailRes>(`channel/me/@${req.url}/detail/branding`).json();
+};
