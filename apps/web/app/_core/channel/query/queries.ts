@@ -1,6 +1,6 @@
 import { Options } from "ky";
 import { queryOptions } from "@tanstack/react-query";
-import { getChannelMeList, getChannelUserProfileList } from "./api";
+import { getChannelMeBrandingDetail, getChannelMeList, getChannelUserProfileList } from "./api";
 
 export const channelKeys = {
   all: ["channel"],
@@ -29,9 +29,11 @@ export const channelMeKeys = {
       queryFn: () => getChannelMeList(options),
     }),
   details: () => [...channelMeKeys.all, "detail"],
-  brandingDetail: () =>
-    queryOptions({
+  brandingDetail: ({ url }: Required<Parameters<typeof getChannelMeBrandingDetail>[0]>) =>
+    queryOptions<Awaited<ReturnType<typeof getChannelMeBrandingDetail>>>({
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: [...channelMeKeys.details(), "branding"],
+      queryFn: () => getChannelMeBrandingDetail({ url }),
     }),
   linkDetail: () =>
     queryOptions({
