@@ -13,6 +13,15 @@ export default function SettingBrandingPage() {
   const me = useUserAuthMeContext();
   const isFirstMount = useFirstMountState();
 
+  /**
+   * useQuery 사용해서 channelMeKeys.brandingDetail 데이터를 가져와야 한다.
+   * 가져온 데이터 적절하게 배채한다.
+   * wt-post-page-content.tsx 참고
+   * CH_Update_Form.DeleteButton 기능 구현
+   * CH_Update_Form.UpdateSubmitButton 기능 구현
+   *
+   */
+
   if (isFirstMount && !me.isLoggedIn) {
     if (isClient()) {
       router.push("/login");

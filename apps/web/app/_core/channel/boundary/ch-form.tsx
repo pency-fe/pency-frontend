@@ -182,8 +182,8 @@ const TitleFn = (rest: TitleFnProps) => {
           {...field}
           variant="outlined"
           {...rest}
-          type="text"
           label="채널 제목"
+          type="text"
           required
           helperText={error ? error.message : "최대 45자 이내로 입력해 주세요."}
           error={!!error}
