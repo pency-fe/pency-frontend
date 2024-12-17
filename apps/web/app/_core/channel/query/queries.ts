@@ -28,4 +28,13 @@ export const channelMeKeys = {
       queryKey: [...channelMeKeys.lists()],
       queryFn: () => getChannelMeList(options),
     }),
+  details: () => [...channelMeKeys.all, "detail"],
+  brandingDetail: () =>
+    queryOptions({
+      queryKey: [...channelMeKeys.details(), "branding"],
+    }),
+  linkDetail: () =>
+    queryOptions({
+      queryKey: [...channelMeKeys.details(), "link"],
+    }),
 };

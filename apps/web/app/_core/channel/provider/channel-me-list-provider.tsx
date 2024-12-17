@@ -3,7 +3,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { channelMeKeys } from "_core/channel/query/queries";
 import { useUserAuthMeContext } from "_core/user";
-import { createContext, useContext, useMemo, useRef } from "react";
+import { createContext, useContext } from "react";
 
 type ContextValue = Exclude<
   UseQueryResult<Awaited<ReturnType<Exclude<ReturnType<typeof channelMeKeys.list>["queryFn"], undefined>>>>["data"],

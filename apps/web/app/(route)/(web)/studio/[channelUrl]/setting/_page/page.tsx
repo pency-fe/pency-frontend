@@ -32,7 +32,7 @@ export default function SettingPage() {
           </ListItemIcon>
           <ListItemText
             primary="소셜 링크"
-            secondary="채널에 표시되는 소셜 미디어 빛 웹사이트 링크를 관리할 수 있어요."
+            secondary="채널에 표시되는 소셜 미디어 및 웹사이트 링크를 관리할 수 있어요."
           />
           <EvaArrowIosForwardFillIcon sx={{ height: 24, width: 24, color: theme.vars.palette.text.secondary }} />
         </ListItemButton>
