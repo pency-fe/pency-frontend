@@ -1,6 +1,5 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { BrandPencyTextLogoIcon, SolarInfoCircleBoldIcon } from "@pency/ui/components";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 // https://www.postype.com/studio/eqweqwe21/dashboard
 export function AccessDenied() {
