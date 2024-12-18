@@ -40,6 +40,16 @@ export const getChannelUserProfileList = async (req: GetChannelUserProfileListRe
 
 // ----------------------------------------------------------------------
 
+function formatUrl(url: string) {
+  if (url.startsWith("@")) {
+    return url.replace("@", "");
+  }
+
+  return url;
+}
+
+// ----------------------------------------------------------------------
+
 type GetChannelMeListRes = Array<{
   id: number;
   title: string;
@@ -95,7 +105,6 @@ type GetChannelMeBrandingDetailReq = {
 };
 
 type GetChannelMeBrandingDetailRes = {
-  id: number;
   title: string;
   description: string;
   url: string;
@@ -104,5 +113,24 @@ type GetChannelMeBrandingDetailRes = {
 };
 
 export const getChannelMeBrandingDetail = async (req: GetChannelMeBrandingDetailReq) => {
-  return await api.get<GetChannelMeBrandingDetailRes>(`channel/me/@${req.url}/detail/branding`).json();
+  const url = formatUrl(req.url);
+
+  return await api.get<GetChannelMeBrandingDetailRes>(`channel/me/@${url}/detail/branding`).json();
+};
+
+// ----------------------------------------------------------------------
+
+type GetChannelMeLinkDetailReq = {
+  url: string;
+};
+
+type GetChannelMeLinkDetailRes = {
+  linkType: string;
+  url: string;
+};
+
+export const getChannelMeLinkDetail = async (req: GetChannelMeLinkDetailReq) => {
+  const url = formatUrl(req.url);
+
+  return await api.get<GetChannelMeLinkDetailRes>(`channel/me/@${url}/detail/link`);
 };

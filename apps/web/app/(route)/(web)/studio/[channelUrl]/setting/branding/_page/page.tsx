@@ -32,7 +32,7 @@ function SettingBrandingPageFn() {
 
   const channelUrl = useChannelUrlParam();
 
-  const query = useQuery({ ...channelMeKeys.brandingDetail({ url: channelUrl.replace("@", "") }), throwOnError: true });
+  const query = useQuery({ ...channelMeKeys.brandingDetail({ url: channelUrl }), throwOnError: true });
 
   return (
     <>
@@ -65,13 +65,14 @@ function Loading() {
   return (
     <Stack spacing={3}>
       <Stack spacing={4}>
-        <Skeleton animation="wave" height={48} />
-        <Skeleton animation="wave" height={48} />
-        <Skeleton animation="wave" height={48} />
-        <Skeleton animation="wave" height={48} />
+        <Skeleton animation="wave" height={36} width={140} />
+        <Skeleton animation="wave" height={80} />
+        <Skeleton animation="wave" height={118} />
+        <Skeleton animation="wave" height={80} />
+        <Skeleton animation="wave" height={128} width={320} />
         <Box sx={{ display: "flex", justifyContent: "space-between", gap: 1 }}>
-          <Skeleton animation="wave" height={48} width={50} />
-          <Skeleton animation="wave" height={48} width={50} />
+          <Skeleton animation="wave" height={36} width={68} />
+          <Skeleton animation="wave" height={36} width={104} />
         </Box>
       </Stack>
     </Stack>

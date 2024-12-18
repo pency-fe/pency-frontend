@@ -81,9 +81,9 @@ const CH_Update_Form_Fn = ({ children, data }: CH_Update_Form_Fn_Props) => {
     resolver: zodResolver(schema),
     defaultValues: {
       title: data.title,
-      description: data.description,
+      description: data.description ?? "",
       url: data.url,
-      image: data.image ?? process.env["NEXT_PUBLIC_TEXT_LOGO"],
+      image: data.image ?? "",
     },
     mode: "onTouched",
   });
