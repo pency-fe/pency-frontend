@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { block, createChannel, unblock } from "./api";
+import { block, createChannel, unblock, updateLink } from "./api";
 import { FailureRes, QueryError } from "_core/api";
 import { channelMeKeys } from "./queries";
 
@@ -39,5 +39,13 @@ export const useUnblock = () => {
     Parameters<typeof unblock>[0]
   >({
     mutationFn: unblock,
+  });
+};
+
+// ----------------------------------------------------------------------
+
+export const useUpdateLink = () => {
+  return useMutation<Awaited<ReturnType<typeof updateLink>>, void, Parameters<typeof updateLink>[0]>({
+    mutationFn: updateLink,
   });
 };

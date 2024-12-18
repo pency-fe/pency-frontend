@@ -124,13 +124,30 @@ type GetChannelMeLinkDetailReq = {
   url: string;
 };
 
-type GetChannelMeLinkDetailRes = {
+type GetChannelMeLinkDetailRes = Array<{
   linkType: string;
   url: string;
-};
+}>;
 
 export const getChannelMeLinkDetail = async (req: GetChannelMeLinkDetailReq) => {
   const url = formatUrl(req.url);
 
-  return await api.get<GetChannelMeLinkDetailRes>(`channel/me/@${url}/detail/link`);
+  return await api.get<GetChannelMeLinkDetailRes>(`channel/me/@${url}/detail/link`).json();
+};
+
+// ----------------------------------------------------------------------
+
+type UpdateLinkReq = {
+  url: string;
+};
+
+type UpdateLinkRes = Array<{
+  linkType: string;
+  url: string;
+}>;
+
+export const updateLink = async (req: UpdateLinkReq) => {
+  const url = formatUrl(req.url);
+
+  return await api.get<UpdateLinkRes>(`channel/me/@${url}/detail/link`).json();
 };
