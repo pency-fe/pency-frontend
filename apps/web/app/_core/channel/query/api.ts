@@ -125,7 +125,7 @@ type GetChannelMeLinkDetailReq = {
 };
 
 type GetChannelMeLinkDetailRes = Array<{
-  linkType: string;
+  linkType: "HOME" | "TWITTER" | "INSTAGRAM";
   url: string;
 }>;
 
