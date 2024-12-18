@@ -137,17 +137,13 @@ export const getChannelMeLinkDetail = async (req: GetChannelMeLinkDetailReq) => 
 
 // ----------------------------------------------------------------------
 
-type UpdateLinkReq = {
-  url: string;
-};
-
-type UpdateLinkRes = Array<{
-  linkType: string;
+type UpdateLinkReq = Array<{
+  linkType: "HOME" | "TWITTER" | "INSTAGRAM";
   url: string;
 }>;
 
-export const updateLink = async (req: UpdateLinkReq) => {
-  const url = formatUrl(req.url);
+export const updateLink = async ({ req, channelUrl }: { req: UpdateLinkReq; channelUrl: string }) => {
+  const url = formatUrl(channelUrl);
 
-  return await api.get<UpdateLinkRes>(`channel/me/@${url}/detail/link`).json();
+  return await api.get(`channel/me/@${url}/detail/link`, { json: req }).json();
 };

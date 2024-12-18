@@ -5,7 +5,6 @@ import { withAsyncBoundary } from "@pency/util";
 import { useQuery } from "@tanstack/react-query";
 import { CH_Update_Form, channelMeKeys } from "_core/channel";
 import { useChannelUrlParam } from "_hooks";
-import { useParams } from "next/navigation";
 
 // ----------------------------------------------------------------------
 

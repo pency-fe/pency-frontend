@@ -99,7 +99,7 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
   const router = useRouter();
   const { mutate } = useCreateChannel();
 
-  const { handleSubmit, setError } = useFormContext<Schema>();
+  const { handleSubmit, setError } = useCHFormContext();
 
   const onSubmit = (data: Schema) => {
     mutate(data, {
@@ -141,7 +141,7 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
 type UpdateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
-  const { handleSubmit } = useFormContext<Schema>();
+  const { handleSubmit } = useCHFormContext();
 
   const onSubmit = (data: Schema) => {
     console.log(data);
@@ -159,7 +159,7 @@ const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
 type DeleteFnProps = Omit<ButtonProps, "children">;
 
 const DeleteFn = (props: DeleteFnProps) => {
-  const { handleSubmit } = useFormContext<Schema>();
+  const { handleSubmit } = useCHFormContext();
 
   const onSubmit = (data: Schema) => {
     console.log(data);
@@ -177,7 +177,7 @@ const DeleteFn = (props: DeleteFnProps) => {
 type TitleFnProps = TextFieldProps;
 
 const TitleFn = (rest: TitleFnProps) => {
-  const { control } = useFormContext<Schema>();
+  const { control } = useCHFormContext();
 
   return (
     <Controller
@@ -211,7 +211,7 @@ const TitleFn = (rest: TitleFnProps) => {
 type DescriptionFnProps = TextFieldProps;
 
 const DescriptionFn = (rest: DescriptionFnProps) => {
-  const { control } = useFormContext<Schema>();
+  const { control } = useCHFormContext();
 
   return (
     <Controller
@@ -255,7 +255,7 @@ const DescriptionFn = (rest: DescriptionFnProps) => {
 type UrlFnProps = TextFieldProps;
 
 const UrlFn = (rest: UrlFnProps) => {
-  const { control } = useFormContext<Schema>();
+  const { control } = useCHFormContext();
 
   return (
     <Controller
