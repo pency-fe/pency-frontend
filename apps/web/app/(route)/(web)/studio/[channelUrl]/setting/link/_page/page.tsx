@@ -1,27 +1,11 @@
 "use client";
 
-import { Button, List, ListItem, ListItemIcon, Stack, TextField, useTheme } from "@mui/material";
+import { Button, List, ListItem, ListItemIcon, Stack, TextField } from "@mui/material";
 import { BrandInstagramIcon, BrandTwitterIcon, FluentHome24RegularIcon } from "@pency/ui/components";
-import { isClient, useFirstMountState } from "@pency/util";
-import { useUserAuthMeContext } from "_core/user";
-import { redirect, useRouter } from "next/navigation";
 
 // ----------------------------------------------------------------------
 
 export default function SettingLinkPage() {
-  const theme = useTheme();
-  const router = useRouter();
-  const me = useUserAuthMeContext();
-  const isFirstMount = useFirstMountState();
-
-  if (isFirstMount && !me.isLoggedIn) {
-    if (isClient()) {
-      router.push("/login");
-    } else {
-      redirect("/login");
-    }
-  }
-
   return (
     <form
       onSubmit={(e) => {

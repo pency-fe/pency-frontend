@@ -68,16 +68,22 @@ const CH_Create_Form_Fn = ({ children }: CH_Create_Form_Fn_Props) => {
 
 type CH_Update_Form_Fn_Props = {
   children?: ReactNode;
+  data: {
+    title: string;
+    description: string;
+    url: string;
+    image: string;
+  };
 };
 
-const CH_Update_Form_Fn = ({ children }: CH_Update_Form_Fn_Props) => {
+const CH_Update_Form_Fn = ({ children, data }: CH_Update_Form_Fn_Props) => {
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
-      title: "",
-      description: "",
-      url: "",
-      image: "",
+      title: data.title,
+      description: data.description,
+      url: data.url,
+      image: data.image ?? process.env["NEXT_PUBLIC_TEXT_LOGO"],
     },
     mode: "onTouched",
   });
