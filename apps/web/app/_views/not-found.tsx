@@ -1,13 +1,12 @@
 // https://www.postype.com/studio/eqweqwe211/dashboard
 
-import { Stack, Box, Typography, Button } from "@mui/material";
+import { Stack, Typography, Button } from "@mui/material";
 import { SolarInfoCircleBoldIcon } from "@pency/ui/components";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export function NotFound() {
   return (
     <Stack sx={{ justifyContent: "space-around", alignItems: "center", height: "100vh" }}>
-      <Box component={LazyLoadImage} src={process.env["NEXT_PUBLIC_LOGO"]} width={80} />
+      <SolarInfoCircleBoldIcon sx={{ fontSize: 120 }} />
       <Stack spacing={2} sx={{ alignItems: "center" }}>
         <SolarInfoCircleBoldIcon sx={{ fontSize: 80 }} />
         <Typography variant="h3">앗, 존재하지 않는 길이에요.</Typography>

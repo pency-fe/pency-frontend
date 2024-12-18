@@ -7,8 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { channelMeKeys } from "_core/channel";
 import { useChannelUrlParam } from "_hooks";
 
-// [?]
-
 // ----------------------------------------------------------------------
 export const SettingLinkPage = withAsyncBoundary(SettingLinkPageFn, {
   errorBoundary: { fallback: <Loading /> },
@@ -77,5 +75,6 @@ function SettingLinkPageFn() {
 }
 
 function Loading() {
+  // [TODO]
   return <></>;
 }
