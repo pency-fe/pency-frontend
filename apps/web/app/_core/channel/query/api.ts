@@ -104,7 +104,7 @@ type GetChannelMeBrandingDetailRes = {
 };
 
 export const getChannelMeBrandingDetail = async (req: GetChannelMeBrandingDetailReq) => {
-  return await api.get<GetChannelMeBrandingDetailRes>(`channel/me/@${formatUrl(req.url)}/detail/branding`).json();
+  return await api.get<GetChannelMeBrandingDetailRes>(`channel/me/${formatUrl(req.url)}/detail/branding`).json();
 };
 
 // ----------------------------------------------------------------------

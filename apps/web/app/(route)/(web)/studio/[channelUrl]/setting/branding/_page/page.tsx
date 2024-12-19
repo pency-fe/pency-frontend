@@ -64,11 +64,11 @@ function Loading() {
   return (
     <Stack spacing={3}>
       <Stack spacing={4}>
-        <Skeleton animation="wave" height={36} width={140} />
+        <Skeleton animation="wave" width={140} height={36} />
         <Skeleton animation="wave" height={80} />
         <Skeleton animation="wave" height={118} />
         <Skeleton animation="wave" height={80} />
-        <Skeleton animation="wave" height={128} width={320} />
+        <Skeleton animation="wave" width={320} height={158} />
         <Box sx={{ display: "flex", justifyContent: "space-between", gap: 1 }}>
           <Skeleton animation="wave" height={36} width={68} />
           <Skeleton animation="wave" height={36} width={104} />
