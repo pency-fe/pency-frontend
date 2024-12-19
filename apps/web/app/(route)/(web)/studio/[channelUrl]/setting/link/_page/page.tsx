@@ -1,6 +1,6 @@
 "use client";
 
-import { Stack, List, ListItem } from "@mui/material";
+import { Stack, List, ListItem, Skeleton } from "@mui/material";
 import { withAsyncBoundary } from "@pency/util";
 import { useQuery } from "@tanstack/react-query";
 import { CH_Link_Form, channelMeKeys } from "_core/channel";
@@ -47,6 +47,25 @@ function SettingLinkPageFn() {
 }
 
 function Loading() {
-  // [TODO]
-  return <></>;
+  return (
+    <Stack spacing={3}>
+      <List>
+        <Stack spacing={2}>
+          <ListItem disablePadding>
+            <Skeleton width={1152} height={54} />
+          </ListItem>
+
+          <ListItem disablePadding>
+            <Skeleton width={1152} height={54} />
+          </ListItem>
+
+          <ListItem disablePadding>
+            <Skeleton width={1152} height={54} />
+          </ListItem>
+        </Stack>
+      </List>
+
+      <Skeleton width={102} height={36} sx={{ alignSelf: "flex-end" }} />
+    </Stack>
+  );
 }
