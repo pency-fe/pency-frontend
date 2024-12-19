@@ -1,32 +1,20 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ListItem, ListItemIcon, TextField } from "@mui/material";
-import { BrandInstagramIcon, BrandTwitterIcon, FluentHome24RegularIcon } from "@pency/ui/components";
+import { Button, ButtonProps, ListItem, ListItemIcon, TextField } from "@mui/material";
+import { BrandInstagramIcon, BrandTwitterIcon, FluentHome24RegularIcon, toast } from "@pency/ui/components";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
+import { useUpdateLink } from "../query";
+import { UpdateLinkReq } from "../query/api";
 
 // ----------------------------------------------------------------------
 
-/**
- * 목표
- * 각각의 필드에 대한 유효성 정의한 schema 만들기
- * 설계
- * 필요한 필드는 home, twitter, instagram
- * 각 필드의 유효성은 string으로 최대 200자, http: 또는 https:로 시작
- * 각 필드의 유효성이 동일하므로 하나의 유효성 정의 만들기
- *
- *
- * 목표
- * Form 만들기
- * 설계
- * props로 icon, name 받는 컴포넌트 작성
- */
-
 const linkSchema = z
   .string()
-  .max(200)
-  .regex(/^(https?:).*$/);
+  .max(200, "200자 이내로 입력해 주세요.")
+  .regex(/^(https?:.*)?$/)
+  .optional();
 
 const schema = z.object({
   home: linkSchema,
@@ -65,6 +53,54 @@ const CH_Link_Form_Fn = ({ home, twitter, instagram, children }: CH_Link_Form_Fn
 
 // ----------------------------------------------------------------------
 
+type UpdateSubmitFnProps = Omit<ButtonProps, "children"> & { channelUrl: string };
+
+const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
+  const { mutate } = useUpdateLink();
+  const { handleSubmit } = useCHLinkFormContext();
+
+  const onSubmit = (data: Schema) => {
+    const req: UpdateLinkReq = [
+      {
+        linkType: "HOME",
+        url: data.home ?? "",
+      },
+      {
+        linkType: "TWITTER",
+        url: data.twitter ?? "",
+      },
+      {
+        linkType: "INSTAGRAM",
+        url: data.instagram ?? "",
+      },
+    ];
+
+    mutate(
+      { req, channelUrl: props.channelUrl },
+      {
+        onSuccess: () => {
+          toast.success("변경 내용을 저장했어요.");
+        },
+      },
+    );
+  };
+
+  return (
+    <Button
+      type="submit"
+      variant="contained"
+      color="primary"
+      onClick={handleSubmit(onSubmit)}
+      {...props}
+      sx={{ alignSelf: "flex-end" }}
+    >
+      변경 내용 저장
+    </Button>
+  );
+};
+
+// ----------------------------------------------------------------------
+
 type Link_Field_Fn_Props = {
   icon: React.ReactNode;
   name: keyof Schema;
@@ -87,7 +123,7 @@ const Link_Field_Fn = ({ icon, name, label }: Link_Field_Fn_Props) => {
             type="text"
             fullWidth
             label={label}
-            placeholder="URL(http 포함)을 입력해 주세요."
+            placeholder="URL(https: 포함)을 입력해 주세요."
             {...(error && {
               helperText: error.message,
             })}
@@ -107,4 +143,5 @@ export const CH_Link_Form = Object.assign(CH_Link_Form_Fn, {
   Instagram: () => (
     <Link_Field_Fn icon={<BrandInstagramIcon fontSize="medium" />} name="instagram" label="인스타그램(Instagram)" />
   ),
+  UpdateSubmit: UpdateSubmitFn,
 });
