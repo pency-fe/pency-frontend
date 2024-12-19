@@ -60,20 +60,18 @@ const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
   const { handleSubmit } = useCHLinkFormContext();
 
   const onSubmit = (data: Schema) => {
-    const req: UpdateLinkReq = [
-      {
-        linkType: "HOME",
-        url: data.home ?? "",
-      },
-      {
-        linkType: "TWITTER",
-        url: data.twitter ?? "",
-      },
-      {
-        linkType: "INSTAGRAM",
-        url: data.instagram ?? "",
-      },
-    ];
+    const req: UpdateLinkReq = [];
+    if (data.home) {
+      req.push({ linkType: "HOME", url: data.home });
+    }
+
+    if (data.twitter) {
+      req.push({ linkType: "TWITTER", url: data.twitter });
+    }
+
+    if (data.instagram) {
+      req.push({ linkType: "INSTAGRAM", url: data.instagram });
+    }
 
     mutate(
       { req, channelUrl: props.channelUrl },

@@ -1,7 +1,6 @@
 "use client";
 
-import { Button, List, ListItem, ListItemIcon, Stack, TextField } from "@mui/material";
-import { BrandInstagramIcon, BrandTwitterIcon, FluentHome24RegularIcon } from "@pency/ui/components";
+import { Stack, List, ListItem } from "@mui/material";
 import { withAsyncBoundary } from "@pency/util";
 import { useQuery } from "@tanstack/react-query";
 import { CH_Link_Form, channelMeKeys } from "_core/channel";
@@ -23,21 +22,21 @@ function SettingLinkPageFn() {
       ) : (
         <CH_Link_Form>
           <Stack spacing={3}>
-            {/* <List> */}
-            <Stack spacing={2}>
-              {/* <ListItem disablePadding> */}
-              <CH_Link_Form.Home />
-              {/* </ListItem> */}
+            <List>
+              <Stack spacing={2}>
+                <ListItem disablePadding>
+                  <CH_Link_Form.Home />
+                </ListItem>
 
-              {/* <ListItem disablePadding> */}
-              <CH_Link_Form.Twitter />
-              {/* </ListItem> */}
+                <ListItem disablePadding>
+                  <CH_Link_Form.Twitter />
+                </ListItem>
 
-              {/* <ListItem disablePadding> */}
-              <CH_Link_Form.Instagram />
-              {/* </ListItem> */}
-            </Stack>
-            {/* </List> */}
+                <ListItem disablePadding>
+                  <CH_Link_Form.Instagram />
+                </ListItem>
+              </Stack>
+            </List>
 
             <CH_Link_Form.UpdateSubmit channelUrl={url} />
           </Stack>

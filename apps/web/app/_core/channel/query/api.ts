@@ -1,3 +1,4 @@
+import { formatUrl } from "@pency/util";
 import { api } from "_core/api";
 import { Options } from "ky";
 
@@ -37,16 +38,6 @@ export const getChannelUserProfileList = async (req: GetChannelUserProfileListRe
 /** **************************************
  * channel-me
  *************************************** */
-
-// ----------------------------------------------------------------------
-
-function formatUrl(url: string) {
-  if (url.startsWith("@")) {
-    return url.replace("@", "");
-  }
-
-  return url;
-}
 
 // ----------------------------------------------------------------------
 
@@ -113,9 +104,7 @@ type GetChannelMeBrandingDetailRes = {
 };
 
 export const getChannelMeBrandingDetail = async (req: GetChannelMeBrandingDetailReq) => {
-  const url = formatUrl(req.url);
-
-  return await api.get<GetChannelMeBrandingDetailRes>(`channel/me/@${url}/detail/branding`).json();
+  return await api.get<GetChannelMeBrandingDetailRes>(`channel/me/@${formatUrl(req.url)}/detail/branding`).json();
 };
 
 // ----------------------------------------------------------------------
@@ -132,7 +121,7 @@ type GetChannelMeLinkDetailRes = Array<{
 export const getChannelMeLinkDetail = async (req: GetChannelMeLinkDetailReq) => {
   const url = formatUrl(req.url);
 
-  return await api.get<GetChannelMeLinkDetailRes>(`channel/me/@${url}/detail/link`).json();
+  return await api.get<GetChannelMeLinkDetailRes>(`channel/me/${url}/detail/link`).json();
 };
 
 // ----------------------------------------------------------------------
@@ -143,7 +132,5 @@ export type UpdateLinkReq = Array<{
 }>;
 
 export const updateLink = async ({ req, channelUrl }: { req: UpdateLinkReq; channelUrl: string }) => {
-  const url = formatUrl(channelUrl);
-
-  return await api.post(`channel/me/@${url}/detail/link`, { json: req }).json();
+  return await api.post(`channel/me/${formatUrl(channelUrl)}/detail/link`, { json: req }).json();
 };
