@@ -7,7 +7,8 @@ import { Controller, FormProvider, useForm, useFormContext } from "react-hook-fo
 import { z } from "zod";
 import { useUpdateLink } from "../query";
 import { UpdateLinkReq } from "../query/api";
-import { objectEntries } from "@pency/util";
+import { objectEntries, useToggle } from "@pency/util";
+import { LoadingButton } from "@mui/lab";
 
 // ----------------------------------------------------------------------
 
@@ -63,6 +64,7 @@ type UpdateSubmitFnProps = Omit<ButtonProps, "children"> & { channelUrl: string 
 const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
   const { mutate } = useUpdateLink();
   const { handleSubmit } = useCHLinkFormContext();
+  const [loading, toggleLoading] = useToggle(false);
 
   const onSubmit = (data: Schema) => {
     const req: UpdateLinkReq = [];
@@ -72,27 +74,32 @@ const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
       }
     }
 
+    toggleLoading(true);
     mutate(
       { req, channelUrl: props.channelUrl },
       {
         onSuccess: () => {
           toast.success("변경 내용을 저장했어요.");
         },
+        onSettled: () => {
+          toggleLoading(false);
+        },
       },
     );
   };
 
   return (
-    <Button
+    <LoadingButton
       type="submit"
       variant="contained"
       color="primary"
+      loading={loading}
       onClick={handleSubmit(onSubmit)}
       {...props}
       sx={{ alignSelf: "flex-end" }}
     >
       변경 내용 저장
-    </Button>
+    </LoadingButton>
   );
 };
 
