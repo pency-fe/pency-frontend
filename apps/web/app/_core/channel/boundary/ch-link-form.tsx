@@ -7,14 +7,19 @@ import { Controller, FormProvider, useForm, useFormContext } from "react-hook-fo
 import { z } from "zod";
 import { useUpdateLink } from "../query";
 import { UpdateLinkReq } from "../query/api";
+import { objectEntries } from "@pency/util";
 
 // ----------------------------------------------------------------------
 
 const linkSchema = z
   .string()
   .max(200, "200자 이내로 입력해 주세요.")
-  .regex(/^(https?:.*)?$/)
-  .optional();
+  .refine((link) => {
+    if (link.trim().length) {
+      return /^https?:.*/.test(link);
+    }
+    return true;
+  }, "URL(http 포함)을 입력해 주세요.");
 
 const schema = z.object({
   home: linkSchema,
@@ -61,16 +66,10 @@ const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
 
   const onSubmit = (data: Schema) => {
     const req: UpdateLinkReq = [];
-    if (data.home) {
-      req.push({ linkType: "HOME", url: data.home });
-    }
-
-    if (data.twitter) {
-      req.push({ linkType: "TWITTER", url: data.twitter });
-    }
-
-    if (data.instagram) {
-      req.push({ linkType: "INSTAGRAM", url: data.instagram });
+    for (const [key, value] of objectEntries(data)) {
+      if (value.length) {
+        req.push({ linkType: key.toUpperCase() as UpdateLinkReq[number]["linkType"], url: value });
+      }
     }
 
     mutate(
@@ -121,7 +120,7 @@ const Link_Field_Fn = ({ icon, name, label }: Link_Field_Fn_Props) => {
             type="text"
             fullWidth
             label={label}
-            placeholder="URL(https: 포함)을 입력해 주세요."
+            placeholder="URL(http 포함)을 입력해 주세요."
             {...(error && {
               helperText: error.message,
             })}
