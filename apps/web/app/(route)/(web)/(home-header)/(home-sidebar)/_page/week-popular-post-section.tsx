@@ -17,15 +17,14 @@ const PLATFORM_VALUE_LABEL: Record<platformValue, string> = {
   WEBNOVEL: "웹소설",
 } as const;
 
-// [TODO] 시리즈 추가 후, 수정
 // ----------------------------------------------------------------------
 
-export function WPopularSeriesSection() {
+export function WPopularPostSection() {
   const searchParams = useSearchParams();
 
   const platform = useMemo(() => objectEntries(PLATFORM_VALUE_LABEL), []);
   const platformParam = useMemo(() => {
-    const param = searchParams.get("wpopular-series");
+    const param = searchParams.get("wpopular-post");
     if (param && Object.keys(PLATFORM_VALUE_LABEL).includes(param)) {
       return param as platformValue;
     }
@@ -33,24 +32,13 @@ export function WPopularSeriesSection() {
     return "WEBTOON" as platformValue;
   }, [searchParams]);
 
-  /**
-   * 목표: 시리즈 랭킹(웹툰/웹소설)
-   * rank="WEBTOON" | "WEBNOVEL"
-   *
-   * 목표: 주간 인기 시리즈(웹툰/웹소설)
-   * wpopular-series="WEBTOON" | "WEBNOVEL"
-   *
-   * 목표: 주간 인기 포스트(웹툰/웹소설)
-   * wpopular-post="WEBTOON" | "WEBNOVEL"
-   *
-   */
   return (
     <>
       {platformParam === "WEBTOON" ? (
         <WT_Post_OverviewCarousel>
           <OverviewCardTCtemplate
             slots={{
-              title: <OverviewCardTCtemplate.Title>주간 인기 시리즈</OverviewCardTCtemplate.Title>,
+              title: <OverviewCardTCtemplate.Title>주간 인기 포스트</OverviewCardTCtemplate.Title>,
               tabs: (
                 <RadioGroup value={platformParam}>
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
@@ -61,9 +49,9 @@ export function WPopularSeriesSection() {
                         href={(() => {
                           const params = new URLSearchParams(searchParams.toString());
                           if (platform === "WEBNOVEL") {
-                            params.set("wpopular-series", platform);
+                            params.set("wpopular-post", platform);
                           } else {
-                            params.delete("wpopular-series");
+                            params.delete("wpopular-post");
                           }
                           return `/${createQueryString(params)}`;
                         })()}
@@ -76,7 +64,9 @@ export function WPopularSeriesSection() {
                 </RadioGroup>
               ),
 
-              moreButton: <OverviewCardTCtemplate.MoreButton component={NextLink} href={`/[TODO]주간_인기_시리즈`} />,
+              moreButton: (
+                <OverviewCardTCtemplate.MoreButton component={NextLink} href={`/webtoon/post/list?sort=WPOPULAR`} />
+              ),
               prevNextNav: (
                 <>
                   <WT_Post_OverviewCarousel.PrevNav />
