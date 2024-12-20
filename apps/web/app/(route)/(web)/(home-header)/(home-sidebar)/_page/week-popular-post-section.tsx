@@ -17,6 +17,7 @@ const PLATFORM_VALUE_LABEL: Record<platformValue, string> = {
   WEBNOVEL: "웹소설",
 } as const;
 
+// [TODO] 시리즈 추가 후, 수정
 // ----------------------------------------------------------------------
 
 export function WPopularPostSection() {
