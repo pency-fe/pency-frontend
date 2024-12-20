@@ -26,7 +26,7 @@ export function PopularSection() {
             <OverviewCardCtemplate.MoreButton
               component={NextLink}
               href={
-                genre === "ALL" ? "/webtoon/post/list?sort=POPULAR" : `/webtoon/post/list?genre=${genre}?sort=POPULAR`
+                genre === "ALL" ? "/webtoon/post/list?sort=POPULAR" : `/webtoon/post/list?genre=${genre}&sort=POPULAR`
               }
             />
           ),
@@ -36,7 +36,7 @@ export function PopularSection() {
               <WT_Post_OverviewCarousel.NextNav />
             </>
           ),
-          overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre={genre} />,
+          overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre={genre} sort="POPULAR" />,
         }}
       />
     </WT_Post_OverviewCarousel>

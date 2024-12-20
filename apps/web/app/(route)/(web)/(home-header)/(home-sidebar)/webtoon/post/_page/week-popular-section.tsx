@@ -26,7 +26,7 @@ export function WeekPopularSection() {
             <OverviewCardCtemplate.MoreButton
               component={NextLink}
               href={
-                genre === "ALL" ? "/webtoon/post/list?sort=WPOPULAR" : `/webtoon/post/list?genre=${genre}?sort=WPOPULAR`
+                genre === "ALL" ? "/webtoon/post/list?sort=WPOPULAR" : `/webtoon/post/list?genre=${genre}&sort=WPOPULAR`
               }
             />
           ),
