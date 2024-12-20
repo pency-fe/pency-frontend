@@ -25,7 +25,7 @@ export function LatestSection() {
           moreButton: (
             <OverviewCardCtemplate.MoreButton
               component={NextLink}
-              href={genreParam !== "ALL" ? `/webtoon/post/list?genre=${genreParam}` : "/webtoon/post/list"}
+              href={genre === "ALL" ? "/webtoon/post/list" : `/webtoon/post/list?genre=${genre}`}
             />
           ),
           prevNextNav: (

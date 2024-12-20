@@ -1,26 +1,21 @@
 "use client";
 
-import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import NextLink from "next/link";
-import { stylesColorScheme } from "@pency/ui/util";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { WT_Post_OverviewCarousel } from "_core/webtoon/post";
 import { OverviewCardCtemplate } from "@pency/ui/components";
 
 export function WeekPopularSection() {
-  const theme = useTheme();
+  const genreParam = useSearchParams().get("genre");
 
-  const searchParams = useSearchParams();
-
-  const genreParam = useMemo(() => {
-    const param = searchParams.get("genre");
-    if (param && Object.keys(GENRE_LABEL).includes(param)) {
-      return param as Genre;
+  const genre = useMemo(() => {
+    if (genreParam && Object.keys(GENRE_LABEL).includes(genreParam)) {
+      return genreParam as Genre;
     }
     return "ALL" as const;
-  }, [searchParams]);
+  }, [genreParam]);
 
   return (
     <WT_Post_OverviewCarousel>
@@ -30,7 +25,9 @@ export function WeekPopularSection() {
           moreButton: (
             <OverviewCardCtemplate.MoreButton
               component={NextLink}
-              href={genreParam !== "ALL" ? `/webtoon/post/list?genre=${genreParam}` : "/webtoon/post/list"}
+              href={
+                genre === "ALL" ? "/webtoon/post/list?sort=WPOPULAR" : `/webtoon/post/list?genre=${genre}?sort=WPOPULAR`
+              }
             />
           ),
           prevNextNav: (
@@ -39,7 +36,7 @@ export function WeekPopularSection() {
               <WT_Post_OverviewCarousel.NextNav />
             </>
           ),
-          overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre={genreParam} sort="WPOPULAR" />,
+          overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre={genre} sort="WPOPULAR" />,
         }}
       />
     </WT_Post_OverviewCarousel>

@@ -8,15 +8,14 @@ import { WT_Post_OverviewCarousel } from "_core/webtoon/post";
 import { OverviewCardCtemplate } from "@pency/ui/components";
 
 export function PopularSection() {
-  const searchParams = useSearchParams();
+  const genreParam = useSearchParams().get("genre");
 
-  const genreParam = useMemo(() => {
-    const param = searchParams.get("genre");
-    if (param && Object.keys(GENRE_LABEL).includes(param)) {
-      return param as Genre;
+  const genre = useMemo(() => {
+    if (genreParam && Object.keys(GENRE_LABEL).includes(genreParam)) {
+      return genreParam as Genre;
     }
     return "ALL" as const;
-  }, [searchParams]);
+  }, [genreParam]);
 
   return (
     <WT_Post_OverviewCarousel>
@@ -26,7 +25,9 @@ export function PopularSection() {
           moreButton: (
             <OverviewCardCtemplate.MoreButton
               component={NextLink}
-              href={genreParam !== "ALL" ? `/webtoon/post/list?genre=${genreParam}` : "/webtoon/post/list"}
+              href={
+                genre === "ALL" ? "/webtoon/post/list?sort=POPULAR" : `/webtoon/post/list?genre=${genre}?sort=POPULAR`
+              }
             />
           ),
           prevNextNav: (
@@ -35,7 +36,7 @@ export function PopularSection() {
               <WT_Post_OverviewCarousel.NextNav />
             </>
           ),
-          overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre={genreParam} sort="POPULAR" />,
+          overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre={genre} />,
         }}
       />
     </WT_Post_OverviewCarousel>
