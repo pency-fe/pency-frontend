@@ -1,7 +1,7 @@
 "use client";
 
 import NextLink from "next/link";
-import { Box, RadioGroup, useTheme } from "@mui/material";
+import { Box, RadioGroup } from "@mui/material";
 import { OverviewCardTCtemplate, RadioButton } from "@pency/ui/components";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
@@ -21,7 +21,6 @@ const WEBTOON_VALUE_LABEL: Record<webtoonValue, string> = {
 // ----------------------------------------------------------------------
 
 export function WebtoonSection() {
-  const theme = useTheme();
   const searchParams = useSearchParams();
   const channelUrl = useChannelUrlParam();
 

@@ -2,7 +2,7 @@
 
 import { Grid, Stack } from "@mui/material";
 import { BannerSection } from "./banner-section";
-import { PopularWebtoonPostSection } from "./popular-webtoon-post-section";
+import { WPopularSeriesSection } from "./week-popular-series-section";
 import { PopularWebtoonSeriesSection } from "./popular-webtoon-series-section";
 
 export default function HomeSidebarPage() {
@@ -14,7 +14,7 @@ export default function HomeSidebarPage() {
         </Grid>
         <Grid item xs={12}>
           <Stack spacing={4}>
-            <PopularWebtoonPostSection />
+            <WPopularSeriesSection />
             <PopularWebtoonSeriesSection />
           </Stack>
         </Grid>
