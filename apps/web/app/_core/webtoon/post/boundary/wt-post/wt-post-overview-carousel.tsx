@@ -8,7 +8,6 @@ import { WT_Post_OverviewCard } from "../../ui";
 import { Box, Skeleton, Stack } from "@mui/material";
 import { ComponentProps } from "react";
 
-// [?]
 export const WT_Post_OverviewCarousel = Object.assign(
   (props: ComponentProps<typeof OverviewCardCarousel>) => <OverviewCardCarousel {...props} />,
   {
