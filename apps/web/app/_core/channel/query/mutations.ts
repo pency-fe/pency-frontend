@@ -25,7 +25,9 @@ export const useCreateChannel = () => {
 export const useBlock = () => {
   return useMutation<
     Awaited<ReturnType<typeof block>>,
-    QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">> | QueryError<FailureRes<409, "SELF_FORBIDDEN">>,
+    | QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">>
+    | QueryError<FailureRes<403, "SELF_FORBIDDEN">>
+    | QueryError<FailureRes<404, "ENTITY_NOT_FOUND">>,
     Parameters<typeof block>[0]
   >({ mutationFn: block });
 };
@@ -45,7 +47,11 @@ export const useUnblock = () => {
 // ----------------------------------------------------------------------
 
 export const useUpdateLink = () => {
-  return useMutation<Awaited<ReturnType<typeof updateLink>>, void, Parameters<typeof updateLink>[0]>({
+  return useMutation<
+    Awaited<ReturnType<typeof updateLink>>,
+    QueryError<FailureRes<404, "ENTITY_NOT_FOUND">>,
+    Parameters<typeof updateLink>[0]
+  >({
     mutationFn: updateLink,
   });
 };

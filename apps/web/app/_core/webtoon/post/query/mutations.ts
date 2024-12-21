@@ -19,7 +19,9 @@ export const usePublish = () => {
 export const useLike = () => {
   return useMutation<
     Awaited<ReturnType<typeof like>>,
-    QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">> | QueryError<FailureRes<403, "SELF_FORBIDDEN">>,
+    | QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">>
+    | QueryError<FailureRes<403, "SELF_FORBIDDEN">>
+    | QueryError<FailureRes<404, "ENTITY_NOT_FOUND">>,
     Parameters<typeof like>[0]
   >({ mutationFn: like });
 };
@@ -39,7 +41,9 @@ export const useUnlike = () => {
 export const useBookmark = () => {
   return useMutation<
     Awaited<ReturnType<typeof bookmark>>,
-    QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">> | QueryError<FailureRes<403, "SELF_FORBIDDEN">>,
+    | QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">>
+    | QueryError<FailureRes<403, "SELF_FORBIDDEN">>
+    | QueryError<FailureRes<404, "ENTITY_NOT_FOUND">>,
     Parameters<typeof bookmark>[0]
   >({ mutationFn: bookmark });
 };

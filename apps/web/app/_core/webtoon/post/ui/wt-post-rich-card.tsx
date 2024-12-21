@@ -109,6 +109,10 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
               if (error.code === "SELF_FORBIDDEN") {
                 toast.error("자신의 포스트는 북마크할 수 없어요.");
               }
+
+              if (error.code === "ENTITY_NOT_FOUND") {
+                toast.error("삭제된 포스트예요.");
+              }
             },
           },
         );
@@ -153,6 +157,10 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
 
               if (error.code === "SELF_FORBIDDEN") {
                 toast.error("자신의 채널은 차단할 수 없어요.");
+              }
+
+              if (error.code === "ENTITY_NOT_FOUND") {
+                toast.error("삭제된 채널이에요.");
               }
             },
           },

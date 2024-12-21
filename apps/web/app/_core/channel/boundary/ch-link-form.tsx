@@ -81,6 +81,12 @@ const UpdateSubmitFn = ({ channelUrl, ...rest }: UpdateSubmitFnProps) => {
         onSuccess: () => {
           toast.success("변경 내용을 저장했어요.");
         },
+        onError: (error) => {
+          if (error.code === "ENTITY_NOT_FOUND") {
+            toast.error("존재하지 않는 채널 URL이에요.");
+          }
+        },
+
         onSettled: () => {
           toggleLoading(false);
         },
