@@ -1,70 +1,70 @@
 "use client";
 
 import { stylesColorScheme } from "@/util";
-import { Box, Button, ButtonProps, Grid, Typography, TypographyProps, useTheme } from "@mui/material";
+import { Button, ButtonProps, Grid, Typography, TypographyProps, useTheme } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
-type OverviewCardCtemplateFnProps = {
-  OverviewCarousel: (...args: any[]) => React.ReactElement;
+type CardCarouselTemplateFnProps = {
+  CardCarousel: (...args: any[]) => React.ReactElement;
   slots: {
     title: React.ReactElement;
     moreButton: React.ReactElement;
     prevNextNav: React.ReactElement;
-    overviewCarouselContainer: React.ReactElement;
+    container: React.ReactElement;
   };
 };
 
-const OverviewCardCtemplateFn = ({ OverviewCarousel, slots }: OverviewCardCtemplateFnProps) => {
+const CardCarouselTemplateFn = ({ CardCarousel, slots }: CardCarouselTemplateFnProps) => {
   return (
     <Grid container>
       <Grid item xs="auto">
         {slots.title}
       </Grid>
-      <OverviewCarousel>
+      <CardCarousel>
         <Grid item xs sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 1 }}>
           {slots.moreButton}
           {slots.prevNextNav}
         </Grid>
         <Grid item sx={{ mt: 1 }} xs={12}>
-          {slots.overviewCarouselContainer}
+          {slots.container}
         </Grid>
-      </OverviewCarousel>
+      </CardCarousel>
     </Grid>
   );
 };
 
 // ----------------------------------------------------------------------
 
-type OverviewCardTCtemplateFnProps = {
-  OverviewCarousel: (...args: any[]) => React.ReactElement;
+type CardTabCarouselTemplateFnProps = {
+  CardCarousel: (...args: any[]) => React.ReactElement;
   slots: {
     title: React.ReactElement;
     tabs: React.ReactElement;
     moreButton: React.ReactElement;
     prevNextNav: React.ReactElement;
-    overviewCarouselContainer: React.ReactElement;
+    container: React.ReactElement;
   };
 };
 
-const OverviewCardTCtemplateFn = ({ OverviewCarousel, slots }: OverviewCardTCtemplateFnProps) => {
+const CardTabCarouselTemplateFn = ({ CardCarousel, slots }: CardTabCarouselTemplateFnProps) => {
   return (
     <Grid container>
       <Grid item xs={12}>
         {slots.title}
       </Grid>
-      <OverviewCarousel>
+      <CardCarousel>
         <Grid item xs="auto" sx={{ mt: 1 }}>
           {slots.tabs}
         </Grid>
-        <Grid item xs sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 1 }}>
+        <Grid item xs sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 0.5 }}>
           {slots.moreButton}
           {slots.prevNextNav}
         </Grid>
         <Grid item xs={12} sx={{ mt: 1 }}>
-          {slots.overviewCarouselContainer}
+          {slots.container}
         </Grid>
-      </OverviewCarousel>
+      </CardCarousel>
     </Grid>
   );
 };
@@ -105,34 +105,18 @@ const MoreButtonFn = (rest: MoreButtonFnProps) => {
 // ----------------------------------------------------------------------
 
 const TabsFn = ({ children }: { children?: React.ReactNode }) => {
-  return <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>{children}</Box>;
-};
-
-// ----------------------------------------------------------------------
-
-const PrevNextNavFn = ({ children }: { children?: React.ReactNode }) => {
   return children;
 };
 
 // ----------------------------------------------------------------------
 
-const OverviewCarouselContainerFn = ({ children }: { children?: React.ReactNode }) => {
-  return children;
-};
-
-// ----------------------------------------------------------------------
-
-export const OverviewCardCtemplate = Object.assign(OverviewCardCtemplateFn, {
+export const CardCarouselTemplate = Object.assign(CardCarouselTemplateFn, {
   Title: TitleFn,
   MoreButton: MoreButtonFn,
-  PrevNextNav: PrevNextNavFn,
-  OverviewCarouselContainer: OverviewCarouselContainerFn,
 });
 
-export const OverviewCardTCtemplate = Object.assign(OverviewCardTCtemplateFn, {
+export const CardTabCarouselTemplate = Object.assign(CardTabCarouselTemplateFn, {
   Title: TitleFn,
   Tabs: TabsFn,
   MoreButton: MoreButtonFn,
-  PrevNextNav: PrevNextNavFn,
-  OverviewCarouselContainer: OverviewCarouselContainerFn,
 });
