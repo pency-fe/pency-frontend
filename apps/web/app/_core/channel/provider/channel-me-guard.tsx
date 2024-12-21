@@ -4,11 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useChannelUrlParam } from "_hooks";
 import { channelMeKeys } from "../query";
 import { notFound } from "next/navigation";
-import { AccessDenied } from "_views";
 
 export const ChannelMeGuard = ({ children }: { children?: React.ReactNode }) => {
   const channelUrl = useChannelUrlParam();
-  const { status, error } = useQuery(channelMeKeys.guard({ url: channelUrl }));
+  const { status, error } = useQuery({ ...channelMeKeys.guard({ url: channelUrl }), refetchOnMount: false, gcTime: 0 });
 
   if (status === "pending") {
     return;
@@ -20,8 +19,10 @@ export const ChannelMeGuard = ({ children }: { children?: React.ReactNode }) => 
     }
 
     if (error.code === "ACCESS_DENIED") {
-      return <AccessDenied />;
+      throw error;
     }
+
+    throw error;
   }
 
   return children;
