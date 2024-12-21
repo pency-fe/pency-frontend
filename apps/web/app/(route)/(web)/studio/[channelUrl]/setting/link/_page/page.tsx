@@ -63,15 +63,15 @@ function Loading() {
       <List>
         <Stack spacing={2}>
           <ListItem disablePadding>
-            <Skeleton height={54} />
+            <Skeleton width="100%" height={54} />
           </ListItem>
 
           <ListItem disablePadding>
-            <Skeleton height={54} />
+            <Skeleton width="100%" height={54} />
           </ListItem>
 
           <ListItem disablePadding>
-            <Skeleton height={54} />
+            <Skeleton width="100%" height={54} />
           </ListItem>
         </Stack>
       </List>

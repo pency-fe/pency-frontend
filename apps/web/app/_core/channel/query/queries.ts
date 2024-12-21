@@ -32,13 +32,13 @@ export const channelMeKeys = {
   brandingDetail: ({ url }: Required<Parameters<typeof getChannelMeBrandingDetail>[0]>) =>
     queryOptions<Awaited<ReturnType<typeof getChannelMeBrandingDetail>>>({
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
-      queryKey: [...channelMeKeys.details(), "branding"],
+      queryKey: [...channelMeKeys.details(), "branding", url],
       queryFn: () => getChannelMeBrandingDetail({ url }),
     }),
   linkDetail: ({ url }: Required<Parameters<typeof getChannelMeLinkDetail>[0]>) =>
     queryOptions<Awaited<ReturnType<typeof getChannelMeLinkDetail>>>({
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
-      queryKey: [...channelMeKeys.details(), "link"],
+      queryKey: [...channelMeKeys.details(), "link", url],
       queryFn: () => getChannelMeLinkDetail({ url }),
     }),
 };

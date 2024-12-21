@@ -27,6 +27,7 @@ export function UserProfileMeListProvider({ children }: { children?: React.React
   const query = useQuery({
     ...userProfileMeKeys.list(),
     enabled: isLoggedIn,
+    refetchOnMount: false,
   });
 
   return (

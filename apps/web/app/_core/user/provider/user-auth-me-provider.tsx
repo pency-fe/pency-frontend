@@ -18,7 +18,7 @@ export function useUserAuthMeContext() {
 }
 
 export function UserAuthMeProvider({ children }: { children?: React.ReactNode }) {
-  const query = useQuery(userAuthMeKeys.detail());
+  const query = useQuery({ ...userAuthMeKeys.detail(), refetchOnMount: false });
 
   return <UserAuthMeContext.Provider value={query.data}>{children}</UserAuthMeContext.Provider>;
 }

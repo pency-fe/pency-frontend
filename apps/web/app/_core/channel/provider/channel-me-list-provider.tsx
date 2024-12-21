@@ -27,6 +27,7 @@ export function ChannelMeListProvider({ children }: { children?: React.ReactNode
   const query = useQuery({
     ...channelMeKeys.list(),
     enabled: isLoggedIn,
+    refetchOnMount: false,
   });
 
   return (

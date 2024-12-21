@@ -6,7 +6,6 @@ function makeQueryClient() {
       queries: {
         refetchOnWindowFocus: false,
         retry: false,
-        refetchOnMount: false,
       },
     },
   });
