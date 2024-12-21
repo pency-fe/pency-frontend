@@ -35,44 +35,43 @@ export function WebtoonSection() {
   }, [searchParams]);
 
   return (
-    <WT_Post_Channel_RichCarousel>
-      <OverviewCardTCtemplate
-        slots={{
-          title: <OverviewCardTCtemplate.Title>웹툰</OverviewCardTCtemplate.Title>,
-          tabs: (
-            <RadioGroup value={webtoonParam}>
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {webtoon.map(([webtoon, label]) => (
-                  <RadioButton
-                    value={webtoon}
-                    key={webtoon}
-                    LinkComponent={NextLink}
-                    href={`/${channelUrl}/?webtoon=${webtoon}`}
-                    sx={{ flexShrink: 0 }}
-                  >
-                    {label}
-                  </RadioButton>
-                ))}
-              </Box>
-            </RadioGroup>
-          ),
-          moreButton: (
-            <OverviewCardTCtemplate.MoreButton
-              component={NextLink}
-              href={`/${channelUrl}/webtoon?webtoon=${webtoonParam}`}
-            />
-          ),
-          prevNextNav: (
-            <>
-              <WT_Post_Channel_RichCarousel.PrevNav />
-              <WT_Post_Channel_RichCarousel.NextNav />
-            </>
-          ),
-          overviewCarouselContainer: (
-            <WT_Post_Channel_RichCarousel.Container url={channelUrl.replace("@", "")} sort="LATEST" page={1} />
-          ),
-        }}
-      />
-    </WT_Post_Channel_RichCarousel>
+    <OverviewCardTCtemplate
+      OverviewCarousel={WT_Post_Channel_RichCarousel}
+      slots={{
+        title: <OverviewCardTCtemplate.Title>웹툰</OverviewCardTCtemplate.Title>,
+        tabs: (
+          <RadioGroup value={webtoonParam}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+              {webtoon.map(([webtoon, label]) => (
+                <RadioButton
+                  value={webtoon}
+                  key={webtoon}
+                  LinkComponent={NextLink}
+                  href={`/${channelUrl}/?webtoon=${webtoon}`}
+                  sx={{ flexShrink: 0 }}
+                >
+                  {label}
+                </RadioButton>
+              ))}
+            </Box>
+          </RadioGroup>
+        ),
+        moreButton: (
+          <OverviewCardTCtemplate.MoreButton
+            component={NextLink}
+            href={`/${channelUrl}/webtoon?webtoon=${webtoonParam}`}
+          />
+        ),
+        prevNextNav: (
+          <>
+            <WT_Post_Channel_RichCarousel.PrevNav />
+            <WT_Post_Channel_RichCarousel.NextNav />
+          </>
+        ),
+        overviewCarouselContainer: (
+          <WT_Post_Channel_RichCarousel.Container url={channelUrl.replace("@", "")} sort="LATEST" page={1} />
+        ),
+      }}
+    />
   );
 }

@@ -47,47 +47,46 @@ export function WPopularSeriesSection() {
   return (
     <>
       {platformParam === "WEBTOON" ? (
-        <WT_Post_OverviewCarousel>
-          <OverviewCardTCtemplate
-            slots={{
-              title: <OverviewCardTCtemplate.Title>주간 인기 시리즈</OverviewCardTCtemplate.Title>,
-              tabs: (
-                <RadioGroup value={platformParam}>
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                    {platform.map(([platform, label]) => (
-                      <RadioButton
-                        LinkComponent={NextLink}
-                        value={platform}
-                        key={platform}
-                        href={(() => {
-                          const params = new URLSearchParams(searchParams.toString());
-                          if (platform === "WEBNOVEL") {
-                            params.set("wpopular-series", platform);
-                          } else {
-                            params.delete("wpopular-series");
-                          }
-                          return `${createQueryString(params)}`;
-                        })()}
-                        sx={{ flexShrink: 0 }}
-                      >
-                        {label}
-                      </RadioButton>
-                    ))}
-                  </Box>
-                </RadioGroup>
-              ),
+        <OverviewCardTCtemplate
+          OverviewCarousel={WT_Post_OverviewCarousel}
+          slots={{
+            title: <OverviewCardTCtemplate.Title>주간 인기 시리즈</OverviewCardTCtemplate.Title>,
+            tabs: (
+              <RadioGroup value={platformParam}>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {platform.map(([platform, label]) => (
+                    <RadioButton
+                      LinkComponent={NextLink}
+                      value={platform}
+                      key={platform}
+                      href={(() => {
+                        const params = new URLSearchParams(searchParams.toString());
+                        if (platform === "WEBNOVEL") {
+                          params.set("wpopular-series", platform);
+                        } else {
+                          params.delete("wpopular-series");
+                        }
+                        return `${createQueryString(params)}`;
+                      })()}
+                      sx={{ flexShrink: 0 }}
+                    >
+                      {label}
+                    </RadioButton>
+                  ))}
+                </Box>
+              </RadioGroup>
+            ),
 
-              moreButton: <OverviewCardTCtemplate.MoreButton component={NextLink} href={`/[TODO]주간_인기_시리즈`} />,
-              prevNextNav: (
-                <>
-                  <WT_Post_OverviewCarousel.PrevNav />
-                  <WT_Post_OverviewCarousel.NextNav />
-                </>
-              ),
-              overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre="ALL" sort="WPOPULAR" />,
-            }}
-          />
-        </WT_Post_OverviewCarousel>
+            moreButton: <OverviewCardTCtemplate.MoreButton component={NextLink} href={`/[TODO]주간_인기_시리즈`} />,
+            prevNextNav: (
+              <>
+                <WT_Post_OverviewCarousel.PrevNav />
+                <WT_Post_OverviewCarousel.NextNav />
+              </>
+            ),
+            overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre="ALL" sort="WPOPULAR" />,
+          }}
+        />
       ) : (
         <Typography>웹소설</Typography>
       )}

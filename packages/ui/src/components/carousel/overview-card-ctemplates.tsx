@@ -47,19 +47,23 @@ type OverviewCardTCtemplateFnProps = {
   };
 };
 
-const OverviewCardTCtemplateFn = ({ slots }: OverviewCardTCtemplateFnProps) => {
+const OverviewCardTCtemplateFn = ({ OverviewCarousel, slots }: OverviewCardTCtemplateFnProps) => {
   return (
-    <Stack spacing={1}>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>{slots.title}</Box>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        {slots.tabs}
-        <Box sx={{ display: "flex", alignItems: "center", ml: "auto", gap: 1 }}>
+    <Grid container>
+      <Grid item xs="auto">
+        {slots.title}
+      </Grid>
+      <OverviewCarousel>
+        <Grid xs sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 1 }}>
+          {slots.tabs}
           {slots.moreButton}
           {slots.prevNextNav}
-        </Box>
-      </Box>
-      {slots.overviewCarouselContainer}
-    </Stack>
+        </Grid>
+        <Grid item xs={12} sx={{ mt: 1 }}>
+          {slots.overviewCarouselContainer}
+        </Grid>
+      </OverviewCarousel>
+    </Grid>
   );
 };
 
