@@ -287,7 +287,7 @@ const UnderEyeFn = forwardRef<HTMLHeadingElement, UnderEyeFnProps>((rest, ref) =
       variant="body2"
       color={theme.vars.palette.text.secondary}
       {...rest}
-      sx={{ overflow: "hidden", overflowWrap: "anywhere" }}
+      sx={[maxLine({ line: 1 }), ...(Array.isArray(rest.sx) ? rest.sx : [rest.sx])]}
     />
   );
 });
