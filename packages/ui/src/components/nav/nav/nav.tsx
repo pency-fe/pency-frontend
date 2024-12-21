@@ -1,7 +1,7 @@
 "use client";
 
-import { EvaArrowIosDownwardFillIcon, EvaArrowIosForwardFillIcon } from "@/components/svg";
-import { hideScrollY, varAlpha } from "@/util";
+import { EvaArrowIosDownwardFillIcon, EvaArrowIosForwardFillIcon } from "../../svg";
+import { hideScrollY, varAlpha } from "../../../util";
 import {
   Box,
   BoxProps,

@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { forwardRef, ReactElement } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
-import { maxLine } from "@/util";
+import { maxLine } from "../../util";
 import { EvaHeartOutlineIcon, MaterialSymbolsChatBubbleOutlineIcon } from "../svg";
 import { Label } from "../label";
 import { LazyLoadImageProps } from "react-lazy-load-image-component";

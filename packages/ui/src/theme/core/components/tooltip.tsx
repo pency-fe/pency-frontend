@@ -2,7 +2,7 @@ import type { Theme, Components } from "@mui/material/styles";
 
 import { tooltipClasses } from "@mui/material/Tooltip";
 
-import { stylesColorScheme } from "@/util";
+import { stylesColorScheme } from "../../../util";
 
 // ----------------------------------------------------------------------
 

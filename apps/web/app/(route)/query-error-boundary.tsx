@@ -5,8 +5,10 @@ import { QueryError } from "_core/api";
 import { useRouter } from "next/navigation";
 import { AccessDenied } from "_views";
 
-function QueryErrorBoundary({ error, children }: { error: Error; children?: React.ReactNode }) {
+export function QueryErrorFallback({ error, children }: { error: Error; children?: React.ReactNode }) {
   const router = useRouter();
+
+  console.log("queryErrorBoundary", error);
 
   if (!(error instanceof QueryError)) {
     throw error;

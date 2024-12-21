@@ -2,7 +2,7 @@ import type { Theme, Components, ComponentsVariants } from "@mui/material/styles
 
 import { paginationItemClasses } from "@mui/material/PaginationItem";
 
-import { stylesColorScheme, varAlpha } from "@/util";
+import { stylesColorScheme, varAlpha } from "../../../util";
 
 // ----------------------------------------------------------------------
 

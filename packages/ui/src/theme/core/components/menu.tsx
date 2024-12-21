@@ -1,6 +1,6 @@
 import type { Theme, Components } from "@mui/material/styles";
 
-import { menuItem } from "@/util";
+import { menuItem } from "../../../util";
 import { listItemIconClasses, listItemTextClasses, svgIconClasses, typographyClasses } from "@mui/material";
 
 // ----------------------------------------------------------------------

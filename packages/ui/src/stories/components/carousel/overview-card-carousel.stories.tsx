@@ -1,4 +1,4 @@
-import { OverviewCardCarousel } from "@/components";
+import { OverviewCardCarousel } from "../../../components";
 import { Meta } from "@storybook/react";
 import { PostOverviewCard } from "../card/overview-card.stories";
 

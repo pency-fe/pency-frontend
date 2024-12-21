@@ -7,7 +7,7 @@ import {
   MingcuteDelete3LineIcon,
   TablerPinIcon,
   useMenuxState,
-} from "@/components";
+} from "../../../components";
 import { Box, Divider, ListItemIcon, MenuItem, Stack } from "@mui/material";
 import { formatRelativeTimeFromUTC } from "@pency/util";
 import { Meta } from "@storybook/react";

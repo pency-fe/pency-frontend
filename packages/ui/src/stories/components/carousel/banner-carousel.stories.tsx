@@ -1,4 +1,4 @@
-import { BannerCarousel } from "@/components";
+import { BannerCarousel } from "../../../components";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {

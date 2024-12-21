@@ -18,9 +18,9 @@ import {
 } from "@mui/material";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
 import { useToggle } from "@pency/util";
-import { Label } from "@/components/label";
-import { maxLine } from "@/util";
 import { ButtonBaseProps } from "@mui/material";
+import { Label } from "../label";
+import { maxLine } from "../../util";
 
 // ----------------------------------------------------------------------
 

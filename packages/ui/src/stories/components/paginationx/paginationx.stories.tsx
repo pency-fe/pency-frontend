@@ -1,4 +1,4 @@
-import { usePaginationx } from "@/hooks";
+import { usePaginationx } from "../../../hooks";
 import { PaginationItem } from "@mui/material";
 import { Meta } from "@storybook/react";
 

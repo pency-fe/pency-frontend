@@ -1,6 +1,6 @@
 "use client";
 
-import { hideScrollY, iconAlignCenter, maxLine } from "@/util";
+import { hideScrollY, iconAlignCenter, maxLine } from "../../util";
 import {
   Accordion,
   AccordionDetails,

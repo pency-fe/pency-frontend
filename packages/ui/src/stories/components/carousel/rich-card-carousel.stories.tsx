@@ -1,4 +1,4 @@
-import { RichCardCarousel } from "@/components";
+import { RichCardCarousel } from "../../../components";
 import { Meta } from "@storybook/react";
 import { PostRichCard, SeriesRichCard } from "../card/rich-card.stories";
 

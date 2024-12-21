@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 
 import type { LabelColor, LabelVariant } from "./types";
-import { stylesColorScheme, varAlpha } from "@/util";
+import { stylesColorScheme, varAlpha } from "../../util";
 
 export const StyledLabel = styled(Box)(({
   theme,

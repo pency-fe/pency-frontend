@@ -1,6 +1,5 @@
 "use client";
 
-import { iconAlignCenter, maxLine } from "@/util";
 import {
   Box,
   BoxProps,
@@ -16,6 +15,7 @@ import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
 import { Label } from "../../label";
 import { listItemxClasses } from "./list-itemx-classes";
+import { iconAlignCenter, maxLine } from "../../../util";
 
 // ----------------------------------------------------------------------
 

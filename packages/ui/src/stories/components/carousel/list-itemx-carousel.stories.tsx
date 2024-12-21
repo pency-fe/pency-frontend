@@ -1,4 +1,4 @@
-import { ListItemxCarousel } from "@/components";
+import { ListItemxCarousel } from "../../../components";
 import { Meta } from "@storybook/react";
 import { PostListItemx } from "../list/list-itemx.stories";
 

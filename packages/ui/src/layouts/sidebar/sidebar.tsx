@@ -1,8 +1,8 @@
 "use client";
 
-import { Box, GlobalStyles, SxProps, useTheme } from "@mui/material";
+import { Box, GlobalStyles, useTheme } from "@mui/material";
 import { headerTokens } from "../header/header";
-import { miniNavClasses, navClasses } from "@/components";
+import { miniNavClasses, navClasses } from "../../components";
 import { sidebarClasses } from "../classes";
 
 // ----------------------------------------------------------------------

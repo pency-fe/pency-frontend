@@ -1,4 +1,4 @@
-import { SegmentedButton, SegmentedButtonGroup } from "@/components";
+import { SegmentedButton, SegmentedButtonGroup } from "../../../components";
 import { Meta } from "@storybook/react";
 import { useState } from "react";
 

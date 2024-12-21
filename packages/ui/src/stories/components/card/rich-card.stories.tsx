@@ -11,8 +11,8 @@ import {
   FluentShare24RegularIcon,
   MaterialSymbolsReportOutlineIcon,
   MaterialSymbolsBlockIcon,
-} from "@/components";
-import { maxLine } from "@/util";
+} from "../../../components";
+import { maxLine } from "../../../util";
 
 import { Box, ListItemIcon, MenuItem } from "@mui/material";
 import { formatRelativeTimeFromUTC } from "@pency/util";

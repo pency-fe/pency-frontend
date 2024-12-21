@@ -1,4 +1,4 @@
-import { RadioMenuItem } from "@/components";
+import { RadioMenuItem } from "../../../components";
 import { RadioGroup } from "@mui/material";
 import { Meta } from "@storybook/react";
 import { useState } from "react";

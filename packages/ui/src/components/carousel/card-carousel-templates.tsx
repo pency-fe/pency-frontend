@@ -1,6 +1,6 @@
 "use client";
 
-import { stylesColorScheme } from "@/util";
+import { stylesColorScheme } from "../../util";
 import { Button, ButtonProps, Grid, Typography, TypographyProps, useTheme } from "@mui/material";
 
 // ----------------------------------------------------------------------

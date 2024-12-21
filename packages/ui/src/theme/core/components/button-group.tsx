@@ -3,7 +3,7 @@ import type { Theme, CSSObject, Components, ComponentsVariants } from "@mui/mate
 
 import { buttonGroupClasses } from "@mui/material/ButtonGroup";
 
-import { varAlpha, stylesColorScheme } from "@/util";
+import { varAlpha, stylesColorScheme } from "../../../util";
 
 // ----------------------------------------------------------------------
 

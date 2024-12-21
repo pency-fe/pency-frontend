@@ -15,7 +15,7 @@ export const ChannelMeGuard = ({ children }: { children?: React.ReactNode }) => 
 
   if (status === "error") {
     if (error.code === "ENTITY_NOT_FOUND") {
-      notFound();
+      throw error;
     }
 
     if (error.code === "ACCESS_DENIED") {

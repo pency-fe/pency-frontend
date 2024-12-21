@@ -1,10 +1,10 @@
 "use client";
 
 import { Box, GlobalStyles, Stack, useTheme } from "@mui/material";
-import { miniNavClasses, navClasses } from "@/components";
+import { miniNavClasses, navClasses } from "../../components";
 import { sidebarClasses } from "../classes";
 import { dashboardHeaderTokens } from "../header";
-import { varAlpha } from "@/util";
+import { varAlpha } from "../../util";
 
 // ----------------------------------------------------------------------
 

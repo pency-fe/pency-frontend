@@ -1,4 +1,4 @@
-import { EvaHeartOutlineIcon, ListItemx, NineteenCircleIcon } from "@/components";
+import { EvaHeartOutlineIcon, ListItemx, NineteenCircleIcon } from "../../../components";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {

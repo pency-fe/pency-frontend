@@ -1,4 +1,4 @@
-import { AuthLayout } from "./_layout/layout";
+import { AuthLayout } from "./_layout/_layout";
 
 type Props = {
   children: React.ReactNode;

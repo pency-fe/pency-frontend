@@ -1,4 +1,4 @@
-import { GravityUiCircleCheckFillIcon, NineteenCircleIcon, OverviewCard } from "@/components";
+import { GravityUiCircleCheckFillIcon, NineteenCircleIcon, OverviewCard } from "../../../components";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {

@@ -1,4 +1,4 @@
-import { maxLine } from "@/util";
+import { maxLine } from "../../../util";
 import type { Theme, Components } from "@mui/material/styles";
 
 // ----------------------------------------------------------------------

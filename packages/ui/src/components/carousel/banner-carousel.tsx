@@ -6,7 +6,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
 import { EvaArrowIosBackFillIcon, EvaArrowIosForwardFillIcon } from "../svg";
-import { stylesColorScheme, varAlpha } from "@/util";
+import { stylesColorScheme, varAlpha } from "../../util";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
 
 // ----------------------------------------------------------------------

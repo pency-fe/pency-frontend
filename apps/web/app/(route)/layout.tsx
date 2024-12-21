@@ -3,22 +3,16 @@ import "@pency/ui/global.css";
 import { InitQueryClientProvider } from "./init-query-client-provider";
 import { InitThemeProvider } from "@pency/ui/theme";
 import { Snackbar } from "@pency/ui/components";
+import { ErrorBoundary } from "react-error-boundary";
+import { QueryErrorFallback } from "./query-error-boundary";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-export default function RootLayout({ children }: Props) {
+export default function RouteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" suppressHydrationWarning>
-      <body>
-        <InitQueryClientProvider>
-          <InitThemeProvider>
-            {children}
-            <Snackbar />
-          </InitThemeProvider>
-        </InitQueryClientProvider>
-      </body>
-    </html>
+    <InitQueryClientProvider>
+      <InitThemeProvider>
+        <ErrorBoundary FallbackComponent={QueryErrorFallback}>{children}</ErrorBoundary>
+        <Snackbar />
+      </InitThemeProvider>
+    </InitQueryClientProvider>
   );
 }

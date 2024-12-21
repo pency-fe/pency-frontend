@@ -5,7 +5,7 @@ import {
   MaterialSymbolsReportOutlineIcon,
   Menux,
   useMenuxState,
-} from "@/components";
+} from "../../../components";
 import { Button, ListItemIcon, MenuItem } from "@mui/material";
 
 import { Meta } from "@storybook/react";

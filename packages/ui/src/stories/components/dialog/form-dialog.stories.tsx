@@ -1,4 +1,4 @@
-import { FormDialog, MaterialSymbolsCloseIcon, RadioMenuItem } from "@/components";
+import { FormDialog, MaterialSymbolsCloseIcon, RadioMenuItem } from "../../../components";
 import {
   Button,
   dialogClasses,
