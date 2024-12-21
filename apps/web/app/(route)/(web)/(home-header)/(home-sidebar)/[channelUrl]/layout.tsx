@@ -1,4 +1,4 @@
-import ChannelUrlLayout from "./_layout/layout";
+import ChannelUrlLayout from "./_layout/_layout";
 
 type Props = {
   children: React.ReactNode;

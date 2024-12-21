@@ -20,7 +20,7 @@ const CONTENT_VALUE_LABEL: Record<contentValue, string> = {
 
 // ----------------------------------------------------------------------
 
-export default function LibraryViewPage() {
+export default function LibraryBookmarkPage() {
   const searchParams = useSearchParams();
 
   const contents = useMemo(() => objectEntries(CONTENT_VALUE_LABEL), []);
@@ -44,7 +44,7 @@ export default function LibraryViewPage() {
             href={(() => {
               const params = new URLSearchParams(searchParams.toString());
               params.delete("content");
-              return `/library/view`;
+              return `/library/bookmark`;
             })()}
             sx={{ flexShrink: 0 }}
           >
@@ -59,7 +59,7 @@ export default function LibraryViewPage() {
                 const params = new URLSearchParams(searchParams.toString());
                 params.set("content", content);
                 params.delete("page");
-                return `/library/view${createQueryString(params)}`;
+                return `/library/bookmark${createQueryString(params)}`;
               })()}
               sx={{ flexShrink: 0 }}
             >
@@ -101,13 +101,16 @@ function WebtoonPostRichCard() {
                 genre: "ROMANCE",
                 title: "천재 궁수의 스트리밍",
                 channel: {
-                  channelUrl: "dddddd",
+                  id: 123,
+                  url: "dddddd",
                   image: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
                   title: "김천재",
                 },
                 likeCount: 0,
                 createdAt: 0,
                 keywords: ["BJ", "스트리머"],
+                bookmark: false,
+                block: false,
               }}
             />
           </Grid>
@@ -137,7 +140,7 @@ function Pagination() {
         const params = new URLSearchParams(searchParams.toString());
         params.set("page", `${pagination.page}`);
         return (
-          <PaginationItem component={NextLink} href={`/library/view${createQueryString(params)}`} {...pagination} />
+          <PaginationItem component={NextLink} href={`/library/bookmark${createQueryString(params)}`} {...pagination} />
         );
       })}
     </>

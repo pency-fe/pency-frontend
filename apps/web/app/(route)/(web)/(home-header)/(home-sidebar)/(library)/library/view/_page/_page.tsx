@@ -20,7 +20,7 @@ const CONTENT_VALUE_LABEL: Record<contentValue, string> = {
 
 // ----------------------------------------------------------------------
 
-export default function LibraryBookmarkPage() {
+export default function LibraryViewPage() {
   const searchParams = useSearchParams();
 
   const contents = useMemo(() => objectEntries(CONTENT_VALUE_LABEL), []);
@@ -44,7 +44,7 @@ export default function LibraryBookmarkPage() {
             href={(() => {
               const params = new URLSearchParams(searchParams.toString());
               params.delete("content");
-              return `/library/bookmark`;
+              return `/library/view`;
             })()}
             sx={{ flexShrink: 0 }}
           >
@@ -59,7 +59,7 @@ export default function LibraryBookmarkPage() {
                 const params = new URLSearchParams(searchParams.toString());
                 params.set("content", content);
                 params.delete("page");
-                return `/library/bookmark${createQueryString(params)}`;
+                return `/library/view${createQueryString(params)}`;
               })()}
               sx={{ flexShrink: 0 }}
             >
@@ -138,7 +138,7 @@ function Pagination() {
         const params = new URLSearchParams(searchParams.toString());
         params.set("page", `${pagination.page}`);
         return (
-          <PaginationItem component={NextLink} href={`/library/bookmark${createQueryString(params)}`} {...pagination} />
+          <PaginationItem component={NextLink} href={`/library/view${createQueryString(params)}`} {...pagination} />
         );
       })}
     </>

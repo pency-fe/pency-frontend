@@ -1,4 +1,4 @@
-import { PostPage } from "./_page/page";
+import { PostPage } from "./_page/_page";
 
 export default function Page() {
   return <PostPage />;

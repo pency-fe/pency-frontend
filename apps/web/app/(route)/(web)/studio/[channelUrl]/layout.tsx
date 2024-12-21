@@ -3,7 +3,7 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getQueryClient } from "(route)/get-query-client";
 import { ChannelMeGuard, channelMeKeys, ChannelMeListProvider } from "_core/channel";
 import { SelectedUserProfileMeProvider, userProfileMeKeys, UserProfileMeListProvider } from "_core/user-profile";
-import { StudioLayout } from "./_layout/layout";
+import { StudioLayout } from "./_layout/_layout";
 
 export default async function Layout({
   params,

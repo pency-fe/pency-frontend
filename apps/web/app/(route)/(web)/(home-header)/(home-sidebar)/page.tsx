@@ -1,4 +1,4 @@
-import HomeSidebarPage from "./_page/page";
+import HomeSidebarPage from "./_page/_page";
 
 export default function Page() {
   return <HomeSidebarPage />;

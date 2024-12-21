@@ -1,4 +1,4 @@
-import { SubscriptionChannelPage } from "./_page/page";
+import { SubscriptionChannelPage } from "./_page/_page";
 
 export default function Page() {
   return <SubscriptionChannelPage />;

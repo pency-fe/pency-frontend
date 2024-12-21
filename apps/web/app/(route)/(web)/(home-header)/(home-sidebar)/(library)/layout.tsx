@@ -1,4 +1,4 @@
-import { LibraryLayout } from "./_layout/layout";
+import { LibraryLayout } from "./_layout/_layout";
 
 type Props = {
   children: React.ReactNode;

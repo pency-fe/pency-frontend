@@ -1,4 +1,4 @@
-import { LoginPage } from "./_page/page";
+import { LoginPage } from "./_page/_page";
 
 export default function Page() {
   return <LoginPage />;

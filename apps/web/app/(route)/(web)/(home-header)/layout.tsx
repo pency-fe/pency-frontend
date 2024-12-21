@@ -1,4 +1,4 @@
-import { HomeHeaderLayout } from "./_layout/layout";
+import { HomeHeaderLayout } from "./_layout/_layout";
 import { getQueryClient } from "(route)/get-query-client";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { cookies } from "next/headers";

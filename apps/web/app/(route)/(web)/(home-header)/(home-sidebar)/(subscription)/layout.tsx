@@ -1,4 +1,4 @@
-import { SubscriptionLayout } from "./_layout/layout";
+import { SubscriptionLayout } from "./_layout/_layout";
 
 type Props = {
   children: React.ReactNode;

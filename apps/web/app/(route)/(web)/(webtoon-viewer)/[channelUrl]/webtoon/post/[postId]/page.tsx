@@ -1,4 +1,4 @@
-import { PostIdPage } from "./_page/page";
+import { PostIdPage } from "./_page/_page";
 
 export default function Page() {
   return <PostIdPage />;

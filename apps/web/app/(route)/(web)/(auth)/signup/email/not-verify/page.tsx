@@ -1,4 +1,4 @@
-import { NotVerifyPage } from "./_page/page";
+import { NotVerifyPage } from "./_page/_page";
 
 export default function Page() {
   return <NotVerifyPage />;

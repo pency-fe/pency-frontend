@@ -1,4 +1,4 @@
-import { WebtoonPage } from "./_page/page";
+import { WebtoonPage } from "./_page/_page";
 
 export default function Page() {
   return <WebtoonPage />;
