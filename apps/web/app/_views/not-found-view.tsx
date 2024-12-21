@@ -4,6 +4,7 @@ import { Stack, Typography, Button, useTheme } from "@mui/material";
 import { BrandPencyTextLogoIcon, SolarInfoCircleBoldIcon } from "@pency/ui/components";
 
 // https://www.postype.com/studio/eqweqwe211/dashboard
+// https://tossinvest.com/news/12312/413/21/31/4/123/
 export function NotFoundView() {
   const theme = useTheme();
 
