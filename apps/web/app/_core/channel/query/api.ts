@@ -8,6 +8,14 @@ import { Options } from "ky";
 
 // ----------------------------------------------------------------------
 
+type SubscribeReq = {
+  id: number;
+};
+
+export const subscribe = async (rep: SubscribeReq) => {
+  return await api.post(`channel/${rep.id}/subscribe`).json();
+};
+
 // ----------------------------------------------------------------------
 
 /** **************************************
