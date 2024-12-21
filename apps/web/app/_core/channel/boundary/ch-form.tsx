@@ -314,9 +314,8 @@ const ImageFn = () => {
           contentType: picker.files[0].type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
         });
         await ky.put(res.signedUploadUrl, { body: picker.files[0] });
-        toggleLoading(false);
         onChange(res.url);
-        console.log("res.url: ", res.url);
+        toggleLoading(false);
       }
     });
     picker.click();

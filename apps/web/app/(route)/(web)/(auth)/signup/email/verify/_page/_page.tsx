@@ -24,7 +24,6 @@ export function VerifyPage() {
   const id = useMemo(() => Number(idParam), [idParam]);
 
   useEffect(() => {
-    console.log("hi!");
     mutate(
       { id, token },
       {
