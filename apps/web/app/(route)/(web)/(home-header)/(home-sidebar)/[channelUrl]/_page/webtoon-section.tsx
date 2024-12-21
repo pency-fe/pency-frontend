@@ -44,9 +44,9 @@ export function WebtoonSection() {
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
               {webtoon.map(([webtoon, label]) => (
                 <RadioButton
+                  LinkComponent={NextLink}
                   value={webtoon}
                   key={webtoon}
-                  LinkComponent={NextLink}
                   href={`/${channelUrl}/?webtoon=${webtoon}`}
                   sx={{ flexShrink: 0 }}
                 >

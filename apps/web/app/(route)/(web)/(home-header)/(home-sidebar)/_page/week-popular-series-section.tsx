@@ -79,10 +79,10 @@ export function WPopularSeriesSection() {
 
             moreButton: <OverviewCardTCtemplate.MoreButton component={NextLink} href={`/[TODO]주간_인기_시리즈`} />,
             prevNextNav: (
-              <>
+              <OverviewCardTCtemplate.PrevNextNav>
                 <WT_Post_OverviewCarousel.PrevNav />
                 <WT_Post_OverviewCarousel.NextNav />
-              </>
+              </OverviewCardTCtemplate.PrevNextNav>
             ),
             overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre="ALL" sort="WPOPULAR" />,
           }}

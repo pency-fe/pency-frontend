@@ -1,7 +1,7 @@
 "use client";
 
 import { stylesColorScheme } from "@/util";
-import { Box, Button, ButtonProps, Grid, Stack, Typography, TypographyProps, useTheme } from "@mui/material";
+import { Box, Button, ButtonProps, Grid, Typography, TypographyProps, useTheme } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
@@ -50,12 +50,14 @@ type OverviewCardTCtemplateFnProps = {
 const OverviewCardTCtemplateFn = ({ OverviewCarousel, slots }: OverviewCardTCtemplateFnProps) => {
   return (
     <Grid container>
-      <Grid item xs="auto">
+      <Grid item xs={12}>
         {slots.title}
       </Grid>
       <OverviewCarousel>
-        <Grid xs sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 1 }}>
+        <Grid item xs="auto" sx={{ mt: 1 }}>
           {slots.tabs}
+        </Grid>
+        <Grid item xs sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 1 }}>
           {slots.moreButton}
           {slots.prevNextNav}
         </Grid>
