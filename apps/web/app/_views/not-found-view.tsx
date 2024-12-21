@@ -1,6 +1,6 @@
 "use client";
 
-import { Stack, Typography, Button, useTheme } from "@mui/material";
+import { Stack, Button, useTheme, Box } from "@mui/material";
 import { BrandPencyTextLogoIcon, SolarInfoCircleBoldIcon } from "@pency/ui/components";
 
 // https://www.postype.com/studio/eqweqwe211/dashboard
@@ -9,22 +9,34 @@ export function NotFoundView() {
   const theme = useTheme();
 
   return (
-    <Stack sx={{ justifyContent: "space-around", alignItems: "center", height: "100vh" }}>
-      <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px" }} />
+    <Stack
+      sx={{
+        position: "relative",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        px: "20px",
+        pb: "40px",
+        [theme.breakpoints.up("sm")]: { pt: "15px", px: "50px", pb: "70px" },
+      }}
+    >
+      <BrandPencyTextLogoIcon sx={{ position: "absolute", top: 30, width: "fit-content", height: "24px" }} />
       <Stack sx={{ alignItems: "center" }}>
         <SolarInfoCircleBoldIcon sx={{ width: "80px", height: "80px" }} />
 
-        <Typography variant="h4" sx={{ mt: 2 }}>
-          페이지를 찾지 못했어요
-        </Typography>
+        <Stack sx={{ alignItems: "center", mt: "24px", mb: "32px" }}>
+          <Box component="span" sx={{ fontSize: "26px", fontWeight: 600, mb: "16px" }}>
+            페이지를 찾지 못했어요.
+          </Box>
 
-        <Typography variant="body2">페이지 주소가 정확한지 확인해주세요</Typography>
-
-        <Button variant="soft" color="primary">
+          <Box component="span" sx={{ fontSize: "16px" }}>
+            페이지 주소가 정확한지 확인해주세요.
+          </Box>
+        </Stack>
+        <Button variant="soft" size="large" color="primary">
           이전 페이지로 가기
         </Button>
       </Stack>
-      <Button variant="outlined">홈으로 가기</Button>
     </Stack>
   );
 }
