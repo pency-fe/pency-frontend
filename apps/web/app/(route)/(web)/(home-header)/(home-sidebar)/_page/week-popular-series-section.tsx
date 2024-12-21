@@ -56,6 +56,7 @@ export function WPopularSeriesSection() {
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                     {platform.map(([platform, label]) => (
                       <RadioButton
+                        LinkComponent={NextLink}
                         value={platform}
                         key={platform}
                         href={(() => {
@@ -65,7 +66,7 @@ export function WPopularSeriesSection() {
                           } else {
                             params.delete("wpopular-series");
                           }
-                          return `/${createQueryString(params)}`;
+                          return `${createQueryString(params)}`;
                         })()}
                         sx={{ flexShrink: 0 }}
                       >

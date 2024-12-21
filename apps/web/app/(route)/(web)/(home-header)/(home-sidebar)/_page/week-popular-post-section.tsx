@@ -45,6 +45,7 @@ export function WPopularPostSection() {
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                     {platform.map(([platform, label]) => (
                       <RadioButton
+                        LinkComponent={NextLink}
                         value={platform}
                         key={platform}
                         href={(() => {
@@ -54,7 +55,7 @@ export function WPopularPostSection() {
                           } else {
                             params.delete("wpopular-post");
                           }
-                          return `/${createQueryString(params)}`;
+                          return `${createQueryString(params)}`;
                         })()}
                         sx={{ flexShrink: 0 }}
                       >
