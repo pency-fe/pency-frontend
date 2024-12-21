@@ -22,12 +22,12 @@ export const BrandInstagramIcon = forwardRef<SVGSVGElement, SvgIconProps>((rest,
           y2="3.64"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FFD521"></stop>
-          <stop offset="0.05" stop-color="#FFD521"></stop>
-          <stop offset="0.501" stop-color="#F50000"></stop>
-          <stop offset="0.95" stop-color="#B900B4"></stop>
-          <stop offset="0.95" stop-color="#B900B4"></stop>
-          <stop offset="1" stop-color="#B900B4"></stop>
+          <stop stopColor="#FFD521"></stop>
+          <stop offset="0.05" stopColor="#FFD521"></stop>
+          <stop offset="0.501" stopColor="#F50000"></stop>
+          <stop offset="0.95" stopColor="#B900B4"></stop>
+          <stop offset="0.95" stopColor="#B900B4"></stop>
+          <stop offset="1" stopColor="#B900B4"></stop>
         </linearGradient>
         <linearGradient
           id="Instagram_svg__b"
@@ -37,12 +37,12 @@ export const BrandInstagramIcon = forwardRef<SVGSVGElement, SvgIconProps>((rest,
           y2="3.649"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FFD521"></stop>
-          <stop offset="0.05" stop-color="#FFD521"></stop>
-          <stop offset="0.501" stop-color="#F50000"></stop>
-          <stop offset="0.95" stop-color="#B900B4"></stop>
-          <stop offset="0.95" stop-color="#B900B4"></stop>
-          <stop offset="1" stop-color="#B900B4"></stop>
+          <stop stopColor="#FFD521"></stop>
+          <stop offset="0.05" stopColor="#FFD521"></stop>
+          <stop offset="0.501" stopColor="#F50000"></stop>
+          <stop offset="0.95" stopColor="#B900B4"></stop>
+          <stop offset="0.95" stopColor="#B900B4"></stop>
+          <stop offset="1" stopColor="#B900B4"></stop>
         </linearGradient>
         <linearGradient
           id="Instagram_svg__c"
@@ -52,12 +52,12 @@ export const BrandInstagramIcon = forwardRef<SVGSVGElement, SvgIconProps>((rest,
           y2="3.654"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FFD521"></stop>
-          <stop offset="0.05" stop-color="#FFD521"></stop>
-          <stop offset="0.501" stop-color="#F50000"></stop>
-          <stop offset="0.95" stop-color="#B900B4"></stop>
-          <stop offset="0.95" stop-color="#B900B4"></stop>
-          <stop offset="1" stop-color="#B900B4"></stop>
+          <stop stopColor="#FFD521"></stop>
+          <stop offset="0.05" stopColor="#FFD521"></stop>
+          <stop offset="0.501" stopColor="#F50000"></stop>
+          <stop offset="0.95" stopColor="#B900B4"></stop>
+          <stop offset="0.95" stopColor="#B900B4"></stop>
+          <stop offset="1" stopColor="#B900B4"></stop>
         </linearGradient>
       </defs>
     </SvgIcon>

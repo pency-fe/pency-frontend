@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, ButtonProps, ListItem, ListItemIcon, TextField } from "@mui/material";
+import { ButtonProps, ListItem, ListItemIcon, TextField } from "@mui/material";
 import { BrandInstagramIcon, BrandTwitterIcon, FluentHome24RegularIcon, toast } from "@pency/ui/components";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
@@ -61,7 +61,7 @@ const CH_Link_Form_Fn = ({ home, twitter, instagram, children }: CH_Link_Form_Fn
 
 type UpdateSubmitFnProps = Omit<ButtonProps, "children"> & { channelUrl: string };
 
-const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
+const UpdateSubmitFn = ({ channelUrl, ...rest }: UpdateSubmitFnProps) => {
   const { mutate } = useUpdateLink();
   const { handleSubmit } = useCHLinkFormContext();
   const [loading, toggleLoading] = useToggle(false);
@@ -76,7 +76,7 @@ const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
 
     toggleLoading(true);
     mutate(
-      { req, channelUrl: props.channelUrl },
+      { req, channelUrl },
       {
         onSuccess: () => {
           toast.success("변경 내용을 저장했어요.");
@@ -95,7 +95,7 @@ const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
       color="primary"
       loading={loading}
       onClick={handleSubmit(onSubmit)}
-      {...props}
+      {...rest}
       sx={{ alignSelf: "flex-end" }}
     >
       변경 내용 저장

@@ -1,11 +1,10 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { Stack, List, ListItem, Skeleton } from "@mui/material";
 import { withAsyncBoundary } from "@pency/util";
-import { useQuery } from "@tanstack/react-query";
-import { CH_Link_Form, channelMeKeys } from "_core/channel";
 import { useChannelUrlParam } from "_hooks";
-import { useMemo } from "react";
+import { CH_Link_Form, channelMeKeys } from "_core/channel";
 
 // ----------------------------------------------------------------------
 export const SettingLinkPage = withAsyncBoundary(SettingLinkPageFn, {
@@ -21,37 +20,34 @@ function SettingLinkPageFn() {
   // 에러 발생시키지 않았기 때문에 리렌더링이 발생해.
   // 내가 항상 정답을 알려줘서 이렇게 된건가?
   // 꼼꼼하게 보고 -> 문법 모르는거 있으면 바로 공부하고 -> 실행 순서, 동작 과정 생각/공부/질문
-  const query = useQuery({ ...channelMeKeys.linkDetail({ url }), throwOnError: true });
+  const { data, status } = useQuery({
+    ...channelMeKeys.linkDetail({ url }),
+    throwOnError: true,
+    select: (data) => {
+      return data.reduce(
+        (acc, { linkType, url }) => {
+          acc[linkType.toLowerCase() as Lowercase<typeof linkType>] = url;
+          return acc;
+        },
+        {} as Record<Lowercase<(typeof data)[number]["linkType"]>, string>,
+      );
+    },
+  });
 
-  if (query.status !== "success") {
+  if (status !== "success") {
     return <Loading />;
   }
 
-  const links = useMemo(() => {
-    const linkObj: Record<string, string> = {};
-    for (const data of query.data) {
-      linkObj[data.linkType.toLowerCase()] = data.url;
-    }
-
-    return linkObj;
-  }, [query.data]);
-
   return (
-    <CH_Link_Form home={links.home} twitter={links.twitter} instagram={links.instagram}>
+    <CH_Link_Form home={data.home} twitter={data.twitter} instagram={data.instagram}>
       <Stack spacing={3}>
         <List>
           <Stack spacing={2}>
-            <ListItem disablePadding>
-              <CH_Link_Form.Home />
-            </ListItem>
+            <CH_Link_Form.Home />
 
-            <ListItem disablePadding>
-              <CH_Link_Form.Twitter />
-            </ListItem>
+            <CH_Link_Form.Twitter />
 
-            <ListItem disablePadding>
-              <CH_Link_Form.Instagram />
-            </ListItem>
+            <CH_Link_Form.Instagram />
           </Stack>
         </List>
 
