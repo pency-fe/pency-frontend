@@ -1,11 +1,12 @@
 "use client";
 
 import { stylesColorScheme } from "@/util";
-import { Box, Button, ButtonProps, Stack, Typography, TypographyProps, useTheme } from "@mui/material";
+import { Box, Button, ButtonProps, Grid, Stack, Typography, TypographyProps, useTheme } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
 type OverviewCardCtemplateFnProps = {
+  OverviewCarousel: (...args: any[]) => React.ReactElement;
   slots: {
     title: React.ReactElement;
     moreButton: React.ReactElement;
@@ -14,24 +15,29 @@ type OverviewCardCtemplateFnProps = {
   };
 };
 
-const OverviewCardCtemplateFn = ({ slots }: OverviewCardCtemplateFnProps) => {
+const OverviewCardCtemplateFn = ({ OverviewCarousel, slots }: OverviewCardCtemplateFnProps) => {
   return (
-    <Stack spacing={1}>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+    <Grid container>
+      <Grid item xs="auto">
         {slots.title}
-        <Box sx={{ display: "flex", alignItems: "center", ml: "auto", gap: 1 }}>
+      </Grid>
+      <OverviewCarousel>
+        <Grid item xs sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 1 }}>
           {slots.moreButton}
           {slots.prevNextNav}
-        </Box>
-      </Box>
-      {slots.overviewCarouselContainer}
-    </Stack>
+        </Grid>
+        <Grid item sx={{ mt: 1 }} xs={12}>
+          {slots.overviewCarouselContainer}
+        </Grid>
+      </OverviewCarousel>
+    </Grid>
   );
 };
 
 // ----------------------------------------------------------------------
 
 type OverviewCardTCtemplateFnProps = {
+  OverviewCarousel: (...args: any[]) => React.ReactElement;
   slots: {
     title: React.ReactElement;
     tabs: React.ReactElement;
