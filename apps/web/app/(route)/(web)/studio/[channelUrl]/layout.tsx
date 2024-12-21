@@ -4,7 +4,6 @@ import { getQueryClient } from "(route)/get-query-client";
 import { channelMeKeys, ChannelMeListProvider } from "_core/channel";
 import { SelectedUserProfileMeProvider, userProfileMeKeys, UserProfileMeListProvider } from "_core/user-profile";
 import { StudioLayout } from "./_layout/layout";
-import { AccessGuard } from "./access-guard";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
@@ -21,9 +20,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <UserProfileMeListProvider>
         <SelectedUserProfileMeProvider>
           <ChannelMeListProvider>
-            <AccessGuard>
-              <StudioLayout>{children}</StudioLayout>
-            </AccessGuard>
+            <StudioLayout>{children}</StudioLayout>
           </ChannelMeListProvider>
         </SelectedUserProfileMeProvider>
       </UserProfileMeListProvider>

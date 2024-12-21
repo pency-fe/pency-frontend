@@ -1,19 +1,24 @@
+/* eslint-disable @tanstack/query/exhaustive-deps */
 import { Options } from "ky";
 import { queryOptions } from "@tanstack/react-query";
-import { getChannelMeBrandingDetail, getChannelMeLinkDetail, getChannelMeList, getChannelUserProfileList } from "./api";
+import {
+  getChannelMeBrandingDetail,
+  getChannelMeLinkDetail,
+  getChannelMeList,
+  getChannelUserProfileList,
+  guardChannelMe,
+} from "./api";
+import { FailureRes, QueryError } from "_core/api";
 
 export const channelKeys = {
   all: ["channel"],
-  // [TODO]
-  // detail: /channel/{url}
 };
 
 export const channelUserProfileKeys = {
   all: ["channelUserProfile"],
   lists: () => [...channelUserProfileKeys.all, "list"],
-  list: ({ id }: Required<Parameters<typeof getChannelUserProfileList>[0]>) =>
+  list: ({ id }: Parameters<typeof getChannelUserProfileList>[0]) =>
     queryOptions<Awaited<ReturnType<typeof getChannelUserProfileList>>>({
-      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: [...channelUserProfileKeys.lists(), { id }],
       queryFn: () => getChannelUserProfileList({ id }),
     }),
@@ -21,23 +26,28 @@ export const channelUserProfileKeys = {
 
 export const channelMeKeys = {
   all: ["channelMe"],
+  guard: ({ url }: Parameters<typeof guardChannelMe>[0], options?: Options) =>
+    queryOptions<
+      Awaited<ReturnType<typeof guardChannelMe>>,
+      QueryError<FailureRes<404, "ENTITY_NOT_FOUND">> | QueryError<FailureRes<401, "ACCESS_DENIED">>
+    >({
+      queryKey: [...channelMeKeys.all, "guard", url],
+      queryFn: () => guardChannelMe({ url }, options),
+    }),
   lists: () => [...channelMeKeys.all, "list"],
   list: (options?: Options) =>
     queryOptions<Awaited<ReturnType<typeof getChannelMeList>>>({
-      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: [...channelMeKeys.lists()],
       queryFn: () => getChannelMeList(options),
     }),
   details: () => [...channelMeKeys.all, "detail"],
-  brandingDetail: ({ url }: Required<Parameters<typeof getChannelMeBrandingDetail>[0]>) =>
+  brandingDetail: ({ url }: Parameters<typeof getChannelMeBrandingDetail>[0]) =>
     queryOptions<Awaited<ReturnType<typeof getChannelMeBrandingDetail>>>({
-      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: [...channelMeKeys.details(), "branding", url],
       queryFn: () => getChannelMeBrandingDetail({ url }),
     }),
-  linkDetail: ({ url }: Required<Parameters<typeof getChannelMeLinkDetail>[0]>) =>
+  linkDetail: ({ url }: Parameters<typeof getChannelMeLinkDetail>[0]) =>
     queryOptions<Awaited<ReturnType<typeof getChannelMeLinkDetail>>>({
-      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: [...channelMeKeys.details(), "link", url],
       queryFn: () => getChannelMeLinkDetail({ url }),
     }),

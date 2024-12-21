@@ -36,7 +36,6 @@ export function UserProfile() {
   const channelMe = useChannelMeListContext();
   const selectedUserProfileMe = useSelectedUserProfileMeContext();
   const { mutate: logout } = useLogout();
-
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
   const router = useRouter();
 

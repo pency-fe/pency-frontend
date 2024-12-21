@@ -1,2 +1,2 @@
-export * from "./access-denied";
-export * from "./not-found";
+export * from "./access-denied-view";
+export * from "./not-found-view";

@@ -49,6 +49,16 @@ export const getChannelUserProfileList = async (req: GetChannelUserProfileListRe
 
 // ----------------------------------------------------------------------
 
+type GuardChannelMeReq = {
+  url: string;
+};
+
+export const guardChannelMe = async (req: GuardChannelMeReq, options?: Options) => {
+  return await api.get<undefined>(`channel/me/${formatUrl(req.url)}/guard`, options).json();
+};
+
+// ----------------------------------------------------------------------
+
 type GetChannelMeListRes = Array<{
   id: number;
   title: string;
