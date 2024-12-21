@@ -31,32 +31,27 @@ function SettingBrandingPageFn() {
 
   const channelUrl = useChannelUrlParam();
 
-  const query = useQuery({ ...channelMeKeys.brandingDetail({ url: channelUrl }), throwOnError: true });
+  const { status, data } = useQuery({ ...channelMeKeys.brandingDetail({ url: channelUrl }), throwOnError: true });
+
+  if (status !== "success") {
+    return <Loading />;
+  }
 
   return (
-    <>
-      {query.isPending ? (
-        <>
-          <Loading />
-        </>
-      ) : (
-        <Stack spacing={3}>
-          <CH_Update_Form data={query.data!}>
-            <Stack spacing={4}>
-              <Typography variant="h4">채널 정보 수정</Typography>
-              <CH_Update_Form.Title variant="filled" />
-              <CH_Update_Form.Description variant="filled" />
-              <CH_Update_Form.Url variant="filled" />
-              <CH_Update_Form.Image />
-            </Stack>
-            <Box sx={{ display: "flex", justifyContent: "space-between", gap: 1 }}>
-              <CH_Update_Form.DeleteButton />
-              <CH_Update_Form.UpdateSubmitButton />
-            </Box>
-          </CH_Update_Form>
+    <Stack spacing={3}>
+      <CH_Update_Form data={data}>
+        <Stack spacing={4}>
+          <CH_Update_Form.Title variant="filled" />
+          <CH_Update_Form.Description variant="filled" />
+          <CH_Update_Form.Url variant="filled" />
+          <CH_Update_Form.Image />
         </Stack>
-      )}
-    </>
+        <Box sx={{ display: "flex", justifyContent: "space-between", gap: 1 }}>
+          <CH_Update_Form.DeleteButton />
+          <CH_Update_Form.UpdateSubmitButton />
+        </Box>
+      </CH_Update_Form>
+    </Stack>
   );
 }
 
@@ -64,14 +59,13 @@ function Loading() {
   return (
     <Stack spacing={3}>
       <Stack spacing={4}>
-        <Skeleton animation="wave" width={140} height={36} />
         <Skeleton animation="wave" height={80} />
         <Skeleton animation="wave" height={118} />
         <Skeleton animation="wave" height={80} />
-        <Skeleton animation="wave" width={320} height={158} />
+        <Skeleton animation="wave" width={128} height={128} />
         <Box sx={{ display: "flex", justifyContent: "space-between", gap: 1 }}>
-          <Skeleton animation="wave" height={36} width={68} />
-          <Skeleton animation="wave" height={36} width={104} />
+          <Skeleton animation="wave" width={68} height={36} />
+          <Skeleton animation="wave" width={104} height={36} />
         </Box>
       </Stack>
     </Stack>
