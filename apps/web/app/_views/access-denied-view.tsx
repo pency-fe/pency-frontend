@@ -26,7 +26,9 @@ export function AccessDenied() {
         <Box component="span" sx={{ fontSize: "16px", mt: "24px", mb: "32px" }}>
           권한이 없어요.
         </Box>
-        <Button variant="contained">펜시 홈으로 가기</Button>
+        <Button LinkComponent={NextLink} href="/" variant="contained">
+          펜시 홈으로 가기
+        </Button>
       </Stack>
     </Stack>
   );
