@@ -1,10 +1,10 @@
 "use client";
 
 import NextLink from "next/link";
-import { OverviewCardTCtemplate, RadioButton } from "@pency/ui/components";
+import { CardTabCarouselTemplate, RadioButton } from "@pency/ui/components";
 import { WT_Post_OverviewCarousel } from "_core/webtoon/post";
 import { useMemo } from "react";
-import { Box, RadioGroup, Typography } from "@mui/material";
+import { RadioGroup, Typography } from "@mui/material";
 import { createQueryString, objectEntries } from "@pency/util";
 import { useSearchParams } from "next/navigation";
 
@@ -36,13 +36,16 @@ export function WPopularPostSection() {
   return (
     <>
       {platformParam === "WEBTOON" ? (
-        <OverviewCardTCtemplate
-          OverviewCarousel={WT_Post_OverviewCarousel}
+        <CardTabCarouselTemplate
+          CardCarousel={WT_Post_OverviewCarousel}
           slots={{
-            title: <OverviewCardTCtemplate.Title>주간 인기 포스트</OverviewCardTCtemplate.Title>,
+            title: <CardTabCarouselTemplate.Title>주간 인기 포스트</CardTabCarouselTemplate.Title>,
             tabs: (
-              <RadioGroup value={platformParam}>
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+              <CardTabCarouselTemplate.Tabs>
+                <RadioGroup
+                  value={platformParam}
+                  sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 0.5 }}
+                >
                   {platform.map(([platform, label]) => (
                     <RadioButton
                       LinkComponent={NextLink}
@@ -62,12 +65,12 @@ export function WPopularPostSection() {
                       {label}
                     </RadioButton>
                   ))}
-                </Box>
-              </RadioGroup>
+                </RadioGroup>
+              </CardTabCarouselTemplate.Tabs>
             ),
 
             moreButton: (
-              <OverviewCardTCtemplate.MoreButton component={NextLink} href={`/webtoon/post/list?sort=WPOPULAR`} />
+              <CardTabCarouselTemplate.MoreButton component={NextLink} href={`/webtoon/post/list?sort=WPOPULAR`} />
             ),
             prevNextNav: (
               <>
@@ -75,7 +78,7 @@ export function WPopularPostSection() {
                 <WT_Post_OverviewCarousel.NextNav />
               </>
             ),
-            overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre="ALL" sort="WPOPULAR" />,
+            container: <WT_Post_OverviewCarousel.Container genre="ALL" sort="WPOPULAR" />,
           }}
         />
       ) : (

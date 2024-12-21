@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import { useMemo } from "react";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
 import { WT_Post_OverviewCarousel } from "_core/webtoon/post";
-import { OverviewCardCtemplate } from "@pency/ui/components";
+import { CardCarouselTemplate } from "@pency/ui/components";
 
 export function LatestSection() {
   const genreParam = useSearchParams().get("genre");
@@ -18,12 +18,12 @@ export function LatestSection() {
   }, [genreParam]);
 
   return (
-    <OverviewCardCtemplate
-      OverviewCarousel={WT_Post_OverviewCarousel}
+    <CardCarouselTemplate
+      CardCarousel={WT_Post_OverviewCarousel}
       slots={{
-        title: <OverviewCardCtemplate.Title>최신 포스트</OverviewCardCtemplate.Title>,
+        title: <CardCarouselTemplate.Title>최신 포스트</CardCarouselTemplate.Title>,
         moreButton: (
-          <OverviewCardCtemplate.MoreButton
+          <CardCarouselTemplate.MoreButton
             component={NextLink}
             href={genre === "ALL" ? "/webtoon/post/list" : `/webtoon/post/list?genre=${genre}`}
           />
@@ -34,7 +34,7 @@ export function LatestSection() {
             <WT_Post_OverviewCarousel.NextNav />
           </>
         ),
-        overviewCarouselContainer: <WT_Post_OverviewCarousel.Container genre={genre} />,
+        container: <WT_Post_OverviewCarousel.Container genre={genre} />,
       }}
     />
   );

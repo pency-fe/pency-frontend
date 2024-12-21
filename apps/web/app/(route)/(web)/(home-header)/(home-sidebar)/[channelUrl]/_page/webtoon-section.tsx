@@ -2,7 +2,7 @@
 
 import NextLink from "next/link";
 import { Box, RadioGroup } from "@mui/material";
-import { OverviewCardTCtemplate, RadioButton } from "@pency/ui/components";
+import { CardTabCarouselTemplate, RadioButton } from "@pency/ui/components";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { objectEntries } from "@pency/util";
@@ -35,10 +35,10 @@ export function WebtoonSection() {
   }, [searchParams]);
 
   return (
-    <OverviewCardTCtemplate
-      OverviewCarousel={WT_Post_Channel_RichCarousel}
+    <CardTabCarouselTemplate
+      CardCarousel={WT_Post_Channel_RichCarousel}
       slots={{
-        title: <OverviewCardTCtemplate.Title>웹툰</OverviewCardTCtemplate.Title>,
+        title: <CardTabCarouselTemplate.Title>웹툰</CardTabCarouselTemplate.Title>,
         tabs: (
           <RadioGroup value={webtoonParam}>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
@@ -57,7 +57,7 @@ export function WebtoonSection() {
           </RadioGroup>
         ),
         moreButton: (
-          <OverviewCardTCtemplate.MoreButton
+          <CardTabCarouselTemplate.MoreButton
             component={NextLink}
             href={`/${channelUrl}/webtoon?webtoon=${webtoonParam}`}
           />
@@ -68,9 +68,7 @@ export function WebtoonSection() {
             <WT_Post_Channel_RichCarousel.NextNav />
           </>
         ),
-        overviewCarouselContainer: (
-          <WT_Post_Channel_RichCarousel.Container url={channelUrl.replace("@", "")} sort="LATEST" page={1} />
-        ),
+        container: <WT_Post_Channel_RichCarousel.Container url={channelUrl.replace("@", "")} sort="LATEST" page={1} />,
       }}
     />
   );

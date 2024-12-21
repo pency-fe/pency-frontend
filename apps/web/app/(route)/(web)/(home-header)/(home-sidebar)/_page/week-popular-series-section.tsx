@@ -53,7 +53,10 @@ export function WPopularSeriesSection() {
             title: <CardTabCarouselTemplate.Title>주간 인기 시리즈</CardTabCarouselTemplate.Title>,
             tabs: (
               <CardTabCarouselTemplate.Tabs>
-                <RadioGroup value={platformParam} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                <RadioGroup
+                  value={platformParam}
+                  sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 0.5 }}
+                >
                   {platform.map(([platform, label]) => (
                     <RadioButton
                       LinkComponent={NextLink}
