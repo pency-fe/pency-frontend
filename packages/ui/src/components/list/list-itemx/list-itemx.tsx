@@ -1,7 +1,16 @@
 "use client";
 
 import { iconAlignCenter, maxLine } from "@/util";
-import { Box, BoxProps, ButtonBase, ButtonBaseProps, Typography, TypographyProps, useTheme } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  ButtonBase,
+  ButtonBaseProps,
+  Stack,
+  Typography,
+  TypographyProps,
+  useTheme,
+} from "@mui/material";
 import { forwardRef, ReactElement } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
@@ -19,6 +28,7 @@ type ListItemxFnProps = {
     title: ReactElement;
     attribute?: ReactElement | null;
     trailing?: ReactElement | null;
+    undereye?: ReactElement | null;
   };
 } & BoxProps;
 
@@ -26,41 +36,44 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...re
   const theme = useTheme();
 
   return (
-    <Box
-      className={listItemxClasses.root}
-      ref={ref}
-      {...rest}
-      sx={{
-        position: "relative",
-        display: "flex",
-        alignItems: "center",
-        gap: 1,
-        width: 1,
-        height: "60px",
-        padding: "4px",
-        borderRadius: 1,
-        overflow: "hidden",
-        "&:hover": {
-          bgcolor: theme.vars.palette.action.hover,
-        },
-        ...rest.sx,
-      }}
-    >
-      {slots.overlayElement}
+    <Stack spacing={1}>
+      <Box
+        className={listItemxClasses.root}
+        ref={ref}
+        {...rest}
+        sx={{
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          width: 1,
+          height: "60px",
+          padding: "4px",
+          borderRadius: 1,
+          overflow: "hidden",
+          "&:hover": {
+            bgcolor: theme.vars.palette.action.hover,
+          },
+          ...rest.sx,
+        }}
+      >
+        {slots.overlayElement}
 
-      {slots.leadingLabel}
+        {slots.leadingLabel}
 
-      {slots.thumbnail}
+        {slots.thumbnail}
 
-      {slots.order}
+        {slots.order}
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
-        {slots.title}
-        {slots.attribute}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
+          {slots.title}
+          {slots.attribute}
+        </Box>
+
+        <Box sx={{ ml: "auto" }}>{slots.trailing}</Box>
       </Box>
-
-      <Box sx={{ ml: "auto" }}>{slots.trailing}</Box>
-    </Box>
+      {slots.undereye}
+    </Stack>
   );
 });
 
@@ -263,6 +276,24 @@ const TrailingFn = forwardRef<HTMLDivElement, TrailingFnProps>(({ children, ...r
 
 // ----------------------------------------------------------------------
 
+type UnderEyeFnProps = TypographyProps;
+
+const UnderEyeFn = forwardRef<HTMLHeadingElement, UnderEyeFnProps>((rest, ref) => {
+  const theme = useTheme();
+
+  return (
+    <Typography
+      ref={ref}
+      variant="body2"
+      color={theme.vars.palette.text.secondary}
+      {...rest}
+      sx={{ overflow: "hidden", overflowWrap: "anywhere" }}
+    />
+  );
+});
+
+// ----------------------------------------------------------------------
+
 export const ListItemx = Object.assign(ListItemxFn, {
   OverlayAnchor: OverlayAnchorFn,
   OverlayButton: OverlayButtonFn,
@@ -272,4 +303,5 @@ export const ListItemx = Object.assign(ListItemxFn, {
   Title: TitleFn,
   Attribute: Object.assign(AttributeFn, { Dot: DotFn }),
   Trailing: Object.assign(TrailingFn),
+  UnderEye: UnderEyeFn,
 });
