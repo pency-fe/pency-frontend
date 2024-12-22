@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { block, createChannel, subscribe, unblock, updateLink } from "./api";
+import { block, createChannel, subscribe, unblock, unsubscribe, updateLink } from "./api";
 import { FailureRes, QueryError } from "_core/api";
 import { channelMeKeys } from "./queries";
 
@@ -66,4 +66,14 @@ export const useSubscribe = () => {
     | QueryError<FailureRes<404, "ENTITY_NOT_FOUND">>,
     Parameters<typeof subscribe>[0]
   >({ mutationFn: subscribe });
+};
+
+// ----------------------------------------------------------------------
+
+export const useUnSubscribe = () => {
+  return useMutation<
+    Awaited<ReturnType<typeof unsubscribe>>,
+    QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">>,
+    Parameters<typeof unsubscribe>[0]
+  >({ mutationFn: unsubscribe });
 };

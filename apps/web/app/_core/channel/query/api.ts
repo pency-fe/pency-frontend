@@ -16,6 +16,18 @@ export const subscribe = async (rep: SubscribeReq) => {
   return await api.post(`channel/${rep.id}/subscribe`).json();
 };
 
+// ---------------------------------------------------------------------
+
+type unsubscribeReq = {
+  id: number;
+};
+
+export const unsubscribe = async (req: unsubscribeReq) => {
+  return await api.get(`channel/${req.id}/subscribe`);
+};
+
+// ----------------------------------------------------------------------
+
 // ----------------------------------------------------------------------
 
 /** **************************************
