@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   Divider,
+  Grid,
   IconButton,
   Link,
   Stack,
@@ -66,48 +67,44 @@ export default function ChannelUrlLayout({ children }: Props) {
   }, [pathname]);
 
   return (
-    <Box>
+    <>
       {/* 배경 */}
       <Box
         sx={{
-          aspectRatio: "clamp(0px, calc(100% /(5)), 9999px)",
-          [theme.breakpoints.up("xs")]: {
-            height: "75px",
-          },
-          [theme.breakpoints.up("sm")]: {
-            height: "152px",
-            borderRadius: 1.5,
-          },
-          [theme.breakpoints.up("lg")]: {
-            height: "216px",
-            borderRadius: 1.5,
-          },
           position: "relative",
           overflow: "hidden",
+          borderRadius: 1.5,
+          pt: "16.2%",
         }}
       >
         <Box
           component="img"
           src="https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1"
-          sx={{ position: "absolute", width: 1, height: 1, objectFit: "cover" }}
+          sx={{ position: "absolute", left: 0, top: 0, width: 1, height: 1, objectFit: "cover" }}
         />
       </Box>
+
       {/* 정보 */}
+
       <Box
         sx={{
+          display: "flex",
           [theme.breakpoints.up("xs")]: {
-            padding: "16px 0 4px 0",
+            mt: "16px",
+            mb: "4px",
             gap: 1.5,
           },
           [theme.breakpoints.up("sm")]: {
-            padding: "24px 0 8px 0",
+            mt: "24px",
+            mb: "8px",
             gap: 2,
           },
-          display: "flex",
         }}
       >
         {/* 정보_프로필 */}
         <Box
+          component="img"
+          src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
           sx={{
             [theme.breakpoints.up("xs")]: {
               width: 68,
@@ -121,16 +118,10 @@ export default function ChannelUrlLayout({ children }: Props) {
               height: 96,
               borderRadius: 1.5,
             },
-            position: "relative",
             overflow: "hidden",
+            objectFit: "cover",
           }}
-        >
-          <Box
-            component="img"
-            src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-            sx={{ position: "absolute", width: 1, objectFit: "cover" }}
-          />
-        </Box>
+        />
 
         {/* 정보_세부 */}
         <Stack sx={{ display: "flex", justifyContent: "space-around", height: "96px", maxWidth: "600px" }}>
@@ -251,7 +242,7 @@ export default function ChannelUrlLayout({ children }: Props) {
         ))}
       </Tabs>
       {children}
-    </Box>
+    </>
   );
 }
 
