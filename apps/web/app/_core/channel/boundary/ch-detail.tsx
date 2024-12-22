@@ -33,7 +33,7 @@ import {
 } from "@pency/ui/components";
 import { usePathname } from "next/navigation";
 import { useChannelUrlParam } from "_hooks";
-import { useToggle } from "@pency/util";
+import { isClient, useToggle } from "@pency/util";
 import React from "react";
 
 const CH_Detail_Fn = ({ children }: { children?: React.ReactNode }) => {
@@ -264,7 +264,7 @@ function ChannelDetailDialog({ open, onClose }: ChannelDetailDialogProps) {
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
             <EvaLink2FillIcon sx={{ fontSize: 24, mx: "10px" }} />
-            <Typography variant="body2">{`${window?.location.origin ?? ""}/${channelUrl}`}</Typography>
+            <Typography variant="body2">{`${isClient() ? window.location.origin : ""}/${channelUrl}`}</Typography>
           </Box>
           {/* 채널 정보_구독자, 포스트 */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
