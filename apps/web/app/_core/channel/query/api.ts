@@ -192,3 +192,5 @@ export type UpdateLinkReq = Array<{
 export const updateLink = async ({ req, channelUrl }: { req: UpdateLinkReq; channelUrl: string }) => {
   return await api.post(`channel/me/${formatUrl(channelUrl)}/detail/link`, { json: req }).json();
 };
+
+// ----------------------------------------------------------------------

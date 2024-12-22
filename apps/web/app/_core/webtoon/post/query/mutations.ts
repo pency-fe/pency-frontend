@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "_core/api";
-import { bookmark, like, publish, unbookmark, unlike } from "./api";
+import { bookmark, like, publish, report, unbookmark, unlike } from "./api";
 
 // ----------------------------------------------------------------------
 
@@ -57,5 +57,13 @@ export const useUnbookmark = () => {
     Parameters<typeof unbookmark>[0]
   >({
     mutationFn: unbookmark,
+  });
+};
+
+// ----------------------------------------------------------------------
+
+export const useReport = () => {
+  return useMutation<Awaited<ReturnType<typeof report>>, void, Parameters<typeof report>[0]>({
+    mutationFn: report,
   });
 };

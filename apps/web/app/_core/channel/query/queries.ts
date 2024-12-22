@@ -2,6 +2,7 @@
 import { Options } from "ky";
 import { queryOptions } from "@tanstack/react-query";
 import {
+  getChannel,
   getChannelMeBrandingDetail,
   getChannelMeLinkDetail,
   getChannelMeList,
@@ -12,6 +13,11 @@ import { FailureRes, QueryError } from "_core/api";
 
 export const channelKeys = {
   all: ["channel"],
+  detail: ({ url }: Parameters<typeof getChannel>[0]) =>
+    queryOptions<Awaited<ReturnType<typeof getChannel>>>({
+      queryKey: [...channelKeys.all, { url }],
+      queryFn: () => getChannel({ url }),
+    }),
 };
 
 export const channelUserProfileKeys = {

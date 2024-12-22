@@ -139,6 +139,18 @@ export const unbookmark = async (req: UnbookmarkReq) => {
 
 // ----------------------------------------------------------------------
 
+type ReportReq = {
+  id: number;
+  reason: "ADULT" | "SPAM" | "ILLEGAL" | "VIOLENCE" | "PAID_MISINFORMATION" | "OTHER";
+  detail: string;
+};
+
+export const report = async (req: ReportReq) => {
+  return await api.post(`webtoon.post/${req.id}/report`, { json: { reason: req.reason, detail: req.detail } }).json();
+};
+
+// ----------------------------------------------------------------------
+
 /** **************************************
  * webtoon-post-channel
  *************************************** */
