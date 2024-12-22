@@ -1,9 +1,11 @@
+"use client";
+
 import { Box, Button, Link, Stack, useTheme } from "@mui/material";
 import { BrandPencyTextLogoIcon, SolarInfoCircleBoldIcon } from "@pency/ui/components";
 import NextLink from "next/link";
 
 // https://www.postype.com/studio/eqweqwe21/dashboard
-export function AccessDenied() {
+export function AccessDeniedView() {
   const theme = useTheme();
 
   return (
@@ -23,8 +25,8 @@ export function AccessDenied() {
       </Link>
       <Stack spacing={2} sx={{ alignItems: "center" }}>
         <SolarInfoCircleBoldIcon sx={{ fontSize: 80 }} />
-        <Box component="span" sx={{ fontSize: "16px", mt: "24px", mb: "32px" }}>
-          권한이 없어요.
+        <Box component="span" sx={{ fontSize: "16px", mt: "20px", mb: "28px" }}>
+          권한이 없어요
         </Box>
         <Button LinkComponent={NextLink} href="/" variant="contained">
           펜시 홈으로 가기

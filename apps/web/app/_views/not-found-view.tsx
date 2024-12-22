@@ -25,20 +25,20 @@ export function NotFoundView() {
         <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px", color: theme.vars.palette.text.primary }} />
       </Link>
       <Stack sx={{ alignItems: "center" }}>
-        <SolarInfoCircleBoldIcon sx={{ width: "80px", height: "80px" }} />
+        <SolarInfoCircleBoldIcon sx={{ fontSize: 80 }} />
 
-        <Stack sx={{ alignItems: "center", mt: "24px", mb: "32px" }}>
-          <Box component="span" sx={{ fontSize: "26px", fontWeight: 600, mb: "16px" }}>
-            페이지를 찾지 못했어요.
+        <Stack sx={{ alignItems: "center", mt: "20px", mb: "28px" }}>
+          <Box component="span" sx={{ fontSize: "26px", fontWeight: 700, mb: "8px" }}>
+            페이지를 찾지 못했어요
           </Box>
 
-          <Box component="span" sx={{ fontSize: "16px" }}>
-            페이지 주소가 정확한지 확인해주세요.
+          <Box component="span" sx={{ fontSize: "16px", color: theme.vars.palette.text.secondary }}>
+            주소가 정확한지 확인해주세요
           </Box>
         </Stack>
         <Button
           variant="soft"
-          size="large"
+          size="medium"
           color="primary"
           onClick={() => {
             window.history.back();
