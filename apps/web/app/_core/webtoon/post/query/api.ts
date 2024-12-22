@@ -36,6 +36,65 @@ export const publish = async (req: PublishReq) => {
 
 // ----------------------------------------------------------------------
 
+type ProvisionReq = {
+  channelUrl: string;
+};
+
+type ProvisionRes = {
+  id: number;
+};
+
+export const provision = async (req: ProvisionReq) => {
+  return await api.post<ProvisionRes>("webtoon/post/me/provision", { json: req }).json();
+};
+
+// ----------------------------------------------------------------------
+
+type SaveReq = {
+  id: number;
+  channelUrl: string;
+  title: string;
+  genre:
+    | "ROMANCE"
+    | "FANTASY"
+    | "ROFAN"
+    | "ACTION"
+    | "DAILY"
+    | "COMIC"
+    | "DRAMA"
+    | "THRILLER"
+    | "MARTIAL"
+    | "SPORTS"
+    | "SELF"
+    | "ETC";
+  price: number;
+  free: Array<{
+    name: string;
+    src: string;
+  }>;
+  paid: Array<{
+    name: string;
+    src: string;
+  }>;
+};
+
+export const save = async (req: SaveReq) => {
+  return await api
+    .post(`webtoon/post/me/${req.id}/save`, {
+      json: {
+        channelUrl: req.channelUrl,
+        title: req.title,
+        genre: req.genre,
+        price: req.price,
+        free: req.free,
+        paid: req.paid,
+      },
+    })
+    .json();
+};
+
+// ----------------------------------------------------------------------
+
 /** **************************************
  * webtoon-post
  *************************************** */

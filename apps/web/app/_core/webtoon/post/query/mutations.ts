@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "_core/api";
-import { bookmark, like, publish, report, unbookmark, unlike } from "./api";
+import { bookmark, like, publish, report, save, unbookmark, unlike } from "./api";
 
 // ----------------------------------------------------------------------
 
@@ -65,5 +65,19 @@ export const useUnbookmark = () => {
 export const useReport = () => {
   return useMutation<Awaited<ReturnType<typeof report>>, void, Parameters<typeof report>[0]>({
     mutationFn: report,
+  });
+};
+
+// ----------------------------------------------------------------------
+
+export const useSave = () => {
+  return useMutation<
+    Awaited<ReturnType<typeof save>>,
+    | QueryError<FailureRes<404, "ENTITY_NOT_FOUND">>
+    | QueryError<FailureRes<403, "SAVED_POST_FORBIDDEN">>
+    | QueryError<FailureRes<401, "ACCESS_DENIED">>,
+    Parameters<typeof save>[0]
+  >({
+    mutationFn: save,
   });
 };
