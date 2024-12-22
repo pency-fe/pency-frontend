@@ -28,6 +28,34 @@ export const unsubscribe = async (req: unsubscribeReq) => {
 
 // ----------------------------------------------------------------------
 
+type GetChannelReq = {
+  url: string;
+};
+
+type GetChannelRes = {
+  id: number;
+  title: string;
+  description: string;
+  url: string;
+  image: string;
+  bgImage: string;
+  subscriberCount: number;
+  postCount: number;
+  subscribed: boolean;
+  userProfile: {
+    url: string;
+    image: string;
+    nickname: string;
+  };
+  links: Array<{
+    linkType: "HOME" | "TWITTER" | "INSTAGRAM";
+    url: string;
+  }>;
+};
+
+export const getChannel = async (req: GetChannelReq) => {
+  return await api.get<GetChannelRes>(`channel/${formatUrl(req.url)}`).json();
+};
 // ----------------------------------------------------------------------
 
 /** **************************************
