@@ -9,8 +9,7 @@ export default function NotFound() {
     <html lang="ko" suppressHydrationWarning>
       <body>
         <InitThemeProvider>
-          {/* <NotFoundView /> */}
-          <AccessDeniedView />
+          <NotFoundView />
         </InitThemeProvider>
       </body>
     </html>
