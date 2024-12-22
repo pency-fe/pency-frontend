@@ -124,6 +124,7 @@ const PrevNavFn = forwardRef<HTMLButtonElement, PrevNavFnProps>((rest, ref) => {
         variant="outlined"
         disabled={prevNavDisabled}
         onClick={onPrevNavClick}
+        size="small"
         {...rest}
         sx={{
           [theme.breakpoints.down("sm")]: {
@@ -152,6 +153,7 @@ const NextNavFn = forwardRef<HTMLButtonElement, NextNavFnProps>((rest, ref) => {
       variant="outlined"
       disabled={nextNavDisabled}
       onClick={onNextNavClick}
+      size="small"
       {...rest}
       sx={{
         [theme.breakpoints.down("sm")]: {

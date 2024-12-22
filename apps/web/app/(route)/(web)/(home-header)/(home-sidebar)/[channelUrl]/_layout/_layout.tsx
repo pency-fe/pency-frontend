@@ -1,41 +1,13 @@
 "use client";
 
-import {
-  Avatar,
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  Divider,
-  Grid,
-  IconButton,
-  Link,
-  Stack,
-  styled,
-  Tab,
-  Tabs,
-  tabsClasses,
-  Typography,
-  typographyClasses,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import {
-  BrandInstagramIcon,
-  BrandTwitterIcon,
-  EvaArrowIosForwardFillIcon,
-  EvaInfoOutlineIcon,
-  EvaLink2FillIcon,
-  FluentHome24RegularIcon,
-  FluentShare24RegularIcon,
-  MaterialSymbolsCloseIcon,
-} from "@pency/ui/components";
-import { maxLine } from "@pency/ui/util";
+import { useMemo } from "react";
+import { usePathname } from "next/navigation";
+import NextLink from "next/link";
+import { Box, Grid, Stack, Tab, Tabs, tabsClasses, Typography, useTheme } from "@mui/material";
+
 import { objectEntries } from "@pency/util";
 import { useChannelUrlParam } from "_hooks";
-import NextLink from "next/link";
-import { usePathname } from "next/navigation";
-import { useMemo, useState } from "react";
+import { CH_Detail } from "_core/channel";
 
 // ----------------------------------------------------------------------
 
@@ -68,153 +40,77 @@ export default function ChannelUrlLayout({ children }: Props) {
 
   return (
     <>
-      {/* 배경 */}
-      <Box
-        sx={{
-          position: "relative",
-          overflow: "hidden",
-          borderRadius: 1.5,
-          pt: "16.2%",
-        }}
-      >
-        <Box
-          component="img"
-          src="https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1"
-          sx={{ position: "absolute", left: 0, top: 0, width: 1, height: 1, objectFit: "cover" }}
-        />
-      </Box>
+      <CH_Detail>
+        <CH_Detail.BgImage />
 
-      {/* 정보 */}
-
-      <Box
-        sx={{
-          display: "flex",
-          [theme.breakpoints.up("xs")]: {
-            mt: "16px",
-            mb: "4px",
-            gap: 1.5,
-          },
-          [theme.breakpoints.up("sm")]: {
-            mt: "24px",
-            mb: "8px",
-            gap: 2,
-          },
-        }}
-      >
-        {/* 정보_프로필 */}
-        <Box
-          component="img"
-          src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+        <Grid
+          container
           sx={{
+            gap: 1,
             [theme.breakpoints.up("xs")]: {
-              width: 68,
-              minWidth: 68,
-              height: 68,
-              borderRadius: 1,
+              mt: "16px",
+              mb: "8px",
             },
             [theme.breakpoints.up("sm")]: {
-              width: 96,
-              minWidth: 96,
-              height: 96,
-              borderRadius: 1.5,
-            },
-            overflow: "hidden",
-            objectFit: "cover",
-          }}
-        />
-
-        {/* 정보_세부 */}
-        <Stack sx={{ display: "flex", justifyContent: "space-around", height: "96px", maxWidth: "600px" }}>
-          <Typography
-            sx={{
-              ...maxLine({ line: 1 }),
-              [theme.breakpoints.up("xs")]: {
-                ...theme.typography.subtitle1,
-              },
-              [theme.breakpoints.up("sm")]: {
-                ...theme.typography.h4,
-              },
-            }}
-          >
-            채널명 채널명 채널명
-          </Typography>
-
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 0.5,
-              fontWeight: 400,
-              color: theme.vars.palette.text.secondary,
-              [`& .${typographyClasses.root}`]: {
-                [theme.breakpoints.up("xs")]: {
-                  ...theme.typography.caption,
-                  maxWidth: 80,
-                },
-                [theme.breakpoints.up("sm")]: {
-                  ...theme.typography.body1,
-                  maxWidth: 160,
-                },
-              },
-            }}
-          >
-            <Link
-              component={NextLink}
-              href="/profile/${@TODO}git"
-              color={theme.vars.palette.text.primary}
-              sx={{
-                ...maxLine({ line: 1 }),
-                "&:hover": { textDecoration: "none" },
-              }}
-            >
-              프로필명프로필명프로필
-            </Link>
-            <Typography>•</Typography>
-            <Typography>구독자 8천명</Typography>
-            <Typography>•</Typography>
-            <Typography>포스트 1.1개</Typography>
-          </Box>
-
-          <DetailDialog />
-        </Stack>
-
-        {/* 버튼 */}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "flex-start",
-            gap: 1,
-            ml: "auto",
-            [theme.breakpoints.down("sm")]: {
-              display: "none",
+              mt: "24px",
+              mb: "12px",
             },
           }}
         >
-          <Button variant="contained">구독</Button>
-          <IconButton variant="soft" sx={{ borderRadius: 1 }}>
-            <FluentShare24RegularIcon />
-          </IconButton>
-        </Box>
-      </Box>
-      {/* 버튼 */}
-      <Box
-        sx={{
-          display: "flex",
-          gap: 1,
-          [theme.breakpoints.up("sm")]: {
-            display: "none",
-          },
-        }}
-      >
-        <Button variant="contained" fullWidth>
-          구독
-        </Button>
-        <IconButton variant="soft" sx={{ borderRadius: 1 }}>
-          <FluentShare24RegularIcon />
-        </IconButton>
-      </Box>
+          <Grid
+            item
+            xs
+            container
+            wrap="nowrap"
+            sx={{
+              [theme.breakpoints.up("xs")]: {
+                gap: 1.5,
+              },
+              [theme.breakpoints.up("sm")]: {
+                gap: 2,
+              },
+            }}
+          >
+            <Grid item xs="auto">
+              <CH_Detail.Image />
+            </Grid>
 
-      {/* 탭 */}
+            <Grid item xs sm={false}>
+              <Stack
+                sx={{
+                  maxWidth: "600px",
+                  overflow: "hidden",
+                  [theme.breakpoints.up("xs")]: {
+                    gap: "2px",
+                  },
+                  [theme.breakpoints.up("sm")]: {
+                    gap: "4px",
+                  },
+                }}
+              >
+                <CH_Detail.Title />
+                <CH_Detail.Attribute />
+                <CH_Detail.Description />
+              </Stack>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12} sm="auto">
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 1,
+                ml: "auto",
+              }}
+            >
+              <CH_Detail.SubscriptionButton fullWidth />
+              <CH_Detail.ShareIconButton />
+            </Box>
+          </Grid>
+        </Grid>
+      </CH_Detail>
+
       <Tabs
         value={navValue}
         scrollButtons={false}
@@ -226,7 +122,7 @@ export default function ChannelUrlLayout({ children }: Props) {
         <Tab
           LinkComponent={NextLink}
           href={`/${channelUrl}`}
-          label={<Typography variant="h6">홈</Typography>}
+          label={<Typography variant="subtitle1">홈</Typography>}
           value="home"
           wrapped
         />
@@ -235,222 +131,13 @@ export default function ChannelUrlLayout({ children }: Props) {
             key={value}
             LinkComponent={NextLink}
             href={`/${channelUrl}/${value}`}
-            label={<Typography variant="h6">{label}</Typography>}
+            label={<Typography variant="subtitle1">{label}</Typography>}
             value={value}
             wrapped
           />
         ))}
       </Tabs>
       {children}
-    </>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-}));
-
-function DetailDialog() {
-  const theme = useTheme();
-  const pathname = usePathname();
-  const channelUrl = useChannelUrlParam();
-
-  const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
-
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
-      </Button> */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          height: "26px",
-          color: theme.vars.palette.text.secondary,
-          cursor: "pointer",
-        }}
-        onClick={handleClickOpen}
-      >
-        <Typography
-          sx={{
-            ...maxLine({ line: 1 }),
-            [theme.breakpoints.up("xs")]: {
-              ...theme.typography.caption,
-            },
-            [theme.breakpoints.up("sm")]: {
-              ...theme.typography.body1,
-            },
-          }}
-        >
-          {/* 없을 경우, 채널 정보 */}
-          ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-          ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ
-        </Typography>
-        <EvaArrowIosForwardFillIcon />
-      </Box>
-
-      <BootstrapDialog onClose={handleClose} open={open} maxWidth="xs" fullScreen={isUpSm ? false : true}>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            padding: "16px",
-            [theme.breakpoints.up("sm")]: { flexDirection: "row-reverse" },
-          }}
-        >
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            sx={{
-              [theme.breakpoints.up("sm")]: { ml: "auto" },
-            }}
-          >
-            <MaterialSymbolsCloseIcon />
-          </IconButton>
-          <Typography variant="h6" sx={{}}>
-            채널 및 크리에이터 정보
-          </Typography>
-        </Box>
-        <Divider />
-        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-          {/* 채널 정보 */}
-          <Stack spacing={1.5}>
-            <Typography variant="subtitle2">채널 정보</Typography>
-            {/* 채널 정보_프로필 */}
-            <Box
-              sx={{
-                display: "flex",
-                gap: 1.5,
-              }}
-            >
-              <Box
-                sx={{
-                  width: 40,
-                  minWidth: 40,
-                  height: 40,
-                  borderRadius: 1,
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                <Box
-                  component="img"
-                  src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-                  sx={{ position: "absolute", width: 1, height: 1, objectFit: "cover" }}
-                />
-              </Box>
-
-              <Stack sx={{ display: "flex", maxWidth: "600px" }}>
-                <Typography variant="subtitle1">채널명 채널명 채널명</Typography>
-                <Typography variant="caption" color={theme.vars.palette.text.secondary}>
-                  {/* 없을 경우, 채널 정보 */}
-                  ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-                  ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ
-                </Typography>
-              </Stack>
-            </Box>
-            {/* 채널 정보_URL */}
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-              <EvaLink2FillIcon sx={{ fontSize: 20, mx: "10px" }} />
-              <Typography variant="body2">{`https://pency.co.kr:3000/${channelUrl}`}</Typography>
-            </Box>
-            {/* 채널 정보_구독자, 포스트 */}
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-              <EvaInfoOutlineIcon sx={{ fontSize: 20, mx: "10px" }} />
-              <Typography variant="body2">구독자 0명 • 포스트 0개</Typography>
-            </Box>
-          </Stack>
-          <Stack spacing={1.5}>
-            {/* 크리에이터 정보 */}
-            <Typography variant="subtitle2">크리에이터 정보</Typography>
-            <Box
-              component={NextLink}
-              href={"/profile/${@TODO}"}
-              sx={{ display: "flex", alignItems: "center", gap: 1.5, textDecoration: "none" }}
-            >
-              <Avatar src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" />
-              <Typography variant="subtitle1" color={theme.vars.palette.text.primary}>
-                김천재
-              </Typography>
-            </Box>
-          </Stack>
-          <Stack spacing={1.5}>
-            {/* 링크 */}
-            <Typography variant="subtitle2">링크</Typography>
-            <Link
-              component={NextLink}
-              href={`https://pency.co.kr:3000${pathname}`}
-              target="_blank"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 1.5,
-                textDecoration: "none",
-                "&:hover": {
-                  textDecoration: "none",
-                },
-              }}
-            >
-              <FluentHome24RegularIcon
-                sx={{ mx: "10px", width: "1.5em", height: "1.5em", color: theme.vars.palette.text.primary }}
-              />
-              <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
-            </Link>
-            <Link
-              component={NextLink}
-              target="_blank"
-              href={`https://pency.co.kr:3000${pathname}`}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 1.5,
-                textDecoration: "none",
-                "&:hover": {
-                  textDecoration: "none",
-                },
-              }}
-            >
-              <BrandTwitterIcon sx={{ mx: "10px", width: "1.5em", height: "1.5em" }} />
-              <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
-            </Link>
-            <Link
-              component={NextLink}
-              target="_blank"
-              href={`https://pency.co.kr:3000${pathname}`}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 1.5,
-                textDecoration: "none",
-                "&:hover": {
-                  textDecoration: "none",
-                },
-              }}
-            >
-              <BrandInstagramIcon sx={{ mx: "10px", width: "1.5em", height: "1.5em" }} />
-              <Typography variant="body2">{`https://pency.co.kr:3000${pathname}`}</Typography>
-            </Link>
-          </Stack>
-        </DialogContent>
-      </BootstrapDialog>
     </>
   );
 }
