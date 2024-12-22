@@ -128,12 +128,12 @@ export default function ChannelUrlLayout({ children }: Props) {
           <Box
             component="img"
             src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
-            sx={{ position: "absolute", width: 1, height: 1, objectFit: "cover" }}
+            sx={{ position: "absolute", width: 1, objectFit: "cover" }}
           />
         </Box>
 
         {/* 정보_세부 */}
-        <Stack sx={{ display: "flex", maxWidth: "600px" }}>
+        <Stack sx={{ display: "flex", justifyContent: "space-around", height: "96px", maxWidth: "600px" }}>
           <Typography
             sx={{
               ...maxLine({ line: 1 }),
