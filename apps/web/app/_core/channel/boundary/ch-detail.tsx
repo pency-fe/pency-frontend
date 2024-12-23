@@ -494,6 +494,7 @@ const LINK_TYPE_ORDER: Array<Exclude<QueryData, undefined>["links"][number]["lin
 ] as const;
 
 const Links = ({ links }: LinksProps) => {
+  const theme = useTheme();
   return LINK_TYPE_ORDER.map((LINK_TYPE, i) => {
     const link = links.find((link) => link.linkType === LINK_TYPE);
     if (!link) {
@@ -516,7 +517,9 @@ const Links = ({ links }: LinksProps) => {
           },
         }}
       >
-        {link.linkType === "HOME" ? <FluentHome24RegularIcon sx={{ fontSize: 24, mx: "10px" }} /> : null}
+        {link.linkType === "HOME" ? (
+          <FluentHome24RegularIcon sx={{ fontSize: 24, mx: "10px", color: theme.vars.palette.text.primary }} />
+        ) : null}
         {link.linkType === "TWITTER" ? <BrandTwitterIcon sx={{ fontSize: 24, mx: "10px" }} /> : null}
         {link.linkType === "INSTAGRAM" ? <BrandInstagramIcon sx={{ fontSize: 24, mx: "10px" }} /> : null}
 
