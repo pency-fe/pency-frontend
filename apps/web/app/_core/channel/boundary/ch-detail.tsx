@@ -11,9 +11,11 @@ import {
   Dialog,
   DialogContent,
   Divider,
+  Grid,
   IconButton,
   IconButtonProps,
   Link,
+  Skeleton,
   Stack,
   Typography,
   typographyClasses,
@@ -33,7 +35,7 @@ import {
 } from "@pency/ui/components";
 import { useChannelUrlParam } from "_hooks";
 import { isClient, useToggle, withAsyncBoundary } from "@pency/util";
-import React, { createContext, useContext, useMemo } from "react";
+import React, { createContext, useContext } from "react";
 import { channelKeys } from "../query";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
@@ -73,7 +75,137 @@ const DetailProvider = withAsyncBoundary(
 
 // [TODO]
 function Loading() {
-  return <></>;
+  const theme = useTheme();
+
+  return (
+    <>
+      <Grid
+        container
+        sx={{
+          gap: 1,
+          [theme.breakpoints.up("xs")]: {
+            mt: "16px",
+            mb: "8px",
+          },
+          [theme.breakpoints.up("sm")]: {
+            mt: "24px",
+            mb: "12px",
+          },
+        }}
+      >
+        <Grid
+          item
+          xs
+          container
+          wrap="nowrap"
+          sx={{
+            [theme.breakpoints.up("xs")]: {
+              gap: 1.5,
+            },
+            [theme.breakpoints.up("sm")]: {
+              gap: 2,
+            },
+          }}
+        >
+          <Grid item xs="auto">
+            <Skeleton
+              sx={{
+                [theme.breakpoints.up("xs")]: {
+                  width: 68,
+                  height: 68,
+                },
+                [theme.breakpoints.up("sm")]: {
+                  width: 96,
+                  height: 96,
+                },
+              }}
+            />
+          </Grid>
+
+          <Grid item xs sm={false}>
+            <Stack
+              sx={{
+                maxWidth: "600px",
+                overflow: "hidden",
+                [theme.breakpoints.up("xs")]: {
+                  gap: "2px",
+                },
+                [theme.breakpoints.up("sm")]: {
+                  gap: "4px",
+                },
+              }}
+            >
+              <Skeleton
+                sx={{
+                  [theme.breakpoints.up("xs")]: {
+                    width: "25%",
+                    height: 24,
+                  },
+                  [theme.breakpoints.up("sm")]: {
+                    height: 36,
+                  },
+                }}
+              />
+              <Skeleton
+                sx={{
+                  [theme.breakpoints.up("xs")]: {
+                    width: "45%",
+                    height: 18,
+                  },
+                  [theme.breakpoints.up("sm")]: {
+                    height: 22,
+                  },
+                }}
+              />
+              <Skeleton
+                sx={{
+                  [theme.breakpoints.up("xs")]: {
+                    width: "25%",
+                    height: 18,
+                  },
+                  [theme.breakpoints.up("sm")]: {
+                    height: 24,
+                  },
+                }}
+              />
+            </Stack>
+          </Grid>
+        </Grid>
+
+        <Grid item xs={12} sm="auto">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "flex-start",
+              gap: 1,
+              ml: "auto",
+            }}
+          >
+            <Skeleton
+              sx={{
+                [theme.breakpoints.up("xs")]: {
+                  width: "100%",
+                  height: 36,
+                },
+                [theme.breakpoints.up("sm")]: {
+                  width: 64,
+                  height: 36,
+                },
+              }}
+            />
+            <Skeleton
+              width={36}
+              height={36}
+              sx={{
+                width: 36,
+                height: 36,
+              }}
+            />
+          </Box>
+        </Grid>
+      </Grid>
+    </>
+  );
 }
 
 const CH_Detail_Fn = ({ children }: { children?: React.ReactNode }) => {
@@ -83,11 +215,11 @@ const CH_Detail_Fn = ({ children }: { children?: React.ReactNode }) => {
 // ----------------------------------------------------------------------
 
 const BgImageFn = () => {
-  const data = useDetailData();
+  const { bgImage } = useDetailData();
 
   return (
     <>
-      {data.bgImage ? (
+      {bgImage ? (
         <Box
           sx={{
             position: "relative",
@@ -98,10 +230,7 @@ const BgImageFn = () => {
         >
           <Box
             component="img"
-            // [TODO]
-            src={
-              "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1"
-            }
+            src={bgImage ?? ""}
             sx={{ position: "absolute", left: 0, top: 0, width: 1, height: 1, objectFit: "cover" }}
           />
         </Box>
@@ -114,7 +243,6 @@ const BgImageFn = () => {
 
 const ImageFn = () => {
   const theme = useTheme();
-  // [TODO]
   const { image } = useDetailData();
 
   return (
@@ -143,8 +271,7 @@ const ImageFn = () => {
 
 const TitleFn = () => {
   const theme = useTheme();
-  // [TODO]
-  const data = useDetailData();
+  const { title } = useDetailData();
 
   return (
     <Typography
@@ -158,7 +285,7 @@ const TitleFn = () => {
         },
       }}
     >
-      {data.title}
+      {title}
     </Typography>
   );
 };
@@ -167,9 +294,7 @@ const TitleFn = () => {
 
 const AttributeFn = () => {
   const theme = useTheme();
-  // [TODO]
-  const data = useDetailData();
-  console.log("data: ", data);
+  const { userProfile, subscriberCount, wtPostCount } = useDetailData();
 
   return (
     <Box
@@ -192,21 +317,21 @@ const AttributeFn = () => {
     >
       <Link
         component={NextLink}
-        href={`/profile/@${data.userProfile.url}`}
+        href={`/profile/@${userProfile.url}`}
         color={theme.vars.palette.text.primary}
         sx={{
           ...maxLine({ line: 1 }),
           "&:hover": { textDecoration: "none" },
         }}
       >
-        {data.userProfile.nickname}
+        {userProfile.nickname}
       </Link>
       <Typography>•</Typography>
       {/* TODO 1만개 함수 만들어야 된다.*/}
-      <Typography sx={{ minWidth: "max-content" }}>구독자 {data.subscriberCount}명</Typography>
+      <Typography sx={{ minWidth: "max-content" }}>구독자 {subscriberCount}명</Typography>
       <Typography>•</Typography>
       {/* TODO: 1.1천개 함수 만들어야 된다. */}
-      <Typography sx={{ minWidth: "max-content" }}>포스트 {data.wtPostCount}개</Typography>
+      <Typography sx={{ minWidth: "max-content" }}>포스트 {wtPostCount}개</Typography>
     </Box>
   );
 };
@@ -216,8 +341,7 @@ const AttributeFn = () => {
 const DescriptionFn = () => {
   const theme = useTheme();
   const [open, toggle] = useToggle(false);
-  // [TODO]
-  const data = useDetailData();
+  const { description } = useDetailData();
 
   return (
     <>
@@ -242,7 +366,7 @@ const DescriptionFn = () => {
             },
           }}
         >
-          {data.description ?? "채널 정보"}
+          {description ?? "채널 정보"}
         </Typography>
         <EvaArrowIosForwardFillIcon />
       </Box>
@@ -265,7 +389,6 @@ function ChannelDetailDialog({ open, onClose }: ChannelDetailDialogProps) {
 
   const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
 
-  // [TODO]
   const data = useDetailData();
 
   return (
@@ -402,16 +525,16 @@ const Links = ({ links }: LinksProps) => {
 
 // ----------------------------------------------------------------------
 
-type SubscriptionButtonFnProps = ButtonProps;
+type SubscriptionOrStudioButtonFnFnProps = ButtonProps;
 // SubscriptionOrStudioButtonFn
-const SubscriptionButtonFn = (rest: SubscriptionButtonFnProps) => {
+const SubscriptionOrStudioButtonFn = (rest: SubscriptionOrStudioButtonFnFnProps) => {
   // [TODO] 채널 구독하기 코드 구현하기
-  const data = useDetailData();
+  const { subscribed } = useDetailData();
 
   // [TODO] 내 채널일 경우, 스튜디오 버튼으로 변경
   return (
     <Button variant="contained" {...rest}>
-      {data.subscribed ? "구독중" : "구독"}
+      {subscribed ? "구독중" : "구독"}
     </Button>
   );
 };
@@ -436,6 +559,6 @@ export const CH_Detail = Object.assign(CH_Detail_Fn, {
   Title: TitleFn,
   Attribute: AttributeFn,
   Description: DescriptionFn,
-  SubscriptionButton: SubscriptionButtonFn,
+  SubscriptionOrStudioButton: SubscriptionOrStudioButtonFn,
   ShareIconButton: ShareIconButtonFn,
 });

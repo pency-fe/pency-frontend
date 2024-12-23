@@ -104,7 +104,7 @@ export default function ChannelUrlLayout({ children }: Props) {
                 ml: "auto",
               }}
             >
-              <CH_Detail.SubscriptionButton fullWidth />
+              <CH_Detail.SubscriptionOrStudioButton fullWidth />
               <CH_Detail.ShareIconButton />
             </Box>
           </Grid>
