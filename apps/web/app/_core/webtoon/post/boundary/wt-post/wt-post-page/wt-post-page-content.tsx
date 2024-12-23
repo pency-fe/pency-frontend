@@ -3,7 +3,7 @@
 import { createContext, useContext, useMemo } from "react";
 import NextLink from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useQuery, useQueryClient, UseSuspenseQueryResult } from "@tanstack/react-query";
+import { useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
 import { Grid, PaginationItem } from "@mui/material";
 import { usePaginationx } from "@pency/ui/hooks";
 import { createQueryString, withAsyncBoundary } from "@pency/util";
@@ -17,9 +17,7 @@ import { produce } from "immer";
 // ----------------------------------------------------------------------
 
 const ContentDataContext = createContext<
-  | UseSuspenseQueryResult<
-      Awaited<ReturnType<Exclude<ReturnType<typeof wtPostKeys.page>["queryFn"], undefined>>>
-    >["data"]
+  | UseQueryResult<Awaited<ReturnType<Exclude<ReturnType<typeof wtPostKeys.page>["queryFn"], undefined>>>>["data"]
   | undefined
 >(undefined);
 
