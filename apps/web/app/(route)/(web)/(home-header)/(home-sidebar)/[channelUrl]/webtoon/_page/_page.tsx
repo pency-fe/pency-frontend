@@ -17,7 +17,7 @@ import { usePaginationx } from "@pency/ui/hooks";
 import { useChannelUrlParam } from "_hooks";
 
 // ----------------------------------------------------------------------
-
+// [TODO] getWebtoonPostMe
 type contentValue = "POST" | "SERIES";
 
 const CONTENT_VALUE_LABEL: Record<contentValue, string> = {
@@ -137,7 +137,7 @@ export function WebtoonPage() {
           </Menux>
         </Box>
       </Box>
-      <WT_Post_Channel_RichList channelUrl={channelUrl} sort={sortParam} page={pageParam} />
+      <WT_Post_Channel_RichList url={channelUrl} sort={sortParam} page={pageParam} />
       <Box sx={{ margin: "auto", mt: 3 }}>
         <Pagination />
       </Box>

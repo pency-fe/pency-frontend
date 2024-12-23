@@ -76,7 +76,6 @@ function Loading() {
 }
 
 const CH_Detail_Fn = ({ children }: { children?: React.ReactNode }) => {
-  // [TODO] 쿼리에서 받아온 데이터 provider, context로 내려보내기
   return <DetailProvider>{children}</DetailProvider>;
 };
 

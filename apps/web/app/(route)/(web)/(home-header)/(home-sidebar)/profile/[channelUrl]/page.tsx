@@ -1,4 +1,4 @@
-import ProfileChannelUrlPage from "./page/_page";
+import ProfileChannelUrlPage from "./_page/_page";
 
 export default function Page() {
   return <ProfileChannelUrlPage />;
