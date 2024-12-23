@@ -33,20 +33,9 @@ import { useLogout } from "_core/user";
 import { useSelectedUserProfileMeContext } from "_core/user-profile";
 
 export function UserProfile() {
-  const channelMe = useChannelMeListContext();
   const selectedUserProfileMe = useSelectedUserProfileMeContext();
   const { mutate: logout } = useLogout();
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
-  const router = useRouter();
-
-  const handleNewChannelCreateClick = () => {
-    if (channelMe.length < 5) {
-      toggle(false);
-      router.push("/channel/create");
-    } else {
-      toast.error("프로필당 최대 5개까지 채널을 개설할 수 있어요.");
-    }
-  };
 
   return (
     <>
@@ -83,45 +72,9 @@ export function UserProfile() {
         }}
       >
         <Stack>
-          <UserProfileMe />
-          <ChannelMeList />
-          <Divider />
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => {
-                  toggle(false);
-                }}
-              >
-                <ListItemIcon>
-                  <MingcuteNotificationLineIcon fontSize="medium" />
-                </ListItemIcon>
-                <ListItemText primary="알림" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton
-                LinkComponent={NextLink}
-                href="/library/view"
-                onClick={() => {
-                  toggle(false);
-                }}
-              >
-                <ListItemIcon>
-                  <MingcuteBox2LineIcon fontSize="medium" />
-                </ListItemIcon>
-                <ListItemText primary="보관함" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton onClick={handleNewChannelCreateClick}>
-                <ListItemIcon>
-                  <GgAddRIcon fontSize="medium" />
-                </ListItemIcon>
-                <ListItemText primary="새 채널 만들기" />
-              </ListItemButton>
-            </ListItem>
-          </List>
+          <UserProfileMe toggle={toggle} />
+          <ChannelMeList toggle={toggle} />
+          <MainMenuList toggle={toggle} />
 
           <Divider />
           <List>
@@ -150,14 +103,19 @@ export function UserProfile() {
 
 // ----------------------------------------------------------------------
 
-function UserProfileMe() {
+function UserProfileMe({ toggle }: { toggle: (nextValue?: any) => void }) {
   const selectedUserProfile = useSelectedUserProfileMeContext();
   const theme = useTheme();
 
   return (
     <>
       <List>
-        <ListItem key={selectedUserProfile.id} sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+        <ListItem
+          component={NextLink}
+          href={`/profile/@${selectedUserProfile.url}`}
+          key={selectedUserProfile.id}
+          sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+        >
           <ListItemAvatar>
             <Avatar
               src={selectedUserProfile.image ?? process.env["NEXT_PUBLIC_AVATAR"]}
@@ -173,7 +131,7 @@ function UserProfileMe() {
 
 // ----------------------------------------------------------------------
 
-function ChannelMeList() {
+function ChannelMeList({ toggle }: { toggle: (nextValue?: any) => void }) {
   const channelMeList = useChannelMeListContext();
   const theme = useTheme();
 
@@ -189,6 +147,9 @@ function ChannelMeList() {
                   disableRipple
                   component={NextLink}
                   href={`/@${channel.url}`}
+                  onClick={() => {
+                    toggle();
+                  }}
                   sx={{ position: "absolute", inset: 0, zIndex: 1 }}
                 />
                 <ListItemAvatar>
@@ -223,6 +184,63 @@ function ChannelMeList() {
           </List>
         </>
       ) : null}
+    </>
+  );
+}
+
+//
+
+function MainMenuList({ toggle }: { toggle: (nextValue?: any) => void }) {
+  const channelMe = useChannelMeListContext();
+  const router = useRouter();
+  const handleNewChannelCreateClick = () => {
+    if (channelMe.length < 5) {
+      toggle(false);
+      router.push("/channel/create");
+    } else {
+      toast.error("프로필당 최대 5개까지 채널을 개설할 수 있어요.");
+    }
+  };
+
+  return (
+    <>
+      <Divider />
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              toggle(false);
+            }}
+          >
+            <ListItemIcon>
+              <MingcuteNotificationLineIcon fontSize="medium" />
+            </ListItemIcon>
+            <ListItemText primary="알림" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton
+            LinkComponent={NextLink}
+            href="/library/view"
+            onClick={() => {
+              toggle(false);
+            }}
+          >
+            <ListItemIcon>
+              <MingcuteBox2LineIcon fontSize="medium" />
+            </ListItemIcon>
+            <ListItemText primary="보관함" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleNewChannelCreateClick}>
+            <ListItemIcon>
+              <GgAddRIcon fontSize="medium" />
+            </ListItemIcon>
+            <ListItemText primary="새 채널 만들기" />
+          </ListItemButton>
+        </ListItem>
+      </List>
     </>
   );
 }

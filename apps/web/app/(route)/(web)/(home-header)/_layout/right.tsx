@@ -4,8 +4,7 @@ import NextLink from "next/link";
 import { Box, Button, IconButton, InputAdornment, inputBaseClasses, TextField, useTheme } from "@mui/material";
 import { IcRoundSearchIcon, MingcuteBox2LineIcon, MingcuteNotificationLineIcon } from "@pency/ui/components";
 import { useUserAuthMeContext } from "_core/user";
-
-import { UserProfile } from "./user-profile-popper";
+import { UserProfile } from "_core/common";
 
 // ----------------------------------------------------------------------
 
