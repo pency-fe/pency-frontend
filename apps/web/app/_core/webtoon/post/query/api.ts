@@ -1,7 +1,7 @@
 import { api } from "_core/api";
 import { Genre } from "_core/webtoon/const";
 import { Age, CreationType, Pair } from "../const";
-import { createSearchParamString } from "@pency/util";
+import { createSearchParamString, formatUrl } from "@pency/util";
 
 /** **************************************
  * webtoon-post-me
@@ -107,6 +107,7 @@ type GetWebtoonPostPageReq = {
   page?: number;
   creationTypes?: Array<CreationType | "ALL">;
   pairs?: Array<Pair | "ALL">;
+  channelUrl?: string;
 };
 
 type GetWebtoonPostPageRes = {
@@ -142,6 +143,7 @@ export const getWebtoonPostPage = async ({
   page = 1,
   creationTypes = ["ALL"],
   pairs = ["ALL"],
+  channelUrl = undefined,
 }: GetWebtoonPostPageReq = {}) => {
   return await api
     .get<GetWebtoonPostPageRes>(
@@ -151,6 +153,7 @@ export const getWebtoonPostPage = async ({
         page,
         creationTypes,
         pairs,
+        channelUrl: channelUrl ? formatUrl(channelUrl, { prefix: false }) : channelUrl,
       })}`,
     )
     .json();

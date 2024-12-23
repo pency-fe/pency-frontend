@@ -1,18 +1,18 @@
 "use client";
 
+import { ComponentProps } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Box, Skeleton, Stack } from "@mui/material";
 import { RichCardCarousel } from "@pency/ui/components";
 import { withAsyncBoundary } from "@pency/util";
-import { ComponentProps } from "react";
-import { wtPostChannelKeys } from "../../query";
-import { useQuery } from "@tanstack/react-query";
 import { WT_Post_RichCard } from "../../ui";
-import { Box, Skeleton, Stack } from "@mui/material";
+import { wtPostKeys } from "../../query";
 
-export const WT_Post_Channel_RichCarousel = Object.assign(
+export const WT_Post_RichCarousel = Object.assign(
   (props: ComponentProps<typeof RichCardCarousel>) => <RichCardCarousel {...props} />,
   {
     ...RichCardCarousel,
-    Container: withAsyncBoundary(WT_Post_Channel_RichCarousel_Fn, {
+    Container: withAsyncBoundary(WT_Post_RichCarousel_Fn, {
       errorBoundary: {
         fallback: <Loading />,
       },
@@ -20,10 +20,16 @@ export const WT_Post_Channel_RichCarousel = Object.assign(
   },
 );
 
-type WT_Post_Channel_RichCarousel_Fn_Props = Parameters<typeof wtPostChannelKeys.list>[0];
+type WT_Post_RichCarousel_Fn_Props = Omit<
+  Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>,
+  "page" | "creationTypes" | "pairs"
+>;
 
-function WT_Post_Channel_RichCarousel_Fn({ url, sort, page }: WT_Post_Channel_RichCarousel_Fn_Props) {
-  const { status, data } = useQuery({ ...wtPostChannelKeys.list({ url, sort, page }), throwOnError: true });
+function WT_Post_RichCarousel_Fn({ genre, sort, channelUrl }: WT_Post_RichCarousel_Fn_Props) {
+  const { status, data } = useQuery({
+    ...wtPostKeys.page({ genre, sort, channelUrl }),
+    throwOnError: true,
+  });
 
   if (status !== "success") {
     return <Loading />;
@@ -34,7 +40,7 @@ function WT_Post_Channel_RichCarousel_Fn({ url, sort, page }: WT_Post_Channel_Ri
       slots={{
         slides: (
           <>
-            {data.map((post, i) => (
+            {data.posts.map((post, i) => (
               <RichCardCarousel.Slide key={i}>
                 <WT_Post_RichCard
                   data={post}

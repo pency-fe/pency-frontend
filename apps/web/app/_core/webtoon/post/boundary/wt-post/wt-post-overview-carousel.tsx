@@ -1,12 +1,12 @@
 "use client";
 
-import { withAsyncBoundary } from "@pency/util";
-import { wtPostKeys } from "../../query";
+import { ComponentProps } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Box, Skeleton, Stack } from "@mui/material";
+import { withAsyncBoundary } from "@pency/util";
 import { OverviewCardCarousel } from "@pency/ui/components";
 import { WT_Post_OverviewCard } from "../../ui";
-import { Box, Skeleton, Stack } from "@mui/material";
-import { ComponentProps } from "react";
+import { wtPostKeys } from "../../query";
 
 export const WT_Post_OverviewCarousel = Object.assign(
   (props: ComponentProps<typeof OverviewCardCarousel>) => <OverviewCardCarousel {...props} />,
@@ -20,13 +20,14 @@ export const WT_Post_OverviewCarousel = Object.assign(
   },
 );
 
-type Props = Omit<Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>, "page" | "creationTypes" | "pairs">;
+type WT_Post_OverviewCarousel_Fn_Props = Omit<
+  Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>,
+  "page" | "creationTypes" | "pairs"
+>;
 
-type WT_Post_OverviewCarousel_Fn_Props = Omit<Props, "genre"> & Required<Pick<Props, "genre">>;
-
-function WT_Post_OverviewCarousel_Fn({ genre, sort }: WT_Post_OverviewCarousel_Fn_Props) {
+function WT_Post_OverviewCarousel_Fn({ genre, sort, channelUrl }: WT_Post_OverviewCarousel_Fn_Props) {
   const { status, data } = useQuery({
-    ...wtPostKeys.page({ genre, sort }),
+    ...wtPostKeys.page({ genre, sort, channelUrl }),
     throwOnError: true,
   });
 
