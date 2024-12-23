@@ -21,6 +21,8 @@ const WEBTOON_VALUE_LABEL: Record<webtoonValue, string> = {
 // ----------------------------------------------------------------------
 
 export function WebtoonSection() {
+  // [TODO] getWebtoonPostChannelPage
+
   const searchParams = useSearchParams();
   const channelUrl = useChannelUrlParam();
 

@@ -24,6 +24,8 @@ type Props = {
 // ----------------------------------------------------------------------
 
 export default function ChannelUrlLayout({ children }: Props) {
+  // [TODO] getChannel
+
   const theme = useTheme();
   const pathname = usePathname();
   const channelUrl = useChannelUrlParam();
