@@ -129,7 +129,7 @@ type GetWebtoonPostPageRes = {
       title: string;
     };
     likeCount: number;
-    createdAt: number;
+    publishedAt: number;
     keywords: string[];
     bookmark: boolean;
     block: boolean;
@@ -209,46 +209,3 @@ export const report = async (req: ReportReq) => {
 };
 
 // ----------------------------------------------------------------------
-
-/** **************************************
- * webtoon-post-channel
- *************************************** */
-
-// ----------------------------------------------------------------------
-
-type GetWebtoonPostChannelPageRes = Array<{
-  id: number;
-  thumbnail: string;
-  age: Age;
-  price: number;
-  purchased: boolean;
-  creationType: CreationType;
-  pair: Pair;
-  genre: Genre;
-  title: string;
-  channel: {
-    id: number;
-    url: string;
-    image: string;
-    title: string;
-  };
-  likeCount: number;
-  createdAt: number;
-  keywords: string[];
-  bookmark: boolean;
-  block: boolean;
-}>;
-
-export const getWebtoonPostChannelPage = async ({
-  url,
-  sort = "LATEST",
-  page = 1,
-}: {
-  url: string;
-  sort?: "LATEST" | "POPULAR" | "WPOPULAR";
-  page?: number;
-}) => {
-  return await api
-    .get<GetWebtoonPostChannelPageRes>(`webtoon/post/channel/@${url}/page?sort=${sort}&page=${page}`)
-    .json();
-};

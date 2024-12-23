@@ -16,9 +16,7 @@ const TabDataContext = createContext<{ genre: Genre | "ALL" } | undefined>(undef
 export function useTabData() {
   const context = useContext(TabDataContext);
 
-  if (!context) throw new Error(`<부모로 <TabProvider /> 컴포넌트가 있어야 합니다.`);
-
-  return context;
+  return context ?? { genre: undefined };
 }
 
 const TabProvider = ({ children }: { children?: React.ReactNode }) => {
@@ -38,6 +36,11 @@ const TabProvider = ({ children }: { children?: React.ReactNode }) => {
 
 const GenreTabFn = () => {
   const { genre } = useTabData();
+
+  if (!genre) {
+    throw new Error(`<부모로 <TabProvider /> 컴포넌트가 있어야 합니다.`);
+  }
+
   const searchParams = useSearchParams();
 
   const genres = useMemo(() => objectEntries(GENRE_LABEL), []);

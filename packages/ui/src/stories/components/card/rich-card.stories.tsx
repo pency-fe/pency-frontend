@@ -47,7 +47,7 @@ const postData = {
     name: "김천재의 채널",
   },
   likeCount: 100,
-  createdAt: 1730535831,
+  publishedAt: 1730535831,
   keywords: ["BL", "**공", "**수", "판타지", "학원물", "고수위", "후방주의", "유혈"],
   preview:
     "선수권 대회 최연소 우승, 양궁 유망주.\n\n승승장구 하는 줄 알았으나 비운의 사고로 \n다시는 활을 쥘 수 없게 된 몰락한 천재 양궁 선수 유상현!\n\n낙하산으로 들어간 회사에서마저 잘린 그는,\n먹고살기 위해 게임 스트리머, 아몬드가 되는데...\n\n[활을 선택하셨습니다.]\n\n피융! 푸욱!\n\n[헤드샷!]\n\n“보스 원래 한 방이에요?”\n\n미친 재능이 다시금 빛을 발한다!\n\n28살. 고졸. 백수.\n특기는 양궁.\n\n방송 천재가 되어 돌아온, 그의 유쾌한 반란이 시작된다?!\n\n[천재 궁수의 스트리밍]",
@@ -118,7 +118,7 @@ export const PostRichCard = () => {
                 {postData.likeCount}
               </RichCard.Attribute>
               <RichCard.AttributeDot />
-              <RichCard.Attribute>{formatRelativeTimeFromUTC(postData.createdAt)}</RichCard.Attribute>
+              <RichCard.Attribute>{formatRelativeTimeFromUTC(postData.publishedAt)}</RichCard.Attribute>
             </>
           ),
           feedbackButton: (

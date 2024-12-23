@@ -29,7 +29,7 @@ function useContentData() {
   return context;
 }
 
-const ContentProvider = withAsyncBoundary(
+const ContentFn = withAsyncBoundary(
   ({ children }: { children?: React.ReactNode }) => {
     const { genre } = useTabData();
     const { sort } = useOrderData();
@@ -173,7 +173,7 @@ const PaginationFn = () => {
   );
 };
 
-export const WT_Post_PageContent = Object.assign(ContentProvider, {
+export const WT_Post_PageContent = Object.assign(ContentFn, {
   Page: PageFn,
   Pagination: PaginationFn,
 });

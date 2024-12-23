@@ -41,7 +41,7 @@ type WT_Post_RichCardFnProps = {
       title: string;
     };
     likeCount: number;
-    createdAt: number;
+    publishedAt: number;
     keywords: string[];
     bookmark: boolean;
     block: boolean;
@@ -226,7 +226,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
                 {data.likeCount}
               </RichCard.Attribute>
               <RichCard.AttributeDot />
-              <RichCard.Attribute>{formatRelativeTimeFromUTC(data.createdAt)}</RichCard.Attribute>
+              <RichCard.Attribute>{formatRelativeTimeFromUTC(data.publishedAt)}</RichCard.Attribute>
             </>
           ),
           feedbackButton: (

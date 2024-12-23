@@ -22,9 +22,7 @@ const OrderDataContext = createContext<{ sort: Sort } | undefined>(undefined);
 export function useOrderData() {
   const context = useContext(OrderDataContext);
 
-  if (!context) throw new Error(`<부모로 <OrderProvider /> 컴포넌트가 있어야 합니다.`);
-
-  return context;
+  return context ?? { sort: undefined };
 }
 
 const OrderProvider = ({ children }: { children?: React.ReactNode }) => {
@@ -43,8 +41,12 @@ const OrderProvider = ({ children }: { children?: React.ReactNode }) => {
 // ----------------------------------------------------------------------
 
 const OrderFn = () => {
-  const { anchorRef, isOpen, close, toggle } = useMenuxState<HTMLDivElement>();
   const { sort } = useOrderData();
+  if (!sort) {
+    throw new Error(`<부모로 <OrderProvider /> 컴포넌트가 있어야 합니다.`);
+  }
+
+  const { anchorRef, isOpen, close, toggle } = useMenuxState<HTMLDivElement>();
   const searchParams = useSearchParams();
 
   const sorts = useMemo(() => objectEntries(SORT_LABEL), []);

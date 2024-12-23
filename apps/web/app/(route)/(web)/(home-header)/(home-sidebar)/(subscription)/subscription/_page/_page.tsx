@@ -101,12 +101,13 @@ function WebtoonPostRichCard() {
                 genre: "ROMANCE",
                 title: "천재 궁수의 스트리밍",
                 channel: {
-                  channelUrl: "dddddd",
+                  id: 0,
+                  url: "dddddd",
                   image: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
                   title: "김천재",
                 },
                 likeCount: 0,
-                createdAt: 0,
+                publishedAt: 0,
                 keywords: ["BJ", "스트리머"],
               }}
             />

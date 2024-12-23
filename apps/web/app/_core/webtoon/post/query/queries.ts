@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getWebtoonPostChannelPage, getWebtoonPostPage } from "./api";
+import { getWebtoonPostPage } from "./api";
 
 // ----------------------------------------------------------------------
 
@@ -14,13 +14,3 @@ export const wtPostKeys = {
 };
 
 // ----------------------------------------------------------------------
-
-export const wtPostChannelKeys = {
-  all: [...wtPostKeys.all, "channel"],
-  lists: () => [...wtPostChannelKeys.all, "list"],
-  list: ({ url, sort, page }: Required<Parameters<typeof getWebtoonPostChannelPage>[0]>) =>
-    queryOptions<Awaited<ReturnType<typeof getWebtoonPostChannelPage>>>({
-      queryKey: [...wtPostChannelKeys.lists(), { url, sort, page }],
-      queryFn: () => getWebtoonPostChannelPage({ url, page, sort }),
-    }),
-};

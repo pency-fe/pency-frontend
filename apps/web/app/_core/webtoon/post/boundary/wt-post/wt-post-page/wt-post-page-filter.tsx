@@ -15,9 +15,7 @@ const FilterDataContext = createContext<{ creationTypes: CreationType[]; pairs: 
 export function useFilterData() {
   const context = useContext(FilterDataContext);
 
-  if (!context) throw new Error(`<부모로 <FilterProvider /> 컴포넌트가 있어야 합니다.`);
-
-  return context;
+  return context ?? { creationTypes: undefined, pairs: undefined };
 }
 
 // ----------------------------------------------------------------------
@@ -99,6 +97,9 @@ const FilterProvider = ({ children }: { children?: React.ReactNode }) => {
 
 const CreationTypesFilterFn = () => {
   const { creationTypes } = useFilterData();
+  if (!creationTypes) {
+    throw new Error(`<부모로 <FilterProvider /> 컴포넌트가 있어야 합니다.`);
+  }
   const isOpen = useFilterFormOpenStore((s) => s.isOpen);
   const toggle = useFilterFormOpenStore((s) => s.toggle);
 
@@ -125,6 +126,9 @@ const CreationTypesFilterFn = () => {
 
 const PairsFilterFn = () => {
   const { pairs } = useFilterData();
+  if (!pairs) {
+    throw new Error(`<부모로 <FilterProvider /> 컴포넌트가 있어야 합니다.`);
+  }
   const isOpen = useFilterFormOpenStore((s) => s.isOpen);
   const toggle = useFilterFormOpenStore((s) => s.toggle);
 

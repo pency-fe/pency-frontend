@@ -107,7 +107,7 @@ function WebtoonPostRichCard() {
                   title: "김천재",
                 },
                 likeCount: 0,
-                createdAt: 0,
+                publishedAt: 0,
                 keywords: ["BJ", "스트리머"],
               }}
             />
