@@ -70,7 +70,7 @@ export const useSubscribe = () => {
 
 // ----------------------------------------------------------------------
 
-export const useUnSubscribe = () => {
+export const useUnsubscribe = () => {
   return useMutation<
     Awaited<ReturnType<typeof unsubscribe>>,
     QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">>,

@@ -55,7 +55,7 @@ export function EmailPage() {
       onSuccess: (data) => {
         router.push(`/signup/email/resend?id=${data.id}`);
       },
-      onError: async (error) => {
+      onError: (error) => {
         if (error.code === "DUPLICATE_EMAIL") {
           setError("email", {
             message: "다른 계정에서 사용 중인 이메일 주소예요.",

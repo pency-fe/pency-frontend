@@ -40,7 +40,7 @@ export function EmailPage() {
       onSuccess: () => {
         window.location.pathname = "/";
       },
-      onError: async (error) => {
+      onError: (error) => {
         if (error.code === "UNVERIFIED_EMAIL") {
           router.push(`/signup/email/resend?id=${error.data.id}`);
           return;

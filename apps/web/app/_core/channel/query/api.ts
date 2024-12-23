@@ -23,7 +23,7 @@ type unsubscribeReq = {
 };
 
 export const unsubscribe = async (req: unsubscribeReq) => {
-  return await api.get(`channel/${req.id}/subscribe`);
+  return await api.delete(`channel/${req.id}/subscribe`);
 };
 
 // ----------------------------------------------------------------------

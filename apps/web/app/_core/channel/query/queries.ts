@@ -10,12 +10,13 @@ import {
   guardChannelMe,
 } from "./api";
 import { FailureRes, QueryError } from "_core/api";
+import { formatUrl } from "@pency/util";
 
 export const channelKeys = {
   all: ["channel"],
   detail: ({ url }: Parameters<typeof getChannel>[0]) =>
     queryOptions<Awaited<ReturnType<typeof getChannel>>>({
-      queryKey: [...channelKeys.all, { url }],
+      queryKey: [...channelKeys.all, { url: formatUrl(url) }],
       queryFn: () => getChannel({ url }),
     }),
 };
@@ -37,7 +38,7 @@ export const channelMeKeys = {
       Awaited<ReturnType<typeof guardChannelMe>>,
       QueryError<FailureRes<404, "ENTITY_NOT_FOUND">> | QueryError<FailureRes<401, "ACCESS_DENIED">>
     >({
-      queryKey: [...channelMeKeys.all, "guard", url],
+      queryKey: [...channelMeKeys.all, "guard", { url: formatUrl(url) }],
       queryFn: () => guardChannelMe({ url }, options),
     }),
   lists: () => [...channelMeKeys.all, "list"],
@@ -49,12 +50,12 @@ export const channelMeKeys = {
   details: () => [...channelMeKeys.all, "detail"],
   brandingDetail: ({ url }: Parameters<typeof getChannelMeBrandingDetail>[0]) =>
     queryOptions<Awaited<ReturnType<typeof getChannelMeBrandingDetail>>>({
-      queryKey: [...channelMeKeys.details(), "branding", url],
+      queryKey: [...channelMeKeys.details(), "branding", { url: formatUrl(url) }],
       queryFn: () => getChannelMeBrandingDetail({ url }),
     }),
   linkDetail: ({ url }: Parameters<typeof getChannelMeLinkDetail>[0]) =>
     queryOptions<Awaited<ReturnType<typeof getChannelMeLinkDetail>>>({
-      queryKey: [...channelMeKeys.details(), "link", url],
+      queryKey: [...channelMeKeys.details(), "link", { url: formatUrl(url) }],
       queryFn: () => getChannelMeLinkDetail({ url }),
     }),
 };

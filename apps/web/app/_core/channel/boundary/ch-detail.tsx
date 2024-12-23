@@ -32,11 +32,12 @@ import {
   FluentHome24RegularIcon,
   FluentShare24RegularIcon,
   MaterialSymbolsCloseIcon,
+  toast,
 } from "@pency/ui/components";
 import { useChannelUrlParam } from "_hooks";
 import { isClient, useToggle, withAsyncBoundary } from "@pency/util";
 import React, { createContext, useContext, useMemo } from "react";
-import { channelKeys } from "../query";
+import { channelKeys, useSubscribe, useUnsubscribe } from "../query";
 import { useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
 import { useUserAuthMeContext } from "_core/user";
 import { useChannelMeListContext } from "../provider";
@@ -530,38 +531,68 @@ const Links = ({ links }: LinksProps) => {
 type SubscriptionOrStudioButtonFnFnProps = ButtonProps;
 const SubscriptionOrStudioButtonFn = (rest: SubscriptionOrStudioButtonFnFnProps) => {
   const me = useUserAuthMeContext();
-  const channelMe = me.isLoggedIn ? useChannelMeListContext() : [];
-  const { subscribed } = useDetailData();
+  const channelMeList = me.isLoggedIn ? useChannelMeListContext() : [];
+  const { subscribed, id } = useDetailData();
 
-  const channelUrl = useChannelUrlParam().slice(1);
+  const channelUrl = useChannelUrlParam();
 
-  const myChannel = useMemo(() => {
-    const channels: string[] = [];
-    channelMe.map((channel) => channels.push(channel.url));
+  const isMyChannel = useMemo(() => {
+    return channelMeList.some((channel) => channel.url === channelUrl.slice(1));
+  }, [channelMeList, channelUrl]);
 
-    if (channels.includes(channelUrl)) {
-      return true;
-    }
-    return false;
-  }, [channelMe]);
+  const { mutate: subscribe } = useSubscribe();
+  const { mutate: unsubscribe } = useUnsubscribe();
 
   const queryClient = useQueryClient();
 
   const handleSubscription = () => {
-    queryClient.setQueryData(
-      channelKeys.detail({ url: channelUrl }).queryKey,
-      (oldData) =>
-        oldData &&
-        produce(oldData, (draft) => {
-          draft.subscribed = !subscribed;
-        }),
-    );
+    const setSubscribed = (subscribed: boolean) => {
+      queryClient.setQueryData(
+        channelKeys.detail({ url: channelUrl }).queryKey,
+        (oldData) =>
+          oldData &&
+          produce(oldData, (draft) => {
+            draft.subscribed = subscribed;
+          }),
+      );
+    };
+    if (subscribed) {
+      unsubscribe(
+        { id },
+        {
+          onSuccess: () => setSubscribed(false),
+          onError: (error) => {
+            if (error.code === "ALREADY_PROCESSED_REQUEST") {
+              toast.error("이미 구독 취소한 채널이에요.");
+            }
+          },
+        },
+      );
+    } else {
+      subscribe(
+        { id },
+        {
+          onSuccess: () => setSubscribed(true),
+          onError: (error) => {
+            if (error.code === "ALREADY_PROCESSED_REQUEST") {
+              toast.error("이미 구독한 채널이에요..");
+            }
+            if (error.code === "SELF_FORBIDDEN") {
+              toast.error("내 채널는 구독 할 수 없어요.");
+            }
+            if (error.code === "ENTITY_NOT_FOUND") {
+              toast.error("삭제된 채널이에요.");
+            }
+          },
+        },
+      );
+    }
   };
 
   return (
     <>
-      {myChannel ? (
-        <Button LinkComponent={NextLink} href={`/studio/@${channelUrl}/dashboard`} variant="contained" {...rest}>
+      {isMyChannel ? (
+        <Button LinkComponent={NextLink} href={`/studio/${channelUrl}/dashboard`} variant="contained" {...rest}>
           스튜디오
         </Button>
       ) : (

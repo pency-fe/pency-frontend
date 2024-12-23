@@ -106,7 +106,7 @@ const CreateSubmitFn = (props: CreateSubmitFnProps) => {
       onSuccess: (data) => {
         router.push(`/@${data.url}`);
       },
-      onError: async (error) => {
+      onError: (error) => {
         if (error.code === "DUPLICATE_URL") {
           setError("url", {
             message: "중복된 URL이에요.",
