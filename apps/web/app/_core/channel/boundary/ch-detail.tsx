@@ -35,9 +35,13 @@ import {
 } from "@pency/ui/components";
 import { useChannelUrlParam } from "_hooks";
 import { isClient, useToggle, withAsyncBoundary } from "@pency/util";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import { channelKeys } from "../query";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
+import { useUserAuthMeContext } from "_core/user";
+import { useChannelMeListContext } from "../provider";
+import { useParams } from "next/navigation";
+import { produce } from "immer";
 
 type QueryData = UseQueryResult<
   Awaited<ReturnType<Exclude<ReturnType<typeof channelKeys.detail>["queryFn"], undefined>>>
@@ -73,7 +77,6 @@ const DetailProvider = withAsyncBoundary(
   },
 );
 
-// [TODO]
 function Loading() {
   const theme = useTheme();
 
@@ -526,16 +529,48 @@ const Links = ({ links }: LinksProps) => {
 // ----------------------------------------------------------------------
 
 type SubscriptionOrStudioButtonFnFnProps = ButtonProps;
-// SubscriptionOrStudioButtonFn
 const SubscriptionOrStudioButtonFn = (rest: SubscriptionOrStudioButtonFnFnProps) => {
-  // [TODO] 채널 구독하기 코드 구현하기
+  const me = useUserAuthMeContext();
+  const channelMe = me.isLoggedIn ? useChannelMeListContext() : [];
   const { subscribed } = useDetailData();
 
-  // [TODO] 내 채널일 경우, 스튜디오 버튼으로 변경
+  const channelUrl = useChannelUrlParam().slice(1);
+
+  const myChannel = useMemo(() => {
+    const channels: string[] = [];
+    channelMe.map((channel) => channels.push(channel.url));
+
+    if (channels.includes(channelUrl)) {
+      return true;
+    }
+    return false;
+  }, [channelMe]);
+
+  const queryClient = useQueryClient();
+
+  const handleSubscription = () => {
+    queryClient.setQueryData(
+      channelKeys.detail({ url: channelUrl }).queryKey,
+      (oldData) =>
+        oldData &&
+        produce(oldData, (draft) => {
+          draft.subscribed = !subscribed;
+        }),
+    );
+  };
+
   return (
-    <Button variant="contained" {...rest}>
-      {subscribed ? "구독중" : "구독"}
-    </Button>
+    <>
+      {myChannel ? (
+        <Button LinkComponent={NextLink} href={`/studio/@${channelUrl}/dashboard`} variant="contained" {...rest}>
+          스튜디오
+        </Button>
+      ) : (
+        <Button variant="contained" {...rest} onClick={handleSubscription}>
+          {subscribed ? "구독중" : "구독"}
+        </Button>
+      )}
+    </>
   );
 };
 
