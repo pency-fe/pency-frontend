@@ -56,7 +56,7 @@ type WT_Post_RichCardFnProps = {
 const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
   ({ data, onBookmark, onUnbookmark, onBlock, onUnblock, hideGenre = false }, ref) => {
     const me = useUserAuthMeContext();
-    const channelMe = me.isLoggedIn ? useChannelMeListContext() : [];
+    const channelMeList = me.isLoggedIn ? useChannelMeListContext() : [];
     const { mutate: bookmark } = useBookmark();
     const { mutate: unbookmark } = useUnbookmark();
     const { mutate: block } = useBlock();
@@ -67,8 +67,8 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
     const router = useRouter();
 
     const isMyPost = useMemo(() => {
-      return channelMe.some((channel) => channel.id === data.channel.id);
-    }, [channelMe, data]);
+      return channelMeList.some((channel) => channel.id === data.channel.id);
+    }, [channelMeList, data]);
 
     const handleBookmarkClick = () => {
       if (!me.isLoggedIn) {

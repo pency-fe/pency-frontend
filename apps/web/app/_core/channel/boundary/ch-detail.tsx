@@ -31,17 +31,17 @@ import {
   FluentShare24RegularIcon,
   MaterialSymbolsCloseIcon,
 } from "@pency/ui/components";
-import { usePathname } from "next/navigation";
 import { useChannelUrlParam } from "_hooks";
 import { isClient, useToggle, withAsyncBoundary } from "@pency/util";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import { channelKeys } from "../query";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
-const DetailDataContext = createContext<
-  | UseQueryResult<Awaited<ReturnType<Exclude<ReturnType<typeof channelKeys.detail>["queryFn"], undefined>>>>["data"]
-  | undefined
->(undefined);
+type QueryData = UseQueryResult<
+  Awaited<ReturnType<Exclude<ReturnType<typeof channelKeys.detail>["queryFn"], undefined>>>
+>["data"];
+
+const DetailDataContext = createContext<QueryData | undefined>(undefined);
 
 function useDetailData() {
   const context = useContext(DetailDataContext);
@@ -71,6 +71,7 @@ const DetailProvider = withAsyncBoundary(
   },
 );
 
+// [TODO]
 function Loading() {
   return <></>;
 }
@@ -97,6 +98,7 @@ const BgImageFn = () => {
         >
           <Box
             component="img"
+            // [TODO]
             src={
               "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1"
             }
@@ -112,12 +114,13 @@ const BgImageFn = () => {
 
 const ImageFn = () => {
   const theme = useTheme();
-  const data = useDetailData();
+  // [TODO]
+  const { image } = useDetailData();
 
   return (
     <Box
       component="img"
-      src={data.image ?? process.env["NEXT_PUBLIC_LOGO"]}
+      src={image ?? process.env["NEXT_PUBLIC_LOGO"]}
       sx={{
         objectFit: "cover",
         overflow: "hidden",
@@ -140,6 +143,7 @@ const ImageFn = () => {
 
 const TitleFn = () => {
   const theme = useTheme();
+  // [TODO]
   const data = useDetailData();
 
   return (
@@ -163,6 +167,7 @@ const TitleFn = () => {
 
 const AttributeFn = () => {
   const theme = useTheme();
+  // [TODO]
   const data = useDetailData();
   console.log("data: ", data);
 
@@ -197,8 +202,10 @@ const AttributeFn = () => {
         {data.userProfile.nickname}
       </Link>
       <Typography>•</Typography>
+      {/* TODO 1만개 함수 만들어야 된다.*/}
       <Typography sx={{ minWidth: "max-content" }}>구독자 {data.subscriberCount}명</Typography>
       <Typography>•</Typography>
+      {/* TODO: 1.1천개 함수 만들어야 된다. */}
       <Typography sx={{ minWidth: "max-content" }}>포스트 {data.wtPostCount}개</Typography>
     </Box>
   );
@@ -209,6 +216,7 @@ const AttributeFn = () => {
 const DescriptionFn = () => {
   const theme = useTheme();
   const [open, toggle] = useToggle(false);
+  // [TODO]
   const data = useDetailData();
 
   return (
@@ -257,6 +265,7 @@ function ChannelDetailDialog({ open, onClose }: ChannelDetailDialogProps) {
 
   const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
 
+  // [TODO]
   const data = useDetailData();
 
   return (
@@ -337,43 +346,66 @@ function ChannelDetailDialog({ open, onClose }: ChannelDetailDialogProps) {
             </Typography>
           </Box>
         </Stack>
-        {data.links.length > 0 && (
+        {data.links.length > 0 ? (
           <Stack spacing={1.5}>
             <Typography variant="subtitle2">링크</Typography>
-            {data.links.map((link) => (
-              <Link
-                component={NextLink}
-                target="_blank"
-                href={`${link.url}`}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1.5,
-                  textDecoration: "none",
-                  "&:hover": {
-                    textDecoration: "none",
-                  },
-                }}
-              >
-                {link.linkType === "HOME" && <FluentHome24RegularIcon sx={{ fontSize: 24, mx: "10px" }} />}
-                {link.linkType === "TWITTER" && <BrandTwitterIcon sx={{ fontSize: 24, mx: "10px" }} />}
-                {link.linkType === "INSTAGRAM" && <BrandInstagramIcon sx={{ fontSize: 24, mx: "10px" }} />}
-
-                <Typography variant="body2" component="span">{`${link}`}</Typography>
-              </Link>
-            ))}
+            <Links links={data.links} />
           </Stack>
-        )}
+        ) : null}
       </DialogContent>
     </Dialog>
   );
 }
 
+type LinksProps = {
+  links: Exclude<QueryData, undefined>["links"];
+};
+
+const LINK_TYPE_ORDER: Array<Exclude<QueryData, undefined>["links"][number]["linkType"]> = [
+  "HOME",
+  "TWITTER",
+  "INSTAGRAM",
+] as const;
+
+const Links = ({ links }: LinksProps) => {
+  return LINK_TYPE_ORDER.map((LINK_TYPE, i) => {
+    const link = links.find((link) => link.linkType === LINK_TYPE);
+    if (!link) {
+      return null;
+    }
+
+    return (
+      <Link
+        key={i}
+        component={NextLink}
+        target="_blank"
+        href={`${link.url}`}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1.5,
+          textDecoration: "none",
+          "&:hover": {
+            textDecoration: "none",
+          },
+        }}
+      >
+        {link.linkType === "HOME" ? <FluentHome24RegularIcon sx={{ fontSize: 24, mx: "10px" }} /> : null}
+        {link.linkType === "TWITTER" ? <BrandTwitterIcon sx={{ fontSize: 24, mx: "10px" }} /> : null}
+        {link.linkType === "INSTAGRAM" ? <BrandInstagramIcon sx={{ fontSize: 24, mx: "10px" }} /> : null}
+
+        <Typography variant="body2" component="span">{`${link.url}`}</Typography>
+      </Link>
+    );
+  });
+};
+
 // ----------------------------------------------------------------------
 
 type SubscriptionButtonFnProps = ButtonProps;
-
+// SubscriptionOrStudioButtonFn
 const SubscriptionButtonFn = (rest: SubscriptionButtonFnProps) => {
+  // [TODO] 채널 구독하기 코드 구현하기
   const data = useDetailData();
 
   // [TODO] 내 채널일 경우, 스튜디오 버튼으로 변경
