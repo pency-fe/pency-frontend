@@ -40,7 +40,7 @@ type GetChannelRes = {
   image: string;
   bgImage: string;
   subscriberCount: number;
-  postCount: number;
+  wtPostCount: number;
   subscribed: boolean;
   userProfile: {
     url: string;
