@@ -40,7 +40,6 @@ import { channelKeys } from "../query";
 import { useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
 import { useUserAuthMeContext } from "_core/user";
 import { useChannelMeListContext } from "../provider";
-import { useParams } from "next/navigation";
 import { produce } from "immer";
 
 type QueryData = UseQueryResult<
