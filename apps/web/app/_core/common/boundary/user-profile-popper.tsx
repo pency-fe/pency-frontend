@@ -34,7 +34,6 @@ import { useSelectedUserProfileMeContext } from "_core/user-profile";
 
 export function UserProfile() {
   const selectedUserProfileMe = useSelectedUserProfileMeContext();
-  const { mutate: logout } = useLogout();
   const { anchorRef, isOpen, close, toggle } = usePopperxState();
 
   return (
@@ -75,26 +74,7 @@ export function UserProfile() {
           <UserProfileMe toggle={toggle} />
           <ChannelMeList toggle={toggle} />
           <MainMenuList toggle={toggle} />
-
-          <Divider />
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => {
-                  logout(undefined, {
-                    onSuccess: () => {
-                      window.location.reload();
-                    },
-                  });
-                }}
-              >
-                <ListItemIcon>
-                  <MaterialSymbolsLogoutIcon fontSize="medium" />
-                </ListItemIcon>
-                <ListItemText primary="로그아웃" />
-              </ListItemButton>
-            </ListItem>
-          </List>
+          <EctMenuList />
         </Stack>
       </Popperx>
     </>
@@ -114,6 +94,9 @@ function UserProfileMe({ toggle }: { toggle: (nextValue?: any) => void }) {
           component={NextLink}
           href={`/profile/@${selectedUserProfile.url}`}
           key={selectedUserProfile.id}
+          onClick={() => {
+            toggle();
+          }}
           sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
         >
           <ListItemAvatar>
@@ -238,6 +221,34 @@ function MainMenuList({ toggle }: { toggle: (nextValue?: any) => void }) {
               <GgAddRIcon fontSize="medium" />
             </ListItemIcon>
             <ListItemText primary="새 채널 만들기" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </>
+  );
+}
+
+function EctMenuList() {
+  const { mutate: logout } = useLogout();
+
+  return (
+    <>
+      <Divider />
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              logout(undefined, {
+                onSuccess: () => {
+                  window.location.reload();
+                },
+              });
+            }}
+          >
+            <ListItemIcon>
+              <MaterialSymbolsLogoutIcon fontSize="medium" />
+            </ListItemIcon>
+            <ListItemText primary="로그아웃" />
           </ListItemButton>
         </ListItem>
       </List>
