@@ -10,7 +10,13 @@ export function ListPage() {
       <Stack spacing={2}>
         <Typography variant="h4">웹툰 포스트</Typography>
         <WT_Post_PageTab>
-          <WT_Post_PageOrder>
+          <WT_Post_PageOrder
+            sortLabel={{
+              LATEST: "최신순",
+              POPULAR: "전체 인기순",
+              WPOPULAR: "주간 인기순",
+            }}
+          >
             <WT_Post_PageFilter>
               <WT_Post_PageTab.GenreTab />
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>

@@ -273,7 +273,7 @@ const UrlFn = (rest: UrlFnProps) => {
           helperText={error ? error.message : "최대 45자 이내로 입력해 주세요."}
           error={!!error}
           InputProps={{
-            startAdornment: <InputAdornment position="start">pency.kr/@</InputAdornment>,
+            startAdornment: <InputAdornment position="start">pency.co.kr/@</InputAdornment>,
             endAdornment: (
               <InputAdornment position="end">
                 <Typography variant="caption">{field.value?.length}/45</Typography>

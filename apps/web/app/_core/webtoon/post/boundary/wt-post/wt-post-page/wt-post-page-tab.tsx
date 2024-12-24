@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useMemo } from "react";
 import NextLink from "next/link";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { RadioGroup } from "@mui/material";
 import { RadioButton } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
@@ -42,6 +42,7 @@ const GenreTabFn = () => {
   }
 
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const genres = useMemo(() => objectEntries(GENRE_LABEL), []);
 
@@ -57,7 +58,7 @@ const GenreTabFn = () => {
           const params = new URLSearchParams(searchParams.toString());
           params.delete("genre");
           params.delete("page");
-          return `/webtoon/post/list${createQueryString(params)}`;
+          return `${pathname}${createQueryString(params)}`;
         })()}
         sx={{ flexShrink: 0 }}
       >
@@ -72,7 +73,7 @@ const GenreTabFn = () => {
             key={genre}
             LinkComponent={NextLink}
             value={genre}
-            href={`/webtoon/post/list${createQueryString(params)}`}
+            href={`${pathname}${createQueryString(params)}`}
             sx={{ flexShrink: 0 }}
           >
             {label}
