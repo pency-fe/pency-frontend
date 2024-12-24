@@ -95,6 +95,38 @@ export const save = async (req: SaveReq) => {
 
 // ----------------------------------------------------------------------
 
+type GetUploadCutImageUrlReq = {
+  contentLength: number;
+  contentType: "image/jpeg" | "image/png" | "image/gif";
+};
+
+type GetUploadCutImageUrlRes = {
+  signedUploadUrl: string;
+  url: string;
+};
+
+export const getUploadCutImageUrl = async (req: GetUploadCutImageUrlReq) => {
+  return await api.post<GetUploadCutImageUrlRes>("webtoon/post/me/cut-image", { json: req }).json();
+};
+
+// ----------------------------------------------------------------------
+
+type GetUploadThumbnailUrlReq = {
+  contentLength: number;
+  contentType: "image/jpeg" | "image/png";
+};
+
+type GetUploadThumbnailUrlRes = {
+  signedUploadUrl: string;
+  url: string;
+};
+
+export const getUploadThumbnailUrl = async (req: GetUploadThumbnailUrlReq) => {
+  return await api.post<GetUploadThumbnailUrlRes>("webtoon/post/me/thumbnail", { json: req }).json();
+};
+
+// ----------------------------------------------------------------------
+
 /** **************************************
  * webtoon-post
  *************************************** */

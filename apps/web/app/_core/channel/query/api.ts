@@ -129,6 +129,38 @@ export const createChannel = async (req: CreateChannelReq) => {
 
 // ----------------------------------------------------------------------
 
+type GetUploadImageUrlReq = {
+  contentLength: number;
+  contentType: "image/jpeg" | "image/png";
+};
+
+type GetUploadImageUrlRes = {
+  signedUploadUrl: string;
+  url: string;
+};
+
+export const getUploadImageUrl = async (req: GetUploadImageUrlReq) => {
+  return await api.post<GetUploadImageUrlRes>("channel/me/image", { json: req }).json();
+};
+
+// ----------------------------------------------------------------------
+
+type GetUploadBgImageUrlReq = {
+  contentLength: number;
+  contentType: "image/jpeg" | "image/png";
+};
+
+type GetUploadBgImageUrlRes = {
+  signedUploadUrl: string;
+  url: string;
+};
+
+export const getUploadBgImageUrl = async (req: GetUploadBgImageUrlReq) => {
+  return await api.post<GetUploadBgImageUrlRes>("channel/me/bg-image", { json: req }).json();
+};
+
+// ----------------------------------------------------------------------
+
 type BlockReq = {
   id: number;
 };

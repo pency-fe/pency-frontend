@@ -20,8 +20,8 @@ import { useCreateChannel } from "../query";
 import { toast } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
 import { objectKeys, useToggle } from "@pency/util";
-import { getUploadImageUrl } from "_core/common";
 import { LoadingButton } from "@mui/lab";
+import { getUploadImageUrl } from "../query/api";
 import ky from "ky";
 
 // ----------------------------------------------------------------------
@@ -299,12 +299,12 @@ const ImageFn = () => {
   const upload = () => {
     const picker = document.createElement("input");
     picker.type = "file";
-    picker.accept = ["image/jpeg", "image/png", "image/gif"].join(",");
+    picker.accept = ["image/jpeg", "image/png"].join(",");
     picker.multiple = false;
     picker.addEventListener("change", async () => {
       if (picker.files?.[0]) {
-        if (picker.files[0].size > 50 * 1024 * 1024) {
-          toast.error("최대 50MB 이미지만 업로드할 수 있어요.");
+        if (picker.files[0].size > 10 * 1024 * 1024) {
+          toast.error("최대 10MB 이미지만 업로드할 수 있어요.");
           return;
         }
 
@@ -358,7 +358,7 @@ const ImageFn = () => {
           </Box>
 
           <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
-            추천 비율(1:1) / 최대 50MB 이미지 파일
+            추천 비율(1:1) / 최대 10MB 이미지 파일
           </Typography>
         </Stack>
       </Box>

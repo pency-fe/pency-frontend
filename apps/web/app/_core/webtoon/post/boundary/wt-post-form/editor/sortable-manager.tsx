@@ -12,8 +12,8 @@ import { DIVIDER_CUT_ID } from "./const";
 import { useToggle } from "@pency/util";
 import { LoadingButton } from "@mui/lab";
 import { toast } from "@pency/ui/components";
-import { getUploadImageUrl } from "_core/common";
 import ky from "ky";
+import { getUploadCutImageUrl } from "_core/webtoon/post/query/api";
 
 // ----------------------------------------------------------------------
 
@@ -109,9 +109,9 @@ export const SortableManager = () => {
         toggleLoading(true);
         const cuts = await Promise.all(
           [...picker.files].map(async (file) => {
-            const res = await getUploadImageUrl({
+            const res = await getUploadCutImageUrl({
               contentLength: file.size,
-              contentType: file.type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
+              contentType: file.type as Parameters<typeof getUploadCutImageUrl>[0]["contentType"],
             });
             await ky.put(res.signedUploadUrl, { body: file });
 

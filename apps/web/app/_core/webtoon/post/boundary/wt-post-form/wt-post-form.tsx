@@ -31,12 +31,12 @@ import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
 import { GENRE_LABEL } from "_core/webtoon/const";
 import { objectEntries, useToggle, zodObjectKeys } from "@pency/util";
 import { RadioButton, toast } from "@pency/ui/components";
-import { getUploadImageUrl } from "_core/common";
 import ky from "ky";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/navigation";
 import { Editor } from "./editor";
 import { usePublish } from "../../query";
+import { getUploadThumbnailUrl } from "../../query/api";
 
 // ----------------------------------------------------------------------
 
@@ -622,19 +622,20 @@ const ThumbnailFn = () => {
   const upload = () => {
     const picker = document.createElement("input");
     picker.type = "file";
-    picker.accept = ["image/jpeg", "image/png", "image/gif"].join(",");
+    picker.accept = ["image/jpeg", "image/png"].join(",");
     picker.multiple = false;
     picker.addEventListener("change", async () => {
       if (picker.files?.[0]) {
-        if (picker.files[0].size > 50 * 1024 * 1024) {
-          toast.error("최대 50MB 이미지만 업로드할 수 있어요.");
+        if (picker.files[0].size > 10 * 1024 * 1024) {
+          toast.error("최대 10MB 이미지만 업로드할 수 있어요.");
           return;
         }
 
         toggleLoading(true);
-        const res = await getUploadImageUrl({
+
+        const res = await getUploadThumbnailUrl({
           contentLength: picker.files[0].size,
-          contentType: picker.files[0].type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
+          contentType: picker.files[0].type as Parameters<typeof getUploadThumbnailUrl>[0]["contentType"],
         });
         await ky.put(res.signedUploadUrl, { body: picker.files[0] });
         toggleLoading(false);
