@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useMemo } from "react";
 import NextLink from "next/link";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
 import { Grid, PaginationItem } from "@mui/material";
 import { usePaginationx } from "@pency/ui/hooks";
@@ -167,6 +167,7 @@ const PaginationFn = () => {
   } = usePageContentData();
   const paginations = usePaginationx({ pageCount, currentPage });
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   return (
     <>
@@ -177,7 +178,7 @@ const PaginationFn = () => {
           <PaginationItem
             key={i}
             component={NextLink}
-            href={`/webtoon/post/list${createQueryString(params)}`}
+            href={`${pathname}${createQueryString(params)}`}
             {...pagination}
           />
         );
