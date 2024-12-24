@@ -69,7 +69,7 @@ export function WebtoonPage() {
             <WT_Post_PageOrder.Order />
           </Grid>
           <Grid item xs={12}>
-            <WT_Post_PageContent>
+            <WT_Post_PageContent channelUrl={channelUrl}>
               <WT_Post_PageContent.Page />
               <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
                 <WT_Post_PageContent.Pagination />

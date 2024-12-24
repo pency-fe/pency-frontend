@@ -1,12 +1,13 @@
 "use client";
 
 import { ComponentProps } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Box, Skeleton, Stack } from "@mui/material";
 import { RichCardCarousel } from "@pency/ui/components";
 import { withAsyncBoundary } from "@pency/util";
 import { WT_Post_RichCard } from "../../ui";
 import { wtPostKeys } from "../../query";
+import { produce } from "immer";
 
 export const WT_Post_RichCarousel = Object.assign(
   (props: ComponentProps<typeof RichCardCarousel>) => <RichCardCarousel {...props} />,
@@ -30,10 +31,55 @@ function WT_Post_RichCarousel_Fn({ genre, sort, channelUrl }: WT_Post_RichCarous
     ...wtPostKeys.page({ genre, sort, channelUrl }),
     throwOnError: true,
   });
+  const queryClient = useQueryClient();
 
   if (status !== "success") {
     return <Loading />;
   }
+
+  const handleBookmark = (id: number) => {
+    queryClient.setQueryData(
+      wtPostKeys.page({ genre, sort, channelUrl }).queryKey,
+      (oldData) =>
+        oldData &&
+        produce(oldData, (draft) => {
+          draft.posts.find((post) => post.id === id)!.bookmark = true;
+        }),
+    );
+  };
+
+  const handleUnbookmark = (id: number) => {
+    queryClient.setQueryData(
+      wtPostKeys.page({ genre, sort, channelUrl }).queryKey,
+      (oldData) =>
+        oldData &&
+        produce(oldData, (draft) => {
+          draft.posts.find((post) => post.id === id)!.bookmark = false;
+        }),
+    );
+  };
+
+  const handleBlock = (id: number) => {
+    queryClient.setQueryData(
+      wtPostKeys.page({ genre, sort, channelUrl }).queryKey,
+      (oldData) =>
+        oldData &&
+        produce(oldData, (draft) => {
+          draft.posts.find((post) => post.channel.id === id)!.block = true;
+        }),
+    );
+  };
+
+  const handleUnblock = (id: number) => {
+    queryClient.setQueryData(
+      wtPostKeys.page({ genre, sort, channelUrl }).queryKey,
+      (oldData) =>
+        oldData &&
+        produce(oldData, (draft) => {
+          draft.posts.find((post) => post.channel.id === id)!.block = false;
+        }),
+    );
+  };
 
   return (
     <RichCardCarousel.Container
@@ -44,10 +90,10 @@ function WT_Post_RichCarousel_Fn({ genre, sort, channelUrl }: WT_Post_RichCarous
               <RichCardCarousel.Slide key={i}>
                 <WT_Post_RichCard
                   data={post}
-                  onBlock={() => {}}
-                  onBookmark={() => {}}
-                  onUnblock={() => {}}
-                  onUnbookmark={() => {}}
+                  onBlock={handleBlock}
+                  onBookmark={handleBookmark}
+                  onUnblock={handleUnblock}
+                  onUnbookmark={handleUnbookmark}
                 />
               </RichCardCarousel.Slide>
             ))}

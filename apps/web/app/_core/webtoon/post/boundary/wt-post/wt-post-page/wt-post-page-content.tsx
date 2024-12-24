@@ -16,21 +16,32 @@ import { produce } from "immer";
 
 // ----------------------------------------------------------------------
 
-const ContentDataContext = createContext<
-  | UseQueryResult<Awaited<ReturnType<Exclude<ReturnType<typeof wtPostKeys.page>["queryFn"], undefined>>>>["data"]
+const PageContentDataContext = createContext<
+  | {
+      data: Exclude<
+        UseQueryResult<Awaited<ReturnType<Exclude<ReturnType<typeof wtPostKeys.page>["queryFn"], undefined>>>>["data"],
+        undefined
+      >;
+      channelUrl?: string;
+    }
   | undefined
 >(undefined);
 
-function useContentData() {
-  const context = useContext(ContentDataContext);
+function usePageContentData() {
+  const context = useContext(PageContentDataContext);
 
-  if (!context) throw new Error(`부모로 <ContentProvider /> 컴포넌트가 있어야 합니다.`);
+  if (!context) throw new Error(`부모로 <PageContentProvider /> 컴포넌트가 있어야 합니다.`);
 
   return context;
 }
 
-const ContentFn = withAsyncBoundary(
-  ({ children }: { children?: React.ReactNode }) => {
+type PageContentFnProps = {
+  channelUrl?: string;
+  children?: React.ReactNode;
+};
+
+const PageContentProvider = withAsyncBoundary(
+  ({ channelUrl, children }: PageContentFnProps) => {
     const { genre } = useTabData();
     const { sort } = useOrderData();
     const { creationTypes, pairs } = useFilterData();
@@ -45,7 +56,7 @@ const ContentFn = withAsyncBoundary(
     }, [pageParam]);
 
     const { status, data } = useQuery({
-      ...wtPostKeys.page({ genre, sort, page, creationTypes, pairs }),
+      ...wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }),
       throwOnError: true,
     });
 
@@ -53,7 +64,7 @@ const ContentFn = withAsyncBoundary(
       return <Loading />;
     }
 
-    return <ContentDataContext.Provider value={data}>{children}</ContentDataContext.Provider>;
+    return <PageContentDataContext.Provider value={{ data, channelUrl }}>{children}</PageContentDataContext.Provider>;
   },
   {
     errorBoundary: {
@@ -79,7 +90,7 @@ function Loading() {
 // ----------------------------------------------------------------------
 
 const PageFn = () => {
-  const data = useContentData();
+  const { data, channelUrl } = usePageContentData();
   const { genre } = useTabData();
   const { sort } = useOrderData();
   const { creationTypes, pairs } = useFilterData();
@@ -88,7 +99,7 @@ const PageFn = () => {
 
   const handleBookmark = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs }).queryKey,
+      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
@@ -99,7 +110,7 @@ const PageFn = () => {
 
   const handleUnbookmark = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs }).queryKey,
+      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
@@ -110,7 +121,7 @@ const PageFn = () => {
 
   const handleBlock = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs }).queryKey,
+      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
@@ -121,7 +132,7 @@ const PageFn = () => {
 
   const handleUnblock = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs }).queryKey,
+      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
@@ -151,7 +162,9 @@ const PageFn = () => {
 // ----------------------------------------------------------------------
 
 const PaginationFn = () => {
-  const { pageCount, currentPage } = useContentData();
+  const {
+    data: { pageCount, currentPage },
+  } = usePageContentData();
   const paginations = usePaginationx({ pageCount, currentPage });
   const searchParams = useSearchParams();
 
@@ -173,7 +186,7 @@ const PaginationFn = () => {
   );
 };
 
-export const WT_Post_PageContent = Object.assign(ContentFn, {
+export const WT_Post_PageContent = Object.assign(PageContentProvider, {
   Page: PageFn,
   Pagination: PaginationFn,
 });
