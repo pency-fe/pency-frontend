@@ -1,7 +1,7 @@
 "use client";
 
 import NextLink from "next/link";
-import { Stack, RadioGroup, Box, Grid } from "@mui/material";
+import { RadioGroup, Box, Grid } from "@mui/material";
 import { RadioButton } from "@pency/ui/components";
 import { createQueryString, objectEntries } from "@pency/util";
 import { useSearchParams } from "next/navigation";
@@ -35,7 +35,7 @@ export function WebtoonPage() {
   }, [searchParams]);
 
   return (
-    <Grid container>
+    <Grid container gap={2}>
       <Grid item xs="auto">
         <RadioGroup value={contentParam}>
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
@@ -68,10 +68,10 @@ export function WebtoonPage() {
           <Grid item xs sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
             <WT_Post_PageOrder.Order />
           </Grid>
-          <Grid item xs={12} sx={{ mt: 2 }}>
+          <Grid item xs={12}>
             <WT_Post_PageContent>
               <WT_Post_PageContent.Page />
-              <Box sx={{ margin: "auto", mt: 3 }}>
+              <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
                 <WT_Post_PageContent.Pagination />
               </Box>
             </WT_Post_PageContent>
