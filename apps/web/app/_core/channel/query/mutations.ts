@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { block, createChannel, subscribe, unblock, unsubscribe, updateLink } from "./api";
+import { block, createChannel, subscribe, unblock, unsubscribe, updateBranding, updateLink } from "./api";
 import { FailureRes, QueryError } from "_core/api";
 import { channelMeKeys } from "./queries";
 
@@ -42,6 +42,16 @@ export const useUnblock = () => {
   >({
     mutationFn: unblock,
   });
+};
+
+// ----------------------------------------------------------------------
+
+export const useUpdateBranding = () => {
+  return useMutation<
+    Awaited<ReturnType<typeof updateBranding>>,
+    QueryError<FailureRes<404, "ENTITY_NOT_FOUND">> | QueryError<FailureRes<409, "DUPLICATE_URL">>,
+    Parameters<typeof updateBranding>[0]
+  >({ mutationFn: updateBranding, meta: { invalidates: [channelMeKeys.list().queryKey] } });
 };
 
 // ----------------------------------------------------------------------

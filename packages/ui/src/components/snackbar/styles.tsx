@@ -128,7 +128,7 @@ export const StyledToaster = styled(Toaster)(({ theme }) => {
       ...baseStyles.toastDefault,
       [`&:has(${toasterClasses.closeBtnVisible})`]: {
         [`& .${toasterClasses.content}`]: {
-          paddingRight: 32,
+          paddingRight: 20,
         },
       },
       [`&:has(.${toasterClasses.loader})`]: baseStyles.toastLoader,

@@ -117,6 +117,7 @@ type CreateChannelReq = {
   description?: string;
   url: string;
   image?: string;
+  bgImage?: string;
 };
 
 type CreateChannelRes = {
@@ -187,14 +188,35 @@ type GetChannelMeBrandingDetailReq = {
 
 type GetChannelMeBrandingDetailRes = {
   title: string;
-  description: string;
+  description: string | null;
   url: string;
-  image: string;
-  bgImage: string;
+  image: string | null;
+  bgImage: string | null;
 };
 
 export const getChannelMeBrandingDetail = async (req: GetChannelMeBrandingDetailReq) => {
   return await api.get<GetChannelMeBrandingDetailRes>(`channel/me/${formatUrl(req.url)}/detail/branding`).json();
+};
+
+// ----------------------------------------------------------------------
+
+type UpdateBrandingReq = {
+  title: string;
+  description?: string;
+  url: string;
+  image?: string;
+  bgImage?: string;
+  originChannelUrl: string;
+};
+
+type UpdateBrandingRes = {
+  url: string;
+};
+
+export const updateBranding = async ({ originChannelUrl, ...rest }: UpdateBrandingReq) => {
+  return await api
+    .post<UpdateBrandingRes>(`channel/me/${formatUrl(originChannelUrl)}/detail/branding`, { json: rest })
+    .json();
 };
 
 // ----------------------------------------------------------------------
