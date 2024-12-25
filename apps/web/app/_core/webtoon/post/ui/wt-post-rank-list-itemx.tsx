@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { Age } from "../const";
 import { EvaHeartOutlineIcon, ListItemx, NineteenCircleIcon } from "@pency/ui/components";
+import { formatCount } from "@pency/util";
 
 type Props = {
   data: {
@@ -42,7 +43,7 @@ export const WT_Post_Rank_List_Itemx = forwardRef<HTMLDivElement, Props>(({ data
             {data.channel.name}
             <ListItemx.Attribute.Dot />
             <EvaHeartOutlineIcon />
-            {data.likeCount}
+            {formatCount(data.likeCount)}
           </ListItemx.Attribute>
         ),
       }}

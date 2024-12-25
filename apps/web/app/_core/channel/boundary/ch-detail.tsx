@@ -35,7 +35,7 @@ import {
   toast,
 } from "@pency/ui/components";
 import { useChannelUrlParam } from "_hooks";
-import { isClient, useToggle, withAsyncBoundary } from "@pency/util";
+import { formatCount, isClient, useToggle, withAsyncBoundary } from "@pency/util";
 import React, { createContext, useContext, useMemo } from "react";
 import { channelKeys, useSubscribe, useUnsubscribe } from "../query";
 import { useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
@@ -330,11 +330,9 @@ const AttributeFn = () => {
         {userProfile.nickname}
       </Link>
       <Typography>•</Typography>
-      {/* TODO 1만개 함수 만들어야 된다.*/}
-      <Typography sx={{ minWidth: "max-content" }}>구독자 {subscriberCount}명</Typography>
+      <Typography sx={{ minWidth: "max-content" }}>구독자 {formatCount(subscriberCount)}명</Typography>
       <Typography>•</Typography>
-      {/* TODO: 1.1천개 함수 만들어야 된다. */}
-      <Typography sx={{ minWidth: "max-content" }}>포스트 {wtPostCount}개</Typography>
+      <Typography sx={{ minWidth: "max-content" }}>포스트 {formatCount(wtPostCount)}개</Typography>
     </Box>
   );
 };

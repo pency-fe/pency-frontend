@@ -1,3 +1,4 @@
+import { formatCount } from "@pency/util";
 import { EvaHeartOutlineIcon, ListItemx, NineteenCircleIcon } from "../../../components";
 import { Meta } from "@storybook/react";
 
@@ -50,7 +51,7 @@ export const PostListItemx = () => {
               {postData.channel.name}
               <ListItemx.Attribute.Dot />
               <EvaHeartOutlineIcon />
-              {postData.likeCount}
+              {formatCount(postData.likeCount)}
             </ListItemx.Attribute>
           ),
         }}

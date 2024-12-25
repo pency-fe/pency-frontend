@@ -15,7 +15,7 @@ import {
 import { maxLine } from "../../../util";
 
 import { Box, ListItemIcon, MenuItem } from "@mui/material";
-import { formatElapsedTime } from "@pency/util";
+import { formatCount, formatElapsedTime } from "@pency/util";
 import { Meta } from "@storybook/react";
 
 // ----------------------------------------------------------------------
@@ -115,7 +115,7 @@ export const PostRichCard = () => {
               <RichCard.AttributeDot />
               <RichCard.Attribute>
                 <EvaHeartOutlineIcon />
-                {postData.likeCount}
+                {formatCount(postData.likeCount)}
               </RichCard.Attribute>
               <RichCard.AttributeDot />
               <RichCard.Attribute>{formatElapsedTime(postData.publishedAt)}</RichCard.Attribute>
@@ -267,7 +267,7 @@ export const SeriesRichCard = () => {
             <RichCard.AttributeDot />
             <RichCard.Attribute>
               <EvaHeartOutlineIcon />
-              {seriesData.likeCount}
+              {formatCount(seriesData.likeCount)}
             </RichCard.Attribute>
           </>
         ),

@@ -9,7 +9,7 @@ import {
   TablerPinIcon,
   useMenuxState,
 } from "@pency/ui/components";
-import { formatElapsedTime } from "@pency/util";
+import { formatCount, formatElapsedTime } from "@pency/util";
 import { forwardRef } from "react";
 
 type Props = {
@@ -53,8 +53,8 @@ export const WT_Post_List_Comment = forwardRef<HTMLDivElement, Props>(({ data },
         ),
         createdAt: <ListComment.CreatedAt>{formatElapsedTime(data.createdAt)}</ListComment.CreatedAt>,
         comment: <ListComment.Comment>{data.comment}</ListComment.Comment>,
-        likeButton: <ListComment.LikeButton>{data.likeCount}</ListComment.LikeButton>,
-        replyButton: <ListComment.ReplyButton>{data.replyCount}</ListComment.ReplyButton>,
+        likeButton: <ListComment.LikeButton>{formatCount(data.likeCount)}</ListComment.LikeButton>,
+        replyButton: <ListComment.ReplyButton>{formatCount(data.replyCount)}</ListComment.ReplyButton>,
         feedbackButton: (
           <>
             <ListComment.FeedbackButton ref={anchorRef} onClick={toggle}>
