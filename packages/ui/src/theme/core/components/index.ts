@@ -35,7 +35,7 @@ import { checkbox } from "./checkbox";
 import { accordion } from "./accordion";
 import { textfield } from "./textfield";
 import { typography } from "./typography";
-import { pagination } from "./pagination";
+import { paginationItem } from "./pagination";
 import { breadcrumbs } from "./breadcrumbs";
 // import { dataGrid } from './mui-x-data-grid';
 // import { treeView } from './mui-x-tree-view';
@@ -85,7 +85,7 @@ export const components = {
   ...accordion,
   ...textfield,
   ...typography,
-  ...pagination,
+  ...paginationItem,
   // ...datePicker,
   ...breadcrumbs,
   ...buttonGroup,
