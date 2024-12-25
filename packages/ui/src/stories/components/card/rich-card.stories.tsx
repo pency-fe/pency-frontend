@@ -15,7 +15,7 @@ import {
 import { maxLine } from "../../../util";
 
 import { Box, ListItemIcon, MenuItem } from "@mui/material";
-import { formatRelativeTimeFromUTC } from "@pency/util";
+import { formatElapsedTime } from "@pency/util";
 import { Meta } from "@storybook/react";
 
 // ----------------------------------------------------------------------
@@ -118,7 +118,7 @@ export const PostRichCard = () => {
                 {postData.likeCount}
               </RichCard.Attribute>
               <RichCard.AttributeDot />
-              <RichCard.Attribute>{formatRelativeTimeFromUTC(postData.publishedAt)}</RichCard.Attribute>
+              <RichCard.Attribute>{formatElapsedTime(postData.publishedAt)}</RichCard.Attribute>
             </>
           ),
           feedbackButton: (

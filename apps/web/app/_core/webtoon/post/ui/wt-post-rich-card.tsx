@@ -16,7 +16,7 @@ import {
 } from "@pency/ui/components";
 import { Age, CreationType, CREATION_TYPE_LABEL, Pair, PAIR_LABEL } from "../const";
 import { Genre, GENRE_LABEL } from "_core/webtoon/const";
-import { formatRelativeTimeFromUTC } from "@pency/util";
+import { formatElapsedTime } from "@pency/util";
 import { Box, ListItemIcon, MenuItem, Skeleton, Stack } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useUserAuthMeContext } from "_core/user";
@@ -226,7 +226,7 @@ const WT_Post_RichCardFn = forwardRef<HTMLDivElement, WT_Post_RichCardFnProps>(
                 {data.likeCount}
               </RichCard.Attribute>
               <RichCard.AttributeDot />
-              <RichCard.Attribute>{formatRelativeTimeFromUTC(data.publishedAt)}</RichCard.Attribute>
+              <RichCard.Attribute>{formatElapsedTime(data.publishedAt)}</RichCard.Attribute>
             </>
           ),
           feedbackButton: (

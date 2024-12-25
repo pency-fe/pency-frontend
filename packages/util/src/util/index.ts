@@ -3,4 +3,4 @@ export * from "./device";
 export * from "./object";
 export * from "./format";
 export * from "./zod";
-export * from "./utc";
+export * from "./dayjs";
