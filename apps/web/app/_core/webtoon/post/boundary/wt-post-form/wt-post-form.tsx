@@ -16,6 +16,7 @@ import {
   ButtonProps,
   Chip,
   Grid,
+  IconButton,
   InputAdornment,
   inputBaseClasses,
   MenuItem,
@@ -25,18 +26,27 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { ChangeEventHandler, KeyboardEventHandler, ReactNode, useMemo, useState } from "react";
+import {
+  ChangeEventHandler,
+  createContext,
+  KeyboardEventHandler,
+  ReactNode,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AGE_LABEL, CREATION_TYPE_LABEL, PAIR_LABEL } from "../../const";
-import { GENRE_LABEL } from "_core/webtoon/const";
-import { objectEntries, useToggle, zodObjectKeys } from "@pency/util";
-import { RadioButton, toast } from "@pency/ui/components";
+import { Age, AGE_LABEL, CREATION_TYPE_LABEL, CreationType, Pair, PAIR_LABEL } from "../../const";
+import { Genre, GENRE_LABEL } from "_core/webtoon/const";
+import { formatUrl, objectEntries, useToggle, zodObjectKeys } from "@pency/util";
+import { EvaMoreHorizontalOutlineIcon, Menux, RadioButton, toast, useMenuxState } from "@pency/ui/components";
 import ky from "ky";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/navigation";
 import { Editor } from "./editor";
-import { usePublish } from "../../query";
+import { useProvision, usePublish, useSave } from "../../query";
 import { getUploadThumbnailUrl } from "../../query/api";
+import { QueryError } from "_core/api";
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +58,7 @@ const keywordSchema = z
 const schema = z
   .object({
     title: z.string().min(1, "제목을 입력해 주세요.").max(100, "최대 100자 이내로 입력해 주세요."),
-    genre: z.string().refine((genre) => Object.keys(GENRE_LABEL).includes(genre), { message: "장르를 선택해 주세요." }),
+    genre: z.enum(zodObjectKeys(GENRE_LABEL), { message: "장르를 선택해 주세요." }),
     price: z.coerce.number(),
     content: z
       .object({
@@ -104,104 +114,135 @@ type Schema = z.infer<typeof schema>;
 
 // ----------------------------------------------------------------------
 
-export const useWTPostFormContext = () => useFormContext<Schema>();
+export function useWTPostFormContext() {
+  return useFormContext<Schema>();
+}
 
 // ----------------------------------------------------------------------
 
-type WT_Post_Create_Form_Fn_Props = {
-  children?: ReactNode;
-};
+const WTPostFormDataContext = createContext<{ publish: boolean; channelUrl: string; id?: number } | undefined>(
+  undefined,
+);
 
-const WT_Post_Create_Form_Fn = ({ children }: WT_Post_Create_Form_Fn_Props) => {
-  const methods = useForm<Schema>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      title: "",
-      genre: "",
-      price: 0,
-      content: {
-        free: [
-          // { name: "1번하이하이하이하이하이.jpg", src: "https://glyph.pub/images/24/02/v/v8/v8nl9bz93rbol9lf.jpg" },
-          // { name: "2번.jpg", src: "https://glyph.pub/images/24/02/u/u3/u3603si0i06hows9.jpg" },
-        ],
-        paid: [
-          // { name: "3번.jpg", src: "https://glyph.pub/images/24/02/e/eb/ebo089j0ujdxb85t.jpg" },
-          // { name: "4번.jpg", src: "https://glyph.pub/images/24/02/o/ov/ovwj6mtqbdxv5lsz.jpg" },
-          // { name: "5번.jpg", src: "https://glyph.pub/images/24/02/o/o0/o0joo5zvmlzov04b.jpg" },
-          // { name: "6번.jpg", src: "https://glyph.pub/images/24/02/u/u6/u6r4flbjqib4q3or.jpg" },
-          // { name: "7번.jpg", src: "https://glyph.pub/images/24/02/y/yt/yt20v00uufyhrwcx.jpg" },
-        ],
-      },
-      thumbnail: "",
-      creationType: "PRIMARY",
-      pair: "NONE",
-      age: "ALL",
-      keywords: [],
-      authorTalk: "",
-      precaution: "",
-    },
-    mode: "onTouched",
-  });
+export function useWTPostFormDataContext() {
+  const context = useContext(WTPostFormDataContext);
 
-  return <FormProvider {...methods}>{children}</FormProvider>;
-};
+  if (!context) {
+    throw new Error(`<부모로 <WT_Post_Form /> 컴포넌트가 있어야 합니다.`);
+  }
+
+  return context;
+}
 
 // ----------------------------------------------------------------------
 
-type WT_Post_Update_Form_Fn_Props = {
-  children?: ReactNode;
-};
-
-const WT_Post_Update_Form_Fn = ({ children }: WT_Post_Update_Form_Fn_Props) => {
-  const methods = useForm<Schema>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      title: "",
-      creationType: "PRIMARY",
-      pair: "NONE",
-      genre: "",
-      age: "ALL",
-      keywords: [],
-      authorTalk: "",
-      precaution: "",
-    },
-    mode: "onTouched",
-  });
-
-  return <FormProvider {...methods}>{children}</FormProvider>;
-};
-
-// ----------------------------------------------------------------------
-
-type CreateSubmitFnProps = Omit<ButtonProps, "children"> & {
+type WT_Post_Form_Fn_Props = {
+  title?: string;
+  genre?: Genre;
+  price?: number | null;
+  content?: {
+    free: Array<{ name: string; src: string }>;
+    paid: Array<{ name: string; src: string }>;
+  };
+  thumbnail?: string | null;
+  creationType?: CreationType;
+  pair?: Pair;
+  age?: Age;
+  keywords?: Array<string>;
+  authorTalk?: string | null;
+  precaution?: string | null;
+  id?: number;
+  publish: boolean;
   channelUrl: string;
+  children?: ReactNode;
+};
+
+const WT_Post_Form_Fn = ({ id, publish, channelUrl, children, ...rest }: WT_Post_Form_Fn_Props) => {
+  const methods = useForm<Schema>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      title: rest.title ?? "",
+      genre: rest.genre ?? ("" as Genre),
+      price: rest.price ?? 0,
+      content: rest.content ?? {
+        free: [],
+        paid: [],
+      },
+      thumbnail: rest.thumbnail ?? "",
+      creationType: rest.creationType ?? "PRIMARY",
+      pair: rest.pair ?? "NONE",
+      age: rest.age ?? "ALL",
+      keywords: rest.keywords ?? [],
+      authorTalk: rest.authorTalk ?? "",
+      precaution: rest.precaution ?? "",
+    },
+    mode: "onTouched",
+  });
+
+  return (
+    <FormProvider {...methods}>
+      <WTPostFormDataContext.Provider value={{ id, publish, channelUrl: formatUrl(channelUrl, { prefix: false }) }}>
+        {children}
+      </WTPostFormDataContext.Provider>
+    </FormProvider>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+type SubmitFnProps = Omit<ButtonProps, "children"> & {
   submitErrorHandler?: SubmitErrorHandler<Schema>;
 };
 
-const CreateSubmitFn = ({ channelUrl, submitErrorHandler, ...rest }: CreateSubmitFnProps) => {
-  const router = useRouter();
+const SubmitButtonFn = ({ submitErrorHandler, ...rest }: SubmitFnProps) => {
   const { handleSubmit } = useWTPostFormContext();
+  const { id, channelUrl, publish } = useWTPostFormDataContext();
   const [loading, toggleLoading] = useToggle(false);
+  const router = useRouter();
 
-  const { mutate } = usePublish();
+  const { mutate: publishPost } = usePublish();
+  const { mutateAsync: provisionPost } = useProvision();
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const { content, ...rest } = data;
-
-    const mutateData: Parameters<typeof mutate>[0] = {
-      channelUrl,
-      ...rest,
-      ...content,
-    };
     toggleLoading(true);
-    mutate(mutateData, {
-      onSuccess: (data) => {
-        router.push(`/@${channelUrl}/webtoon/post/${data.id}`);
-      },
-      onSettled: () => {
+    let postId = id;
+
+    if (!postId) {
+      try {
+        postId = (await provisionPost({ channelUrl })).id;
+        window.history.replaceState(null, "", `/editor/@${channelUrl}/webtoon/${postId}`);
+      } catch (error) {
+        if (error instanceof QueryError && error.code === "ENTITY_NOT_FOUND") {
+          toast.error("잘못된 채널 URL이에요.");
+        }
+        if (error instanceof QueryError && error.code === "ACCESS_DENIED") {
+          toast.error("권한이 없어요.");
+        }
         toggleLoading(false);
+        return;
+      }
+    }
+
+    const { content, ...rest } = data;
+    publishPost(
+      { id: postId, ...rest, ...content },
+      {
+        onSuccess: (data) => {
+          router.push(`/@${channelUrl}/webtoon/post/${data.id}`);
+        },
+        onError: (error) => {
+          if (error.code === "ENTITY_NOT_FOUND") {
+            toast.error("잘못된 채널 URL이에요.");
+          }
+          if (error.code === "ACCESS_DENIED") {
+            toast.error("권한이 없어요.");
+          }
+        },
+        onSettled: () => {
+          toggleLoading(false);
+        },
       },
-    });
+    );
   };
 
   const onSubmitError: SubmitErrorHandler<Schema> = (errors, e) => {
@@ -217,26 +258,116 @@ const CreateSubmitFn = ({ channelUrl, submitErrorHandler, ...rest }: CreateSubmi
       onClick={handleSubmit(onSubmit, onSubmitError)}
       {...rest}
     >
-      발행
+      {!publish ? "발행" : "재발행"}
     </LoadingButton>
   );
 };
 
 // ----------------------------------------------------------------------
 
-type UpdateSubmitFnProps = Omit<ButtonProps, "children">;
+const SaveButtonFn = () => {
+  const { trigger, getFieldState, getValues } = useWTPostFormContext();
+  const { id, channelUrl, publish } = useWTPostFormDataContext();
+  const [loading, toggleLoading] = useToggle(false);
 
-const UpdateSubmitFn = (props: UpdateSubmitFnProps) => {
-  const { handleSubmit } = useWTPostFormContext();
+  const { mutate: savePost } = useSave();
+  const { mutateAsync: provisionPost } = useProvision();
 
-  const onSubmit = (data: Schema) => {
-    console.log(data);
+  const handleClick = async () => {
+    const names = ["title", "genre", "content", "price"] as const;
+
+    const isValidate = await trigger(names);
+    if (!isValidate) {
+      for (const name of names) {
+        if (getFieldState(name).error) {
+          document.getElementsByName(name)[0]?.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+      }
+    }
+
+    toggleLoading(true);
+    let postId = id;
+    if (!postId) {
+      try {
+        postId = (await provisionPost({ channelUrl })).id;
+        window.history.replaceState(null, "", `/editor/@${channelUrl}/webtoon/${postId}`);
+      } catch (error) {
+        if (error instanceof QueryError && error.code === "ENTITY_NOT_FOUND") {
+          toast.error("잘못된 채널 URL이에요.");
+        }
+        if (error instanceof QueryError && error.code === "ACCESS_DENIED") {
+          toast.error("권한이 없어요.");
+        }
+        toggleLoading(false);
+        return;
+      }
+    }
+
+    const [title, genre, { free, paid }, price] = getValues(names);
+    savePost(
+      { id: postId, title, genre, price, free, paid },
+      {
+        onError: (error) => {
+          if (error.code === "ENTITY_NOT_FOUND") {
+            toast.error("잘못된 채널 URL이에요.");
+          }
+          if (error.code === "SAVED_POST_FORBIDDEN") {
+            toast.error("이미 발행된 포스트는 임시 저장할 수 없어요.");
+          }
+          if (error.code === "ACCESS_DENIED") {
+            toast.error("권한이 없어요.");
+          }
+        },
+        onSettled: () => {
+          toggleLoading(false);
+        },
+      },
+    );
   };
 
   return (
-    <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(() => onSubmit)} {...props}>
-      발행
-    </Button>
+    <>
+      {!publish ? (
+        <LoadingButton type="submit" variant="soft" size="small" loading={loading} onClick={handleClick}>
+          저장
+        </LoadingButton>
+      ) : null}
+    </>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+const MoreIconButtonFn = () => {
+  const { anchorRef, isOpen, close, toggle } = useMenuxState();
+
+  return (
+    <>
+      <IconButton ref={anchorRef} variant="text" size="small" onClick={toggle}>
+        <EvaMoreHorizontalOutlineIcon />
+      </IconButton>
+      <Menux
+        open={isOpen}
+        anchorEl={anchorRef.current}
+        placement="left-start"
+        disablePortal
+        modifiers={[
+          {
+            name: "offset",
+            options: {
+              offset: [0, 6],
+            },
+          },
+        ]}
+        onClose={close}
+      >
+        {/* [TODO] */}
+        <MenuItem>미리보기</MenuItem>
+        <MenuItem>발행취소</MenuItem>
+        <MenuItem>휴지통으로 이동</MenuItem>
+      </Menux>
+    </>
   );
 };
 
@@ -333,7 +464,7 @@ const PairFn = () => {
 
 const GenreFn = () => {
   const { control } = useWTPostFormContext();
-  const entries = objectEntries(GENRE_LABEL);
+  const genreLabels = objectEntries(GENRE_LABEL);
 
   return (
     <Controller
@@ -350,7 +481,7 @@ const GenreFn = () => {
           helperText={error ? error.message : ""}
         >
           <MenuItem value="" sx={{ display: "none" }}></MenuItem>
-          {entries.map(([value, label]) => (
+          {genreLabels.map(([value, label]) => (
             <MenuItem key={value} value={value}>
               {label}
             </MenuItem>
@@ -364,8 +495,10 @@ const GenreFn = () => {
 // ----------------------------------------------------------------------
 
 const KeywordsFn = () => {
-  const { watch, setValue } = useWTPostFormContext();
-  const keywords = watch("keywords");
+  const { control } = useWTPostFormContext();
+  const {
+    field: { value, onChange },
+  } = useController({ control, name: "keywords" });
 
   const [keyword, setKeyword] = useState<string>("");
   const [keywordError, setKeywordError] = useState<ZodError | null>(null);
@@ -408,38 +541,38 @@ const KeywordsFn = () => {
       if (event.keyCode === 229 || keywordError || keyword.length === 0) {
         return;
       }
-      if (keywords.length >= 10) {
+      if (value.length >= 10) {
         toast.error("키워드는 최대 10개 이내로 입력해 주세요.");
         return;
       }
-      if (keywords.includes(keyword)) {
+      if (value.includes(keyword)) {
         toast.error("이미 입력한 키워드예요.");
         return;
       }
 
-      const newKeywords = [...keywords];
+      const newKeywords = [...value];
       newKeywords.push(keyword);
-      setValue("keywords", newKeywords);
+      onChange(newKeywords);
       setKeyword("");
       return;
     }
 
     if (event.key === "Backspace") {
       if (keyword.length === 0) {
-        const newKeywords = [...keywords];
+        const newKeywords = [...value];
         newKeywords.pop();
-        setValue("keywords", newKeywords);
+        onChange(newKeywords);
         return;
       }
     }
   };
 
   const deleteKeyword = (keyword: string) => {
-    const index = keywords.indexOf(keyword);
+    const index = value.indexOf(keyword);
     if (index !== -1) {
-      const newKeywords = [...keywords];
+      const newKeywords = [...value];
       newKeywords.splice(index, 1);
-      setValue("keywords", newKeywords);
+      onChange(newKeywords);
     }
   };
 
@@ -461,7 +594,7 @@ const KeywordsFn = () => {
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         InputProps={{
-          startAdornment: keywords.map((keyword, i) => (
+          startAdornment: value.map((keyword, i) => (
             <Chip
               key={i}
               variant="soft"
@@ -491,15 +624,9 @@ const KeywordsFn = () => {
 
 // ----------------------------------------------------------------------
 
-const KeywordFn = () => {
-  return <Typography variant="subtitle2">키워드</Typography>;
-};
-
-// ----------------------------------------------------------------------
-
 const AgeFn = () => {
   const { control } = useWTPostFormContext();
-  const entries = objectEntries(AGE_LABEL);
+  const ageLabels = objectEntries(AGE_LABEL);
 
   return (
     <Controller
@@ -510,7 +637,7 @@ const AgeFn = () => {
           <Typography variant="subtitle2">연령</Typography>
           <RadioGroup {...field}>
             <Grid container spacing={1}>
-              {entries.map(([value, label]) => (
+              {ageLabels.map(([value, label]) => (
                 <Grid item key={value}>
                   <RadioButton value={value}>{label}</RadioButton>
                 </Grid>
@@ -605,12 +732,6 @@ const PrecautionFn = () => {
 
 // ----------------------------------------------------------------------
 
-const SeriesFn = () => {
-  return <Typography variant="subtitle2">시리즈</Typography>;
-};
-
-// ----------------------------------------------------------------------
-
 const ThumbnailFn = () => {
   const theme = useTheme();
   const { control } = useWTPostFormContext();
@@ -669,7 +790,7 @@ const ThumbnailFn = () => {
 
         <Stack direction="row" alignItems="center">
           <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
-            추천 비율(16:9) / 최대 50MB 이미지 파일
+            추천 비율(16:9) / 최대 10MB 이미지 파일
           </Typography>
 
           {value && (
@@ -689,8 +810,10 @@ const ThumbnailFn = () => {
 
 // ----------------------------------------------------------------------
 
-export const WT_Post_Create_Form = Object.assign(WT_Post_Create_Form_Fn, {
-  CreateSubmitButton: CreateSubmitFn,
+export const WT_Post_Form = Object.assign(WT_Post_Form_Fn, {
+  SubmitButton: SubmitButtonFn,
+  SaveButton: SaveButtonFn,
+  MoreIconButton: MoreIconButtonFn,
   Title: TitleFn,
   Genre: GenreFn,
   Editor: Editor,
@@ -698,27 +821,7 @@ export const WT_Post_Create_Form = Object.assign(WT_Post_Create_Form_Fn, {
   Pair: PairFn,
   Age: AgeFn,
   Keywords: KeywordsFn,
-  Keyword: KeywordFn,
   AuthorTalk: AuthorTalkFn,
   Precaution: PrecautionFn,
-  Series: SeriesFn,
   Thumbnail: ThumbnailFn,
-  useWTPostFormContext,
-});
-
-// ----------------------------------------------------------------------
-
-export const WT_Post_Update_Form = Object.assign(WT_Post_Update_Form_Fn, {
-  UpdateSubmitButton: UpdateSubmitFn,
-  Title: TitleFn,
-  Genre: GenreFn,
-  Editor: Editor,
-  CreationType: CreationTypeFn,
-  Pair: PairFn,
-  Age: AgeFn,
-  Keywords: KeywordsFn,
-  Keyword: KeywordFn,
-  AuthorTalk: AuthorTalkFn,
-  Precaution: PrecautionFn,
-  Series: SeriesFn,
 });

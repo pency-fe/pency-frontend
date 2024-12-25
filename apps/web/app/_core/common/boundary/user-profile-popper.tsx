@@ -154,7 +154,7 @@ function ChannelMeList({ toggle }: { toggle: (nextValue?: any) => void }) {
                   </Button>
                   <IconButton
                     LinkComponent={NextLink}
-                    href={`/editor/${channel.url}/webtoon`}
+                    href={`/editor/@${channel.url}/webtoon`}
                     variant="soft"
                     size="small"
                     sx={{ borderRadius: 1, zIndex: 2 }}

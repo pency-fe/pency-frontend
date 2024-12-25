@@ -2,14 +2,14 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "_core/api";
-import { bookmark, like, publish, report, save, unbookmark, unlike } from "./api";
+import { bookmark, like, provision, publish, report, save, unbookmark, unlike } from "./api";
 
 // ----------------------------------------------------------------------
 
 export const usePublish = () => {
   return useMutation<
     Awaited<ReturnType<typeof publish>>,
-    QueryError<FailureRes<409, "DUPLICATE_URL">>,
+    QueryError<FailureRes<404, "ENTITY_NOT_FOUND">> | QueryError<FailureRes<401, "ACCESS_DENIED">>,
     Parameters<typeof publish>[0]
   >({ mutationFn: publish });
 };
@@ -65,6 +65,18 @@ export const useUnbookmark = () => {
 export const useReport = () => {
   return useMutation<Awaited<ReturnType<typeof report>>, void, Parameters<typeof report>[0]>({
     mutationFn: report,
+  });
+};
+
+// ----------------------------------------------------------------------
+
+export const useProvision = () => {
+  return useMutation<
+    Awaited<ReturnType<typeof provision>>,
+    QueryError<FailureRes<404, "ENTITY_NOT_FOUND">> | QueryError<FailureRes<401, "ACCESS_DENIED">>,
+    Parameters<typeof provision>[0]
+  >({
+    mutationFn: provision,
   });
 };
 

@@ -20,6 +20,7 @@ export * from "./eva-list-outline-icon";
 export * from "./eva-eye-outline-icon";
 export * from "./eva-menu-outline-icon";
 export * from "./eva-more-vertical-outline-icon";
+export * from "./eva-more-horizontal-outline-icon";
 export * from "./fluent-draw-image-24-filled-icon";
 export * from "./fluent-draw-text-24-filled-icon";
 export * from "./fluent-home-24-regular-icon";

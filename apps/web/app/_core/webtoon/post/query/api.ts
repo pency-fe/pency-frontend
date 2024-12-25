@@ -2,6 +2,7 @@ import { api } from "_core/api";
 import { Genre } from "_core/webtoon/const";
 import { Age, CreationType, Pair } from "../const";
 import { createSearchParamString, formatUrl } from "@pency/util";
+import { Options } from "ky";
 
 /** **************************************
  * webtoon-post-me
@@ -10,18 +11,17 @@ import { createSearchParamString, formatUrl } from "@pency/util";
 // ----------------------------------------------------------------------
 
 type PublishReq = {
-  id?: number;
-  channelUrl: string;
+  id: number;
   title: string;
-  genre: string;
+  genre: Genre;
   price?: number;
   free: Array<{ name: string; src: string }>;
   paid: Array<{ name: string; src: string }>;
   thumbnail?: string;
-  creationType: string;
-  pair: string;
+  creationType: CreationType;
+  pair: Pair;
   keywords?: string[];
-  age: string;
+  age: Age;
   authorTalk?: string;
   precaution?: string;
 };
@@ -30,8 +30,34 @@ type PublishRes = {
   id: number;
 };
 
-export const publish = async (req: PublishReq) => {
-  return await api.post<PublishRes>("webtoon/post/me/publish", { json: req }).json();
+export const publish = async ({ id, ...rest }: PublishReq) => {
+  return await api.post<PublishRes>(`webtoon/post/me/${id}/publish`, { json: rest }).json();
+};
+
+// ----------------------------------------------------------------------
+
+type GetWebtoonPostMeReq = {
+  id: number;
+};
+
+type GetWebtoonPostMeRes = {
+  title: string;
+  genre: Genre;
+  price: number | null;
+  free: Array<{ name: string; src: string }> | null;
+  paid: Array<{ name: string; src: string }> | null;
+  thumbnail: string | null;
+  creationType: CreationType;
+  pair: Pair;
+  keywords: Array<string>;
+  age: Age;
+  authorTalk: string | null;
+  precaution: string | null;
+  publish: boolean;
+};
+
+export const getWebtoonPostMe = async ({ id }: GetWebtoonPostMeReq, options?: Options) => {
+  return await api.get<GetWebtoonPostMeRes>(`webtoon/post/me/${id}`, options).json();
 };
 
 // ----------------------------------------------------------------------
@@ -52,21 +78,8 @@ export const provision = async (req: ProvisionReq) => {
 
 type SaveReq = {
   id: number;
-  channelUrl: string;
   title: string;
-  genre:
-    | "ROMANCE"
-    | "FANTASY"
-    | "ROFAN"
-    | "ACTION"
-    | "DAILY"
-    | "COMIC"
-    | "DRAMA"
-    | "THRILLER"
-    | "MARTIAL"
-    | "SPORTS"
-    | "SELF"
-    | "ETC";
+  genre: Genre;
   price: number;
   free: Array<{
     name: string;
@@ -78,17 +91,10 @@ type SaveReq = {
   }>;
 };
 
-export const save = async (req: SaveReq) => {
+export const save = async ({ id, ...rest }: SaveReq) => {
   return await api
-    .post(`webtoon/post/me/${req.id}/save`, {
-      json: {
-        channelUrl: req.channelUrl,
-        title: req.title,
-        genre: req.genre,
-        price: req.price,
-        free: req.free,
-        paid: req.paid,
-      },
+    .post(`webtoon/post/me/${id}/save`, {
+      json: rest,
     })
     .json();
 };

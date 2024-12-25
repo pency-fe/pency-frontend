@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Box,
   Button,
   dialogClasses,
   Grid,
@@ -16,8 +17,7 @@ import {
 } from "@mui/material";
 import { FormDialog, MaterialSymbolsCloseIcon, RadioMenuItem } from "@pency/ui/components";
 import { objectEntries, objectKeys, useToggle } from "@pency/util";
-import { useWTPostFormContext, WT_Post_Create_Form } from "_core/webtoon/post";
-import { useParams } from "next/navigation";
+import { useWTPostFormContext, WT_Post_Form } from "_core/webtoon/post";
 import { ComponentProps, useState } from "react";
 
 // ----------------------------------------------------------------------
@@ -45,8 +45,6 @@ const FIELD_NAME_TO_NAV_VALUE_MAP: Record<FieldName, NavValue> = {
 
 export default function HeaderRight() {
   const theme = useTheme();
-  const { channelUrl } = useParams<{ channelUrl: string }>();
-
   const [navValue, setNavValue] = useState<NavValue>("publish");
 
   const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
@@ -71,9 +69,7 @@ export default function HeaderRight() {
     toggleDialog(true);
   };
 
-  const submitErrorHandler: ComponentProps<typeof WT_Post_Create_Form.CreateSubmitButton>["submitErrorHandler"] = (
-    errors,
-  ) => {
+  const submitErrorHandler: ComponentProps<typeof WT_Post_Form.SubmitButton>["submitErrorHandler"] = (errors) => {
     const names = objectKeys(FIELD_NAME_TO_NAV_VALUE_MAP);
 
     for (const name of names) {
@@ -90,9 +86,13 @@ export default function HeaderRight() {
 
   return (
     <>
-      <Button variant="contained" onClick={handleClickOpen}>
-        발행
-      </Button>
+      <Box sx={{ display: "flex", gap: "6px" }}>
+        <WT_Post_Form.MoreIconButton />
+        <WT_Post_Form.SaveButton />
+        <Button variant="contained" size="small" onClick={handleClickOpen}>
+          발행
+        </Button>
+      </Box>
 
       <FormDialog
         open={dialog}
@@ -130,11 +130,7 @@ export default function HeaderRight() {
                 발행 옵션
               </Typography>
 
-              <WT_Post_Create_Form.CreateSubmitButton
-                channelUrl={channelUrl}
-                sx={{ ml: "auto" }}
-                submitErrorHandler={submitErrorHandler}
-              />
+              <WT_Post_Form.SubmitButton sx={{ ml: "auto" }} submitErrorHandler={submitErrorHandler} />
             </>
           )}
         </FormDialog.Header>
@@ -209,26 +205,25 @@ export default function HeaderRight() {
             >
               {navValue === "publish" && (
                 <Stack spacing={4}>
-                  <WT_Post_Create_Form.Series />
-                  <WT_Post_Create_Form.Thumbnail />
+                  <WT_Post_Form.Thumbnail />
                 </Stack>
               )}
               {navValue === "keyword" && (
                 <Stack spacing={4}>
-                  <WT_Post_Create_Form.CreationType />
-                  <WT_Post_Create_Form.Pair />
-                  <WT_Post_Create_Form.Keywords />
+                  <WT_Post_Form.CreationType />
+                  <WT_Post_Form.Pair />
+                  <WT_Post_Form.Keywords />
                 </Stack>
               )}
               {navValue === "public" && (
                 <Stack spacing={4}>
-                  <WT_Post_Create_Form.Age />
+                  <WT_Post_Form.Age />
                 </Stack>
               )}
               {navValue === "notification" && (
                 <Stack spacing={4}>
-                  <WT_Post_Create_Form.AuthorTalk />
-                  <WT_Post_Create_Form.Precaution />
+                  <WT_Post_Form.AuthorTalk />
+                  <WT_Post_Form.Precaution />
                 </Stack>
               )}
             </Grid>
@@ -237,7 +232,7 @@ export default function HeaderRight() {
 
         {isUpSm && (
           <FormDialog.Footer>
-            <WT_Post_Create_Form.CreateSubmitButton channelUrl={channelUrl} submitErrorHandler={submitErrorHandler} />
+            <WT_Post_Form.SubmitButton submitErrorHandler={submitErrorHandler} />
           </FormDialog.Footer>
         )}
       </FormDialog>
