@@ -8,7 +8,7 @@ export default function HeaderLeft() {
   const router = useRouter();
 
   return (
-    <IconButton onClick={router.back} sx={{ width: "36px", height: "36px", overflow: "unset", cursor: "pointer" }}>
+    <IconButton onClick={router.back}>
       <EvaArrowIosBackFillIcon />
     </IconButton>
   );

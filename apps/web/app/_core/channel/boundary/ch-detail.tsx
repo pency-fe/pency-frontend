@@ -317,11 +317,9 @@ const AttributeFn = () => {
       <Link
         component={NextLink}
         href={`/profile/@${userProfile.url}`}
+        underline="none"
         color={theme.vars.palette.text.primary}
-        sx={{
-          ...maxLine({ line: 1 }),
-          "&:hover": { textDecoration: "none" },
-        }}
+        sx={maxLine({ line: 1 })}
       >
         {userProfile.nickname}
       </Link>
@@ -445,7 +443,6 @@ function ChannelDetailDialog({ open, onClose }: ChannelDetailDialogProps) {
             <EvaLink2FillIcon sx={{ fontSize: 24, mx: "8px" }} />
             <Typography variant="body2">{`${isClient() ? window.location.origin : ""}/${channelUrl}`}</Typography>
           </Box>
-          {/* 채널 정보_구독자, 포스트 */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
             <EvaInfoOutlineIcon sx={{ fontSize: 24, mx: "8px" }} />
             <Typography variant="body2">
@@ -455,16 +452,17 @@ function ChannelDetailDialog({ open, onClose }: ChannelDetailDialogProps) {
         </Stack>
         <Stack spacing={1.5}>
           <Typography variant="subtitle2">크리에이터 정보</Typography>
-          <Box
+          <Link
             component={NextLink}
+            underline="none"
             href={`/profile/@${data.userProfile.url}`}
-            sx={{ display: "flex", alignItems: "center", gap: 1.5, textDecoration: "none" }}
+            sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
           >
             <Avatar src={data.userProfile.image ?? process.env["NEXT_PUBLIC_AVATAR"]} />
-            <Typography variant="subtitle1" color={theme.vars.palette.text.primary}>
+            <Typography component="span" variant="subtitle1" color={theme.vars.palette.text.primary}>
               {data.userProfile.nickname}
             </Typography>
-          </Box>
+          </Link>
         </Stack>
         {data.links.length > 0 ? (
           <Stack spacing={1.5}>
@@ -499,16 +497,13 @@ const Links = ({ links }: LinksProps) => {
       <Link
         key={i}
         component={NextLink}
+        underline="none"
         target="_blank"
         href={`${link.url}`}
         sx={{
           display: "flex",
           alignItems: "center",
           gap: 1.5,
-          textDecoration: "none",
-          "&:hover": {
-            textDecoration: "none",
-          },
         }}
       >
         {link.linkType === "HOME" ? (

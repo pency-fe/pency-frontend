@@ -78,6 +78,7 @@ export default function ChannelUrlLayout({ children }: Props) {
             <Grid item xs sm={false}>
               <Stack
                 sx={{
+                  alignItems: "flex-start",
                   maxWidth: "600px",
                   overflow: "hidden",
                   [theme.breakpoints.up("xs")]: {

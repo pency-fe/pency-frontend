@@ -2,7 +2,6 @@
 
 import { Box, GlobalStyles, Stack, useTheme } from "@mui/material";
 import { miniNavClasses, navClasses } from "../../components";
-import { sidebarClasses } from "../classes";
 import { dashboardHeaderTokens } from "../header";
 import { varAlpha } from "../../util";
 
@@ -43,7 +42,6 @@ export function DashboardSidebar({ slots }: DashboardSidebarProps) {
         }}
       />
       <Stack
-        className={sidebarClasses.root}
         sx={{
           position: "fixed",
           zIndex: 1101,

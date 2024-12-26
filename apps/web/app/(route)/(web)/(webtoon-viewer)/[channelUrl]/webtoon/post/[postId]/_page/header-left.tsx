@@ -7,7 +7,7 @@ import { maxLine } from "@pency/ui/util";
 export function HeaderLeft() {
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <IconButton sx={{ fontSize: 24 }}>
+      <IconButton>
         <EvaArrowIosBackFillIcon />
       </IconButton>
       <Typography variant="h6" sx={{ ...maxLine({ line: 1 }) }}>

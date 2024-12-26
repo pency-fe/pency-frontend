@@ -24,6 +24,7 @@ export function SidebarDrawer({ slots, slotProps, children }: SidebarDrawerProps
           width: `var(${sidebarTokens.upLgWidth})`,
           bgcolor: theme.vars.palette.background.default,
         },
+        px: theme.spacing(2),
         ...slotProps?.drawer?.sx,
       }}
     >
@@ -34,15 +35,12 @@ export function SidebarDrawer({ slots, slotProps, children }: SidebarDrawerProps
           alignItems: "center",
           height: `var(${headerTokens.height})`,
           mb: theme.spacing(1),
-          px: theme.spacing(2),
         }}
       >
         {slots.header}
       </Box>
-      <Box sx={{ px: theme.spacing(2) }}>
-        {children}
-        {slots.nav}
-      </Box>
+      {children}
+      {slots.nav}
     </Drawer>
   );
 }

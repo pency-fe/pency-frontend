@@ -1,6 +1,6 @@
 "use client";
 
-import { AppBar, AppBarProps, Box, Container, GlobalStyles, Toolbar, useTheme } from "@mui/material";
+import { AppBar, AppBarProps, Box, Container, GlobalStyles, Portal, Toolbar, useTheme } from "@mui/material";
 import { forwardRef, PropsWithoutRef } from "react";
 import { dashboardSidebarTokens } from "../sidebar";
 
@@ -11,7 +11,6 @@ export const dashboardHeaderTokens = {
 
 type DashboardHeaderProps = PropsWithoutRef<AppBarProps> & {
   slots?: {
-    left?: React.ReactNode;
     center?: React.ReactNode;
     right?: React.ReactNode;
   };
@@ -73,7 +72,7 @@ export const DashboardHeader = forwardRef<HTMLHeadElement, DashboardHeaderProps>
               alignItems: "center",
             }}
           >
-            {slots?.left}
+            <Box className="layout-dashboard-header-left"></Box>
             <Box sx={{ display: "flex", flex: "1 1 auto", justifyContent: "center" }}>{slots?.center}</Box>
             {slots?.right}
           </Container>
@@ -82,3 +81,15 @@ export const DashboardHeader = forwardRef<HTMLHeadElement, DashboardHeaderProps>
     </>
   );
 });
+
+export const PortalDashboardHeaderLeft = ({ children }: { children?: React.ReactNode }) => {
+  return (
+    <Portal
+      container={() => {
+        return document.querySelector(".layout-dashboard-header-left");
+      }}
+    >
+      {children}
+    </Portal>
+  );
+};
