@@ -23,8 +23,9 @@ export function SidebarDrawer({ slots, slotProps, children }: SidebarDrawerProps
         [`& .${drawerClasses.paper}`]: {
           width: `var(${sidebarTokens.upLgWidth})`,
           bgcolor: theme.vars.palette.background.default,
+          px: theme.spacing(2),
         },
-        px: theme.spacing(2),
+
         ...slotProps?.drawer?.sx,
       }}
     >
