@@ -20,6 +20,18 @@ import { objectEntries, objectKeys, useToggle } from "@pency/util";
 import { useWTPostFormContext, WT_Post_Form } from "_core/webtoon/post";
 import { ComponentProps, useState } from "react";
 
+export default function HeaderRight() {
+  return (
+    <>
+      <Box sx={{ display: "flex", gap: "6px" }}>
+        <WT_Post_Form.MoreIconButton />
+        <WT_Post_Form.SaveButton />
+        <PublishOptionDialog />
+      </Box>
+    </>
+  );
+}
+
 // ----------------------------------------------------------------------
 
 type NavValue = "publish" | "keyword" | "public" | "notification";
@@ -43,17 +55,16 @@ const FIELD_NAME_TO_NAV_VALUE_MAP: Record<FieldName, NavValue> = {
   precaution: "notification",
 };
 
-export default function HeaderRight() {
-  const theme = useTheme();
-  const [navValue, setNavValue] = useState<NavValue>("publish");
-
-  const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
-
+function PublishOptionDialog() {
   const { trigger, getFieldState } = useWTPostFormContext();
 
+  const [navValue, setNavValue] = useState<NavValue>("publish");
   const [dialog, toggleDialog] = useToggle(false);
 
-  const handleClickOpen = async () => {
+  const theme = useTheme();
+  const isUpSm = useMediaQuery(theme.breakpoints.up("sm"));
+
+  const handleClick = async () => {
     const names = ["title", "genre", "content", "price"] as const;
 
     const isValidate = await trigger(names);
@@ -86,14 +97,9 @@ export default function HeaderRight() {
 
   return (
     <>
-      <Box sx={{ display: "flex", gap: "6px" }}>
-        <WT_Post_Form.MoreIconButton />
-        <WT_Post_Form.SaveButton />
-        <Button variant="contained" size="small" onClick={handleClickOpen}>
-          발행
-        </Button>
-      </Box>
-
+      <Button variant="contained" size="small" onClick={handleClick}>
+        발행
+      </Button>
       <FormDialog
         open={dialog}
         onClose={() => toggleDialog(false)}
