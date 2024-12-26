@@ -158,7 +158,7 @@ const UpdateSubmitFn = ({ originChannelUrl, ...rest }: UpdateSubmitFnProps) => {
       {
         onSuccess: (data) => {
           if (formatUrl(data.url) !== formatUrl(originChannelUrl)) {
-            router.replace(`/studio/${formatUrl(data.url)}/setting/branding`);
+            router.replace(`/studio/@${data.url}/setting/branding`);
             return;
           }
           toast.success("변경 내용을 저장했어요.", {
@@ -507,9 +507,11 @@ const BgImageFn = () => {
           <LoadingButton variant="soft" color="primary" loading={loading} onClick={upload}>
             업로드
           </LoadingButton>
-          <Button variant="soft" color="error" sx={{ mr: 1 }} onClick={remove}>
-            삭제
-          </Button>
+          {value ? (
+            <Button variant="soft" color="error" sx={{ mr: 1 }} onClick={remove}>
+              삭제
+            </Button>
+          ) : null}
         </Box>
         <Typography variant="overline" color={theme.vars.palette.text.secondary} mr="auto">
           최소 1536x384 픽셀 이상, 최대 10MB의 이미지 파일을 올려주세요. 2560x384 픽셀의 이미지를 올리면 모든 기기에서
