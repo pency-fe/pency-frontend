@@ -140,10 +140,8 @@ type WT_Post_Form_Fn_Props = {
   title?: string;
   genre?: Genre;
   price?: number | null;
-  content?: {
-    free: Array<{ name: string; src: string }>;
-    paid: Array<{ name: string; src: string }>;
-  };
+  free?: Array<{ name: string; src: string }> | null;
+  paid?: Array<{ name: string; src: string }> | null;
   thumbnail?: string | null;
   creationType?: CreationType;
   pair?: Pair;
@@ -164,9 +162,9 @@ const WT_Post_Form_Fn = ({ id, publish, channelUrl, children, ...rest }: WT_Post
       title: rest.title ?? "",
       genre: rest.genre ?? ("" as Genre),
       price: rest.price ?? 0,
-      content: rest.content ?? {
-        free: [],
-        paid: [],
+      content: {
+        free: rest.free ?? [],
+        paid: rest.paid ?? [],
       },
       thumbnail: rest.thumbnail ?? "",
       creationType: rest.creationType ?? "PRIMARY",
@@ -783,7 +781,7 @@ const ThumbnailFn = () => {
         >
           <Box
             component="img"
-            src={value ?? process.env["NEXT_PUBLIC_TEXT_LOGO"]}
+            src={value.length ? value : process.env["NEXT_PUBLIC_TEXT_LOGO"]}
             sx={{ width: 1, height: 1, objectFit: "cover" }}
           />
         </Box>

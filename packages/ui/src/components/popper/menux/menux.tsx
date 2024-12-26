@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { forwardRef, ReactNode } from "react";
 import { getTransformOrigin } from "../get-transform-origin";
+import { paper, varAlpha } from "../../../util";
 
 type MenuxProps = PopperProps & {
   onClose: ClickAwayListenerProps["onClickAway"];
@@ -35,7 +36,7 @@ export const Menux = forwardRef<HTMLDivElement, MenuxProps>(
         {({ TransitionProps, placement }) => (
           <ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={onClose}>
             <Grow {...TransitionProps} style={{ transformOrigin: getTransformOrigin(placement) }}>
-              <Paper sx={{ p: "4px", boxShadow: theme.vars.customShadows.dropdown }}>
+              <Paper sx={paper({ theme, dropdown: true })}>
                 <MenuList disablePadding>{children}</MenuList>
               </Paper>
             </Grow>
