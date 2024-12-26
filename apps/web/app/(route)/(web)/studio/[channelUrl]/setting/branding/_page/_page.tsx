@@ -2,7 +2,7 @@
 
 import { Box, Skeleton, Stack } from "@mui/material";
 import { withAsyncBoundary } from "@pency/util";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { CH_Update_Form, channelMeKeys } from "_core/channel";
 import { useChannelUrlParam } from "_hooks";
 
@@ -12,6 +12,9 @@ export const SettingBrandingPage = withAsyncBoundary(SettingBrandingPageFn, {
   errorBoundary: {
     fallback: <Loading />,
   },
+  suspense: {
+    fallback: <Loading />,
+  },
 });
 
 // ----------------------------------------------------------------------
@@ -19,11 +22,7 @@ export const SettingBrandingPage = withAsyncBoundary(SettingBrandingPageFn, {
 function SettingBrandingPageFn() {
   const channelUrl = useChannelUrlParam();
 
-  const { status, data } = useQuery({ ...channelMeKeys.brandingDetail({ url: channelUrl }), throwOnError: true });
-
-  if (status !== "success") {
-    return <Loading />;
-  }
+  const { data } = useSuspenseQuery(channelMeKeys.brandingDetail({ url: channelUrl }));
 
   return (
     <Stack spacing={3}>

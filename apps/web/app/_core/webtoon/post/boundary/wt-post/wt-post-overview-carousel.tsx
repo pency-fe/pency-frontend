@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentProps } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Box, Skeleton, Stack } from "@mui/material";
 import { withAsyncBoundary } from "@pency/util";
 import { OverviewCardCarousel } from "@pency/ui/components";
@@ -16,6 +16,9 @@ export const WT_Post_OverviewCarousel = Object.assign(
       errorBoundary: {
         fallback: <Loading />,
       },
+      suspense: {
+        fallback: <Loading />,
+      },
     }),
   },
 );
@@ -26,14 +29,7 @@ type WT_Post_OverviewCarousel_Fn_Props = Omit<
 >;
 
 function WT_Post_OverviewCarousel_Fn({ genre, sort, channelUrl }: WT_Post_OverviewCarousel_Fn_Props) {
-  const { status, data } = useQuery({
-    ...wtPostKeys.page({ genre, sort, channelUrl }),
-    throwOnError: true,
-  });
-
-  if (status !== "success") {
-    return <Loading />;
-  }
+  const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, channelUrl }));
 
   return (
     <OverviewCardCarousel.Container

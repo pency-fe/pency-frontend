@@ -3,7 +3,7 @@
 import { createContext, useContext, useMemo } from "react";
 import NextLink from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
+import { useQueryClient, UseQueryResult, useSuspenseQuery } from "@tanstack/react-query";
 import { Grid, PaginationItem } from "@mui/material";
 import { usePaginationx } from "@pency/ui/hooks";
 import { createQueryString, withAsyncBoundary } from "@pency/util";
@@ -55,19 +55,15 @@ const PageContentProvider = withAsyncBoundary(
       return 1;
     }, [pageParam]);
 
-    const { status, data } = useQuery({
-      ...wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }),
-      throwOnError: true,
-    });
-
-    if (status !== "success") {
-      return <Loading />;
-    }
+    const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }));
 
     return <PageContentDataContext.Provider value={{ data, channelUrl }}>{children}</PageContentDataContext.Provider>;
   },
   {
     errorBoundary: {
+      fallback: <Loading />,
+    },
+    suspense: {
       fallback: <Loading />,
     },
   },

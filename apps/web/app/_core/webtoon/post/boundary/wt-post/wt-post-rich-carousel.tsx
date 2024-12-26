@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentProps } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { Box, Skeleton, Stack } from "@mui/material";
 import { RichCardCarousel } from "@pency/ui/components";
 import { withAsyncBoundary } from "@pency/util";
@@ -17,6 +17,9 @@ export const WT_Post_RichCarousel = Object.assign(
       errorBoundary: {
         fallback: <Loading />,
       },
+      suspense: {
+        fallback: <Loading />,
+      },
     }),
   },
 );
@@ -27,15 +30,8 @@ type WT_Post_RichCarousel_Fn_Props = Omit<
 >;
 
 function WT_Post_RichCarousel_Fn({ genre, sort, channelUrl }: WT_Post_RichCarousel_Fn_Props) {
-  const { status, data } = useQuery({
-    ...wtPostKeys.page({ genre, sort, channelUrl }),
-    throwOnError: true,
-  });
+  const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, channelUrl }));
   const queryClient = useQueryClient();
-
-  if (status !== "success") {
-    return <Loading />;
-  }
 
   const handleBookmark = (id: number) => {
     queryClient.setQueryData(

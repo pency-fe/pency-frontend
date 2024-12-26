@@ -38,7 +38,7 @@ import { useChannelUrlParam } from "_hooks";
 import { formatCount, isClient, useToggle, withAsyncBoundary } from "@pency/util";
 import React, { createContext, useContext, useMemo } from "react";
 import { channelKeys, useSubscribe, useUnsubscribe } from "../query";
-import { useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
+import { useQueryClient, UseQueryResult, useSuspenseQuery } from "@tanstack/react-query";
 import { useUserAuthMeContext } from "_core/user";
 import { useChannelMeListContext } from "../provider";
 import { produce } from "immer";
@@ -59,19 +59,15 @@ function useDetailData() {
 
 const DetailProvider = withAsyncBoundary(
   ({ children }: { children?: React.ReactNode }) => {
-    const { status, data } = useQuery({
-      ...channelKeys.detail({ url: useChannelUrlParam() }),
-      throwOnError: true,
-    });
-
-    if (status !== "success") {
-      return <Loading />;
-    }
+    const { data } = useSuspenseQuery(channelKeys.detail({ url: useChannelUrlParam() }));
 
     return <DetailDataContext.Provider value={data}>{children}</DetailDataContext.Provider>;
   },
   {
     errorBoundary: {
+      fallback: <Loading />,
+    },
+    suspense: {
       fallback: <Loading />,
     },
   },
