@@ -31,13 +31,13 @@ import {
 import { useChannelMeListContext } from "_core/channel";
 import { useLogout } from "_core/user";
 import { useSelectedUserProfileMeContext } from "_core/user-profile";
-import { useMemo } from "react";
+import { useCallback } from "react";
 
 export function UserProfile() {
   const selectedUserProfileMe = useSelectedUserProfileMeContext();
   const { anchorRef, isOpen, close: onClose, toggle } = usePopperxState();
 
-  const close = useMemo(() => {
+  const close = useCallback(() => {
     toggle(false);
   }, [toggle]);
 
@@ -76,9 +76,9 @@ export function UserProfile() {
         }}
       >
         <Stack>
-          <UserProfileMe toggle={toggle} />
-          <ChannelMeList toggle={toggle} />
-          <MainMenuList toggle={toggle} />
+          <UserProfileMe close={close} />
+          <ChannelMeList close={close} />
+          <MainMenuList close={close} />
           <EctMenuList />
         </Stack>
       </Popperx>
@@ -88,7 +88,7 @@ export function UserProfile() {
 
 // ----------------------------------------------------------------------
 
-function UserProfileMe({ toggle }: { toggle: (nextValue?: any) => void }) {
+function UserProfileMe({ close }: { close: () => void }) {
   const selectedUserProfile = useSelectedUserProfileMeContext();
   const theme = useTheme();
 
@@ -100,7 +100,7 @@ function UserProfileMe({ toggle }: { toggle: (nextValue?: any) => void }) {
           href={`/profile/@${selectedUserProfile.url}`}
           key={selectedUserProfile.id}
           onClick={() => {
-            toggle();
+            close();
           }}
           sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
         >
@@ -119,7 +119,7 @@ function UserProfileMe({ toggle }: { toggle: (nextValue?: any) => void }) {
 
 // ----------------------------------------------------------------------
 
-function ChannelMeList({ toggle }: { toggle: (nextValue?: any) => void }) {
+function ChannelMeList({ close }: { close: () => void }) {
   const channelMeList = useChannelMeListContext();
   const theme = useTheme();
 
@@ -136,7 +136,7 @@ function ChannelMeList({ toggle }: { toggle: (nextValue?: any) => void }) {
                   component={NextLink}
                   href={`/@${channel.url}`}
                   onClick={() => {
-                    toggle();
+                    close();
                   }}
                   sx={{ position: "absolute", inset: 0, zIndex: 1 }}
                 />
@@ -178,12 +178,12 @@ function ChannelMeList({ toggle }: { toggle: (nextValue?: any) => void }) {
 
 //
 
-function MainMenuList({ toggle }: { toggle: (nextValue?: any) => void }) {
+function MainMenuList({ close }: { close: () => void }) {
   const channelMe = useChannelMeListContext();
   const router = useRouter();
   const handleNewChannelCreateClick = () => {
     if (channelMe.length < 5) {
-      toggle(false);
+      close();
       router.push("/channel/create");
     } else {
       toast.error("프로필당 최대 5개까지 채널을 개설할 수 있어요.");
@@ -197,7 +197,7 @@ function MainMenuList({ toggle }: { toggle: (nextValue?: any) => void }) {
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
-              toggle(false);
+              close();
             }}
           >
             <ListItemIcon>
@@ -211,7 +211,7 @@ function MainMenuList({ toggle }: { toggle: (nextValue?: any) => void }) {
             LinkComponent={NextLink}
             href="/library/view"
             onClick={() => {
-              toggle(false);
+              close();
             }}
           >
             <ListItemIcon>
