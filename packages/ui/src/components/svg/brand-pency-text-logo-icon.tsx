@@ -15,7 +15,7 @@ export const BrandPencyTextLogoIcon = forwardRef<SVGSVGElement, SvgIconProps>((r
       width="128"
       height="24"
       {...rest}
-      sx={{ fill: theme.vars.palette.text.primary, ...rest.sx }}
+      sx={{ fill: theme.vars.palette.text.primary, color: theme.vars.palette.text.primary, ...rest.sx }}
     >
       <g clipPath="url(#clip0_63_1317)">
         <path
