@@ -306,6 +306,9 @@ const SaveButtonFn = () => {
     savePost(
       { id: postId, title, genre, price, free, paid },
       {
+        onSuccess: () => {
+          toast.success("포스트를 저장했어요.");
+        },
         onError: (error) => {
           if (error.code === "ENTITY_NOT_FOUND") {
             toast.error("잘못된 채널 URL이에요.");

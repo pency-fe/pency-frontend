@@ -1,19 +1,22 @@
 "use client";
 
 import { useMemo } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Stack, Typography, useTheme } from "@mui/material";
 import { Header, Main } from "@pency/ui/layouts";
 import { WT_Post_Form } from "_core/webtoon/post";
 import HeaderLeft from "../header-left";
 import HeaderRight from "../header-right";
 import { useChannelUrlParam } from "_hooks";
+import { formatUrl, useFirstMountState } from "@pency/util";
 
 // ----------------------------------------------------------------------
 
 export function WebtoonPage() {
   const channelUrl = useChannelUrlParam();
   const pathname = usePathname();
+  const isFirstMount = useFirstMountState();
+  const router = useRouter();
   const theme = useTheme();
 
   const postId = useMemo(() => {
@@ -21,6 +24,11 @@ export function WebtoonPage() {
 
     return isNaN(Number(arr[4])) ? undefined : Number(arr[4]);
   }, [pathname]);
+
+  if (isFirstMount && postId) {
+    router.replace(`/editor/${formatUrl(channelUrl)}/webtoon/${postId}`);
+    return;
+  }
 
   return (
     <>

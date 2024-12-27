@@ -1,25 +1,18 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "_core/api";
 import { bookmark, like, provision, publish, report, save, unbookmark, unlike } from "./api";
-import { wtPostMeKeys } from "./queries";
 
 // ----------------------------------------------------------------------
 
 export const usePublish = () => {
-  const queryClient = useQueryClient();
   return useMutation<
     Awaited<ReturnType<typeof publish>>,
     QueryError<FailureRes<404, "ENTITY_NOT_FOUND">> | QueryError<FailureRes<401, "ACCESS_DENIED">>,
     Parameters<typeof publish>[0]
   >({
     mutationFn: publish,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: wtPostMeKeys.detail({ id: data.id }).queryKey,
-      });
-    },
   });
 };
 
