@@ -31,10 +31,15 @@ import {
 import { useChannelMeListContext } from "_core/channel";
 import { useLogout } from "_core/user";
 import { useSelectedUserProfileMeContext } from "_core/user-profile";
+import { useMemo } from "react";
 
 export function UserProfile() {
   const selectedUserProfileMe = useSelectedUserProfileMeContext();
-  const { anchorRef, isOpen, close, toggle } = usePopperxState();
+  const { anchorRef, isOpen, close: onClose, toggle } = usePopperxState();
+
+  const close = useMemo(() => {
+    toggle(false);
+  }, [toggle]);
 
   return (
     <>
@@ -48,7 +53,7 @@ export function UserProfile() {
       <Popperx
         anchorEl={anchorRef.current}
         open={isOpen}
-        onClose={close}
+        onClose={onClose}
         placement="bottom-end"
         disablePortal
         modifiers={[

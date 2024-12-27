@@ -159,7 +159,6 @@ const UpdateSubmitFn = ({ originChannelUrl, ...rest }: UpdateSubmitFnProps) => {
         onSuccess: (data) => {
           if (formatUrl(data.url) !== formatUrl(originChannelUrl)) {
             router.replace(`/studio/@${data.url}/setting/branding`);
-            return;
           }
           toast.success("변경 내용을 저장했어요.", {
             id: "ch-form-update-submit-success",
