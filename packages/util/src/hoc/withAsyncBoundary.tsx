@@ -1,8 +1,9 @@
 "use client";
 
-import { ComponentProps, ComponentType, Suspense } from "react";
+import { ComponentProps, ComponentType, Suspense, useId, useMemo } from "react";
 import { ErrorBoundary, ErrorBoundaryProps } from "react-error-boundary";
 import { useIsMounted } from "../hooks";
+import { nanoid } from "nanoid";
 
 type AsyncBoundaryProps = {
   suspense?: ComponentProps<typeof Suspense>;
@@ -19,7 +20,7 @@ export function withAsyncBoundary<Props extends Record<string, unknown> = Record
     return (
       <ErrorBoundary {...asyncBoundaryProps.errorBoundary}>
         {mounted ? (
-          <Suspense {...asyncBoundaryProps.suspense}>
+          <Suspense key={nanoid(4)} {...asyncBoundaryProps.suspense}>
             <Component {...props} />
           </Suspense>
         ) : (
