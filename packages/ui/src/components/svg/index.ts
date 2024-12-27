@@ -44,6 +44,7 @@ export * from "./mingcute-pencil-line-icon";
 export * from "./nimbus-drag-dots-icon";
 export * from "./nineteen-circle-icon";
 export * from "./solar-check-circle-bold-icon";
+export * from "./solar-check-circle-linear-icon";
 export * from "./solar-danger-bold-icon";
 export * from "./solar-danger-triangle-bold-icon";
 export * from "./solar-info-circle-bold-icon";
