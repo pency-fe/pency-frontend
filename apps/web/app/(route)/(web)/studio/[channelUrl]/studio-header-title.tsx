@@ -62,8 +62,8 @@ export function StudioHeaderTitle({ title, back = false }: HeaderTitleProps) {
               >
                 <EvaMenuOutlineIcon />
               </IconButton>
-              <Box component={NextLink} href="/" sx={{ color: "inherit", width: "128px", height: "24px" }}>
-                <BrandPencyTextLogoIcon sx={{ width: 1, height: 1 }} />
+              <Box component={NextLink} href="/">
+                <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px" }} />
               </Box>
             </>
           ),

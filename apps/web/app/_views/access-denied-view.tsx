@@ -20,9 +20,9 @@ export function AccessDeniedView() {
         [theme.breakpoints.up("sm")]: { pt: "15px", px: "50px", pb: "70px" },
       }}
     >
-      <Link component={NextLink} href="/" sx={{ position: "absolute", top: 30 }}>
-        <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px", color: theme.vars.palette.text.primary }} />
-      </Link>
+      <Box component={NextLink} href="/" sx={{ position: "absolute", top: 30 }}>
+        <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px" }} />
+      </Box>
       <Stack spacing={2} sx={{ alignItems: "center" }}>
         <SolarInfoCircleBoldIcon sx={{ fontSize: 80 }} />
         <Box component="span" sx={{ fontSize: "16px", mt: "20px", mb: "28px" }}>

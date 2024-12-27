@@ -1,18 +1,12 @@
 "use client";
 
+import { Box } from "@mui/material";
 import { BrandPencyTextLogoIcon } from "@pency/ui/components";
-import { useRouter } from "next/navigation";
 
 export default function Left() {
-  const router = useRouter();
-  const handleHomeClick = () => {
-    router.push("/");
-  };
-
   return (
-    <BrandPencyTextLogoIcon
-      onClick={handleHomeClick}
-      sx={{ width: "fit-content", height: "24px", overflow: "unset", cursor: "pointer" }}
-    />
+    <Box component="a" href="/">
+      <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px" }} />
+    </Box>
   );
 }

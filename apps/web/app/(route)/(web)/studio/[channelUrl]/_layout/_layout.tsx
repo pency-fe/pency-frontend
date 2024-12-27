@@ -6,6 +6,7 @@ import { StudioSidebarMiniNav } from "./studio-sidebar-mini-nav";
 import { UserProfile } from "_core/common";
 import { Box } from "@mui/material";
 import { BrandPencyTextLogoIcon } from "@pency/ui/components";
+import NextLink from "next/link";
 
 export function StudioLayout({ children }: { children?: React.ReactNode }) {
   return (
@@ -14,8 +15,8 @@ export function StudioLayout({ children }: { children?: React.ReactNode }) {
       <DashboardSidebar
         slots={{
           header: (
-            <Box component="a" href="/" sx={{ color: "inherit", width: "128px", height: "24px" }}>
-              <BrandPencyTextLogoIcon sx={{ width: 1, height: 1 }} />
+            <Box component={NextLink} href="/">
+              <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px" }} />
             </Box>
           ),
           nav: <StudioSidebarNav />,

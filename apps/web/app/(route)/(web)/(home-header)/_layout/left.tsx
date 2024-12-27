@@ -5,10 +5,21 @@ import { Box, GlobalStyles, IconButton, useTheme } from "@mui/material";
 import { sidebarClasses, SidebarDrawer } from "@pency/ui/layouts";
 import { useToggle } from "@pency/util";
 import { HomeSidebarNav } from "../(home-sidebar)/_layout/home-sidebar-nav";
+import { usePathname, useRouter } from "next/navigation";
+import { MouseEventHandler } from "react";
 
 export function Left() {
   const theme = useTheme();
   const [isDrawerOpen, toggleDrawer] = useToggle(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleLogoClick: MouseEventHandler = (e) => {
+    if (pathname !== "/") {
+      e.preventDefault();
+      router.push("/");
+    }
+  };
 
   return (
     <>
@@ -35,8 +46,8 @@ export function Left() {
       >
         <EvaMenuOutlineIcon />
       </IconButton>
-      <Box component="a" href="/" sx={{ color: "inherit", width: "128px", height: "24px" }}>
-        <BrandPencyTextLogoIcon sx={{ width: 1, height: 1 }} />
+      <Box component="a" href="/" onClick={handleLogoClick}>
+        <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px" }} />
       </Box>
       <SidebarDrawer
         slotProps={{
@@ -56,8 +67,8 @@ export function Left() {
               >
                 <EvaMenuOutlineIcon />
               </IconButton>
-              <Box component="a" href="/" sx={{ color: "inherit", width: "128px", height: "24px" }}>
-                <BrandPencyTextLogoIcon sx={{ width: 1, height: 1 }} />
+              <Box component="a" href="/" onClick={handleLogoClick}>
+                <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px" }} />
               </Box>
             </>
           ),
