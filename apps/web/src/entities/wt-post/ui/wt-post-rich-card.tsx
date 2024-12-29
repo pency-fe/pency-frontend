@@ -206,6 +206,6 @@ const LoadingFn = () => {
 
 // ----------------------------------------------------------------------
 
-export const WT_Post_RichCard = Object.assign(WtPostRichCardFn, {
+export const WtPostRichCard = Object.assign(WtPostRichCardFn, {
   Loading: LoadingFn,
 });

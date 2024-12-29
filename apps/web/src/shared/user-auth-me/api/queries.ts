@@ -1,6 +1,6 @@
 import { Options } from "ky";
 import { queryOptions } from "@tanstack/react-query";
-import { getUserAuthMe } from "./repository";
+import { getUserAuthMe } from "./queries-api";
 
 export const userAuthMeKeys = {
   all: ["userAuthMe"],

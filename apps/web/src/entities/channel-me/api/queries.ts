@@ -1,7 +1,7 @@
 import { Options } from "ky";
 import { queryOptions } from "@tanstack/react-query";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
-import { getChannelMeBrandingDetail, getChannelMeLinkDetail, getChannelMeList } from "./repository";
+import { getChannelMeBrandingDetail, getChannelMeLinkDetail, getChannelMeList } from "./queries-api";
 
 export const channelMeKeys = {
   all: ["channelMe"],

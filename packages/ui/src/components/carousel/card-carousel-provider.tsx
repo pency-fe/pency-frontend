@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext } from "react";
 import { useEmblaPrevNextNav } from "./use-embla-prev-next-nav";
 import useEmblaCarousel, { EmblaViewportRefType } from "embla-carousel-react";

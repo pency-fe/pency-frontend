@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getWebtoonPostPage } from "./repository";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
+import { getWebtoonPostPage } from "./queries-api";
 
 export const wtPostKeys = {
   all: ["wt", "post"],
