@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { RadioGroup } from "@mui/material";
 import { CardTabCarouselTemplate, RadioButton } from "@pency/ui/components";
 import { createQueryString, objectEntries } from "@pency/util";
-import { WT_Post_OverviewCarousel } from "@/features/wt-post";
+import { WtPostOverviewCarousel } from "@/features/wt-post";
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ export function WPopularPostSection() {
 
   // [TODO] 웹소설 추가후 수정
   const OverviewCarousel = useMemo(
-    () => (platform === "WEBTOON" ? WT_Post_OverviewCarousel : WT_Post_OverviewCarousel),
+    () => (platform === "WEBTOON" ? WtPostOverviewCarousel : WtPostOverviewCarousel),
     [platform],
   );
 

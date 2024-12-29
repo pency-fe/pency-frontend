@@ -13,7 +13,7 @@ import {
 } from "@/shared/config/webtoon/const";
 import { Box, Skeleton, Stack } from "@mui/material";
 
-type WT_Post_OverviewCard_Fn_Props = {
+type WtPostOverviewCardFnProps = {
   data: {
     id: number;
     thumbnail: string;
@@ -34,7 +34,7 @@ type WT_Post_OverviewCard_Fn_Props = {
   hideGenre?: boolean;
 };
 
-const WT_Post_OverviewCard_Fn = forwardRef<HTMLDivElement, WT_Post_OverviewCard_Fn_Props>(
+const WtPostOverviewCardFn = forwardRef<HTMLDivElement, WtPostOverviewCardFnProps>(
   ({ data, hideGenre = false }, ref) => {
     return (
       <OverviewCard
@@ -93,7 +93,7 @@ const WT_Post_OverviewCard_Fn = forwardRef<HTMLDivElement, WT_Post_OverviewCard_
   },
 );
 
-const Loading = () => {
+const LoadingFn = () => {
   return (
     <Stack gap={1.5}>
       <Skeleton animation="wave" sx={{ height: "auto", aspectRatio: "16/9" }} />
@@ -108,6 +108,6 @@ const Loading = () => {
   );
 };
 
-export const WT_Post_OverviewCard = Object.assign(WT_Post_OverviewCard_Fn, {
-  Loading: Loading,
+export const WtPostOverviewCard = Object.assign(WtPostOverviewCardFn, {
+  Loading: LoadingFn,
 });

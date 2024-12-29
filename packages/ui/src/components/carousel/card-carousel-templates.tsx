@@ -2,34 +2,34 @@
 
 import { stylesColorScheme } from "../../util";
 import { Button, ButtonProps, Grid, Typography, TypographyProps, useTheme } from "@mui/material";
+import { CardCarouselProvider } from "./card-carousel-provider";
 
 // ----------------------------------------------------------------------
 
 type CardCarouselTemplateFnProps = {
-  CardCarousel: (...args: any[]) => React.ReactElement;
   slots: {
     title: React.ReactElement;
     moreButton: React.ReactElement;
     prevNextNav: React.ReactElement;
-    container: React.ReactElement;
+    cardCarousel: React.ReactElement;
   };
 };
 
-const CardCarouselTemplateFn = ({ CardCarousel, slots }: CardCarouselTemplateFnProps) => {
+const CardCarouselTemplateFn = ({ slots }: CardCarouselTemplateFnProps) => {
   return (
     <Grid container>
       <Grid item xs="auto">
         {slots.title}
       </Grid>
-      <CardCarousel>
+      <CardCarouselProvider>
         <Grid item xs sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 1 }}>
           {slots.moreButton}
           {slots.prevNextNav}
         </Grid>
         <Grid item sx={{ mt: 1 }} xs={12}>
-          {slots.container}
+          {slots.cardCarousel}
         </Grid>
-      </CardCarousel>
+      </CardCarouselProvider>
     </Grid>
   );
 };
@@ -37,23 +37,22 @@ const CardCarouselTemplateFn = ({ CardCarousel, slots }: CardCarouselTemplateFnP
 // ----------------------------------------------------------------------
 
 type CardTabCarouselTemplateFnProps = {
-  CardCarousel: (...args: any[]) => React.ReactElement;
   slots: {
     title: React.ReactElement;
     tabs: React.ReactElement;
     moreButton: React.ReactElement;
     prevNextNav: React.ReactElement;
-    container: React.ReactElement;
+    cardCarousel: React.ReactElement;
   };
 };
 
-const CardTabCarouselTemplateFn = ({ CardCarousel, slots }: CardTabCarouselTemplateFnProps) => {
+const CardTabCarouselTemplateFn = ({ slots }: CardTabCarouselTemplateFnProps) => {
   return (
     <Grid container>
       <Grid item xs={12}>
         {slots.title}
       </Grid>
-      <CardCarousel>
+      <CardCarouselProvider>
         <Grid item xs="auto" sx={{ mt: 1 }}>
           {slots.tabs}
         </Grid>
@@ -62,9 +61,9 @@ const CardTabCarouselTemplateFn = ({ CardCarousel, slots }: CardTabCarouselTempl
           {slots.prevNextNav}
         </Grid>
         <Grid item xs={12} sx={{ mt: 1 }}>
-          {slots.container}
+          {slots.cardCarousel}
         </Grid>
-      </CardCarousel>
+      </CardCarouselProvider>
     </Grid>
   );
 };
