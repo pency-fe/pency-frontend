@@ -2,7 +2,7 @@
 
 import NextLink from "next/link";
 import { CardCarouselTemplate } from "@pency/ui/components";
-import { WtPostOverviewCarousel } from "@/features/wt-post";
+import { WtPostOverviewCardCarousel } from "@/features/wt-post";
 import { useGenreParam } from "../model/use-genre-param";
 
 export function LatestSection() {
@@ -10,7 +10,6 @@ export function LatestSection() {
 
   return (
     <CardCarouselTemplate
-      CardCarousel={WtPostOverviewCarousel}
       slots={{
         title: <CardCarouselTemplate.Title>최신 포스트</CardCarouselTemplate.Title>,
         moreButton: (
@@ -21,11 +20,11 @@ export function LatestSection() {
         ),
         prevNextNav: (
           <>
-            <WtPostOverviewCarousel.PrevNav />
-            <WtPostOverviewCarousel.NextNav />
+            <WtPostOverviewCardCarousel.PrevNav />
+            <WtPostOverviewCardCarousel.NextNav />
           </>
         ),
-        container: <WtPostOverviewCarousel.Container genre={genre} />,
+        cardCarousel: <WtPostOverviewCardCarousel genre={genre} />,
       }}
     />
   );

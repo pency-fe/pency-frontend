@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { RadioGroup } from "@mui/material";
 import { CardTabCarouselTemplate, RadioButton } from "@pency/ui/components";
 import { createQueryString, objectEntries } from "@pency/util";
-import { WtPostOverviewCarousel } from "@/features/wt-post";
+import { WtPostOverviewCardCarousel } from "@/features/wt-post";
 
 // ----------------------------------------------------------------------
 
@@ -34,14 +34,13 @@ export function WPopularPostSection() {
   const platformEntries = useMemo(() => objectEntries(PLATFORM_VALUE_LABEL), []);
 
   // [TODO] 웹소설 추가후 수정
-  const OverviewCarousel = useMemo(
-    () => (platform === "WEBTOON" ? WtPostOverviewCarousel : WtPostOverviewCarousel),
+  const OverviewCardCarousel = useMemo(
+    () => (platform === "WEBTOON" ? WtPostOverviewCardCarousel : WtPostOverviewCardCarousel),
     [platform],
   );
 
   return (
     <CardTabCarouselTemplate
-      CardCarousel={OverviewCarousel}
       slots={{
         title: <CardTabCarouselTemplate.Title>주간 인기 포스트</CardTabCarouselTemplate.Title>,
         tabs: (
@@ -77,11 +76,11 @@ export function WPopularPostSection() {
         ),
         prevNextNav: (
           <>
-            <OverviewCarousel.PrevNav />
-            <OverviewCarousel.NextNav />
+            <OverviewCardCarousel.PrevNav />
+            <OverviewCardCarousel.NextNav />
           </>
         ),
-        container: <OverviewCarousel.Container genre="ALL" sort="WPOPULAR" />,
+        cardCarousel: <OverviewCardCarousel genre="ALL" sort="WPOPULAR" />,
       }}
     />
   );

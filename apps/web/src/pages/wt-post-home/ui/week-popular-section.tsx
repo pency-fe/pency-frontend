@@ -3,14 +3,13 @@
 import NextLink from "next/link";
 import { CardCarouselTemplate } from "@pency/ui/components";
 import { useGenreParam } from "../model/use-genre-param";
-import { WtPostOverviewCarousel } from "@/features/wt-post";
+import { WtPostOverviewCardCarousel } from "@/features/wt-post";
 
 export function WeekPopularSection() {
   const genre = useGenreParam();
 
   return (
     <CardCarouselTemplate
-      CardCarousel={WtPostOverviewCarousel}
       slots={{
         title: <CardCarouselTemplate.Title>주간 인기 포스트</CardCarouselTemplate.Title>,
         moreButton: (
@@ -23,11 +22,11 @@ export function WeekPopularSection() {
         ),
         prevNextNav: (
           <>
-            <WtPostOverviewCarousel.PrevNav />
-            <WtPostOverviewCarousel.NextNav />
+            <WtPostOverviewCardCarousel.PrevNav />
+            <WtPostOverviewCardCarousel.NextNav />
           </>
         ),
-        container: <WtPostOverviewCarousel.Container genre={genre} sort="WPOPULAR" />,
+        cardCarousel: <WtPostOverviewCardCarousel genre={genre} sort="WPOPULAR" />,
       }}
     />
   );

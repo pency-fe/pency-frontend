@@ -1,36 +1,34 @@
 "use client";
 
-import { ComponentProps } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { OverviewCardCarousel } from "@pency/ui/components";
 import { withAsyncBoundary } from "@pency/util";
 import { WtPostOverviewCard, wtPostKeys } from "@/entities/wt-post";
 
-export const WtPostOverviewCarousel = Object.assign(
-  (props: ComponentProps<typeof OverviewCardCarousel>) => <OverviewCardCarousel {...props} />,
+export const WtPostOverviewCardCarousel = Object.assign(
+  withAsyncBoundary(WtPostOverviewCardCarouselFn, {
+    errorBoundary: {
+      fallback: <Loading />,
+    },
+    suspense: {
+      fallback: <Loading />,
+    },
+  }),
   {
     ...OverviewCardCarousel,
-    Container: withAsyncBoundary(WtPostOverviewCarouselFn, {
-      errorBoundary: {
-        fallback: <Loading />,
-      },
-      suspense: {
-        fallback: <Loading />,
-      },
-    }),
   },
 );
 
-type WtPostOverviewCarouselFnProps = Omit<
+type WtPostOverviewCardCarouselFnProps = Omit<
   Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>,
   "page" | "creationTypes" | "pairs"
 >;
 
-function WtPostOverviewCarouselFn({ genre, sort, channelUrl }: WtPostOverviewCarouselFnProps) {
+function WtPostOverviewCardCarouselFn({ genre, sort, channelUrl }: WtPostOverviewCardCarouselFnProps) {
   const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, channelUrl }));
 
   return (
-    <OverviewCardCarousel.Container
+    <OverviewCardCarousel
       slots={{
         slides: (
           <>
@@ -48,7 +46,7 @@ function WtPostOverviewCarouselFn({ genre, sort, channelUrl }: WtPostOverviewCar
 
 function Loading() {
   return (
-    <OverviewCardCarousel.Container
+    <OverviewCardCarousel
       slots={{
         slides: (
           <>

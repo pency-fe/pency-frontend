@@ -1,1 +1,1 @@
-export * from "./ui/carousel/wt-post-overview-carousel";
+export * from "./ui/carousel/wt-post-overview-card-carousel";
