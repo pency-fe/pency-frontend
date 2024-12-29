@@ -20,7 +20,7 @@ const CONTENT_VALUE_LABEL: Record<ContentValue, string> = {
 
 // ----------------------------------------------------------------------
 
-export function WebtoonPage() {
+export function ChannelUrlWebtoonPage() {
   const searchParams = useSearchParams();
   const channelUrl = useChannelUrlParam();
 
