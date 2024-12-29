@@ -1,10 +1,12 @@
+"use client";
+
 import { useMemo } from "react";
 import NextLink from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { MenuItem } from "@mui/material";
 import { FilterChip, Menux, useMenuxState } from "@pency/ui/components";
 import { createQueryString, objectEntries } from "@pency/util";
-import { useSort } from "../../model/gallery/sort-provider";
+import { useSort } from "../../model/sort-provider";
 
 export const WtPostGallerySort = () => {
   const { sort, sortLabel } = useSort();

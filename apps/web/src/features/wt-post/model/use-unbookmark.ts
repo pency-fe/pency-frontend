@@ -1,3 +1,5 @@
+"use client";
+
 import { useMutation } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
 import { unbookmark } from "@/entities/wt-post";

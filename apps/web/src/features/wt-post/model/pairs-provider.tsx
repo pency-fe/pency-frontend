@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext } from "react";
 import { Pair } from "@/shared/config/webtoon/const";
 import { useSessionStorage } from "@pency/util";

@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Genre, GENRE_LABEL } from "@/shared/config/webtoon/const";

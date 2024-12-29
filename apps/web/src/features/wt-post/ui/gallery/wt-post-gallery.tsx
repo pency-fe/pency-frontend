@@ -10,15 +10,15 @@ import { usePaginationx } from "@pency/ui/hooks";
 import { createQueryString, withAsyncBoundary } from "@pency/util";
 import { wtPostKeys, WtPostRichCard } from "@/entities/wt-post";
 import { PickQueryOptionsData } from "@/shared/lib/react-query/types";
-import { useBookmark } from "../../model/gallery/use-bookmark";
-import { useUnbookmark } from "../../model/gallery/use-unbookmark";
-import { useBlock } from "../../model/gallery/use-block";
-import { useUnblock } from "../../model/gallery/use-unblock";
+import { useBookmark } from "../../model/use-bookmark";
+import { useUnbookmark } from "../../model/use-unbookmark";
+import { useBlock } from "../../model/use-block";
+import { useUnblock } from "../../model/use-unblock";
 import { useChannelMeListContext } from "@/entities/channel-me";
-import { useGenre } from "../../model/gallery/genre-provider";
-import { useSort } from "../../model/gallery/sort-provider";
-import { useCreationTypes } from "../../model/gallery/creation-types-provider";
-import { usePairs } from "../../model/gallery/pairs-provider";
+import { useGenre } from "../../model/genre-provider";
+import { useSort } from "../../model/sort-provider";
+import { useCreationTypes } from "../../model/creation-types-provider";
+import { usePairs } from "../../model/pairs-provider";
 
 // ----------------------------------------------------------------------
 
@@ -46,14 +46,12 @@ type PageContentFnProps = {
 
 const WtPostGalleryFn = withAsyncBoundary(
   ({ channelUrl, children }: PageContentFnProps) => {
-    const queryClient = useQueryClient();
-    const pageParam = useSearchParams().get("page");
-    const channelMeList = useChannelMeListContext();
-
     const { genre } = useGenre();
     const { sort } = useSort();
     const { creationTypes } = useCreationTypes();
     const { pairs } = usePairs();
+
+    const pageParam = useSearchParams().get("page");
     const page = useMemo(() => {
       const param = Number(pageParam);
       if (param && !isNaN(param) && param >= 1) {
@@ -63,6 +61,10 @@ const WtPostGalleryFn = withAsyncBoundary(
     }, [pageParam]);
 
     const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }));
+    const queryClient = useQueryClient();
+
+    const channelMeList = useChannelMeListContext();
+
     const bookmark = useBookmark();
     const unbookmark = useUnbookmark();
     const block = useBlock();

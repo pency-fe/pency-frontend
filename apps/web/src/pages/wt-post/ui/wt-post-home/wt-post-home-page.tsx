@@ -7,7 +7,7 @@ import { RadioButton } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { objectEntries } from "@pency/util";
 import { GENRE_LABEL } from "@/shared/config/webtoon/const";
-import { useGenreParam } from "../model/use-genre-param";
+import { useGenreParam } from "../../model/wt-post-home/use-genre-param";
 import { BannerSection } from "./banner-section";
 import { RankSection } from "./rank-section";
 import { LatestSection } from "./latest-section";

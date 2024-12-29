@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo } from "react";
 import NextLink from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -6,7 +8,7 @@ import { RadioButton } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { createQueryString, objectEntries } from "@pency/util";
 import { GENRE_LABEL } from "@/shared/config/webtoon/const";
-import { useGenre } from "../../model/gallery/genre-provider";
+import { useGenre } from "../../model/genre-provider";
 
 export const WtPostGalleryGenre = () => {
   const { genre } = useGenre();
