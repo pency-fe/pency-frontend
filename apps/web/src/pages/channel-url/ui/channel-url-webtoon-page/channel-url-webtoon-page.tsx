@@ -7,7 +7,7 @@ import { createQueryString, objectEntries } from "@pency/util";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { useChannelUrlParam } from "@/shared/model/hooks/use-channel-url-param";
-import { SortProvider, WtPostGallery, WtPostGallerySort } from "@/features/wt-post";
+import { WtPostSortProvider, WtPostGallery, WtPostGallerySort } from "@/features/wt-post";
 
 // ----------------------------------------------------------------------
 
@@ -60,7 +60,7 @@ export function ChannelUrlWebtoonPage() {
       </Grid>
 
       {content === "POST" ? (
-        <SortProvider
+        <WtPostSortProvider
           sortLabel={{
             LATEST: "최신순",
             POPULAR: "인기순",
@@ -76,7 +76,7 @@ export function ChannelUrlWebtoonPage() {
               </Box>
             </WtPostGallery>
           </Grid>
-        </SortProvider>
+        </WtPostSortProvider>
       ) : null}
 
       {content === "SERIES" ? "TODO" : null}

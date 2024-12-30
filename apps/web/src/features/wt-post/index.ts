@@ -1,8 +1,8 @@
-export * from "./model/creation-types-provider";
-export * from "./model/filter-form-toggle-provider";
-export * from "./model/genre-provider";
-export * from "./model/pairs-provider";
-export * from "./model/sort-provider";
+export * from "./model/wt-post-creation-types-providers";
+export * from "./model/wt-post-filter-form-toggle-provider";
+export * from "./model/wt-post-genre-provider";
+export * from "./model/wt-post-pairs-providers";
+export * from "./model/wt-post-sort-provider";
 
 export * from "./ui/carousel/wt-post-overview-card-carousel";
 export * from "./ui/carousel/wt-post-rich-card-carousel";

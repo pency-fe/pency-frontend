@@ -9,9 +9,9 @@ import { objectEntries, zodObjectKeys } from "@pency/util";
 import { CheckboxButton, IcRoundRefreshIcon } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { CREATION_TYPE_LABEL, PAIR_LABEL } from "@/shared/config/webtoon/const";
-import { useCreationTypes } from "../../model/creation-types-provider";
-import { useFilterFormToggle } from "../../model/filter-form-toggle-provider";
-import { usePairs } from "../../model/pairs-provider";
+import { useWtPostCreationTypes } from "../../model/wt-post-creation-types-providers";
+import { useWtPostFilterFormToggle } from "../../model/wt-post-filter-form-toggle-provider";
+import { useWtPostPairs } from "../../model/wt-post-pairs-providers";
 
 // ----------------------------------------------------------------------
 
@@ -171,19 +171,21 @@ const PairsField = () => {
 // ----------------------------------------------------------------------
 
 export const WtPostGalleryFilterForm = () => {
-  const { creationTypes, setCreationTypes } = useCreationTypes();
-  const { pairs, setPairs } = usePairs();
+  const { creationTypes, setCreationTypes } = useWtPostCreationTypes();
+  const { pairs, setPairs } = useWtPostPairs();
 
   if (!creationTypes || !setCreationTypes) {
-    throw new Error(`<부모로 <CreationTypesProvider /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(
+      `<부모로 <WtPostCreationTypesProvider /> 또는 <WtPostCreationTypesStorageProvider /> 컴포넌트가 있어야 합니다.`,
+    );
   }
 
   if (!pairs || !setPairs) {
-    throw new Error(`<부모로 <PairsProvider /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(`<부모로 <WtPostPairsProvider /> 또는 <WtPostPairsStorageProvider /> 컴포넌트가 있어야 합니다.`);
   }
 
-  const isOpen = useFilterFormToggle((s) => s.isOpen);
-  const close = useFilterFormToggle((s) => s.close);
+  const isOpen = useWtPostFilterFormToggle((s) => s.isOpen);
+  const close = useWtPostFilterFormToggle((s) => s.close);
 
   const theme = useTheme();
 

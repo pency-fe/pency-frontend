@@ -8,12 +8,12 @@ import { RadioButton } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { createQueryString, objectEntries } from "@pency/util";
 import { GENRE_LABEL } from "@/shared/config/webtoon/const";
-import { useGenre } from "../../model/genre-provider";
+import { useWtPostGenre } from "../../model/wt-post-genre-provider";
 
 export const WtPostGalleryGenre = () => {
-  const { genre } = useGenre();
+  const { genre } = useWtPostGenre();
   if (!genre) {
-    throw new Error(`<부모로 <GenreProvider /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(`<부모로 <WtPostGenreProvider /> 컴포넌트가 있어야 합니다.`);
   }
 
   const searchParams = useSearchParams();

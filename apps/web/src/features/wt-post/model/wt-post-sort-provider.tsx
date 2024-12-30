@@ -7,10 +7,10 @@ type Sort = "LATEST" | "POPULAR" | "WPOPULAR";
 
 type SortLabel = Partial<Record<Sort, string>>;
 
-const SortContext = createContext<{ sort: Sort; sortLabel: SortLabel } | undefined>(undefined);
+const WtPostSortContext = createContext<{ sort: Sort; sortLabel: SortLabel } | undefined>(undefined);
 
-export function useSort() {
-  const context = useContext(SortContext);
+export function useWtPostSort() {
+  const context = useContext(WtPostSortContext);
 
   return context ?? { sort: undefined, sortLabel: undefined };
 }
@@ -20,7 +20,7 @@ type SortProviderProps = {
   children?: React.ReactNode;
 };
 
-export const SortProvider = ({ sortLabel, children }: SortProviderProps) => {
+export const WtPostSortProvider = ({ sortLabel, children }: SortProviderProps) => {
   const sortParam = useSearchParams().get("sort");
 
   const sort = useMemo(() => {
@@ -30,5 +30,5 @@ export const SortProvider = ({ sortLabel, children }: SortProviderProps) => {
     return "LATEST" as Sort;
   }, [sortParam]);
 
-  return <SortContext.Provider value={{ sort, sortLabel }}>{children}</SortContext.Provider>;
+  return <WtPostSortContext.Provider value={{ sort, sortLabel }}>{children}</WtPostSortContext.Provider>;
 };

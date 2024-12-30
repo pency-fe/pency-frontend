@@ -3,11 +3,11 @@
 import { Stack, Box, Typography } from "@mui/material";
 import { hideScrollX } from "@pency/ui/util";
 import {
-  CreationTypesProvider,
-  FilterFormToggleProvider,
-  GenreProvider,
-  PairsProvider,
-  SortProvider,
+  WtPostCreationTypesStorageProvider,
+  WtPostPairsStorageProvider,
+  WtPostFilterFormToggleProvider,
+  WtPostGenreProvider,
+  WtPostSortProvider,
   WtPostGallery,
   WtPostGalleryCreationTypes,
   WtPostGalleryFilterForm,
@@ -21,20 +21,20 @@ export function WtPostListPage() {
     <Stack spacing={3}>
       <Stack spacing={2}>
         <Typography variant="h4">웹툰 포스트</Typography>
-        <GenreProvider>
-          <SortProvider
+        <WtPostGenreProvider>
+          <WtPostSortProvider
             sortLabel={{
               LATEST: "최신순",
               POPULAR: "전체 인기순",
               WPOPULAR: "주간 인기순",
             }}
           >
-            <CreationTypesProvider>
-              <PairsProvider>
+            <WtPostCreationTypesStorageProvider>
+              <WtPostPairsStorageProvider>
                 <WtPostGalleryGenre />
 
                 {/* TODO: GRID로 변경해야 함. 지금 영향 범위에 sort가 포함되고 있음. */}
-                <FilterFormToggleProvider>
+                <WtPostFilterFormToggleProvider>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <WtPostGallerySort />
 
@@ -53,17 +53,17 @@ export function WtPostListPage() {
                     </Box>
                   </Box>
                   <WtPostGalleryFilterForm />
-                </FilterFormToggleProvider>
+                </WtPostFilterFormToggleProvider>
 
                 <WtPostGallery>
                   <Box sx={{ margin: "auto", mt: 3 }}>
                     <WtPostGallery.Pagination />
                   </Box>
                 </WtPostGallery>
-              </PairsProvider>
-            </CreationTypesProvider>
-          </SortProvider>
-        </GenreProvider>
+              </WtPostPairsStorageProvider>
+            </WtPostCreationTypesStorageProvider>
+          </WtPostSortProvider>
+        </WtPostGenreProvider>
       </Stack>
     </Stack>
   );

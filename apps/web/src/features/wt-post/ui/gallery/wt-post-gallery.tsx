@@ -15,10 +15,10 @@ import { useUnbookmark } from "../../model/use-unbookmark";
 import { useBlock } from "../../model/use-block";
 import { useUnblock } from "../../model/use-unblock";
 import { useChannelMeListContext } from "@/entities/channel-me";
-import { useGenre } from "../../model/genre-provider";
-import { useSort } from "../../model/sort-provider";
-import { useCreationTypes } from "../../model/creation-types-provider";
-import { usePairs } from "../../model/pairs-provider";
+import { useWtPostGenre } from "../../model/wt-post-genre-provider";
+import { useWtPostSort } from "../../model/wt-post-sort-provider";
+import { useWtPostCreationTypes } from "../../model/wt-post-creation-types-providers";
+import { useWtPostPairs } from "../../model/wt-post-pairs-providers";
 
 // ----------------------------------------------------------------------
 
@@ -46,10 +46,10 @@ type PageContentFnProps = {
 
 const WtPostGalleryFn = withAsyncBoundary(
   ({ channelUrl, children }: PageContentFnProps) => {
-    const { genre } = useGenre();
-    const { sort } = useSort();
-    const { creationTypes } = useCreationTypes();
-    const { pairs } = usePairs();
+    const { genre } = useWtPostGenre();
+    const { sort } = useWtPostSort();
+    const { creationTypes } = useWtPostCreationTypes();
+    const { pairs } = useWtPostPairs();
 
     const pageParam = useSearchParams().get("page");
     const page = useMemo(() => {

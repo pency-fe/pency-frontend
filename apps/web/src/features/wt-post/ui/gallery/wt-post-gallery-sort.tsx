@@ -6,12 +6,12 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { MenuItem } from "@mui/material";
 import { FilterChip, Menux, useMenuxState } from "@pency/ui/components";
 import { createQueryString, objectEntries } from "@pency/util";
-import { useSort } from "../../model/sort-provider";
+import { useWtPostSort } from "../../model/wt-post-sort-provider";
 
 export const WtPostGallerySort = () => {
-  const { sort, sortLabel } = useSort();
+  const { sort, sortLabel } = useWtPostSort();
   if (!sort || !sortLabel) {
-    throw new Error(`<부모로 <SortProvider /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(`<부모로 <WtPostSortProvider /> 컴포넌트가 있어야 합니다.`);
   }
 
   const { anchorRef, isOpen, close, toggle } = useMenuxState<HTMLDivElement>();
