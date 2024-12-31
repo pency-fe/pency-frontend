@@ -3,7 +3,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
 import { unbookmark } from "@/entities/wt-post";
-import { useUserAuthMeContext } from "@/shared/user-auth-me";
+import { useAuthContext } from "@/shared/auth";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "@pency/ui/components";
@@ -16,11 +16,16 @@ export const useUnbookmark = () => {
   >({
     mutationFn: unbookmark,
   });
-  const me = useUserAuthMeContext();
+  const { isLoggedIn } = useAuthContext();
   const router = useRouter();
 
   return useCallback(
     (req: Parameters<typeof unbookmark>[0], onSuccess?: () => void) => {
+      if (!isLoggedIn) {
+        router.push("/login");
+        return;
+      }
+
       mutate(req, {
         onSuccess: () => {
           onSuccess?.();
@@ -33,6 +38,6 @@ export const useUnbookmark = () => {
         },
       });
     },
-    [me, router, mutate],
+    [isLoggedIn, router, mutate],
   );
 };

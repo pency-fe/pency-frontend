@@ -1,12 +1,12 @@
 import { redirect, useRouter } from "next/navigation";
+import { useAuthContext } from "./auth-provider";
 import { isClient } from "@pency/util";
-import { useUserAuthMeContext } from "./user-auth-me-provider";
 
-export const RequireUser = ({ children }: { children?: React.ReactNode }) => {
-  const me = useUserAuthMeContext();
+export const RequireGuest = ({ children }: { children?: React.ReactNode }) => {
+  const { isLoggedIn } = useAuthContext();
   const router = useRouter();
 
-  if (!me.isLoggedIn) {
+  if (isLoggedIn) {
     if (isClient()) {
       router.push("/login");
       return;

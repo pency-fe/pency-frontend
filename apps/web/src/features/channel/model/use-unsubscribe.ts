@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
-import { useUserAuthMeContext } from "@/shared/user-auth-me";
+import { useAuthContext } from "@/shared/auth";
 import { unsubscribe } from "@/entities/channel";
 import { toast } from "@pency/ui/components";
 
@@ -15,12 +15,12 @@ export const useUnsubscribe = () => {
     Parameters<typeof unsubscribe>[0]
   >({ mutationFn: unsubscribe });
 
-  const me = useUserAuthMeContext();
+  const { isLoggedIn } = useAuthContext();
   const router = useRouter();
 
   return useCallback(
     (req: Parameters<typeof unsubscribe>[0], onSuccess?: () => void) => {
-      if (!me.isLoggedIn) {
+      if (!isLoggedIn) {
         router.push("/login");
         return;
       }
@@ -36,6 +36,6 @@ export const useUnsubscribe = () => {
         },
       });
     },
-    [mutate, me, router],
+    [mutate, isLoggedIn, router],
   );
 };

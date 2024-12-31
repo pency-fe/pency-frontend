@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "@pency/ui/components";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
-import { useUserAuthMeContext } from "@/shared/user-auth-me";
+import { useAuthContext } from "@/shared/auth";
 import { subscribe } from "@/entities/channel";
 
 export const useSubscribe = () => {
@@ -16,12 +16,12 @@ export const useSubscribe = () => {
     | QueryError<FailureRes<404, "ENTITY_NOT_FOUND">>,
     Parameters<typeof subscribe>[0]
   >({ mutationFn: subscribe });
-  const me = useUserAuthMeContext();
+  const { isLoggedIn } = useAuthContext();
   const router = useRouter();
 
   return useCallback(
     (req: Parameters<typeof subscribe>[0], onSuccess?: () => void) => {
-      if (!me.isLoggedIn) {
+      if (!isLoggedIn) {
         router.push("/login");
         return;
       }
@@ -43,6 +43,6 @@ export const useSubscribe = () => {
         },
       });
     },
-    [mutate, me, router],
+    [mutate, isLoggedIn, router],
   );
 };

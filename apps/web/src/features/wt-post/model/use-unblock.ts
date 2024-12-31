@@ -5,7 +5,7 @@ import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
 import { unblock } from "@/entities/channel";
 import { useCallback } from "react";
 import { toast } from "@pency/ui/components";
-import { useUserAuthMeContext } from "@/shared/user-auth-me";
+import { useAuthContext } from "@/shared/auth";
 import { useRouter } from "next/navigation";
 
 export const useUnblock = () => {
@@ -16,12 +16,12 @@ export const useUnblock = () => {
   >({
     mutationFn: unblock,
   });
-  const me = useUserAuthMeContext();
+  const { isLoggedIn } = useAuthContext();
   const router = useRouter();
 
   return useCallback(
     (req: Parameters<typeof unblock>[0], onSuccess?: () => void) => {
-      if (!me.isLoggedIn) {
+      if (!isLoggedIn) {
         router.push("/login");
         return;
       }
@@ -38,6 +38,6 @@ export const useUnblock = () => {
         },
       });
     },
-    [me, router, mutate],
+    [isLoggedIn, router, mutate],
   );
 };

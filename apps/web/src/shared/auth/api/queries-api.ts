@@ -1,7 +1,7 @@
 import { Options } from "ky";
 import { apiClient } from "@/shared/lib/ky/api-client";
 
-type GetUserAuthMeRes =
+type AuthRes =
   | {
       userId: number;
       userProfileId: number;
@@ -13,6 +13,6 @@ type GetUserAuthMeRes =
       isLoggedIn: false;
     };
 
-export const getUserAuthMe = async (options?: Options) => {
-  return await apiClient.get<GetUserAuthMeRes>("user/auth/me", options).json();
+export const getAuth = async (options?: Options) => {
+  return await apiClient.get<AuthRes>("auth", options).json();
 };

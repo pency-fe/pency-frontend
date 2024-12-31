@@ -2,7 +2,7 @@
 
 import { useChannelMeListContext } from "@/entities/channel-me";
 import { ChCreateForm } from "@/features/channel-me";
-import { RequireUser } from "@/shared/user-auth-me/model/RequireUser";
+import { RequireUser } from "@/shared/auth/model/RequireUser";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { Main } from "@pency/ui/layouts";
 
@@ -14,20 +14,18 @@ function ChannelCreatePageFn() {
     <Main>
       <Stack spacing={4}>
         <Stack spacing={3}>
-          {channelMe.length > 5 ? (
-            <Box
+          {channelMe.length >= 5 ? (
+            <Stack
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
                 justifyContent: "center",
+                alignItems: "center",
                 height: 400,
                 color: theme.vars.palette.text.secondary,
               }}
             >
               <Typography variant="body2">새 채널을 개설할 수 없어요.</Typography>
               <Typography variant="body2">프로필당 채널을 최대 5개까지 개설할 수 있어요.</Typography>
-            </Box>
+            </Stack>
           ) : (
             <ChCreateForm>
               <Box sx={{ backgroundColor: theme.vars.palette.background.paper, padding: 3, borderRadius: 2 }}>

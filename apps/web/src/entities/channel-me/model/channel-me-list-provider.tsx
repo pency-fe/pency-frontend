@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
 import { channelMeKeys } from "../api/queries";
 import { PickQueryOptionsData } from "@/shared/lib/react-query/types";
-import { useUserAuthMeContext } from "@/shared/user-auth-me";
+import { useAuthContext } from "@/shared/auth";
 
 const ChannelMeListContext = createContext<
   PickQueryOptionsData<ReturnType<typeof channelMeKeys.list>> | null | undefined
@@ -19,7 +19,7 @@ export function useChannelMeListContext() {
 }
 
 export function ChannelMeListProvider({ children }: { children?: React.ReactNode }) {
-  const { isLoggedIn } = useUserAuthMeContext();
+  const { isLoggedIn } = useAuthContext();
 
   const query = useQuery({
     ...channelMeKeys.list(),

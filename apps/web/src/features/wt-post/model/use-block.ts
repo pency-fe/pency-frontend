@@ -5,7 +5,7 @@ import { toast } from "@pency/ui/components";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
 import { block } from "@/entities/channel";
 import { useCallback } from "react";
-import { useUserAuthMeContext } from "@/shared/user-auth-me";
+import { useAuthContext } from "@/shared/auth";
 import { useRouter } from "next/navigation";
 
 export const useBlock = () => {
@@ -16,12 +16,12 @@ export const useBlock = () => {
     | QueryError<FailureRes<404, "ENTITY_NOT_FOUND">>,
     Parameters<typeof block>[0]
   >({ mutationFn: block });
-  const me = useUserAuthMeContext();
+  const { isLoggedIn } = useAuthContext();
   const router = useRouter();
 
   return useCallback(
     (req: Parameters<typeof block>[0], onSuccess?: () => void) => {
-      if (!me.isLoggedIn) {
+      if (!isLoggedIn) {
         router.push("/login");
         return;
       }
@@ -46,6 +46,6 @@ export const useBlock = () => {
         },
       });
     },
-    [me, router, mutate],
+    [isLoggedIn, router, mutate],
   );
 };

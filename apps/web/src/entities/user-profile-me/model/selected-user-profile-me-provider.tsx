@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useMemo } from "react";
 import { useUserProfileMeListContext } from "./user-profile-me-list-provider";
-import { useUserAuthMeContext } from "@/shared/user-auth-me";
+import { useAuthContext } from "@/shared/auth";
 
 const SelectedUserProfileMeContext = createContext<
   Exclude<ReturnType<typeof useUserProfileMeListContext>, null>[number] | null | undefined
@@ -17,7 +17,7 @@ export function useSelectedUserProfileMeContext() {
 }
 
 export function SelectedUserProfileMeProvider({ children }: { children?: React.ReactNode }) {
-  const { isLoggedIn, userProfileId } = useUserAuthMeContext();
+  const { isLoggedIn, userProfileId } = useAuthContext();
   const userProfileMeList = useUserProfileMeListContext();
 
   const selectedUserProfileMe = useMemo(() => {

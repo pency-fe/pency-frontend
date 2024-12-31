@@ -5,7 +5,7 @@ import { createContext, useContext } from "react";
 
 import { PickQueryOptionsData } from "@/shared/lib/react-query/types";
 import { userProfileMeKeys } from "../api/queries";
-import { useUserAuthMeContext } from "@/shared/user-auth-me";
+import { useAuthContext } from "@/shared/auth";
 
 const UserProfileMeListContext = createContext<
   PickQueryOptionsData<ReturnType<typeof userProfileMeKeys.list>> | null | undefined
@@ -20,11 +20,11 @@ export function useUserProfileMeListContext() {
 }
 
 export function UserProfileMeListProvider({ children }: { children?: React.ReactNode }) {
-  const me = useUserAuthMeContext();
+  const { isLoggedIn } = useAuthContext();
 
   const query = useQuery({
     ...userProfileMeKeys.list(),
-    enabled: me.isLoggedIn,
+    enabled: isLoggedIn,
     refetchOnMount: false,
   });
 
@@ -33,7 +33,7 @@ export function UserProfileMeListProvider({ children }: { children?: React.React
   }
 
   return (
-    <UserProfileMeListContext.Provider value={me.isLoggedIn ? query.data : null}>
+    <UserProfileMeListContext.Provider value={isLoggedIn ? query.data : null}>
       {children}
     </UserProfileMeListContext.Provider>
   );
