@@ -23,19 +23,10 @@ import {
 import { Header, sidebarClasses, SidebarDrawer } from "@pency/ui/layouts";
 import { useToggle } from "@pency/util";
 import { useAuthContext } from "@/entities/@auth";
-import { UserProfileAvatar } from "../../model/user-profile-avatar";
-import { HomeSidebarNav } from "../../model/home/home-sidebar-nav";
+import { UserProfileAvatar } from "../user-profile-avatar";
+import { HomeSidebarNav } from "./home-sidebar-nav";
 
-export function HomeHeaderLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <Header slots={{ left: <Left />, right: <Right /> }} />
-      {children}
-    </>
-  );
-}
-
-function Left() {
+const Left = () => {
   const [isDrawerOpen, toggleDrawer] = useToggle(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -104,9 +95,9 @@ function Left() {
       />
     </>
   );
-}
+};
 
-function Right() {
+const Right = () => {
   const { isLoggedIn } = useAuthContext();
   const theme = useTheme();
 
@@ -178,4 +169,13 @@ function Right() {
       )}
     </Box>
   );
-}
+};
+
+export const HomeHeaderLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <>
+      <Header slots={{ left: <Left />, right: <Right /> }} />
+      {children}
+    </>
+  );
+};

@@ -1,6 +1,5 @@
 "use client";
 
-import { useWTPostFormContext } from "../wt-post-form";
 import {
   closestCenter,
   DndContext,
@@ -18,10 +17,12 @@ import { Portal } from "@mui/material";
 import { SortableManager } from "./sortable-manager";
 import { Cut, DividerCut } from "./cut";
 import { DIVIDER_CUT_ID } from "./const";
+import { useFormContext } from "react-hook-form";
+import { FormSchema } from "../../model/form-schema";
 
 export const Editor = () => {
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
-  const { getValues, setValue } = useWTPostFormContext();
+  const { getValues, setValue } = useFormContext<FormSchema>();
   const [draggedCutId, setDraggedCutId] = useState<string | null>(null);
 
   const handleDragStart = ({ active }: DragStartEvent) => {

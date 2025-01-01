@@ -8,10 +8,10 @@ export const RequireGuest = ({ children }: { children?: React.ReactNode }) => {
 
   if (isLoggedIn) {
     if (isClient()) {
-      router.push("/login");
+      router.push("/");
       return;
     } else {
-      redirect("/login");
+      redirect("/");
     }
   }
 

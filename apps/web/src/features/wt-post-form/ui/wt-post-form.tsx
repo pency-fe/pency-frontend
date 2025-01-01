@@ -1,6 +1,6 @@
 "use client";
 
-import { z, ZodError } from "zod";
+import { ZodError } from "zod";
 import {
   Controller,
   FormProvider,
@@ -26,15 +26,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import {
-  ChangeEventHandler,
-  createContext,
-  KeyboardEventHandler,
-  ReactNode,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { ChangeEventHandler, ComponentProps, KeyboardEventHandler, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { objectEntries, useToggle } from "@pency/util";
 import { EvaMoreHorizontalOutlineIcon, Menux, RadioButton, toast, useMenuxState } from "@pency/ui/components";
@@ -53,22 +45,14 @@ import {
 } from "@/shared/config/webtoon/const";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
 import { formSchema, FormSchema } from "../model/form-schema";
-
-// ----------------------------------------------------------------------
-
-const WtPostFormDataContext = createContext<{ publish: boolean; channelUrl: string; id?: number } | undefined>(
-  undefined,
-);
-
-export function useWtPostFormData() {
-  const context = useContext(WtPostFormDataContext);
-
-  if (!context) {
-    throw new Error(`<부모로 <WtPostForm /> 컴포넌트가 있어야 합니다.`);
-  }
-
-  return context;
-}
+import { DataProvider, useData } from "../model/data-provider";
+import { QueryError } from "@/shared/lib/ky/api-client";
+import { usePublish } from "../model/use-publish";
+import { useProvision } from "../model/use-provision";
+import { useSave } from "../model/use-save";
+import { keywordSchema } from "../model/keyword-schema";
+import { getUploadThumbnailUrl } from "@/entities/wt-post-me";
+import { Editor } from "./editor";
 
 // ----------------------------------------------------------------------
 
@@ -85,11 +69,8 @@ type WtPostFormFnProps = {
   keywords?: Array<string>;
   authorTalk?: string | null;
   precaution?: string | null;
-  id?: number;
-  publish: boolean;
-  channelUrl: string;
-  children?: ReactNode;
-};
+  children?: React.ReactNode;
+} & ComponentProps<typeof DataProvider>;
 
 const WtPostFormFn = ({ id, publish, channelUrl, children, ...rest }: WtPostFormFnProps) => {
   const methods = useForm<FormSchema>({
@@ -115,11 +96,9 @@ const WtPostFormFn = ({ id, publish, channelUrl, children, ...rest }: WtPostForm
 
   return (
     <FormProvider {...methods}>
-      <WtPostFormDataContext.Provider
-        value={{ id, publish, channelUrl: formatChannelUrl(channelUrl, { prefix: false }) }}
-      >
+      <DataProvider id={id} publish={publish} channelUrl={formatChannelUrl(channelUrl, { prefix: false })}>
         {children}
-      </WtPostFormDataContext.Provider>
+      </DataProvider>
     </FormProvider>
   );
 };
@@ -132,14 +111,14 @@ type SubmitFnProps = Omit<ButtonProps, "children"> & {
 
 const SubmitButtonFn = ({ submitErrorHandler, ...rest }: SubmitFnProps) => {
   const { handleSubmit } = useFormContext<FormSchema>();
-  const { id, channelUrl, publish } = useWtPostFormData();
+  const { id, channelUrl, publish } = useData();
   const [loading, toggleLoading] = useToggle(false);
   const router = useRouter();
 
   const { mutate: publishPost } = usePublish();
   const { mutateAsync: provisionPost } = useProvision();
 
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
+  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     toggleLoading(true);
     let postId = id;
 
@@ -181,13 +160,12 @@ const SubmitButtonFn = ({ submitErrorHandler, ...rest }: SubmitFnProps) => {
     );
   };
 
-  const onSubmitError: SubmitErrorHandler<Schema> = (errors, e) => {
+  const onSubmitError: SubmitErrorHandler<FormSchema> = (errors, e) => {
     submitErrorHandler?.(errors, e);
   };
 
   return (
     <LoadingButton
-      type="submit"
       variant="contained"
       color="primary"
       loading={loading}
@@ -203,7 +181,7 @@ const SubmitButtonFn = ({ submitErrorHandler, ...rest }: SubmitFnProps) => {
 
 const SaveButtonFn = () => {
   const { trigger, getFieldState, getValues } = useFormContext<FormSchema>();
-  const { id, channelUrl, publish } = useWTPostFormDataContext();
+  const { id, channelUrl, publish } = useData();
   const [loading, toggleLoading] = useToggle(false);
 
   const { mutate: savePost } = useSave();
@@ -268,7 +246,7 @@ const SaveButtonFn = () => {
   return (
     <>
       {!publish ? (
-        <LoadingButton type="submit" variant="soft" size="small" loading={loading} onClick={handleClick}>
+        <LoadingButton variant="soft" size="small" loading={loading} onClick={handleClick}>
           저장
         </LoadingButton>
       ) : null}
@@ -749,7 +727,7 @@ const ThumbnailFn = () => {
 
 // ----------------------------------------------------------------------
 
-export const WT_Post_Form = Object.assign(WT_Post_Form_Fn, {
+export const WtPostForm = Object.assign(WtPostFormFn, {
   SubmitButton: SubmitButtonFn,
   SaveButton: SaveButtonFn,
   MoreIconButton: MoreIconButtonFn,

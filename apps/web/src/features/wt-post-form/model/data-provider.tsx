@@ -13,3 +13,14 @@ export function useData() {
 
   return context;
 }
+
+type DataProviderProps = {
+  id?: number;
+  publish: boolean;
+  channelUrl: string;
+  children?: React.ReactNode;
+};
+
+export function DataProvider({ children, ...rest }: DataProviderProps) {
+  return <DataContext.Provider value={rest}>{children}</DataContext.Provider>;
+}

@@ -15,8 +15,8 @@ import {
 import { Label, NimbusDragDotsIcon, Popperx, usePopperxState } from "@pency/ui/components";
 import { maxLine, stylesColorScheme, varAlpha } from "@pency/ui/util";
 import { memo, PropsWithoutRef, useEffect, useMemo } from "react";
-import { useWTPostFormContext } from "../wt-post-form";
-import { useController } from "react-hook-form";
+import { useController, useFormContext } from "react-hook-form";
+import { FormSchema } from "../../model/form-schema";
 
 // ----------------------------------------------------------------------
 
@@ -111,7 +111,7 @@ export const DividerCut = memo(({ listeners, hidePrice = false, ...rest }: Divid
 // ----------------------------------------------------------------------
 
 const Price = memo(() => {
-  const { control, watch } = useWTPostFormContext();
+  const { control, watch } = useFormContext<FormSchema>();
   const {
     field,
     fieldState: { error },

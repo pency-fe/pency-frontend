@@ -2,8 +2,7 @@
 
 import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { createStore, useStore } from "zustand";
-import { useWTPostFormContext } from "../wt-post-form";
-import { useController } from "react-hook-form";
+import { useController, useFormContext } from "react-hook-form";
 import { Box, Button, FormHelperText, Grid, Stack, Typography, useTheme } from "@mui/material";
 import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { varAlpha } from "@pency/ui/util";
@@ -13,7 +12,8 @@ import { useToggle } from "@pency/util";
 import { LoadingButton } from "@mui/lab";
 import { toast } from "@pency/ui/components";
 import ky from "ky";
-import { getUploadCutImageUrl } from "_core/webtoon/post/query/api";
+import { FormSchema } from "../../model/form-schema";
+import { getUploadCutImageUrl } from "@/entities/wt-post-me";
 
 // ----------------------------------------------------------------------
 
@@ -58,7 +58,7 @@ export const useActiveCutIdsContext = <T,>(selector: (state: ActiveCutIdsStore) 
 // ----------------------------------------------------------------------
 
 export const SortableManager = () => {
-  const { control } = useWTPostFormContext();
+  const { control } = useFormContext<FormSchema>();
   const {
     field: {
       name,
