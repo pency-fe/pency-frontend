@@ -183,7 +183,7 @@ function MainMenuList({ close }: { close: () => void }) {
       close();
       return;
     } else {
-      toast.error("프로필당 최대 5개까지 채널을 개설할 수 있어요.");
+      toast.error("최대 5개까지 채널을 개설할 수 있어요.");
     }
   };
 
