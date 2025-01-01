@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { ComponentProps, useMemo } from "react";
 import NextLink from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { RadioGroup } from "@mui/material";
@@ -8,12 +8,16 @@ import { RadioButton } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { createQueryString, objectEntries } from "@pency/util";
 import { GENRE_LABEL } from "@/shared/config/webtoon/const";
-import { useWtPostGenre } from "../../model/wt-post-genre-provider";
+import { GenreProvider, useGenre } from "../../model/genre-provider";
 
-export const WtPostGalleryGenre = () => {
-  const { genre } = useWtPostGenre();
+const WtPostGalleryGenreFn = (rest: ComponentProps<typeof GenreProvider>) => {
+  return <GenreProvider {...rest} />;
+};
+
+const RadioButtonsFn = () => {
+  const { genre } = useGenre();
   if (!genre) {
-    throw new Error(`<부모로 <WtPostGenreProvider /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(`<부모로 <WtPostGalleryGenre /> 컴포넌트가 있어야 합니다.`);
   }
 
   const searchParams = useSearchParams();
@@ -58,3 +62,7 @@ export const WtPostGalleryGenre = () => {
     </RadioGroup>
   );
 };
+
+export const WtPostGalleryGenre = Object.assign(WtPostGalleryGenreFn, {
+  RadioButtons: RadioButtonsFn,
+});

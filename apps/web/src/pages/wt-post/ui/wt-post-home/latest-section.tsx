@@ -10,6 +10,7 @@ export function LatestSection() {
 
   return (
     <CardCarouselTemplate
+      CardCarousel={WtPostOverviewCardCarousel}
       slots={{
         title: <CardCarouselTemplate.Title>최신 포스트</CardCarouselTemplate.Title>,
         moreButton: (
@@ -24,8 +25,9 @@ export function LatestSection() {
             <WtPostOverviewCardCarousel.NextNav />
           </>
         ),
-        cardCarousel: <WtPostOverviewCardCarousel genre={genre} />,
       }}
-    />
+    >
+      <WtPostOverviewCardCarousel.Panel genre={genre} />
+    </CardCarouselTemplate>
   );
 }

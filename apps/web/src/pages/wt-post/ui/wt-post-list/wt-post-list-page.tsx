@@ -3,11 +3,6 @@
 import { Stack, Box, Typography } from "@mui/material";
 import { hideScrollX } from "@pency/ui/util";
 import {
-  WtPostCreationTypesStorageProvider,
-  WtPostPairsStorageProvider,
-  WtPostFilterFormToggleProvider,
-  WtPostGenreProvider,
-  WtPostSortProvider,
   WtPostGallery,
   WtPostGalleryCreationTypes,
   WtPostGalleryFilterForm,
@@ -21,22 +16,22 @@ export function WtPostListPage() {
     <Stack spacing={3}>
       <Stack spacing={2}>
         <Typography variant="h4">웹툰 포스트</Typography>
-        <WtPostGenreProvider>
-          <WtPostSortProvider
+        <WtPostGalleryGenre>
+          <WtPostGallerySort
             sortLabel={{
               LATEST: "최신순",
               POPULAR: "전체 인기순",
               WPOPULAR: "주간 인기순",
             }}
           >
-            <WtPostCreationTypesStorageProvider>
-              <WtPostPairsStorageProvider>
-                <WtPostGalleryGenre />
+            <WtPostGalleryCreationTypes variant="storage">
+              <WtPostGalleryPairs variant="storage">
+                <WtPostGalleryGenre.RadioButtons />
 
                 {/* TODO: GRID로 변경해야 함. 지금 영향 범위에 sort가 포함되고 있음. */}
-                <WtPostFilterFormToggleProvider>
+                <WtPostGalleryFilterForm>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <WtPostGallerySort />
+                    <WtPostGallerySort.FilterChip />
 
                     <Box
                       sx={{
@@ -48,22 +43,23 @@ export function WtPostListPage() {
                         ...hideScrollX,
                       }}
                     >
-                      <WtPostGalleryCreationTypes />
-                      <WtPostGalleryPairs />
+                      <WtPostGalleryCreationTypes.FilterChip />
+                      <WtPostGalleryPairs.FilterChip />
                     </Box>
                   </Box>
-                  <WtPostGalleryFilterForm />
-                </WtPostFilterFormToggleProvider>
+                  <WtPostGalleryFilterForm.CollapseForm />
+                </WtPostGalleryFilterForm>
 
                 <WtPostGallery>
+                  <WtPostGallery.Panel />
                   <Box sx={{ margin: "auto", mt: 3 }}>
                     <WtPostGallery.Pagination />
                   </Box>
                 </WtPostGallery>
-              </WtPostPairsStorageProvider>
-            </WtPostCreationTypesStorageProvider>
-          </WtPostSortProvider>
-        </WtPostGenreProvider>
+              </WtPostGalleryPairs>
+            </WtPostGalleryCreationTypes>
+          </WtPostGallerySort>
+        </WtPostGalleryGenre>
       </Stack>
     </Stack>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { ComponentProps, useMemo } from "react";
 import { Box, Button, Collapse, IconButton, NoSsr, Stack, Typography, useTheme } from "@mui/material";
 import { z } from "zod";
 import { Controller, FormProvider, SubmitHandler, useForm, useFormContext } from "react-hook-form";
@@ -9,9 +9,9 @@ import { objectEntries, zodObjectKeys } from "@pency/util";
 import { CheckboxButton, IcRoundRefreshIcon } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { CREATION_TYPE_LABEL, PAIR_LABEL } from "@/shared/config/webtoon/const";
-import { useWtPostCreationTypes } from "../../model/wt-post-creation-types-providers";
-import { useWtPostFilterFormToggle } from "../../model/wt-post-filter-form-toggle-provider";
-import { useWtPostPairs } from "../../model/wt-post-pairs-providers";
+import { useCreationTypes } from "../../model/creation-types-provider";
+import { FilterFormToggleProvider, useFilterFormToggle } from "../../model/filter-form-toggle-provider";
+import { usePairs } from "../../model/pairs-provider";
 
 // ----------------------------------------------------------------------
 
@@ -170,22 +170,24 @@ const PairsField = () => {
 
 // ----------------------------------------------------------------------
 
-export const WtPostGalleryFilterForm = () => {
-  const { creationTypes, setCreationTypes } = useWtPostCreationTypes();
-  const { pairs, setPairs } = useWtPostPairs();
+const WtPostGalleryFilterFormFn = (rest: ComponentProps<typeof FilterFormToggleProvider>) => {
+  return <FilterFormToggleProvider {...rest} />;
+};
+
+const CollapseFormFn = () => {
+  const { creationTypes, setCreationTypes } = useCreationTypes();
+  const { pairs, setPairs } = usePairs();
 
   if (!creationTypes || !setCreationTypes) {
-    throw new Error(
-      `<부모로 <WtPostCreationTypesProvider /> 또는 <WtPostCreationTypesStorageProvider /> 컴포넌트가 있어야 합니다.`,
-    );
+    throw new Error(`<부모로 <WtPostCreationTypes /> 컴포넌트가 있어야 합니다.`);
   }
 
   if (!pairs || !setPairs) {
-    throw new Error(`<부모로 <WtPostPairsProvider /> 또는 <WtPostPairsStorageProvider /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(`<부모로 <WtPostPairs /> 컴포넌트가 있어야 합니다.`);
   }
 
-  const isOpen = useWtPostFilterFormToggle((s) => s.isOpen);
-  const close = useWtPostFilterFormToggle((s) => s.close);
+  const isOpen = useFilterFormToggle((s) => s.isOpen);
+  const close = useFilterFormToggle((s) => s.close);
 
   const theme = useTheme();
 
@@ -228,3 +230,7 @@ export const WtPostGalleryFilterForm = () => {
     </NoSsr>
   );
 };
+
+export const WtPostGalleryFilterForm = Object.assign(WtPostGalleryFilterFormFn, {
+  CollapseForm: CollapseFormFn,
+});

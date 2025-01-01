@@ -10,27 +10,11 @@ import { useUnbookmark } from "../../model/use-unbookmark";
 import { useBlock } from "../../model/use-block";
 import { useUnblock } from "../../model/use-unblock";
 import { useChannelMeListContext } from "@/entities/channel-me";
+import { ComponentProps } from "react";
 
-export const WtPostRichCardCarousel = Object.assign(
-  withAsyncBoundary(WtPostRichCardCarouselFn, {
-    errorBoundary: {
-      fallback: <Loading />,
-    },
-    suspense: {
-      fallback: <Loading />,
-    },
-  }),
-  {
-    ...RichCardCarousel,
-  },
-);
+type PanelFnProps = Pick<Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>, "genre" | "sort" | "channelUrl">;
 
-type WtPostRichCardCarouselFnProps = Omit<
-  Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>,
-  "page" | "creationTypes" | "pairs"
->;
-
-function WtPostRichCardCarouselFn({ genre, sort, channelUrl }: WtPostRichCardCarouselFnProps) {
+const PanelFn = ({ genre, sort, channelUrl }: PanelFnProps) => {
   const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, channelUrl }));
   const queryClient = useQueryClient();
 
@@ -94,43 +78,46 @@ function WtPostRichCardCarouselFn({ genre, sort, channelUrl }: WtPostRichCardCar
   };
 
   return (
-    <RichCardCarousel
-      slots={{
-        slides: (
-          <>
-            {data.posts.map((post, i) => (
-              <RichCardCarousel.Slide key={i}>
-                <WtPostRichCard
-                  data={post}
-                  onBookmark={handleBookmark}
-                  onUnbookmark={handleUnbookmark}
-                  onBlock={handleBlock}
-                  onUnblock={handleUnblock}
-                  isMyPost={channelMeList ? channelMeList.some((channel) => channel.id === post.channel.id) : false}
-                />
-              </RichCardCarousel.Slide>
-            ))}
-          </>
-        ),
-      }}
-    />
+    <RichCardCarousel.Panel>
+      {data.posts.map((post, i) => (
+        <RichCardCarousel.Slide key={i}>
+          <WtPostRichCard
+            data={post}
+            onBookmark={handleBookmark}
+            onUnbookmark={handleUnbookmark}
+            onBlock={handleBlock}
+            onUnblock={handleUnblock}
+            isMyPost={channelMeList ? channelMeList.some((channel) => channel.id === post.channel.id) : false}
+          />
+        </RichCardCarousel.Slide>
+      ))}
+    </RichCardCarousel.Panel>
   );
-}
+};
 
-function Loading() {
+const Loading = () => {
   return (
-    <RichCardCarousel
-      slots={{
-        slides: (
-          <>
-            {Array.from({ length: 18 }, (_, i) => (
-              <RichCardCarousel.Slide key={i}>
-                <WtPostRichCard.Loading />
-              </RichCardCarousel.Slide>
-            ))}
-          </>
-        ),
-      }}
-    />
+    <RichCardCarousel>
+      {Array.from({ length: 18 }, (_, i) => (
+        <RichCardCarousel.Slide key={i}>
+          <WtPostRichCard.Loading />
+        </RichCardCarousel.Slide>
+      ))}
+    </RichCardCarousel>
   );
-}
+};
+
+export const WtPostRichCardCarousel = Object.assign(
+  (props: ComponentProps<typeof RichCardCarousel>) => <RichCardCarousel {...props} />,
+  {
+    ...RichCardCarousel,
+    Panel: withAsyncBoundary(PanelFn, {
+      errorBoundary: {
+        fallback: <Loading />,
+      },
+      suspense: {
+        fallback: <Loading />,
+      },
+    }),
+  },
+);

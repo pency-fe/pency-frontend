@@ -6,30 +6,31 @@ import { useSessionStorage } from "@pency/util";
 
 // ----------------------------------------------------------------------
 
-const WtPostCreationTypesContext = createContext<
+const CreationTypesContext = createContext<
   { creationTypes: CreationType[]; setCreationTypes: (value: CreationType[]) => void } | undefined
 >(undefined);
 
-export function useWtPostCreationTypes() {
-  const context = useContext(WtPostCreationTypesContext);
+export function useCreationTypes() {
+  const context = useContext(CreationTypesContext);
 
   return context ?? { creationTypes: undefined, setCreationTypes: undefined };
 }
 
 // ----------------------------------------------------------------------
 
-export function WtPostCreationTypesProvider({ children }: { children?: React.ReactNode }) {
+export function CreationTypesProvider({ children }: { children?: React.ReactNode }) {
   // [TODO]
+  return <>{children}</>;
 }
 
 // ----------------------------------------------------------------------
 
-export function WtPostCreationTypesStorageProvider({ children }: { children?: React.ReactNode }) {
+export function CreationTypesStorageProvider({ children }: { children?: React.ReactNode }) {
   const [creationTypes, setCreationTypes] = useSessionStorage<CreationType[]>("wt-post-creation-types", []);
 
   return (
-    <WtPostCreationTypesContext.Provider value={{ creationTypes, setCreationTypes }}>
+    <CreationTypesContext.Provider value={{ creationTypes, setCreationTypes }}>
       {children}
-    </WtPostCreationTypesContext.Provider>
+    </CreationTypesContext.Provider>
   );
 }

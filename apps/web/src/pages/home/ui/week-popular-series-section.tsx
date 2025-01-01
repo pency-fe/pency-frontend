@@ -41,6 +41,7 @@ export function WPopularSeriesSection() {
 
   return (
     <CardTabCarouselTemplate
+      CardCarousel={OverviewCardCarousel}
       slots={{
         title: <CardTabCarouselTemplate.Title>주간 인기 시리즈</CardTabCarouselTemplate.Title>,
         tabs: (
@@ -80,8 +81,9 @@ export function WPopularSeriesSection() {
             <OverviewCardCarousel.NextNav />
           </>
         ),
-        cardCarousel: <OverviewCardCarousel genre="ALL" sort="WPOPULAR" />,
       }}
-    />
+    >
+      <OverviewCardCarousel.Panel genre="ALL" sort="WPOPULAR" />
+    </CardTabCarouselTemplate>
   );
 }

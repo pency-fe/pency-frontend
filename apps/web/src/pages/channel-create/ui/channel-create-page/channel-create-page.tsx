@@ -1,8 +1,8 @@
 "use client";
 
 import { useChannelMeListContext } from "@/entities/channel-me";
+import { RequireUser } from "@/entities/@auth";
 import { ChCreateForm } from "@/features/channel-me";
-import { RequireUser } from "@/entities/auth/model/RequireUser";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { Main } from "@pency/ui/layouts";
 

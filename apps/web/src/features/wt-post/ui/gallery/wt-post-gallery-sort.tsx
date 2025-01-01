@@ -1,15 +1,19 @@
 "use client";
 
-import { useMemo } from "react";
+import { ComponentProps, useMemo } from "react";
 import NextLink from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { MenuItem } from "@mui/material";
 import { FilterChip, Menux, useMenuxState } from "@pency/ui/components";
 import { createQueryString, objectEntries } from "@pency/util";
-import { useWtPostSort } from "../../model/wt-post-sort-provider";
+import { SortProvider, useSort } from "../../model/sort-provider";
 
-export const WtPostGallerySort = () => {
-  const { sort, sortLabel } = useWtPostSort();
+const WtPostGallerySortFn = (rest: ComponentProps<typeof SortProvider>) => {
+  return <SortProvider {...rest} />;
+};
+
+const FilterChipFn = () => {
+  const { sort, sortLabel } = useSort();
   if (!sort || !sortLabel) {
     throw new Error(`<부모로 <WtPostSortProvider /> 컴포넌트가 있어야 합니다.`);
   }
@@ -57,3 +61,7 @@ export const WtPostGallerySort = () => {
     </>
   );
 };
+
+export const WtPostGallerySort = Object.assign(WtPostGallerySortFn, {
+  FilterChip: FilterChipFn,
+});

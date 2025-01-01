@@ -4,18 +4,37 @@ import { useMemo } from "react";
 import { NoSsr } from "@mui/material";
 import { FilterChip } from "@pency/ui/components";
 import { CREATION_TYPE_LABEL } from "@/shared/config/webtoon/const";
-import { useWtPostCreationTypes } from "../../model/wt-post-creation-types-providers";
-import { useWtPostFilterFormToggle } from "../../model/wt-post-filter-form-toggle-provider";
+import {
+  CreationTypesProvider,
+  CreationTypesStorageProvider,
+  useCreationTypes,
+} from "../../model/creation-types-provider";
+import { useFilterFormToggle } from "../../model/filter-form-toggle-provider";
 
-export const WtPostGalleryCreationTypes = () => {
-  const { creationTypes } = useWtPostCreationTypes();
+type WtPostGalleryCreationTypesFnProps = {
+  variant?: "searchParam" | "storage";
+  children?: React.ReactNode;
+};
+
+const WtPostGalleryCreationTypesFn = ({ variant = "searchParam", children }: WtPostGalleryCreationTypesFnProps) => {
+  const Provider = useMemo(() => {
+    if (variant === "storage") {
+      return CreationTypesStorageProvider;
+    }
+
+    return CreationTypesProvider;
+  }, [variant]);
+
+  return <Provider>{children}</Provider>;
+};
+
+export const FilterChipFn = () => {
+  const { creationTypes } = useCreationTypes();
   if (!creationTypes) {
-    throw new Error(
-      `<부모로 <WtPostCreationTypesProvider /> 또는 <WtPostCreationTypesStorageProvider /> 컴포넌트가 있어야 합니다.`,
-    );
+    throw new Error(`<부모로 <WtPostGalleryCreationTypes /> 컴포넌트가 있어야 합니다.`);
   }
-  const isOpen = useWtPostFilterFormToggle((s) => s.isOpen);
-  const toggle = useWtPostFilterFormToggle((s) => s.toggle);
+  const isOpen = useFilterFormToggle((s) => s.isOpen);
+  const toggle = useFilterFormToggle((s) => s.toggle);
 
   const creationTypesLabel = useMemo(() => {
     let label = "창작유형";
@@ -34,3 +53,7 @@ export const WtPostGalleryCreationTypes = () => {
     </NoSsr>
   );
 };
+
+export const WtPostGalleryCreationTypes = Object.assign(WtPostGalleryCreationTypesFn, {
+  FilterChip: FilterChipFn,
+});

@@ -6,24 +6,25 @@ import { useSessionStorage } from "@pency/util";
 
 // ----------------------------------------------------------------------
 
-const WtPostPairsContext = createContext<{ pairs: Pair[]; setPairs: (value: Pair[]) => void } | undefined>(undefined);
+const PairsContext = createContext<{ pairs: Pair[]; setPairs: (value: Pair[]) => void } | undefined>(undefined);
 
-export function useWtPostPairs() {
-  const context = useContext(WtPostPairsContext);
+export function usePairs() {
+  const context = useContext(PairsContext);
 
   return context ?? { pairs: undefined, setPairs: undefined };
 }
 
 // ----------------------------------------------------------------------
 
-export function WtPostPairsProvider({ children }: { children?: React.ReactNode }) {
+export function PairsProvider({ children }: { children?: React.ReactNode }) {
   // [TODO]
+  return children;
 }
 
 // ----------------------------------------------------------------------
 
-export function WtPostPairsStorageProvider({ children }: { children?: React.ReactNode }) {
+export function PairsStorageProvider({ children }: { children?: React.ReactNode }) {
   const [pairs, setPairs] = useSessionStorage<Pair[]>("wt-post-pairs", []);
 
-  return <WtPostPairsContext.Provider value={{ pairs, setPairs }}>{children}</WtPostPairsContext.Provider>;
+  return <PairsContext.Provider value={{ pairs, setPairs }}>{children}</PairsContext.Provider>;
 }

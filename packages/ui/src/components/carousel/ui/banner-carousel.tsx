@@ -23,13 +23,12 @@ const BannerCarouselFn = ({ children }: { children?: React.ReactNode }) => {
 
 type PanelFnProps = {
   slots: {
-    slides: React.ReactElement;
     prevNav?: React.ReactElement | null;
     nextNav?: React.ReactElement | null;
   };
 } & React.PropsWithoutRef<BoxProps>;
 
-const PanelFn = forwardRef<HTMLDivElement, PanelFnProps>(({ slots, ...rest }, ref) => {
+const PanelFn = forwardRef<HTMLDivElement, PanelFnProps>(({ slots, children, ...rest }, ref) => {
   const { emblaRef } = useData("BannerCarousel");
   const refs = useCombinedRefs(emblaRef, ref);
 
@@ -37,7 +36,7 @@ const PanelFn = forwardRef<HTMLDivElement, PanelFnProps>(({ slots, ...rest }, re
     <Box ref={refs} {...rest} sx={{ position: "relative", ...rest.sx }}>
       <Box ref={emblaRef} sx={{ overflow: "hidden" }}>
         <Grid container sx={{ flexWrap: "nowrap" }}>
-          {slots.slides}
+          {children}
         </Grid>
       </Box>
       {slots.prevNav}

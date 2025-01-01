@@ -37,6 +37,7 @@ export function WebtoonSection() {
 
   return (
     <CardTabCarouselTemplate
+      CardCarousel={WtPostRichCardCarousel}
       slots={{
         title: <CardTabCarouselTemplate.Title>웹툰</CardTabCarouselTemplate.Title>,
         tabs: (
@@ -65,8 +66,9 @@ export function WebtoonSection() {
             <WtPostRichCardCarousel.NextNav />
           </>
         ),
-        cardCarousel: <WtPostRichCardCarousel channelUrl={channelUrl} sort="LATEST" />,
       }}
-    />
+    >
+      <WtPostRichCardCarousel.Panel channelUrl={channelUrl} sort="LATEST" />
+    </CardTabCarouselTemplate>
   );
 }

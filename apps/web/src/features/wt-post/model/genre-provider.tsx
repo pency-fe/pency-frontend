@@ -4,15 +4,15 @@ import { createContext, useContext, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Genre, GENRE_LABEL } from "@/shared/config/webtoon/const";
 
-const WtPostGenreContext = createContext<{ genre: Genre | "ALL" } | undefined>(undefined);
+const GenreContext = createContext<{ genre: Genre | "ALL" } | undefined>(undefined);
 
-export function useWtPostGenre() {
-  const context = useContext(WtPostGenreContext);
+export function useGenre() {
+  const context = useContext(GenreContext);
 
   return context ?? { genre: undefined };
 }
 
-export const WtPostGenreProvider = ({ children }: { children?: React.ReactNode }) => {
+export const GenreProvider = ({ children }: { children?: React.ReactNode }) => {
   const genreParam = useSearchParams().get("genre");
 
   const genre = useMemo(() => {
@@ -22,5 +22,5 @@ export const WtPostGenreProvider = ({ children }: { children?: React.ReactNode }
     return "ALL" as const;
   }, [genreParam]);
 
-  return <WtPostGenreContext.Provider value={{ genre }}>{children}</WtPostGenreContext.Provider>;
+  return <GenreContext.Provider value={{ genre }}>{children}</GenreContext.Provider>;
 };

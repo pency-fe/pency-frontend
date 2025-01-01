@@ -10,6 +10,7 @@ export function PopularSection() {
 
   return (
     <CardCarouselTemplate
+      CardCarousel={WtPostOverviewCardCarousel}
       slots={{
         title: <CardCarouselTemplate.Title>전체 인기 포스트</CardCarouselTemplate.Title>,
         moreButton: (
@@ -26,8 +27,9 @@ export function PopularSection() {
             <WtPostOverviewCardCarousel.NextNav />
           </>
         ),
-        cardCarousel: <WtPostOverviewCardCarousel genre={genre} sort="POPULAR" />,
       }}
-    />
+    >
+      <WtPostOverviewCardCarousel.Panel genre={genre} sort="POPULAR" />
+    </CardCarouselTemplate>
   );
 }

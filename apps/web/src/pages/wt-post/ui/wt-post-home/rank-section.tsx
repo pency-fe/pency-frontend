@@ -28,52 +28,44 @@ export function RankSection() {
           </Box>
         </Box>
 
-        <ListItemxCarousel.Container
-          slots={{
-            slides: (
-              <>
-                {Array.from({ length: 6 }, () => (
-                  <ListItemxCarousel.Slide>
-                    {Array.from({ length: 3 }, () => (
-                      <ListItemx
+        <ListItemxCarousel.Panel>
+          {Array.from({ length: 6 }, () => (
+            <ListItemxCarousel.Slide>
+              {Array.from({ length: 3 }, () => (
+                <ListItemx
+                  slots={{
+                    overlayElement: (
+                      <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`} />
+                    ),
+                    thumbnail: (
+                      <ListItemx.Thumbnail
+                        sx={{ aspectRatio: "16/9" }}
                         slots={{
-                          overlayElement: (
-                            <ListItemx.OverlayAnchor
-                              href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`}
-                            />
-                          ),
-                          thumbnail: (
-                            <ListItemx.Thumbnail
-                              sx={{ aspectRatio: "16/9" }}
-                              slots={{
-                                image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
-                                topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
-                              }}
-                            />
-                          ),
-                          order: (
-                            <ListItemx.Order variant="soft" color="info">
-                              1
-                            </ListItemx.Order>
-                          ),
-                          title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
-                          attribute: (
-                            <ListItemx.Attribute>
-                              {postData.channel.name}
-                              <ListItemx.Attribute.Dot />
-                              <EvaHeartOutlineIcon />
-                              {postData.likeCount}
-                            </ListItemx.Attribute>
-                          ),
+                          image: <ListItemx.Thumbnail.Image src={postData.thumbnail} />,
+                          topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
                         }}
                       />
-                    ))}
-                  </ListItemxCarousel.Slide>
-                ))}
-              </>
-            ),
-          }}
-        />
+                    ),
+                    order: (
+                      <ListItemx.Order variant="soft" color="info">
+                        1
+                      </ListItemx.Order>
+                    ),
+                    title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
+                    attribute: (
+                      <ListItemx.Attribute>
+                        {postData.channel.name}
+                        <ListItemx.Attribute.Dot />
+                        <EvaHeartOutlineIcon />
+                        {postData.likeCount}
+                      </ListItemx.Attribute>
+                    ),
+                  }}
+                />
+              ))}
+            </ListItemxCarousel.Slide>
+          ))}
+        </ListItemxCarousel.Panel>
       </ListItemxCarousel>
     </Stack>
   );

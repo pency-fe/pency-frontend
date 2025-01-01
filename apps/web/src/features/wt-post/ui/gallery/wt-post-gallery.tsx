@@ -15,22 +15,28 @@ import { useUnbookmark } from "../../model/use-unbookmark";
 import { useBlock } from "../../model/use-block";
 import { useUnblock } from "../../model/use-unblock";
 import { useChannelMeListContext } from "@/entities/channel-me";
-import { useWtPostGenre } from "../../model/wt-post-genre-provider";
-import { useWtPostSort } from "../../model/wt-post-sort-provider";
-import { useWtPostCreationTypes } from "../../model/wt-post-creation-types-providers";
-import { useWtPostPairs } from "../../model/wt-post-pairs-providers";
+import { useGenre } from "../../model/genre-provider";
+import { useSort } from "../../model/sort-provider";
+import { useCreationTypes } from "../../model/creation-types-provider";
+import { usePairs } from "../../model/pairs-provider";
 
 // ----------------------------------------------------------------------
 
-const WtPostGalleryDataContext = createContext<
+const DataContext = createContext<
   | {
       data: PickQueryOptionsData<ReturnType<typeof wtPostKeys.page>>;
+      genre: ReturnType<typeof useGenre>["genre"];
+      sort: ReturnType<typeof useSort>["sort"];
+      creationTypes: ReturnType<typeof useCreationTypes>["creationTypes"];
+      pairs: ReturnType<typeof usePairs>["pairs"];
+      page: number;
+      channelUrl?: string;
     }
   | undefined
 >(undefined);
 
-function useWtPostGalleryData() {
-  const context = useContext(WtPostGalleryDataContext);
+function useData() {
+  const context = useContext(DataContext);
 
   if (!context) throw new Error(`부모로 <WtPostGallery /> 컴포넌트가 있어야 합니다.`);
 
@@ -39,123 +45,121 @@ function useWtPostGalleryData() {
 
 // ----------------------------------------------------------------------
 
-type PageContentFnProps = {
+type WtPostGalleryFnProps = {
   channelUrl?: string;
   children?: React.ReactNode;
 };
 
-const WtPostGalleryFn = withAsyncBoundary(
-  ({ channelUrl, children }: PageContentFnProps) => {
-    const { genre } = useWtPostGenre();
-    const { sort } = useWtPostSort();
-    const { creationTypes } = useWtPostCreationTypes();
-    const { pairs } = useWtPostPairs();
+const WtPostGalleryFn = ({ channelUrl, children }: WtPostGalleryFnProps) => {
+  const { genre } = useGenre();
+  const { sort } = useSort();
+  const { creationTypes } = useCreationTypes();
+  const { pairs } = usePairs();
 
-    const pageParam = useSearchParams().get("page");
-    const page = useMemo(() => {
-      const param = Number(pageParam);
-      if (param && !isNaN(param) && param >= 1) {
-        return param;
-      }
-      return 1;
-    }, [pageParam]);
+  const pageParam = useSearchParams().get("page");
+  const page = useMemo(() => {
+    const param = Number(pageParam);
+    if (param && !isNaN(param) && param >= 1) {
+      return param;
+    }
+    return 1;
+  }, [pageParam]);
 
-    const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }));
-    const queryClient = useQueryClient();
+  const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }));
 
-    const channelMeList = useChannelMeListContext();
-
-    const bookmark = useBookmark();
-    const unbookmark = useUnbookmark();
-    const block = useBlock();
-    const unblock = useUnblock();
-
-    const handleBookmark = (id: number) => {
-      bookmark({ id }, () => {
-        queryClient.setQueryData(
-          wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
-          (oldData) =>
-            oldData &&
-            produce(oldData, (draft) => {
-              draft.posts.find((post) => post.id === id)!.bookmark = true;
-            }),
-        );
-      });
-    };
-
-    const handleUnbookmark = (id: number) => {
-      unbookmark({ id }, () => {
-        queryClient.setQueryData(
-          wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
-          (oldData) =>
-            oldData &&
-            produce(oldData, (draft) => {
-              draft.posts.find((post) => post.id === id)!.bookmark = false;
-            }),
-        );
-      });
-    };
-
-    const handleBlock = (id: number) => {
-      block({ id }, () => {
-        queryClient.setQueryData(
-          wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
-          (oldData) =>
-            oldData &&
-            produce(oldData, (draft) => {
-              draft.posts.find((post) => post.channel.id === id)!.block = true;
-            }),
-        );
-      });
-    };
-
-    const handleUnblock = (id: number) => {
-      unblock({ id }, () => {
-        queryClient.setQueryData(
-          wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
-          (oldData) =>
-            oldData &&
-            produce(oldData, (draft) => {
-              draft.posts.find((post) => post.channel.id === id)!.block = false;
-            }),
-        );
-      });
-    };
-
-    return (
-      <WtPostGalleryDataContext.Provider value={{ data }}>
-        <Grid container spacing={1}>
-          {data.posts.map((post, i) => (
-            <Grid item key={i} xs={12} sm={6} md={4}>
-              <WtPostRichCard
-                data={post}
-                onBookmark={handleBookmark}
-                onUnbookmark={handleUnbookmark}
-                onBlock={handleBlock}
-                onUnblock={handleUnblock}
-                isMyPost={channelMeList ? channelMeList.some((channel) => channel.id === post.channel.id) : false}
-                hideGenre={genre !== "ALL"}
-              />
-            </Grid>
-          ))}
-        </Grid>
-        {children}
-      </WtPostGalleryDataContext.Provider>
-    );
-  },
-  {
-    errorBoundary: {
-      fallback: <Loading />,
-    },
-    suspense: {
-      fallback: <Loading />,
-    },
-  },
-);
+  return (
+    <DataContext.Provider value={{ data, genre, sort, creationTypes, pairs, page, channelUrl }}>
+      {children}
+    </DataContext.Provider>
+  );
+};
 
 // ----------------------------------------------------------------------
 
-function Loading() {
+const PanelFn = () => {
+  const { genre, sort, data, creationTypes, pairs, channelUrl } = useData();
+  const queryClient = useQueryClient();
+  const channelMeList = useChannelMeListContext();
+
+  const bookmark = useBookmark();
+  const unbookmark = useUnbookmark();
+  const block = useBlock();
+  const unblock = useUnblock();
+
+  const handleBookmark = (id: number) => {
+    bookmark({ id }, () => {
+      queryClient.setQueryData(
+        wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
+        (oldData) =>
+          oldData &&
+          produce(oldData, (draft) => {
+            draft.posts.find((post) => post.id === id)!.bookmark = true;
+          }),
+      );
+    });
+  };
+
+  const handleUnbookmark = (id: number) => {
+    unbookmark({ id }, () => {
+      queryClient.setQueryData(
+        wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
+        (oldData) =>
+          oldData &&
+          produce(oldData, (draft) => {
+            draft.posts.find((post) => post.id === id)!.bookmark = false;
+          }),
+      );
+    });
+  };
+
+  const handleBlock = (id: number) => {
+    block({ id }, () => {
+      queryClient.setQueryData(
+        wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
+        (oldData) =>
+          oldData &&
+          produce(oldData, (draft) => {
+            draft.posts.find((post) => post.channel.id === id)!.block = true;
+          }),
+      );
+    });
+  };
+
+  const handleUnblock = (id: number) => {
+    unblock({ id }, () => {
+      queryClient.setQueryData(
+        wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
+        (oldData) =>
+          oldData &&
+          produce(oldData, (draft) => {
+            draft.posts.find((post) => post.channel.id === id)!.block = false;
+          }),
+      );
+    });
+  };
+
+  return (
+    <Grid container spacing={1}>
+      {data.posts.map((post, i) => (
+        <Grid item key={i} xs={12} sm={6} md={4}>
+          <WtPostRichCard
+            data={post}
+            onBookmark={handleBookmark}
+            onUnbookmark={handleUnbookmark}
+            onBlock={handleBlock}
+            onUnblock={handleUnblock}
+            isMyPost={channelMeList ? channelMeList.some((channel) => channel.id === post.channel.id) : false}
+            hideGenre={genre !== "ALL"}
+          />
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+const Loading = () => {
   return (
     <Grid container spacing={1}>
       {Array.from({ length: 18 }, (_, i) => (
@@ -165,14 +169,14 @@ function Loading() {
       ))}
     </Grid>
   );
-}
+};
 
 // ----------------------------------------------------------------------
 
 const PaginationFn = () => {
   const {
     data: { pageCount, currentPage },
-  } = useWtPostGalleryData();
+  } = useData();
   const paginations = usePaginationx({ pageCount, currentPage });
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -195,6 +199,17 @@ const PaginationFn = () => {
   );
 };
 
-export const WtPostGallery = Object.assign(WtPostGalleryFn, {
-  Pagination: PaginationFn,
-});
+export const WtPostGallery = Object.assign(
+  withAsyncBoundary(WtPostGalleryFn, {
+    errorBoundary: {
+      fallback: <Loading />,
+    },
+    suspense: {
+      fallback: <Loading />,
+    },
+  }),
+  {
+    Panel: PanelFn,
+    Pagination: PaginationFn,
+  },
+);

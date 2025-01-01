@@ -18,13 +18,12 @@ import { Controller, FormProvider, SubmitErrorHandler, useController, useForm, u
 import { z } from "zod";
 import { toast } from "@pency/ui/components";
 import { useRouter } from "next/navigation";
-import { objectKeys, useToggle } from "@pency/util";
+import { objectKeys, ToggleStoreProvider, useToggle, useToggleStore } from "@pency/util";
 import { LoadingButton } from "@mui/lab";
 import ky from "ky";
 import { useCreateChannel } from "../model/use-create-channel";
 import { useUpdateBranding } from "../model/use-update-branding";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
-import { BooleanStoreProvider, useBooleanStore } from "@/shared/lib/providers/boolean-store-provider";
 import { getUploadBgImageUrl, getUploadImageUrl } from "@/entities/channel-me";
 
 // ----------------------------------------------------------------------
@@ -67,7 +66,7 @@ const ChCreateFormFn = ({ children }: ChCreateFormFnProps) => {
   });
   const { mutate } = useCreateChannel();
   const router = useRouter();
-  const toggleLoading = useBooleanStore((s) => s.toggle);
+  const toggleLoading = useToggleStore((s) => s.toggle);
 
   const onSubmit = (data: Schema) => {
     toggleLoading(true);
@@ -131,7 +130,7 @@ const ChUpdateFormFn = ({ data, originChannelUrl, children }: ChUpdateFormFnProp
   });
   const { mutate } = useUpdateBranding();
   const router = useRouter();
-  const toggleLoading = useBooleanStore((s) => s.toggle);
+  const toggleLoading = useToggleStore((s) => s.toggle);
 
   const onSubmit = (data: Schema) => {
     toggleLoading(true);
@@ -198,7 +197,7 @@ const ChUpdateFormFn = ({ data, originChannelUrl, children }: ChUpdateFormFnProp
 type CreateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const CreateSubmitFn = (rest: CreateSubmitFnProps) => {
-  const loading = useBooleanStore((s) => s.bool);
+  const loading = useToggleStore((s) => s.bool);
 
   return (
     <LoadingButton loading={loading} type="submit" variant="contained" color="primary" {...rest}>
@@ -212,7 +211,7 @@ const CreateSubmitFn = (rest: CreateSubmitFnProps) => {
 type UpdateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const UpdateSubmitFn = (rest: UpdateSubmitFnProps) => {
-  const loading = useBooleanStore((s) => s.bool);
+  const loading = useToggleStore((s) => s.bool);
 
   return (
     <LoadingButton loading={loading} type="submit" variant="contained" color="primary" {...rest}>
@@ -531,9 +530,9 @@ const BgImageFn = () => {
 
 export const ChCreateForm = Object.assign(
   (props: ChCreateFormFnProps) => (
-    <BooleanStoreProvider>
+    <ToggleStoreProvider>
       <ChCreateFormFn {...props} />
-    </BooleanStoreProvider>
+    </ToggleStoreProvider>
   ),
   {
     Title: TitleFn,
@@ -547,9 +546,9 @@ export const ChCreateForm = Object.assign(
 
 export const ChUpdateForm = Object.assign(
   (props: ChUpdateFormFnProps) => (
-    <BooleanStoreProvider>
+    <ToggleStoreProvider>
       <ChUpdateFormFn {...props} />
-    </BooleanStoreProvider>
+    </ToggleStoreProvider>
   ),
   {
     Title: TitleFn,
