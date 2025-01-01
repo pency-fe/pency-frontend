@@ -8,6 +8,7 @@ import {
   UserProfileMeListProvider,
 } from "@/entities/user-profile-me";
 import { StudioLayout } from "@/widgets/layout";
+import { RequireUser } from "@/entities/@auth";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
@@ -22,13 +23,15 @@ export default async function Layout({ children }: { children: React.ReactNode }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <UserProfileMeListProvider>
-        <SelectedUserProfileMeProvider>
-          <ChannelMeListProvider>
-            <StudioLayout>{children}</StudioLayout>
-          </ChannelMeListProvider>
-        </SelectedUserProfileMeProvider>
-      </UserProfileMeListProvider>
+      <RequireUser>
+        <UserProfileMeListProvider>
+          <SelectedUserProfileMeProvider>
+            <ChannelMeListProvider>
+              <StudioLayout>{children}</StudioLayout>
+            </ChannelMeListProvider>
+          </SelectedUserProfileMeProvider>
+        </UserProfileMeListProvider>
+      </RequireUser>
     </HydrationBoundary>
   );
 }

@@ -1,3 +1,4 @@
+import { RequireUser } from "@/entities/@auth";
 import { SubscriptionLayout } from "./_layout/_layout";
 
 type Props = {
@@ -5,5 +6,9 @@ type Props = {
 };
 
 export default function Layout({ children }: Props) {
-  return <SubscriptionLayout>{children}</SubscriptionLayout>;
+  return (
+    <RequireUser>
+      <SubscriptionLayout>{children}</SubscriptionLayout>
+    </RequireUser>
+  );
 }

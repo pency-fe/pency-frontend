@@ -1,12 +1,10 @@
 "use client";
 
-import { RequireGuest } from "@/entities/@auth";
 import { Box, Button } from "@mui/material";
 import { BrandPencyTextLogoIcon } from "@pency/ui/components";
 import { Header, Main } from "@pency/ui/layouts";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { ComponentProps } from "react";
 
 const Left = () => {
   return (
@@ -36,9 +34,9 @@ const Right = () => {
   );
 };
 
-const AuthLayoutFn = ({ children }: { children?: React.ReactNode }) => {
+export const AuthLayout = ({ children }: { children?: React.ReactNode }) => {
   return (
-    <RequireGuest>
+    <>
       <Header
         slots={{
           left: <Left />,
@@ -46,14 +44,6 @@ const AuthLayoutFn = ({ children }: { children?: React.ReactNode }) => {
         }}
       />
       <Main variant="compact">{children}</Main>
-    </RequireGuest>
-  );
-};
-
-export const AuthLayout = (props: ComponentProps<typeof AuthLayoutFn>) => {
-  return (
-    <RequireGuest>
-      <AuthLayoutFn {...props} />
-    </RequireGuest>
+    </>
   );
 };

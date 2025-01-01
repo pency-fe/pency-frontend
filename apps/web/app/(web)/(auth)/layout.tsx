@@ -1,3 +1,4 @@
+import { RequireGuest } from "@/entities/@auth";
 import { AuthLayout } from "@/widgets/layout";
 
 type Props = {
@@ -5,5 +6,9 @@ type Props = {
 };
 
 export default function Layout({ children }: Props) {
-  return <AuthLayout>{children}</AuthLayout>;
+  return (
+    <RequireGuest>
+      <AuthLayout>{children}</AuthLayout>
+    </RequireGuest>
+  );
 }

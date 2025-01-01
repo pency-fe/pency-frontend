@@ -1,5 +1,10 @@
+import { RequireUser } from "@/entities/@auth";
 import { WtPostIdEditorPage } from "@/pages/wt-post-editor";
 
 export default function Page() {
-  return <WtPostIdEditorPage />;
+  return (
+    <RequireUser>
+      <WtPostIdEditorPage />
+    </RequireUser>
+  );
 }

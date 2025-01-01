@@ -1,3 +1,4 @@
+import { RequireUser } from "@/entities/@auth";
 import { LibraryLayout } from "./_layout/_layout";
 
 type Props = {
@@ -5,5 +6,9 @@ type Props = {
 };
 
 export default function Layout({ children }: Props) {
-  return <LibraryLayout>{children}</LibraryLayout>;
+  return (
+    <RequireUser>
+      <LibraryLayout>{children}</LibraryLayout>
+    </RequireUser>
+  );
 }
