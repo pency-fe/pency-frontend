@@ -3,9 +3,9 @@
 import NextLink from "next/link";
 import { Box, RadioGroup } from "@mui/material";
 import { CardTabCarouselTemplate, RadioButton } from "@pency/ui/components";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-import { objectEntries } from "@pency/util";
+import { createQueryString, objectEntries } from "@pency/util";
 import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
 import { WtPostRichCardCarousel } from "@/features/wt-post";
 
@@ -23,6 +23,7 @@ const CONTENT_VALUE_LABEL: Record<CONTENT_VALUE, string> = {
 export function WebtoonSection() {
   const searchParams = useSearchParams();
   const channelUrl = useChannelUrlParam();
+  const pathname = usePathname();
 
   const contentEntries = useMemo(() => objectEntries(CONTENT_VALUE_LABEL), []);
 
@@ -48,7 +49,15 @@ export function WebtoonSection() {
                   component={NextLink}
                   value={value}
                   key={value}
-                  href={`/${channelUrl}/?webtoon=${value}`}
+                  href={(() => {
+                    const params = new URLSearchParams(searchParams.toString());
+                    if (value === "POST") {
+                      params.delete("webtoon");
+                    } else {
+                      params.set("webtoon", value);
+                    }
+                    return `${pathname}${createQueryString(params)}`;
+                  })()}
                   scroll={false}
                   sx={{ flexShrink: 0 }}
                 >
@@ -59,7 +68,7 @@ export function WebtoonSection() {
           </RadioGroup>
         ),
         moreButton: (
-          <CardTabCarouselTemplate.MoreButton component={NextLink} href={`/${channelUrl}/webtoon?content=${content}`} />
+          <CardTabCarouselTemplate.MoreButton component={NextLink} href={`${pathname}/webtoon?content=${content}`} />
         ),
         prevNextNav: (
           <>

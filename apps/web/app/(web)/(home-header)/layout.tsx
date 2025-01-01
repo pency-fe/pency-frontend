@@ -24,7 +24,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <UserProfileMeListProvider>
         <SelectedUserProfileMeProvider>
           <ChannelMeListProvider>
-            <HomeHeaderLayout>{children}</HomeHeaderLayout>
+            <HomeHeaderLayout />
+            {children}
           </ChannelMeListProvider>
         </SelectedUserProfileMeProvider>
       </UserProfileMeListProvider>

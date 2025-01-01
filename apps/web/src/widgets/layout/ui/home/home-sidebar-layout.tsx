@@ -1,12 +1,11 @@
-import { Sidebar, SidebarMain } from "@pency/ui/layouts";
+import { Sidebar } from "@pency/ui/layouts";
 import { HomeSidebarNav } from "./home-sidebar-nav";
 import { HomeSidebarMiniNav } from "./home-sidebar-mini-nav";
 
-export function HomeSidebarLayout({ children }: { children: React.ReactNode }) {
+export function HomeSidebarLayout() {
   return (
     <>
       <Sidebar slots={{ nav: <HomeSidebarNav />, miniNav: <HomeSidebarMiniNav /> }} />
-      <SidebarMain>{children}</SidebarMain>
     </>
   );
 }

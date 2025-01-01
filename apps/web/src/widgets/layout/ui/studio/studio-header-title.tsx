@@ -1,12 +1,12 @@
 "use client";
 
+import NextLink from "next/link";
+import { useRouter } from "next/navigation";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { BrandPencyTextLogoIcon, EvaArrowIosBackFillIcon, EvaMenuOutlineIcon } from "@pency/ui/components";
 import { DashboardSidebarDrawer, PortalDashboardHeaderLeft } from "@pency/ui/layouts";
 import { useToggle } from "@pency/util";
-import { StudioSidebarNav } from "./_layout/studio-sidebar-nav";
-import { useRouter } from "next/navigation";
-import NextLink from "next/link";
+import { StudioSidebarNav } from "./studio-sidebar-nav";
 
 type HeaderTitleProps = {
   title: string;

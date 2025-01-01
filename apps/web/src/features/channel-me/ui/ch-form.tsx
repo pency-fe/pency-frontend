@@ -397,20 +397,17 @@ const ImageFn = () => {
       <Typography variant="subtitle2">채널 프로필 이미지</Typography>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Box
+          component="img"
+          src={value.length ? value : process.env["NEXT_PUBLIC_LOGO"]}
           sx={{
-            aspectRatio: 1 / 1,
+            flexShrink: 0,
+            width: "128px",
+            height: "128px",
             borderRadius: 1,
             overflow: "hidden",
-            width: "128px",
+            objectFit: "cover",
           }}
-        >
-          <Box
-            component="img"
-            src={value.length ? value : process.env["NEXT_PUBLIC_LOGO"]}
-            sx={{ width: 1, height: 1, objectFit: "cover" }}
-          />
-        </Box>
-
+        />
         <Stack alignItems="flex-start" gap={0.5}>
           <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1 }}>
             <LoadingButton variant="soft" color="primary" loading={loading} onClick={upload}>

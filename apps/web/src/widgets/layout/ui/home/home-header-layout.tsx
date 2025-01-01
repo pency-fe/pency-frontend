@@ -171,11 +171,6 @@ const Right = () => {
   );
 };
 
-export const HomeHeaderLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <>
-      <Header slots={{ left: <Left />, right: <Right /> }} />
-      {children}
-    </>
-  );
+export const HomeHeaderLayout = () => {
+  return <Header slots={{ left: <Left />, right: <Right /> }} />;
 };

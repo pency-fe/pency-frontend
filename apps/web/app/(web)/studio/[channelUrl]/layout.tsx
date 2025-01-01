@@ -1,9 +1,13 @@
 import { cookies } from "next/headers";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { getQueryClient } from "(route)/get-query-client";
-import { channelMeKeys, ChannelMeListProvider } from "_core/channel";
-import { SelectedUserProfileMeProvider, userProfileMeKeys, UserProfileMeListProvider } from "_core/user-profile";
-import { StudioLayout } from "./_layout/_layout";
+import { getQueryClient } from "@/app/lib/get-query-client";
+import { channelMeKeys, ChannelMeListProvider } from "@/entities/channel-me";
+import {
+  SelectedUserProfileMeProvider,
+  userProfileMeKeys,
+  UserProfileMeListProvider,
+} from "@/entities/user-profile-me";
+import { StudioLayout } from "@/widgets/layout";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();

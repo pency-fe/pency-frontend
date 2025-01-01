@@ -1,49 +1,39 @@
 "use client";
 
+import { channelMeKeys } from "@/entities/channel-me";
+import { ChUpdateForm } from "@/features/channel-me";
+import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
 import { Box, Skeleton, Stack } from "@mui/material";
 import { withAsyncBoundary } from "@pency/util";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { CH_Update_Form, channelMeKeys } from "_core/channel";
-import { useChannelUrlParam } from "_hooks";
 
 // ----------------------------------------------------------------------
 
-export const SettingBrandingPage = withAsyncBoundary(SettingBrandingPageFn, {
-  errorBoundary: {
-    fallback: <Loading />,
-  },
-  suspense: {
-    fallback: <Loading />,
-  },
-});
-
-// ----------------------------------------------------------------------
-
-function SettingBrandingPageFn() {
+const StudioSettingBrandingPageFn = () => {
   const channelUrl = useChannelUrlParam();
 
   const { data } = useSuspenseQuery(channelMeKeys.brandingDetail({ url: channelUrl }));
 
   return (
-    <Stack spacing={3}>
-      <CH_Update_Form data={data}>
+    <ChUpdateForm data={data} originChannelUrl={channelUrl}>
+      <Stack spacing={3}>
         <Stack spacing={4}>
-          <CH_Update_Form.Title variant="filled" />
-          <CH_Update_Form.Description variant="filled" />
-          <CH_Update_Form.Url variant="filled" />
-          <CH_Update_Form.Image />
-          <CH_Update_Form.BgImage />
+          <ChUpdateForm.Title variant="filled" />
+          <ChUpdateForm.Description variant="filled" />
+          <ChUpdateForm.Url variant="filled" />
+          <ChUpdateForm.Image />
+          <ChUpdateForm.BgImage />
         </Stack>
         <Box sx={{ display: "flex", justifyContent: "space-between", gap: 1 }}>
-          <CH_Update_Form.DeleteButton />
-          <CH_Update_Form.UpdateSubmitButton originChannelUrl={channelUrl} />
+          <ChUpdateForm.DeleteButton />
+          <ChUpdateForm.UpdateSubmitButton />
         </Box>
-      </CH_Update_Form>
-    </Stack>
+      </Stack>
+    </ChUpdateForm>
   );
-}
+};
 
-function Loading() {
+const Loading = () => {
   return (
     <Stack spacing={3}>
       <Stack spacing={4}>
@@ -59,4 +49,15 @@ function Loading() {
       </Stack>
     </Stack>
   );
-}
+};
+
+// ----------------------------------------------------------------------
+
+export const StudioSettingBrandingPage = withAsyncBoundary(StudioSettingBrandingPageFn, {
+  errorBoundary: {
+    fallback: <Loading />,
+  },
+  suspense: {
+    fallback: <Loading />,
+  },
+});

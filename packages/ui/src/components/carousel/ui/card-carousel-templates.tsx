@@ -74,7 +74,7 @@ const CardTabCarouselTemplateFn = ({ CardCarousel, slots, children }: CardTabCar
 type TitleFnProps = TypographyProps;
 
 const TitleFn = (rest: TitleFnProps) => {
-  return <Typography variant="h4" {...rest} />;
+  return <Typography variant="h5" {...rest} />;
 };
 
 // ----------------------------------------------------------------------

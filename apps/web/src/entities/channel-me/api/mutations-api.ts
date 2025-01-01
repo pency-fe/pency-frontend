@@ -40,6 +40,20 @@ type CreateChannelReq = {
 
 // ----------------------------------------------------------------------
 
+type UpdateLinkReq = {
+  links: Array<{
+    linkType: "HOME" | "TWITTER" | "INSTAGRAM";
+    url: string;
+  }>;
+  channelUrl: string;
+};
+
+export const updateLink = async ({ links, channelUrl }: UpdateLinkReq) => {
+  return await apiClient.post(`channel/me/${formatChannelUrl(channelUrl)}/detail/link`, { json: links }).json();
+};
+
+// ----------------------------------------------------------------------
+
 type GetUploadImageUrlReq = {
   contentLength: number;
   contentType: "image/jpeg" | "image/png";

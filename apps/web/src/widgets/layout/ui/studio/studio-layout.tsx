@@ -1,17 +1,19 @@
 "use client";
 
+import { ComponentProps } from "react";
+import NextLink from "next/link";
+import { Box } from "@mui/material";
 import { DashboardHeader, DashboardSidebar, DashboardSidebarMain } from "@pency/ui/layouts";
+import { BrandPencyTextLogoIcon } from "@pency/ui/components";
 import { StudioSidebarNav } from "./studio-sidebar-nav";
 import { StudioSidebarMiniNav } from "./studio-sidebar-mini-nav";
-import { UserProfile } from "_core/common";
-import { Box } from "@mui/material";
-import { BrandPencyTextLogoIcon } from "@pency/ui/components";
-import NextLink from "next/link";
+import { UserProfileAvatar } from "../user-profile-avatar";
+import { RequireUser } from "@/entities/@auth";
 
-export function StudioLayout({ children }: { children?: React.ReactNode }) {
+const StudioLayoutFn = ({ children }: { children?: React.ReactNode }) => {
   return (
     <>
-      <DashboardHeader slots={{ right: <UserProfile /> }} />
+      <DashboardHeader slots={{ right: <UserProfileAvatar /> }} />
       <DashboardSidebar
         slots={{
           header: (
@@ -26,4 +28,12 @@ export function StudioLayout({ children }: { children?: React.ReactNode }) {
       <DashboardSidebarMain>{children}</DashboardSidebarMain>
     </>
   );
-}
+};
+
+export const StudioLayout = (rest: ComponentProps<typeof StudioLayoutFn>) => {
+  return (
+    <RequireUser>
+      <StudioLayoutFn {...rest} />
+    </RequireUser>
+  );
+};

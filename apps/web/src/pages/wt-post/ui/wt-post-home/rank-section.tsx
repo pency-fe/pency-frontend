@@ -21,7 +21,7 @@ export function RankSection() {
     <Stack spacing={1}>
       <ListItemxCarousel>
         <Box sx={{ display: "flex", gap: 1 }}>
-          <Typography variant="h4">포스트 랭킹</Typography>
+          <Typography variant="h5">포스트 랭킹</Typography>
           <Box sx={{ display: "flex", gap: 1, ml: "auto" }}>
             <ListItemxCarousel.PrevNav />
             <ListItemxCarousel.NextNav />

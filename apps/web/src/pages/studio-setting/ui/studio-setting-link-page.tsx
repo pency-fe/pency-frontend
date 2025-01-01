@@ -3,16 +3,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Stack, List, ListItem, Skeleton } from "@mui/material";
 import { withAsyncBoundary } from "@pency/util";
-import { useChannelUrlParam } from "_hooks";
-import { CH_Link_Form, channelMeKeys } from "_core/channel";
+import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
+import { channelMeKeys } from "@/entities/channel-me";
+import { ChLinkForm } from "@/features/channel-me";
 
-// ----------------------------------------------------------------------
-export const SettingLinkPage = withAsyncBoundary(SettingLinkPageFn, {
-  errorBoundary: { fallback: <Loading /> },
-  suspense: { fallback: <Loading /> },
-});
-
-function SettingLinkPageFn() {
+const StudioSettingLinkPageFn = () => {
   const url = useChannelUrlParam();
   const { data } = useSuspenseQuery({
     ...channelMeKeys.linkDetail({ url }),
@@ -28,25 +23,27 @@ function SettingLinkPageFn() {
   });
 
   return (
-    <CH_Link_Form home={data.home} twitter={data.twitter} instagram={data.instagram}>
+    <ChLinkForm channelUrl={url} home={data.home} twitter={data.twitter} instagram={data.instagram}>
       <Stack spacing={3}>
         <List>
           <Stack spacing={2}>
-            <CH_Link_Form.Home />
+            <ChLinkForm.Home />
 
-            <CH_Link_Form.Twitter />
+            <ChLinkForm.Twitter />
 
-            <CH_Link_Form.Instagram />
+            <ChLinkForm.Instagram />
           </Stack>
         </List>
 
-        <CH_Link_Form.UpdateSubmit channelUrl={url} />
+        <ChLinkForm.UpdateSubmit sx={{ alignSelf: "flex-end" }} />
       </Stack>
-    </CH_Link_Form>
+    </ChLinkForm>
   );
-}
+};
 
-function Loading() {
+// ----------------------------------------------------------------------
+
+const Loading = () => {
   return (
     <Stack spacing={3}>
       <List>
@@ -68,4 +65,11 @@ function Loading() {
       <Skeleton width={102} height={36} sx={{ alignSelf: "flex-end" }} />
     </Stack>
   );
-}
+};
+
+// ----------------------------------------------------------------------
+
+export const StudioSettingLinkPage = withAsyncBoundary(StudioSettingLinkPageFn, {
+  errorBoundary: { fallback: <Loading /> },
+  suspense: { fallback: <Loading /> },
+});
