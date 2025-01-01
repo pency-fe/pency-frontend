@@ -6,7 +6,7 @@ import { CardTabCarouselTemplate, RadioButton } from "@pency/ui/components";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { objectEntries } from "@pency/util";
-import { useChannelUrlParam } from "@/shared/model/hooks/use-channel-url-param";
+import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
 import { WtPostRichCardCarousel } from "@/features/wt-post";
 
 // ----------------------------------------------------------------------

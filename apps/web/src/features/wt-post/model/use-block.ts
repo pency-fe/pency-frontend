@@ -5,7 +5,7 @@ import { toast } from "@pency/ui/components";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
 import { block } from "@/entities/channel";
 import { useCallback } from "react";
-import { useAuthContext } from "@/shared/auth";
+import { useAuthContext } from "@/entities/@auth";
 import { useRouter } from "next/navigation";
 
 export const useBlock = () => {

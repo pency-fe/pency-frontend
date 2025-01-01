@@ -288,6 +288,9 @@ importers:
       react-error-boundary:
         specifier: ^4.1.2
         version: 4.1.2(react@18.3.1)
+      zustand:
+        specifier: ^5.0.1
+        version: 5.0.2(@types/react@18.3.17)(immer@10.1.1)(react@18.3.1)
     devDependencies:
       '@pency/eslint-config':
         specifier: workspace:*

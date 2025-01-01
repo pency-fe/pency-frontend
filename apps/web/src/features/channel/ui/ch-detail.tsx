@@ -37,7 +37,7 @@ import {
 import { isClient, useToggle, withAsyncBoundary } from "@pency/util";
 import { channelKeys } from "@/entities/channel";
 import { PickQueryOptionsData } from "@/shared/lib/react-query/types";
-import { useChannelUrlParam } from "@/shared/model/hooks/use-channel-url-param";
+import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
 import { formatCount } from "@/shared/lib/format/format-count";
 import { useChannelMeListContext } from "@/entities/channel-me";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";

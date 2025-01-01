@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "@pency/ui/components";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
-import { useAuthContext } from "@/shared/auth";
+import { useAuthContext } from "@/entities/@auth";
 import { subscribe } from "@/entities/channel";
 
 export const useSubscribe = () => {

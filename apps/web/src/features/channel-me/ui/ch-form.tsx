@@ -24,7 +24,7 @@ import ky from "ky";
 import { useCreateChannel } from "../model/use-create-channel";
 import { useUpdateBranding } from "../model/use-update-branding";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
-import { BooleanStoreProvider, useBooleanStore } from "@/shared/model/providers/boolean-store-provider";
+import { BooleanStoreProvider, useBooleanStore } from "@/shared/lib/providers/boolean-store-provider";
 import { getUploadBgImageUrl, getUploadImageUrl } from "@/entities/channel-me";
 
 // ----------------------------------------------------------------------

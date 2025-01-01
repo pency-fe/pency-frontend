@@ -6,7 +6,7 @@ import { RadioButton } from "@pency/ui/components";
 import { createQueryString, objectEntries } from "@pency/util";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-import { useChannelUrlParam } from "@/shared/model/hooks/use-channel-url-param";
+import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
 import { WtPostSortProvider, WtPostGallery, WtPostGallerySort } from "@/features/wt-post";
 
 // ----------------------------------------------------------------------

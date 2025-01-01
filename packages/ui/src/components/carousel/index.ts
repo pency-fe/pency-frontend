@@ -1,6 +1,5 @@
-export * from "./banner-carousel";
-export { CardCarouselProvider } from "./card-carousel-provider";
-export * from "./list-itemx-carousel";
-export * from "./overview-card-carousel";
-export * from "./card-carousel-templates";
-export * from "./rich-card-carousel";
+export * from "./ui/banner-carousel";
+export * from "./ui/card-carousel-templates";
+export * from "./ui/list-itemx-carousel";
+export * from "./ui/overview-card-carousel";
+export * from "./ui/rich-card-carousel";

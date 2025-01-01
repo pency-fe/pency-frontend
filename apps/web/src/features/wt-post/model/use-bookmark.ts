@@ -3,7 +3,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
 import { bookmark } from "@/entities/wt-post";
-import { useAuthContext } from "@/shared/auth";
+import { useAuthContext } from "@/entities/@auth";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "@pency/ui/components";

@@ -2,7 +2,7 @@
 
 import { useChannelMeListContext } from "@/entities/channel-me";
 import { ChCreateForm } from "@/features/channel-me";
-import { RequireUser } from "@/shared/auth/model/RequireUser";
+import { RequireUser } from "@/entities/auth/model/RequireUser";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { Main } from "@pency/ui/layouts";
 

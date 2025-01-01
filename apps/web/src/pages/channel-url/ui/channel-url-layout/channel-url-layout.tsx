@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { Box, Grid, Stack, Tab, Tabs, tabsClasses, Typography, useTheme } from "@mui/material";
 import { objectEntries } from "@pency/util";
-import { useChannelUrlParam } from "@/shared/model/hooks/use-channel-url-param";
+import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
 import { ChDetail } from "@/features/channel";
 
 // ----------------------------------------------------------------------
