@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useMemo } from "react";
 import { Box, BoxProps, Grid, GridProps, IconButton, IconButtonProps, useTheme } from "@mui/material";
 import Autoplay from "embla-carousel-autoplay";
 import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component";
@@ -12,8 +12,10 @@ import { CarouselProvider, useAction, useData } from "../model";
 // ----------------------------------------------------------------------
 
 const BannerCarouselFn = ({ children }: { children?: React.ReactNode }) => {
+  const plugins = useMemo(() => [Autoplay({ delay: 4000, stopOnInteraction: false })], []);
+
   return (
-    <CarouselProvider options={{ loop: true }} plugins={[Autoplay({ delay: 4000, stopOnInteraction: false })]}>
+    <CarouselProvider options={{ loop: true }} plugins={plugins}>
       {children}
     </CarouselProvider>
   );
@@ -30,10 +32,9 @@ type PanelFnProps = {
 
 const PanelFn = forwardRef<HTMLDivElement, PanelFnProps>(({ slots, children, ...rest }, ref) => {
   const { emblaRef } = useData("BannerCarousel");
-  const refs = useCombinedRefs(emblaRef, ref);
 
   return (
-    <Box ref={refs} {...rest} sx={{ position: "relative", ...rest.sx }}>
+    <Box ref={ref} {...rest} sx={{ position: "relative", ...rest.sx }}>
       <Box ref={emblaRef} sx={{ overflow: "hidden" }}>
         <Grid container sx={{ flexWrap: "nowrap" }}>
           {children}

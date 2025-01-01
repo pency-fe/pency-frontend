@@ -29,10 +29,11 @@ export function RankSection() {
         </Box>
 
         <ListItemxCarousel.Panel>
-          {Array.from({ length: 6 }, () => (
-            <ListItemxCarousel.Slide>
-              {Array.from({ length: 3 }, () => (
+          {Array.from({ length: 6 }, (_, i) => (
+            <ListItemxCarousel.Slide key={i}>
+              {Array.from({ length: 3 }, (_, j) => (
                 <ListItemx
+                  key={j}
                   slots={{
                     overlayElement: (
                       <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`} />

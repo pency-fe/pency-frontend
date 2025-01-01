@@ -10,7 +10,7 @@ import { ComponentProps } from "react";
 
 const Left = () => {
   return (
-    <Box component="a" href="/">
+    <Box component="a" href="/" sx={{ display: "flex", alignItems: "center" }}>
       <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px" }} />
     </Box>
   );
@@ -36,7 +36,7 @@ const Right = () => {
   );
 };
 
-const AuthHeaderLayoutFn = ({ children }: { children?: React.ReactNode }) => {
+const AuthLayoutFn = ({ children }: { children?: React.ReactNode }) => {
   return (
     <RequireGuest>
       <Header
@@ -50,10 +50,10 @@ const AuthHeaderLayoutFn = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-export const AuthHeaderLayout = (props: ComponentProps<typeof AuthHeaderLayoutFn>) => {
+export const AuthLayout = (props: ComponentProps<typeof AuthLayoutFn>) => {
   return (
     <RequireGuest>
-      <AuthHeaderLayoutFn {...props} />
+      <AuthLayoutFn {...props} />
     </RequireGuest>
   );
 };

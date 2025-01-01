@@ -23,13 +23,13 @@ export function WPopularSeriesSection() {
   const searchParams = useSearchParams();
 
   const platform = useMemo(() => {
-    const param = useSearchParams().get("wpopular-series");
+    const param = searchParams.get("wpopular-series");
     if (param && Object.keys(PLATFORM_VALUE_LABEL).includes(param)) {
       return param as PlatformValue;
     }
 
     return "WEBTOON" as PlatformValue;
-  }, [searchParams]);
+  }, [searchParams.get("wpopular-series")]);
 
   const platformEntries = useMemo(() => objectEntries(PLATFORM_VALUE_LABEL), []);
 
@@ -49,9 +49,9 @@ export function WPopularSeriesSection() {
             <RadioGroup value={platform} sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 0.5 }}>
               {platformEntries.map(([value, label]) => (
                 <RadioButton
-                  LinkComponent={NextLink}
-                  value={value}
                   key={value}
+                  component={NextLink}
+                  value={value}
                   href={(() => {
                     const params = new URLSearchParams(searchParams.toString());
                     if (value === "WEBNOVEL") {
@@ -59,8 +59,9 @@ export function WPopularSeriesSection() {
                     } else {
                       params.delete("wpopular-series");
                     }
-                    return `${createQueryString(params)}`;
+                    return `/${createQueryString(params)}`;
                   })()}
+                  scroll={false}
                   sx={{ flexShrink: 0 }}
                 >
                   {label}

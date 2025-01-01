@@ -64,7 +64,7 @@ const Left = () => {
       >
         <EvaMenuOutlineIcon />
       </IconButton>
-      <Box component="a" href="/" onClick={handleLogoClick}>
+      <Box component="a" href="/" onClick={handleLogoClick} sx={{ display: "flex", alignItems: "center" }}>
         <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px" }} />
       </Box>
       <SidebarDrawer
@@ -85,7 +85,7 @@ const Left = () => {
               >
                 <EvaMenuOutlineIcon />
               </IconButton>
-              <Box component="a" href="/" onClick={handleLogoClick}>
+              <Box component="a" href="/" onClick={handleLogoClick} sx={{ display: "flex", alignItems: "center" }}>
                 <BrandPencyTextLogoIcon sx={{ width: "fit-content", height: "24px" }} />
               </Box>
             </>

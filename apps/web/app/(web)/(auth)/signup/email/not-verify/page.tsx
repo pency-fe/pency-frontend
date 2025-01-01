@@ -1,5 +1,5 @@
-import { NotVerifyPage } from "./_page/_page";
+import { EmailNotVerifyPage } from "@/pages/signup";
 
 export default function Page() {
-  return <NotVerifyPage />;
+  return <EmailNotVerifyPage />;
 }

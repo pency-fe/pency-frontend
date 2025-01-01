@@ -1,3 +1,5 @@
+"use client";
+
 import { redirect, useRouter } from "next/navigation";
 import { isClient } from "@pency/util";
 import { useAuthContext } from "./auth-provider";

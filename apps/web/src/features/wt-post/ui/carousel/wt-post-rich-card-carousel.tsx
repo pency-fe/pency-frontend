@@ -97,13 +97,13 @@ const PanelFn = ({ genre, sort, channelUrl }: PanelFnProps) => {
 
 const Loading = () => {
   return (
-    <RichCardCarousel>
+    <RichCardCarousel.Panel>
       {Array.from({ length: 18 }, (_, i) => (
         <RichCardCarousel.Slide key={i}>
           <WtPostRichCard.Loading />
         </RichCardCarousel.Slide>
       ))}
-    </RichCardCarousel>
+    </RichCardCarousel.Panel>
   );
 };
 

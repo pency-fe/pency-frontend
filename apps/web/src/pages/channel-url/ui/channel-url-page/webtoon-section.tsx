@@ -11,9 +11,9 @@ import { WtPostRichCardCarousel } from "@/features/wt-post";
 
 // ----------------------------------------------------------------------
 
-type WEBTOON_VALUE = "POST" | "SERIES";
+type CONTENT_VALUE = "POST" | "SERIES";
 
-const WEBTOON_VALUE_LABEL: Record<WEBTOON_VALUE, string> = {
+const CONTENT_VALUE_LABEL: Record<CONTENT_VALUE, string> = {
   POST: "포스트",
   SERIES: "시리즈",
 } as const;
@@ -24,15 +24,15 @@ export function WebtoonSection() {
   const searchParams = useSearchParams();
   const channelUrl = useChannelUrlParam();
 
-  const webtoonTabEntries = useMemo(() => objectEntries(WEBTOON_VALUE_LABEL), []);
+  const contentEntries = useMemo(() => objectEntries(CONTENT_VALUE_LABEL), []);
 
-  const webtoon = useMemo(() => {
+  const content = useMemo(() => {
     const param = searchParams.get("webtoon");
-    if (param && Object.keys(WEBTOON_VALUE_LABEL).includes(param)) {
-      return param as WEBTOON_VALUE;
+    if (param && Object.keys(CONTENT_VALUE_LABEL).includes(param)) {
+      return param as CONTENT_VALUE;
     }
 
-    return "POST" as WEBTOON_VALUE;
+    return "POST" as CONTENT_VALUE;
   }, [searchParams]);
 
   return (
@@ -41,14 +41,15 @@ export function WebtoonSection() {
       slots={{
         title: <CardTabCarouselTemplate.Title>웹툰</CardTabCarouselTemplate.Title>,
         tabs: (
-          <RadioGroup value={webtoon}>
+          <RadioGroup value={content}>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              {webtoonTabEntries.map(([value, label]) => (
+              {contentEntries.map(([value, label]) => (
                 <RadioButton
-                  LinkComponent={NextLink}
+                  component={NextLink}
                   value={value}
                   key={value}
                   href={`/${channelUrl}/?webtoon=${value}`}
+                  scroll={false}
                   sx={{ flexShrink: 0 }}
                 >
                   {label}
@@ -58,7 +59,7 @@ export function WebtoonSection() {
           </RadioGroup>
         ),
         moreButton: (
-          <CardTabCarouselTemplate.MoreButton component={NextLink} href={`/${channelUrl}/webtoon?webtoon=${webtoon}`} />
+          <CardTabCarouselTemplate.MoreButton component={NextLink} href={`/${channelUrl}/webtoon?content=${content}`} />
         ),
         prevNextNav: (
           <>

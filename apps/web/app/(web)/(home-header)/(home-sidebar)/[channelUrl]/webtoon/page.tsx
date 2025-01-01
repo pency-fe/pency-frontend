@@ -1,5 +1,5 @@
-import { WebtoonPage } from "./_page/_page";
+import { ChannelUrlWebtoonPage } from "@/pages/channel-url";
 
 export default function Page() {
-  return <WebtoonPage />;
+  return <ChannelUrlWebtoonPage />;
 }

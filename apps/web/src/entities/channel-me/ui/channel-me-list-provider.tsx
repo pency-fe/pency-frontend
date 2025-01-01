@@ -27,7 +27,7 @@ export function ChannelMeListProvider({ children }: { children?: React.ReactNode
     refetchOnMount: false,
   });
 
-  if (query.isPending || query.isError) {
+  if (isLoggedIn && (query.isPending || query.isError)) {
     return;
   }
 

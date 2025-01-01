@@ -1,7 +1,7 @@
+import { getQueryClient } from "@/app/lib/get-query-client";
+import { authKeys, AuthProvider } from "@/entities/@auth";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { cookies } from "next/headers";
-import { userAuthMeKeys, UserAuthMeProvider } from "_core/user";
-import { getQueryClient } from "(route)/get-query-client";
 
 type Props = {
   children: React.ReactNode;
@@ -10,11 +10,11 @@ type Props = {
 export default async function Layout({ children }: Props) {
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery(userAuthMeKeys.detail({ headers: { Cookie: cookies().toString() } }));
+  await queryClient.prefetchQuery(authKeys.detail({ headers: { Cookie: cookies().toString() } }));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <UserAuthMeProvider>{children}</UserAuthMeProvider>
+      <AuthProvider>{children}</AuthProvider>
     </HydrationBoundary>
   );
 }

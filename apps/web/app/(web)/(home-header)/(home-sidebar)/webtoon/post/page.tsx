@@ -1,5 +1,5 @@
-import { PostPage } from "./_page/_page";
+import { WtPostHomePage } from "@/pages/wt-post";
 
 export default function Page() {
-  return <PostPage />;
+  return <WtPostHomePage />;
 }

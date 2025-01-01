@@ -1,5 +1,5 @@
-import { EmailPage } from "./_page/_page";
+import { EmailLoginPage } from "@/pages/login";
 
 export default function Page() {
-  return <EmailPage />;
+  return <EmailLoginPage />;
 }

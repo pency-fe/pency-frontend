@@ -1,5 +1,5 @@
-import { ListPage } from "./_page/_page";
+import { WtPostListPage } from "@/pages/wt-post";
 
 export default function Page() {
-  return <ListPage />;
+  return <WtPostListPage />;
 }

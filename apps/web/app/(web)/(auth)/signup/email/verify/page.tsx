@@ -1,5 +1,5 @@
-import { VerifyPage } from "./_page/_page";
+import { EmailVerifyPage } from "@/pages/signup";
 
 export default function Page() {
-  return <VerifyPage />;
+  return <EmailVerifyPage />;
 }

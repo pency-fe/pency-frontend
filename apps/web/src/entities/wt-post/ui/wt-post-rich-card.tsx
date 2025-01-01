@@ -71,11 +71,11 @@ const WtPostRichCardFn = forwardRef<HTMLDivElement, WtPostRichCardFnProps>(
 
     const handleBlock = useCallback(() => {
       if (data.block) {
-        onUnblock(data.id);
+        onUnblock(data.channel.id);
       } else {
-        onBlock(data.id);
+        onBlock(data.channel.id);
       }
-    }, [data.id, onUnblock, onBlock]);
+    }, [data.channel.id, onUnblock, onBlock]);
 
     return (
       <RichCard

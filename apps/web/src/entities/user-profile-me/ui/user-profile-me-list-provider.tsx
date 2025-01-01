@@ -28,7 +28,7 @@ export function UserProfileMeListProvider({ children }: { children?: React.React
     refetchOnMount: false,
   });
 
-  if (query.isPending || query.isError) {
+  if (isLoggedIn && (query.isPending || query.isError)) {
     return;
   }
 

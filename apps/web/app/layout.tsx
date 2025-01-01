@@ -1,3 +1,5 @@
+import "@pency/ui/global.css";
+
 import { InitQueryClientProvider } from "@/app/lib/init-query-client-provider";
 import { Snackbar } from "@pency/ui/components";
 import { InitThemeProvider } from "@pency/ui/theme";

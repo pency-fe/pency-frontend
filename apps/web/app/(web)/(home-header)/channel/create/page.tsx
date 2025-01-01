@@ -1,5 +1,5 @@
-import { CreatePage } from "./_page/_page";
+import { ChannelCreatePage } from "@/pages/channel-create";
 
 export default function Page() {
-  return <CreatePage />;
+  return <ChannelCreatePage />;
 }

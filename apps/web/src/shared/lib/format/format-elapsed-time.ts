@@ -1,4 +1,8 @@
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
+dayjs.locale("ko");
 
 export function formatElapsedTime(second: number) {
   const now = dayjs.utc().unix();
