@@ -30,8 +30,7 @@ import { useMemo } from "react";
 import { createQueryString, objectEntries, useToggle } from "@pency/util";
 import { usePaginationx } from "@pency/ui/hooks";
 import { hideScrollX } from "@pency/ui/util";
-import { CREATION_TYPE_LABEL, PAIR_LABEL } from "_core/webtoon/post/const";
-import { GENRE_LABEL } from "_core/webtoon/const";
+import { CREATION_TYPE_LABEL, GENRE_LABEL, PAIR_LABEL } from "@/shared/config/webtoon/const";
 
 // ----------------------------------------------------------------------
 

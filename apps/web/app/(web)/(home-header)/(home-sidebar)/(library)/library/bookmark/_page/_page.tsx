@@ -6,8 +6,8 @@ import { RadioButton } from "@pency/ui/components";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { createQueryString, objectEntries } from "@pency/util";
-import { WT_Post_RichCard } from "_core/webtoon/post";
 import { usePaginationx } from "@pency/ui/hooks";
+import { WtPostRichCard } from "@/entities/wt-post";
 
 // ----------------------------------------------------------------------
 
@@ -88,7 +88,7 @@ function WebtoonPostRichCard() {
       <Grid container spacing={1}>
         {Array.from({ length: 18 }, (_, i) => (
           <Grid item key={i} xs={12} sm={6} md={4}>
-            <WT_Post_RichCard
+            <WtPostRichCard
               data={{
                 id: 1,
                 thumbnail:

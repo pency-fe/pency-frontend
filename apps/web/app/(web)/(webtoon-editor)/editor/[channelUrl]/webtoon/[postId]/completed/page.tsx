@@ -1,7 +1,5 @@
-"use client";
-
-import { CompletedPage } from "./_page/_page";
+import { WtPostEditorCompletedPage } from "@/pages/wt-post-editor";
 
 export default function () {
-  return <CompletedPage />;
+  return <WtPostEditorCompletedPage />;
 }

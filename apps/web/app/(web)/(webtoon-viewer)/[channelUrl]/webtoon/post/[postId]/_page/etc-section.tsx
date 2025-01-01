@@ -22,8 +22,7 @@ import {
   GravityUiCircleCheckFillIcon,
 } from "@pency/ui/components";
 import { stylesColorScheme } from "@pency/ui/util";
-import { WT_Post_List_Comment } from "_core/webtoon/post";
-
+import { WT_Post_List_Comment } from "../../../../../../../_core/webtoon/post";
 // ----------------------------------------------------------------------
 
 export function EtcSection() {
@@ -288,74 +287,66 @@ function OtherPostOfAuthor() {
           </Stack>
         </Box>
 
-        <OverviewCardCarousel.Container
-          slots={{
-            slides: (
-              <>
-                {Array.from({ length: 10 }, (_, i) => (
-                  <OverviewCardCarousel.Slide key={i}>
-                    <OverviewCard
+        <OverviewCardCarousel.Panel>
+          {Array.from({ length: 10 }, (_, i) => (
+            <OverviewCardCarousel.Slide key={i}>
+              <OverviewCard
+                slots={{
+                  overlayElement: (
+                    <OverviewCard.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`} />
+                  ),
+                  thumbnail: (
+                    <OverviewCard.Thumbnail
                       slots={{
-                        overlayElement: (
-                          <OverviewCard.OverlayAnchor
-                            href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`}
-                          />
-                        ),
-                        thumbnail: (
-                          <OverviewCard.Thumbnail
-                            slots={{
-                              image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} />,
-                              // image: <OverviewCard.Thumbnail.Image src={null} />,
+                        image: <OverviewCard.Thumbnail.Image src={postData.thumbnail} />,
+                        // image: <OverviewCard.Thumbnail.Image src={null} />,
 
-                              topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
-                            }}
-                            sx={{ aspectRatio: "16/9" }}
-                          />
-                        ),
-                        labels: (
-                          <>
-                            {postData.price && (
-                              <OverviewCard.Label
-                                variant="soft"
-                                color="success"
-                                slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
-                              >
-                                {postData.price}P
-                              </OverviewCard.Label>
-                            )}
-                            <OverviewCard.Label variant="soft" color="secondary">
-                              {postData.creationType}
-                            </OverviewCard.Label>
-                            <OverviewCard.Label variant="soft" color="warning">
-                              {postData.pair}
-                            </OverviewCard.Label>
-                            <OverviewCard.Label variant="soft" color="warning">
-                              {postData.genre}
-                            </OverviewCard.Label>
-                          </>
-                        ),
-                        avatarLink: (
-                          <OverviewCard.AvatarLink
-                            href={`/@${postData.channel.channelUrl}`}
-                            slots={{
-                              avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
-                            }}
-                          />
-                        ),
-                        title: <OverviewCard.Title>{postData.title}</OverviewCard.Title>,
-                        nameLink: (
-                          <OverviewCard.NameLink href={`/@/${postData.channel.channelUrl}`}>
-                            {postData.channel.name}
-                          </OverviewCard.NameLink>
-                        ),
+                        topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+                      }}
+                      sx={{ aspectRatio: "16/9" }}
+                    />
+                  ),
+                  labels: (
+                    <>
+                      {postData.price && (
+                        <OverviewCard.Label
+                          variant="soft"
+                          color="success"
+                          slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
+                        >
+                          {postData.price}P
+                        </OverviewCard.Label>
+                      )}
+                      <OverviewCard.Label variant="soft" color="secondary">
+                        {postData.creationType}
+                      </OverviewCard.Label>
+                      <OverviewCard.Label variant="soft" color="warning">
+                        {postData.pair}
+                      </OverviewCard.Label>
+                      <OverviewCard.Label variant="soft" color="warning">
+                        {postData.genre}
+                      </OverviewCard.Label>
+                    </>
+                  ),
+                  avatarLink: (
+                    <OverviewCard.AvatarLink
+                      href={`/@${postData.channel.channelUrl}`}
+                      slots={{
+                        avatar: <OverviewCard.AvatarLink.Avatar src={postData.channel.avatar} />,
                       }}
                     />
-                  </OverviewCardCarousel.Slide>
-                ))}
-              </>
-            ),
-          }}
-        />
+                  ),
+                  title: <OverviewCard.Title>{postData.title}</OverviewCard.Title>,
+                  nameLink: (
+                    <OverviewCard.NameLink href={`/@/${postData.channel.channelUrl}`}>
+                      {postData.channel.name}
+                    </OverviewCard.NameLink>
+                  ),
+                }}
+              />
+            </OverviewCardCarousel.Slide>
+          ))}
+        </OverviewCardCarousel.Panel>
       </OverviewCardCarousel>
     </Box>
   );

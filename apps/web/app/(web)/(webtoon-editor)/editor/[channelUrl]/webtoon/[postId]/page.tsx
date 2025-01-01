@@ -1,10 +1,5 @@
-import { notFound } from "next/navigation";
-import { PostIdPage } from "./_page/_page";
+import { WtPostIdEditorPage } from "@/pages/wt-post-editor";
 
-export default function Page({ params: { postId } }: { params: { postId: string } }) {
-  if (!postId || isNaN(Number(postId))) {
-    notFound();
-  }
-
-  return <PostIdPage />;
+export default function Page() {
+  return <WtPostIdEditorPage />;
 }

@@ -1,5 +1,5 @@
-import { WebtoonPage } from "./_page/_page";
+import { WtPostEditorPage } from "@/pages/wt-post-editor";
 
 export default function Page() {
-  return <WebtoonPage />;
+  return <WtPostEditorPage />;
 }
