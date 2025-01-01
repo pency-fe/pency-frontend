@@ -1,16 +1,26 @@
 {
   "extends": "@pency/typescript-config/nextjs.json",
   "compilerOptions": {
-    "baseUrl": "app/",
     "paths": {
-      "@/_route/*": ["_route/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "strictNullChecks": true
   },
-  "include": ["next-env.d.ts", "next.config.mjs", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "next.config.mjs",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -3,9 +3,11 @@
 import { Button, ButtonProps, useRadioGroup, useTheme } from "@mui/material";
 import { MouseEventHandler, useCallback } from "react";
 
-type RadioButtonProps = ButtonProps & { value: string };
-
-export function RadioButton({ value, children, ...rest }: RadioButtonProps) {
+export function RadioButton<C extends React.ElementType>({
+  value,
+  children,
+  ...rest
+}: ButtonProps<C, { component?: C; value: string }>) {
   const radioGroup = useRadioGroup();
   const theme = useTheme();
 
