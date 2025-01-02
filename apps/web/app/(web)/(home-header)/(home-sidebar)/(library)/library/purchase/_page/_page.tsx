@@ -262,6 +262,7 @@ function WebtoonListItemx() {
       sx={{
         flexShrink: 0,
         [`&.${listItemxClasses.root}`]: {
+          height: "68px",
           [theme.breakpoints.up("sm")]: {
             height: "80px",
           },

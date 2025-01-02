@@ -79,7 +79,7 @@ export function UserProfileAvatar() {
           <UserProfileMe close={close} />
           <ChannelMeList close={close} />
           <MainMenuList close={close} />
-          <EctMenuList />
+          <EtcMenuList />
         </Stack>
       </Popperx>
     </>
@@ -230,7 +230,7 @@ function MainMenuList({ close }: { close: () => void }) {
   );
 }
 
-function EctMenuList() {
+function EtcMenuList() {
   const { mutate } = useLogout();
 
   return (
