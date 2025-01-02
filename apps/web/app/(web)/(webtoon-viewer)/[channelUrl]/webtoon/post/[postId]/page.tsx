@@ -1,5 +1,5 @@
-import { PostIdPage } from "./_page/_page";
+import { WtPostViewerPage } from "@/pages/wt-post-viewer/ui/wt-post-viewer-page";
 
 export default function Page() {
-  return <PostIdPage />;
+  return <WtPostViewerPage />;
 }

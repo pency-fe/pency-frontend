@@ -22,7 +22,8 @@ import {
   GravityUiCircleCheckFillIcon,
 } from "@pency/ui/components";
 import { stylesColorScheme } from "@pency/ui/util";
-import { WT_Post_List_Comment } from "../../../../../../../_core/webtoon/post";
+import { WtPostListComment } from "@/entities/wt-post-comment";
+
 // ----------------------------------------------------------------------
 
 export function EtcSection() {
@@ -120,7 +121,7 @@ function PostLikeSummary() {
           <EvaHeartOutlineIcon />
         </IconButton>
       </Box>
-      <WT_Post_List_Comment
+      <WtPostListComment
         data={{
           commentId: "123",
           channel: {
@@ -135,7 +136,7 @@ function PostLikeSummary() {
           likeCount: 1,
           replyCount: 2,
         }}
-      ></WT_Post_List_Comment>
+      ></WtPostListComment>
     </Box>
   );
 }

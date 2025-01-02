@@ -545,6 +545,11 @@ const SubscriptionOrStudioButtonFn = (rest: SubscriptionOrStudioButtonFnFnProps)
           oldData &&
           produce(oldData, (draft) => {
             draft.subscribed = subscribed;
+            if (subscribed) {
+              draft.subscriberCount += 1;
+            } else {
+              draft.subscriberCount -= 1;
+            }
           }),
       );
     };

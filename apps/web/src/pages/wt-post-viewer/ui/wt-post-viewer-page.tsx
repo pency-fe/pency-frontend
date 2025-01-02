@@ -11,7 +11,7 @@ import { isClient } from "@pency/util";
 
 // ----------------------------------------------------------------------
 
-export function PostIdPage() {
+export const WtPostViewerPage = () => {
   return (
     <>
       <HideHeader />
@@ -24,7 +24,7 @@ export function PostIdPage() {
       <BottomAppBar />
     </>
   );
-}
+};
 
 // ----------------------------------------------------------------------
 
