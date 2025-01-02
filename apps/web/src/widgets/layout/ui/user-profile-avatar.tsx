@@ -32,6 +32,7 @@ import {
 import { useSelectedUserProfileMeContext } from "@/entities/user-profile-me";
 import { useChannelMeListContext } from "@/entities/channel-me";
 import { useLogout } from "../api/mutations";
+import { NewPostIconButton } from "./new-post-icon-button";
 
 export function UserProfileAvatar() {
   const userProfileMe = useSelectedUserProfileMeContext()!;
@@ -152,15 +153,7 @@ function ChannelMeList({ close }: { close: () => void }) {
                   >
                     스튜디오
                   </Button>
-                  <IconButton
-                    LinkComponent={NextLink}
-                    href={`/editor/@${channel.url}/webtoon`}
-                    variant="soft"
-                    size="small"
-                    sx={{ borderRadius: 1, zIndex: 2 }}
-                  >
-                    <MingcutePencilLineIcon />
-                  </IconButton>
+                  <NewPostIconButton channelUrl={channel.url} />
                 </Box>
               </ListItem>
             ))}
