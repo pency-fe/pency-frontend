@@ -33,7 +33,7 @@ export function ChannelUrlLayout({ children }: { children?: React.ReactNode }) {
     return "home";
   }, [pathname]);
 
-  const platfromEntries = useMemo(() => objectEntries(PLATFORM_VALUE_LABEL), []);
+  const platformEntries = useMemo(() => objectEntries(PLATFORM_VALUE_LABEL), []);
 
   return (
     <>
@@ -123,7 +123,7 @@ export function ChannelUrlLayout({ children }: { children?: React.ReactNode }) {
           value="home"
           wrapped
         />
-        {platfromEntries.map(([value, label]) => (
+        {platformEntries.map(([value, label]) => (
           <Tab
             key={value}
             LinkComponent={NextLink}
