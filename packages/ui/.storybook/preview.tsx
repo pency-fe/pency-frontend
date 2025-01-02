@@ -1,6 +1,6 @@
+import React from "react";
 import type { Preview } from "@storybook/react";
 import "./baseline.css";
-import { withThemeFromJSXProvider } from "@storybook/addon-themes";
 import { InitThemeProvider } from "../src/theme/init-theme-provider";
 
 const preview: Preview = {
@@ -14,10 +14,20 @@ const preview: Preview = {
   },
 };
 
+// export const decorators = [
+//   withThemeFromJSXProvider({
+//     Provider: InitThemeProvider,
+//   }),
+// ];
+
 export const decorators = [
-  withThemeFromJSXProvider({
-    Provider: InitThemeProvider,
-  }),
+  (Story, context) => {
+    return (
+      <InitThemeProvider>
+        <Story {...context} />
+      </InitThemeProvider>
+    );
+  },
 ];
 
 export default preview;
