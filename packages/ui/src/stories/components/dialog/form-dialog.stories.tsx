@@ -72,7 +72,10 @@ export const Design1 = () => {
                 borderRightWidth: "thin",
                 borderStyle: "solid",
                 borderColor: theme.vars.palette.divider,
-                overflow: "hidden scroll",
+                overflowY: "scroll",
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
               }}
             >
               <RadioGroup>
@@ -94,7 +97,19 @@ export const Design1 = () => {
               </RadioGroup>
             </Grid>
 
-            <Grid item xs={9} sx={{ height: 1, pl: "20px", py: "20px", overflow: "hidden scroll" }}>
+            <Grid
+              item
+              xs={9}
+              sx={{
+                height: 1,
+                pl: "20px",
+                py: "20px",
+                overflowY: "scroll",
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+              }}
+            >
               <p>hi2</p>
               <p>hi2</p>
               <p>hi2</p>

@@ -153,7 +153,10 @@ const PublishOptionButtonFn = () => {
                   borderRightWidth: "thin",
                   borderStyle: "solid",
                   borderColor: theme.vars.palette.divider,
-                  overflow: "hidden scroll",
+                  overflowY: "scroll",
+                  "&::-webkit-scrollbar": {
+                    display: "none",
+                  },
                 },
               }}
             >
@@ -196,7 +199,17 @@ const PublishOptionButtonFn = () => {
               item
               xs={12}
               sm={9}
-              sx={{ [theme.breakpoints.up("sm")]: { height: 1, pl: "20px", py: "20px", overflow: "hidden scroll" } }}
+              sx={{
+                [theme.breakpoints.up("sm")]: {
+                  height: 1,
+                  pl: "20px",
+                  py: "20px",
+                  overflowY: "scroll",
+                  "&::-webkit-scrollbar": {
+                    display: "none",
+                  },
+                },
+              }}
             >
               {navValue === "publish" && (
                 <Stack spacing={4}>
