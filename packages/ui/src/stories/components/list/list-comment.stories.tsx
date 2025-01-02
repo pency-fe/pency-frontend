@@ -9,7 +9,6 @@ import {
   useMenuxState,
 } from "../../../components";
 import { Box, Divider, ListItemIcon, MenuItem, Stack } from "@mui/material";
-import { formatCount, formatElapsedTime } from "@pency/util";
 import { Meta } from "@storybook/react";
 
 // ----------------------------------------------------------------------
@@ -64,10 +63,10 @@ export const Comment = () => {
             {commentData.label}
           </ListComment.Label>
         ),
-        createdAt: <ListComment.CreatedAt>{formatElapsedTime(commentData.createdAt)}</ListComment.CreatedAt>,
+        createdAt: <ListComment.CreatedAt>{commentData.createdAt}</ListComment.CreatedAt>,
         comment: <ListComment.Comment>{commentData.comment}</ListComment.Comment>,
-        likeButton: <ListComment.LikeButton>{formatCount(commentData.likeCount)}</ListComment.LikeButton>,
-        replyButton: <ListComment.ReplyButton>{formatCount(commentData.replyCount)}</ListComment.ReplyButton>,
+        likeButton: <ListComment.LikeButton>{commentData.likeCount}</ListComment.LikeButton>,
+        replyButton: <ListComment.ReplyButton>{commentData.replyCount}</ListComment.ReplyButton>,
         feedbackButton: (
           <>
             <ListComment.FeedbackButton ref={anchorRef} onClick={toggle}>
@@ -137,9 +136,9 @@ export const Reply = () => {
               {commentData.label}
             </ListComment.Label>
           ),
-          createdAt: <ListComment.CreatedAt>{formatElapsedTime(commentData.createdAt)}</ListComment.CreatedAt>,
+          createdAt: <ListComment.CreatedAt>{commentData.createdAt}</ListComment.CreatedAt>,
           comment: <ListComment.Comment>{commentData.comment}</ListComment.Comment>,
-          likeButton: <ListComment.LikeButton>{formatCount(commentData.likeCount)}</ListComment.LikeButton>,
+          likeButton: <ListComment.LikeButton>{commentData.likeCount}</ListComment.LikeButton>,
           feedbackButton: (
             <>
               <ListComment.FeedbackButton ref={anchorRef} onClick={toggle}>

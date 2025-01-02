@@ -14,19 +14,13 @@ export const PostRichCardCarousel = () => {
       <RichCardCarousel.PrevNav />
       <RichCardCarousel.NextNav />
 
-      <RichCardCarousel.Container
-        slots={{
-          slides: (
-            <>
-              {Array.from({ length: 10 }, (_, i) => (
-                <RichCardCarousel.Slide key={i}>
-                  <PostRichCard />
-                </RichCardCarousel.Slide>
-              ))}
-            </>
-          ),
-        }}
-      />
+      <RichCardCarousel.Panel>
+        {Array.from({ length: 10 }, (_, i) => (
+          <RichCardCarousel.Slide key={i}>
+            <PostRichCard />
+          </RichCardCarousel.Slide>
+        ))}
+      </RichCardCarousel.Panel>
     </RichCardCarousel>
   );
 };
@@ -39,19 +33,13 @@ export const SeriesRichCardCarousel = () => {
       <RichCardCarousel.PrevNav />
       <RichCardCarousel.NextNav />
 
-      <RichCardCarousel.Container
-        slots={{
-          slides: (
-            <>
-              {Array.from({ length: 10 }, (_, i) => (
-                <RichCardCarousel.Slide key={i}>
-                  <SeriesRichCard />
-                </RichCardCarousel.Slide>
-              ))}
-            </>
-          ),
-        }}
-      />
+      <RichCardCarousel.Panel>
+        {Array.from({ length: 10 }, (_, i) => (
+          <RichCardCarousel.Slide key={i}>
+            <SeriesRichCard />
+          </RichCardCarousel.Slide>
+        ))}
+      </RichCardCarousel.Panel>
     </RichCardCarousel>
   );
 };

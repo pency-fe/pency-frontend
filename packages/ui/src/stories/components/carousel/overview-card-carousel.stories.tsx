@@ -14,19 +14,13 @@ export const Default = () => {
       <OverviewCardCarousel.PrevNav />
       <OverviewCardCarousel.NextNav />
 
-      <OverviewCardCarousel.Container
-        slots={{
-          slides: (
-            <>
-              {Array.from({ length: 10 }, (_, i) => (
-                <OverviewCardCarousel.Slide key={i}>
-                  <PostOverviewCard />
-                </OverviewCardCarousel.Slide>
-              ))}
-            </>
-          ),
-        }}
-      />
+      <OverviewCardCarousel.Panel>
+        {Array.from({ length: 10 }, (_, i) => (
+          <OverviewCardCarousel.Slide key={i}>
+            <PostOverviewCard />
+          </OverviewCardCarousel.Slide>
+        ))}
+      </OverviewCardCarousel.Panel>
     </OverviewCardCarousel>
   );
 };
