@@ -430,6 +430,8 @@ const ImageFn = () => {
   );
 };
 
+// ----------------------------------------------------------------------
+
 const BgImageFn = () => {
   const { control } = useChFormContext();
   const {

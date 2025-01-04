@@ -390,7 +390,7 @@ const TitleFn = () => {
           type="text"
           label="포스트 제목"
           required
-          helperText={error ? error.message : "최대 100자 아내로 입력해 주세요."}
+          helperText={error ? error.message : "최대 100자 이내로 입력해 주세요."}
           error={!!error}
           InputProps={{
             endAdornment: (
@@ -669,7 +669,7 @@ const AuthorTalkFn = () => {
           maxRows={5}
           type="text"
           label="작가의 말"
-          helperText={error ? error.message : "최대 200자 아내로 입력해 주세요."}
+          helperText={error ? error.message : "최대 200자 이내로 입력해 주세요."}
           error={!!error}
           sx={{
             [`& .${inputBaseClasses.root}`]: {
@@ -709,7 +709,7 @@ const PrecautionFn = () => {
           maxRows={5}
           type="text"
           label="읽기 전 주의사항"
-          helperText={error ? error.message : "최대 200자 아내로 입력해 주세요."}
+          helperText={error ? error.message : "최대 200자 이내로 입력해 주세요."}
           error={!!error}
           sx={{
             [`& .${inputBaseClasses.root}`]: {
