@@ -33,29 +33,13 @@ const useData = () => {
 
 // ----------------------------------------------------------------------
 
-type Variant = "primary" | "secondary";
+type WtPostGalleryFnProps = GalleryProps;
 
-const VariantContext = createContext<{ variant: Variant } | undefined>(undefined);
-
-const useVariant = () => {
-  const context = useContext(VariantContext);
-
-  if (!context) throw new Error(`부모로 <WtPostGallery /> 컴포넌트가 있어야 합니다.`);
-
-  return context;
-};
-
-// ----------------------------------------------------------------------
-
-type WtPostGalleryFnProps = { variant?: Variant } & GalleryProps;
-
-const WtPostGalleryFn = ({ variant = "primary", ...rest }: WtPostGalleryFnProps) => {
+const WtPostGalleryFn = (rest: WtPostGalleryFnProps) => {
   return (
-    <VariantContext.Provider value={{ variant }}>
-      <AsyncBoundary errorBoundary={{ fallback: <Loading /> }} suspense={{ fallback: <Loading /> }}>
-        <Gallery {...rest} />
-      </AsyncBoundary>
-    </VariantContext.Provider>
+    <AsyncBoundary errorBoundary={{ fallback: <Loading /> }} suspense={{ fallback: <Loading /> }}>
+      <Gallery {...rest} />
+    </AsyncBoundary>
   );
 };
 
@@ -102,12 +86,11 @@ type PanelFnProps = {
 const PanelFn = ({ Menu }: PanelFnProps) => {
   const { data } = useData();
   const { genre } = useGenre();
-  const { variant } = useVariant();
 
   return (
-    <Grid container spacing={{ xs: variant === "primary" ? 1 : 0.5, sm: 1 }}>
+    <Grid container spacing={{ xs: 1, sm: 1 }}>
       {data.posts.map((post, i) => (
-        <Grid item key={i} xs={variant === "primary" ? 12 : 6} sm={6} md={4}>
+        <Grid item key={i} xs={12} sm={6} md={4}>
           <WtPostRichCard data={post} Menu={Menu} hideGenre={genre !== "ALL"} />
         </Grid>
       ))}
@@ -118,12 +101,10 @@ const PanelFn = ({ Menu }: PanelFnProps) => {
 // ----------------------------------------------------------------------
 
 const Loading = () => {
-  const { variant } = useVariant();
-
   return (
-    <Grid container spacing={{ xs: variant === "primary" ? 1 : 0.5, sm: 1 }}>
+    <Grid container spacing={{ xs: 1, sm: 1 }}>
       {Array.from({ length: 18 }, (_, i) => (
-        <Grid item key={i} xs={variant === "primary" ? 12 : 6} sm={6} md={4}>
+        <Grid item key={i} xs={12} sm={6} md={4}>
           <WtPostRichCard.Loading />
         </Grid>
       ))}

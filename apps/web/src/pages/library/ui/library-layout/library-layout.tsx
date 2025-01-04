@@ -1,16 +1,17 @@
 "use client";
 
-import NextLink from "next/link";
-import { Stack, Tab, Tabs, tabsClasses, Typography } from "@mui/material";
-import { usePathname } from "next/navigation";
 import { useMemo } from "react";
-import { objectEntries } from "@pency/util";
+import NextLink from "next/link";
+import { usePathname } from "next/navigation";
+import { Stack, Tab, Tabs, tabsClasses, Typography } from "@mui/material";
+import { arrayIncludes, objectEntries, objectKeys } from "@pency/util";
 
 // ----------------------------------------------------------------------
 
-type NavValue = "bookmark" | "purchase" | "like";
+type NavValue = "view" | "bookmark" | "purchase" | "like";
 
 const NAV_VALUE_LABEL: Record<NavValue, string> = {
+  view: "최근 본",
   bookmark: "북마크",
   purchase: "구매",
   like: "좋아요",
@@ -27,29 +28,22 @@ export function LibraryLayout({ children }: Props) {
   const navValue = useMemo(() => {
     const nav = pathname.split("/")[2];
 
-    if (nav && Object.keys(NAV_VALUE_LABEL).includes(nav)) {
+    if (nav && arrayIncludes(objectKeys(NAV_VALUE_LABEL), nav)) {
       return nav as NavValue;
     }
 
-    return "view";
+    return "view" as NavValue;
   }, [pathname]);
 
   return (
     <Stack>
       <Tabs value={navValue} scrollButtons={false} sx={{ [`& .${tabsClasses.flexContainer}`]: { gap: 2 }, mb: 2 }}>
-        <Tab
-          LinkComponent={NextLink}
-          href={`/library/view`}
-          label={<Typography variant="h6">최근 본</Typography>}
-          value="view"
-          wrapped
-        />
         {objectEntries(NAV_VALUE_LABEL).map(([value, label]) => (
           <Tab
             key={value}
             LinkComponent={NextLink}
             href={`/library/${value}`}
-            label={<Typography variant="h6">{label}</Typography>}
+            label={<Typography variant="subtitle1">{label}</Typography>}
             value={value}
             wrapped
           />

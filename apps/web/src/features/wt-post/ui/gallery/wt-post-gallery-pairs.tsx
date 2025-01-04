@@ -2,17 +2,26 @@
 
 import { useMemo } from "react";
 import { NoSsr } from "@mui/material";
-import { useSessionStorage } from "@pency/util";
+import { arrayIncludes, objectKeys, useSessionStorage } from "@pency/util";
 import { FilterChip } from "@pency/ui/components";
 import { Pair, PAIR_LABEL } from "@/shared/config/webtoon/const";
 import { useFilterFormToggle } from "../../model/filter-form-toggle-context";
 import { PairsContext, usePairs } from "../../model/pairs-context";
+import { useSearchParams } from "next/navigation";
 
 // ----------------------------------------------------------------------
 
 function PairsProvider({ children }: { children?: React.ReactNode }) {
-  // [TODO]
-  return children;
+  const searchParams = useSearchParams();
+
+  const pairs = useMemo(() => {
+    const params = searchParams.getAll("pairs");
+    const pairKeys = objectKeys(PAIR_LABEL);
+
+    return params.filter((param) => arrayIncludes(pairKeys, param));
+  }, [searchParams]);
+
+  return <PairsContext.Provider value={{ pairs, setPairs: undefined }}>{children}</PairsContext.Provider>;
 }
 
 // ----------------------------------------------------------------------
@@ -43,7 +52,7 @@ const WtPostGalleryPairsFn = ({ variant = "searchParam", children }: WtPostGalle
 };
 
 const FilterChipFn = () => {
-  const { pairs } = usePairs();
+  const { pairs, setPairs } = usePairs();
   if (!pairs) {
     throw new Error(`<부모로 <WtPostGalleryPairs /> 컴포넌트가 있어야 합니다.`);
   }
@@ -62,9 +71,15 @@ const FilterChipFn = () => {
   }, [pairs]);
 
   return (
-    <NoSsr>
-      <FilterChip label={pairsLabel} open={isOpen} active={!!pairs.length} onClick={toggle} />
-    </NoSsr>
+    <>
+      {setPairs ? (
+        <NoSsr>
+          <FilterChip label={pairsLabel} open={isOpen} active={!!pairs.length} onClick={toggle} />
+        </NoSsr>
+      ) : (
+        <FilterChip label={pairsLabel} open={isOpen} active={!!pairs.length} onClick={toggle} />
+      )}
+    </>
   );
 };
 

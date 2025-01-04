@@ -71,7 +71,7 @@ export function ChannelUrlLayout({ children }: { children?: React.ReactNode }) {
               <ChDetail.Image />
             </Grid>
 
-            <Grid item xs sm={false}>
+            <Grid item>
               <Stack
                 sx={{
                   alignItems: "flex-start",

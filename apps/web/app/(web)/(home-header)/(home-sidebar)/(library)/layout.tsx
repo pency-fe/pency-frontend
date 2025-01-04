@@ -1,11 +1,7 @@
 import { RequireUser } from "@/entities/@auth";
-import { LibraryLayout } from "./_layout/_layout";
+import { LibraryLayout } from "@/pages/library";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-export default function Layout({ children }: Props) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <RequireUser>
       <LibraryLayout>{children}</LibraryLayout>

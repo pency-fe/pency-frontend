@@ -9,9 +9,8 @@ import { useParams } from "next/navigation";
 
 export const StudioWtSeriesUpdatePage = withAsyncBoundary(
   () => {
-    const { seriesId } = useParams();
-    const id = Number(seriesId);
-    const { data } = useSuspenseQuery(wtSeriesMeKeys.detail({ id }));
+    const { seriesId } = useParams<{ seriesId: string }>();
+    const { data } = useSuspenseQuery(wtSeriesMeKeys.detail({ id: Number(seriesId) }));
 
     return (
       <WtSeriesUpdateForm data={data}>
@@ -53,11 +52,11 @@ function Loading() {
         </Grid>
         <Grid item xs={12} md>
           <Stack spacing={4}>
-            <Skeleton width="100%" height={66} />
-            <Skeleton width="100%" height={56} />
-            <Skeleton width="100%" height={80} />
-            <Skeleton width="100%" height={117} />
-            <Skeleton width="100%" height={110} />
+            <Skeleton height={66} />
+            <Skeleton height={56} />
+            <Skeleton height={80} />
+            <Skeleton height={117} />
+            <Skeleton height={110} />
           </Stack>
         </Grid>
       </Grid>

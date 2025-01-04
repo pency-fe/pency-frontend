@@ -1,11 +1,11 @@
 "use client";
 
 import { ComponentProps, useMemo, useState } from "react";
-import { Box, Button, Collapse, IconButton, NoSsr, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Button, Collapse, CollapseProps, IconButton, NoSsr, Stack, Typography, useTheme } from "@mui/material";
 import { z } from "zod";
 import { Controller, FormProvider, SubmitHandler, useForm, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { objectEntries, zodObjectKeys } from "@pency/util";
+import { createQueryString, objectEntries, zodObjectKeys } from "@pency/util";
 import { CheckboxButton, IcRoundRefreshIcon } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { CREATION_TYPE_LABEL, PAIR_LABEL } from "@/shared/config/webtoon/const";
@@ -16,6 +16,7 @@ import {
   useFilterFormToggle,
 } from "../../model/filter-form-toggle-context";
 import { usePairs } from "../../model/pairs-context";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 // ----------------------------------------------------------------------
 
@@ -182,15 +183,19 @@ const WtPostGalleryFilterFormFn = (rest: ComponentProps<typeof FilterFormToggleP
   return <FilterFormToggleProvider {...rest} />;
 };
 
-const CollapseFormFn = () => {
+const CollapseFormFn = (rest: CollapseProps) => {
   const { creationTypes, setCreationTypes } = useCreationTypes();
   const { pairs, setPairs } = usePairs();
 
-  if (!creationTypes || !setCreationTypes) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  if (!creationTypes) {
     throw new Error(`<부모로 <WtPostCreationTypes /> 컴포넌트가 있어야 합니다.`);
   }
 
-  if (!pairs || !setPairs) {
+  if (!pairs) {
     throw new Error(`<부모로 <WtPostPairs /> 컴포넌트가 있어야 합니다.`);
   }
 
@@ -200,12 +205,41 @@ const CollapseFormFn = () => {
   const theme = useTheme();
 
   const saveFilter: SubmitHandler<Schema> = (data) => {
+    if (!setCreationTypes || !setPairs) {
+      const params = new URLSearchParams(searchParams.toString());
+
+      params.delete("creationTypes");
+      data.creationTypes.forEach((creationType) => {
+        params.append("creationTypes", creationType);
+      });
+
+      params.delete("pairs");
+      data.pairs.forEach((pair) => {
+        params.append("pairs", pair);
+      });
+
+      router.replace(`${pathname}${createQueryString(params)}`);
+      close();
+      return;
+    }
+
     setCreationTypes(data.creationTypes);
     setPairs(data.pairs);
     close();
   };
 
   const resetFilter: SubmitHandler<Schema> = (data) => {
+    if (!setCreationTypes || !setPairs) {
+      const params = new URLSearchParams(searchParams.toString());
+
+      params.delete("creationTypes");
+      params.delete("pairs");
+
+      router.replace(`${pathname}${createQueryString(params)}`);
+      close();
+      return;
+    }
+
     setCreationTypes(data.creationTypes);
     setPairs(data.pairs);
     close();
@@ -213,7 +247,7 @@ const CollapseFormFn = () => {
 
   return (
     <NoSsr>
-      <Collapse in={isOpen} unmountOnExit>
+      <Collapse {...rest} in={isOpen} unmountOnExit>
         <FilterForm
           defaultValue={{
             creationTypes,

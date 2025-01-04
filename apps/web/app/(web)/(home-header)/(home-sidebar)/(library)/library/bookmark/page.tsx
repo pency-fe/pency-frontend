@@ -1,6 +1,4 @@
-"use client";
-
-import LibraryBookmarkPage from "./_page/_page";
+import { LibraryBookmarkPage } from "@/pages/library";
 
 export default function Page() {
   return <LibraryBookmarkPage />;

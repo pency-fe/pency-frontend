@@ -29,7 +29,6 @@ export function WtPostListPage() {
               <WtPostGalleryPairs variant="storage">
                 <WtPostGalleryGenre.RadioButtons />
 
-                {/* TODO: GRID로 변경해야 함. 지금 영향 범위에 sort가 포함되고 있음. */}
                 <WtPostGalleryFilterForm>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <WtPostGallerySort.FilterChip />
@@ -40,7 +39,6 @@ export function WtPostListPage() {
                         alignItems: "center",
                         flexWrap: "nowrap",
                         gap: 1,
-                        overflowX: "scroll",
                         ...hideScrollX,
                       }}
                     >
@@ -52,7 +50,10 @@ export function WtPostListPage() {
                 </WtPostGalleryFilterForm>
 
                 <WtPostGallery>
+                  {/* [TODO현지] 테스트하고 원래대로 꼭 돌려놔 */}
                   <WtPostGallery.Panel Menu={WtPostMenu} />
+
+                  {/* <WtPostGallery.Panel Menu={WtPostMenu} /> */}
                   <Box sx={{ margin: "auto", mt: 3 }}>
                     <WtPostGallery.Pagination />
                   </Box>

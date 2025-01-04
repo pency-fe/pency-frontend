@@ -2,17 +2,30 @@
 
 import { useMemo } from "react";
 import { NoSsr } from "@mui/material";
-import { useSessionStorage } from "@pency/util";
+import { arrayIncludes, objectKeys, useSessionStorage } from "@pency/util";
 import { FilterChip } from "@pency/ui/components";
 import { CREATION_TYPE_LABEL, CreationType } from "@/shared/config/webtoon/const";
 import { CreationTypesContext, useCreationTypes } from "../../model/creation-types-context";
 import { useFilterFormToggle } from "../../model/filter-form-toggle-context";
+import { useSearchParams } from "next/navigation";
 
 // ----------------------------------------------------------------------
 
 function CreationTypesProvider({ children }: { children?: React.ReactNode }) {
-  // [TODO]
-  return <>{children}</>;
+  const searchParams = useSearchParams();
+
+  const creationTypes = useMemo(() => {
+    const params = searchParams.getAll("creationTypes");
+    const creationTypeKeys = objectKeys(CREATION_TYPE_LABEL);
+
+    return params.filter((param) => arrayIncludes(creationTypeKeys, param));
+  }, [searchParams]);
+
+  return (
+    <CreationTypesContext.Provider value={{ creationTypes, setCreationTypes: undefined }}>
+      {children}
+    </CreationTypesContext.Provider>
+  );
 }
 
 // ----------------------------------------------------------------------
@@ -30,11 +43,11 @@ function CreationTypesStorageProvider({ children }: { children?: React.ReactNode
 // ----------------------------------------------------------------------
 
 type WtPostGalleryCreationTypesFnProps = {
-  variant?: "searchParam" | "storage";
+  variant?: "searchParams" | "storage";
   children?: React.ReactNode;
 };
 
-const WtPostGalleryCreationTypesFn = ({ variant = "searchParam", children }: WtPostGalleryCreationTypesFnProps) => {
+const WtPostGalleryCreationTypesFn = ({ variant = "searchParams", children }: WtPostGalleryCreationTypesFnProps) => {
   const Provider = useMemo(() => {
     if (variant === "storage") {
       return CreationTypesStorageProvider;
@@ -47,7 +60,7 @@ const WtPostGalleryCreationTypesFn = ({ variant = "searchParam", children }: WtP
 };
 
 export const FilterChipFn = () => {
-  const { creationTypes } = useCreationTypes();
+  const { creationTypes, setCreationTypes } = useCreationTypes();
   if (!creationTypes) {
     throw new Error(`<부모로 <WtPostGalleryCreationTypes /> 컴포넌트가 있어야 합니다.`);
   }
@@ -66,9 +79,15 @@ export const FilterChipFn = () => {
   }, [creationTypes]);
 
   return (
-    <NoSsr>
-      <FilterChip label={creationTypesLabel} open={isOpen} active={!!creationTypes.length} onClick={toggle} />
-    </NoSsr>
+    <>
+      {setCreationTypes ? (
+        <NoSsr>
+          <FilterChip label={creationTypesLabel} open={isOpen} active={!!creationTypes.length} onClick={toggle} />
+        </NoSsr>
+      ) : (
+        <FilterChip label={creationTypesLabel} open={isOpen} active={!!creationTypes.length} onClick={toggle} />
+      )}
+    </>
   );
 };
 

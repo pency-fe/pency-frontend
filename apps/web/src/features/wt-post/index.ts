@@ -7,3 +7,5 @@ export * from "./ui/gallery/wt-post-gallery-genre";
 export * from "./ui/gallery/wt-post-gallery-pairs";
 export * from "./ui/gallery/wt-post-gallery-sort";
 export * from "./ui/menu/wt-post-menu";
+export * from "./ui/menu/wt-post-purchase-menu";
+export * from "./ui/menu/wt-post-view-menu";
