@@ -82,6 +82,7 @@ const WtCreateFormFn = ({ children }: WtCreateFormFnProps) => {
       { channelUrl: formatChannelUrl(channelUrl, { prefix: false }), ...data },
       {
         onSuccess: () => {
+          // [TODO] toast 띄우기. 포스타입처럼
           router.push(`/studio/${formatChannelUrl(channelUrl)}/webtoon/series`);
         },
         onError: (error) => {
@@ -145,6 +146,7 @@ const WtUpdateSeriesFormFn = ({ children, data }: WtUpdateSeriesFormFnProps) => 
   });
 
   const onSubmit = () => {
+    // [TODO] 위에꺼랑 똑같은데 api만 다름
     console.log("submit");
   };
 
@@ -538,7 +540,7 @@ const KeywordsFn = () => {
 };
 
 // ----------------------------------------------------------------------
-
+// [TODO] WtSeriesCreateForm
 export const WtSeriesForm = Object.assign(
   (props: WtCreateFormFnProps) => (
     <ToggleStoreProvider>
@@ -555,3 +557,6 @@ export const WtSeriesForm = Object.assign(
     CreateSubmit: CreateSubmitFn,
   },
 );
+
+// [TODO] 추가하기
+// [TODO] WtSeriesUpdateForm
