@@ -122,7 +122,7 @@ const WtCreateFormFn = ({ children }: WtCreateFormFnProps) => {
 
 type WtUpdateFormFnProps = {
   data: {
-    image?: string;
+    image: string;
     status: Status;
     genre: Genre;
     title: string;
