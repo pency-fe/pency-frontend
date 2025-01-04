@@ -134,7 +134,7 @@ const WTUpdateSeriesFormFn = ({ children, data }: WTUpdateSeriesFormFnProps) => 
 type CreateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const CreateSubmitFn = (rest: CreateSubmitFnProps) => {
-  const loading = useToggleStore((s) => s.bool);
+  const [loading, toggleLoading] = useToggle(false);
 
   return (
     <LoadingButton loading={loading} type="submit" variant="contained" color="primary" {...rest}>
@@ -148,7 +148,7 @@ const CreateSubmitFn = (rest: CreateSubmitFnProps) => {
 type UpdateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const UpdateSubmitFn = (rest: UpdateSubmitFnProps) => {
-  const loading = useToggleStore((s) => s.bool);
+  const [loading, toggleLoading] = useToggle(false);
 
   return (
     <LoadingButton loading={loading} type="submit" variant="contained" color="primary" {...rest}>
@@ -199,20 +199,20 @@ const ImageFn = () => {
   return (
     <Stack spacing={1}>
       <Typography variant="subtitle2">시리즈 썸네일 이미지</Typography>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <Stack sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Box
           component="img"
           src={value.length ? value : process.env["NEXT_PUBLIC_LOGO"]}
           sx={{
             flexShrink: 0,
-            height: "270px",
+            width: "260px",
             aspectRatio: 16 / 9,
             borderRadius: 1,
             overflow: "hidden",
             objectFit: "cover",
           }}
         />
-        <Stack alignItems="flex-start" gap={0.5}>
+        <Stack alignItems="center" gap={0.5}>
           <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1 }}>
             <LoadingButton variant="soft" color="primary" loading={loading} onClick={upload}>
               업로드
@@ -229,7 +229,7 @@ const ImageFn = () => {
             추천 비율(16:9) / 최대 10MB 이미지 파일
           </Typography>
         </Stack>
-      </Box>
+      </Stack>
     </Stack>
   );
 };
@@ -511,4 +511,5 @@ export const WTSeriesForm = Object.assign(WTCreateSeriesFormFn, {
   title: TitleFn,
   description: DescriptionFn,
   keywords: KeywordsFn,
+  CreateSubmit: CreateSubmitFn,
 });
