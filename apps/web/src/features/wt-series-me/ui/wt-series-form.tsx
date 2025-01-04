@@ -455,6 +455,7 @@ const KeywordsFn = () => {
       if (event.keyCode === 229 || keywordError || keyword.length === 0) {
         return;
       }
+      event.preventDefault();
       if (value.length >= 10) {
         toast.error("키워드는 최대 10개 이내로 입력해 주세요.");
         return;
