@@ -47,3 +47,10 @@ export const PAIR_LABEL: Record<Pair, string> = {
   BL: "BL",
   GL: "GL",
 } as const;
+
+export type Status = "SHORT" | "SERIAL" | "FINISHED";
+export const STATUS_LABEL: Record<Status, string> = {
+  SHORT: "단편",
+  SERIAL: "연재",
+  FINISHED: "완결",
+} as const;

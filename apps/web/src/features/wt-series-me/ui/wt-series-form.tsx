@@ -1,5 +1,5 @@
 import { getUploadImageUrl } from "@/entities/channel-me";
-import { Genre, GENRE_LABEL } from "@/shared/config/webtoon/const";
+import { Genre, GENRE_LABEL, Status, STATUS_LABEL } from "@/shared/config/webtoon/const";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -27,16 +27,6 @@ import { z, ZodError } from "zod";
 
 // ----------------------------------------------------------------------
 
-type StatusValue = "SHORT" | "SERIAL" | "FINISHED";
-
-const STATUS_VALUE_LABEL: Record<StatusValue, string> = {
-  SHORT: "단편",
-  SERIAL: "연재",
-  FINISHED: "완결",
-};
-
-// ----------------------------------------------------------------------
-
 const keywordSchema = z
   .string()
   .regex(/^[가-힣a-zA-Z0-9_]+$/, "키워드는 한글, 영문, 숫자, 밑줄(_)만 입력할 수 있어요.")
@@ -44,7 +34,7 @@ const keywordSchema = z
 
 const schema = z.object({
   image: z.string(),
-  status: z.enum(zodObjectKeys(STATUS_VALUE_LABEL), { message: "연재 상태를 선택해 주세요." }),
+  status: z.enum(zodObjectKeys(STATUS_LABEL), { message: "연재 상태를 선택해 주세요." }),
   genre: z.enum(zodObjectKeys(GENRE_LABEL), { message: "장르를 선택해 주세요." }),
   title: z.string().min(1, "제목을 입력해 주세요.").max(40, "최대 40자 이내로 입력해 주세요."),
   description: z.string().max(100, "최대 100자 이내로 입력해 주세요."),
@@ -99,7 +89,7 @@ const WTCreateSeriesFormFn = ({ children }: WTCreateSeriesFormFnProps) => {
 type WTUpdateSeriesFormFnProps = {
   data: {
     image?: string;
-    status: StatusValue;
+    status: Status;
     genre: Genre;
     title: string;
     description?: string;
@@ -248,7 +238,7 @@ const ImageFn = () => {
 
 const StatusFn = () => {
   const { control } = useWTSeriesFormContext();
-  const entries = useMemo(() => objectEntries(STATUS_VALUE_LABEL), []);
+  const entries = useMemo(() => objectEntries(STATUS_LABEL), []);
 
   return (
     <Controller
