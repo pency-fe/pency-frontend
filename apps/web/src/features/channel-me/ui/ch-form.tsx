@@ -123,7 +123,7 @@ const ChUpdateFormFn = ({ data, originChannelUrl, children }: ChUpdateFormFnProp
       title: data.title,
       description: data.description ?? "",
       url: data.url,
-      image: data.image ?? "",
+      image: data.image ?? process.env["NEXT_PUBLIC_TEXT_LOGO"],
       bgImage: data.bgImage ?? "",
     },
     mode: "onTouched",

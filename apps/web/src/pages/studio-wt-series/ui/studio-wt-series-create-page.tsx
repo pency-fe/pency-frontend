@@ -1,32 +1,32 @@
 "use client";
 
-import { WtSeriesForm } from "@/features/wt-series-me";
+import { WtSeriesCreateForm } from "@/features/wt-series-me";
 import { Box, Grid, Stack } from "@mui/material";
 
 export const StudioWtSeriesCreatePage = () => {
   return (
-    <WtSeriesForm>
+    <WtSeriesCreateForm>
       <Stack spacing={3}>
         <Grid container spacing={4}>
           <Grid item xs={12} md="auto">
             <Stack spacing={1} sx={{ alignItems: "center" }}>
-              <WtSeriesForm.Image />
+              <WtSeriesCreateForm.Image />
             </Stack>
           </Grid>
           <Grid item xs={12} md>
             <Stack spacing={4}>
-              <WtSeriesForm.Status />
-              <WtSeriesForm.Genre />
-              <WtSeriesForm.title />
-              <WtSeriesForm.description />
-              <WtSeriesForm.keywords />
+              <WtSeriesCreateForm.Status />
+              <WtSeriesCreateForm.Genre />
+              <WtSeriesCreateForm.title />
+              <WtSeriesCreateForm.description />
+              <WtSeriesCreateForm.keywords />
             </Stack>
           </Grid>
         </Grid>
         <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
-          <WtSeriesForm.CreateSubmit />
+          <WtSeriesCreateForm.CreateSubmit />
         </Box>
       </Stack>
-    </WtSeriesForm>
+    </WtSeriesCreateForm>
   );
 };
