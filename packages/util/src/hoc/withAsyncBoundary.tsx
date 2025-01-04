@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentProps, ComponentType, Suspense, useId, useMemo } from "react";
+import { ComponentProps, ComponentType, Suspense } from "react";
 import { ErrorBoundary, ErrorBoundaryProps } from "react-error-boundary";
 import { useIsMounted } from "../hooks";
 import { nanoid } from "nanoid";
@@ -31,4 +31,20 @@ export function withAsyncBoundary<Props extends Record<string, unknown> = Record
   };
 
   return Wrapped;
+}
+
+export function AsyncBoundary({ children, ...rest }: AsyncBoundaryProps & { children?: React.ReactNode }) {
+  const mounted = useIsMounted();
+
+  return (
+    <ErrorBoundary {...rest.errorBoundary}>
+      {mounted ? (
+        <Suspense key={nanoid(4)} {...rest.suspense}>
+          {children}
+        </Suspense>
+      ) : (
+        rest.suspense?.fallback
+      )}
+    </ErrorBoundary>
+  );
 }

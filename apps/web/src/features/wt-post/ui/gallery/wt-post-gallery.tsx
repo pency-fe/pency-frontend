@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Grid, PaginationItem } from "@mui/material";
 import { usePaginationx } from "@pency/ui/hooks";
-import { createQueryString, withAsyncBoundary } from "@pency/util";
+import { AsyncBoundary, createQueryString } from "@pency/util";
 import { wtPostKeys, WtPostRichCard } from "@/entities/wt-post";
 import { useGenre } from "../../model/genre-context";
 import { useSort } from "../../model/sort-context";
@@ -33,9 +33,44 @@ const useData = () => {
 
 // ----------------------------------------------------------------------
 
-const PageProvider = ({ children }: { children?: React.ReactNode }) => {
-  const pageParam = useSearchParams().get("page");
+type Variant = "primary" | "secondary";
 
+const VariantContext = createContext<{ variant: Variant } | undefined>(undefined);
+
+const useVariant = () => {
+  const context = useContext(VariantContext);
+
+  if (!context) throw new Error(`부모로 <WtPostGallery /> 컴포넌트가 있어야 합니다.`);
+
+  return context;
+};
+
+// ----------------------------------------------------------------------
+
+type WtPostGalleryFnProps = { variant?: Variant } & GalleryProps;
+
+const WtPostGalleryFn = ({ variant = "primary", ...rest }: WtPostGalleryFnProps) => {
+  return (
+    <VariantContext.Provider value={{ variant }}>
+      <AsyncBoundary errorBoundary={{ fallback: <Loading /> }} suspense={{ fallback: <Loading /> }}>
+        <Gallery {...rest} />
+      </AsyncBoundary>
+    </VariantContext.Provider>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+type GalleryProps = {
+  channelUrl?: string;
+  children?: React.ReactNode;
+};
+
+const Gallery = ({ channelUrl, children }: GalleryProps) => {
+  const { genre } = useGenre();
+  const { sort } = useSort();
+
+  const pageParam = useSearchParams().get("page");
   const page = useMemo(() => {
     const param = Number(pageParam);
     if (param && !isNaN(param) && param >= 1) {
@@ -44,35 +79,17 @@ const PageProvider = ({ children }: { children?: React.ReactNode }) => {
     return 1;
   }, [pageParam]);
 
-  return <PageContext.Provider value={{ page }}>{children}</PageContext.Provider>;
-};
-
-// ----------------------------------------------------------------------
-
-const ChannelUrlProvider = ({ channelUrl, children }: { channelUrl?: string; children?: React.ReactNode }) => {
-  return <ChannelUrlContext.Provider value={{ channelUrl }}>{children}</ChannelUrlContext.Provider>;
-};
-
-// ----------------------------------------------------------------------
-
-type WtPostGalleryFnProps = {
-  channelUrl?: string;
-  children?: React.ReactNode;
-};
-
-const WtPostGalleryFn = ({ channelUrl, children }: WtPostGalleryFnProps) => {
-  const { genre } = useGenre();
-  const { sort } = useSort();
-  const { page } = usePage();
   const { creationTypes } = useCreationTypes();
   const { pairs } = usePairs();
 
   const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }));
 
   return (
-    <ChannelUrlProvider channelUrl={channelUrl}>
-      <DataContext.Provider value={{ data }}>{children}</DataContext.Provider>
-    </ChannelUrlProvider>
+    <ChannelUrlContext.Provider value={{ channelUrl }}>
+      <PageContext.Provider value={{ page }}>
+        <DataContext.Provider value={{ data }}>{children}</DataContext.Provider>
+      </PageContext.Provider>
+    </ChannelUrlContext.Provider>
   );
 };
 
@@ -85,11 +102,12 @@ type PanelFnProps = {
 const PanelFn = ({ Menu }: PanelFnProps) => {
   const { data } = useData();
   const { genre } = useGenre();
+  const { variant } = useVariant();
 
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={{ xs: variant === "primary" ? 1 : 0.5, sm: 1 }}>
       {data.posts.map((post, i) => (
-        <Grid item key={i} xs={12} sm={6} md={4}>
+        <Grid item key={i} xs={variant === "primary" ? 12 : 6} sm={6} md={4}>
           <WtPostRichCard data={post} Menu={Menu} hideGenre={genre !== "ALL"} />
         </Grid>
       ))}
@@ -100,10 +118,12 @@ const PanelFn = ({ Menu }: PanelFnProps) => {
 // ----------------------------------------------------------------------
 
 const Loading = () => {
+  const { variant } = useVariant();
+
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={{ xs: variant === "primary" ? 1 : 0.5, sm: 1 }}>
       {Array.from({ length: 18 }, (_, i) => (
-        <Grid item key={i} xs={12} sm={6} md={4} sx={{ mb: 1.5 }}>
+        <Grid item key={i} xs={variant === "primary" ? 12 : 6} sm={6} md={4}>
           <WtPostRichCard.Loading />
         </Grid>
       ))}
@@ -147,24 +167,7 @@ const PaginationFn = () => {
 
 // ----------------------------------------------------------------------
 
-export const WtPostGallery = Object.assign(
-  withAsyncBoundary(
-    (rest: WtPostGalleryFnProps) => (
-      <PageProvider>
-        <WtPostGalleryFn {...rest} />
-      </PageProvider>
-    ),
-    {
-      errorBoundary: {
-        fallback: <Loading />,
-      },
-      suspense: {
-        fallback: <Loading />,
-      },
-    },
-  ),
-  {
-    Panel: PanelFn,
-    Pagination: PaginationFn,
-  },
-);
+export const WtPostGallery = Object.assign(WtPostGalleryFn, {
+  Panel: PanelFn,
+  Pagination: PaginationFn,
+});
