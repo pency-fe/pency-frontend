@@ -174,8 +174,12 @@ const WtUpdateFormFn = ({ children, data }: WtUpdateFormFnProps) => {
       },
     );
   };
-  const onErrorSubmit = () => {
-    console.log("error submit");
+
+  const onErrorSubmit: SubmitErrorHandler<Schema> = (errors) => {
+    const names = objectKeys(errors);
+    if (names[0]) {
+      document.getElementsByName(names[0])[0]?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   };
 
   return (
