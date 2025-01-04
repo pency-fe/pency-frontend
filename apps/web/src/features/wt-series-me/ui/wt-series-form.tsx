@@ -19,7 +19,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { RadioButton, toast } from "@pency/ui/components";
-import { objectEntries, useToggle, useToggleStore, zodObjectKeys } from "@pency/util";
+import { objectEntries, ToggleStoreProvider, useToggle, useToggleStore, zodObjectKeys } from "@pency/util";
 import ky from "ky";
 import { ChangeEventHandler, KeyboardEventHandler, useMemo, useState } from "react";
 import { Controller, FormProvider, useController, useForm, useFormContext } from "react-hook-form";
@@ -37,7 +37,7 @@ const schema = z.object({
   status: z.enum(zodObjectKeys(STATUS_LABEL), { message: "연재 상태를 선택해 주세요." }),
   genre: z.enum(zodObjectKeys(GENRE_LABEL), { message: "장르를 선택해 주세요." }),
   title: z.string().min(1, "제목을 입력해 주세요.").max(40, "최대 40자 이내로 입력해 주세요."),
-  description: z.string().max(100, "최대 100자 이내로 입력해 주세요."),
+  description: z.string().min(1, "설명을 입력해 주세요.").max(100, "최대 100자 이내로 입력해 주세요."),
   keywords: z.array(keywordSchema).max(10, "키워드는 최대 10개 이내로 입력해 주세요."),
 });
 
@@ -45,15 +45,15 @@ type Schema = z.infer<typeof schema>;
 
 // ----------------------------------------------------------------------
 
-const useWTSeriesFormContext = () => useFormContext<Schema>();
+const useWtSeriesFormContext = () => useFormContext<Schema>();
 
 // ----------------------------------------------------------------------
 
-type WTCreateSeriesFormFnProps = {
+type WtCreateSeriesFormFnProps = {
   children?: React.ReactNode;
 };
 
-const WTCreateSeriesFormFn = ({ children }: WTCreateSeriesFormFnProps) => {
+const WtCreateSeriesFormFn = ({ children }: WtCreateSeriesFormFnProps) => {
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -66,12 +66,17 @@ const WTCreateSeriesFormFn = ({ children }: WTCreateSeriesFormFnProps) => {
     },
     mode: "onTouched",
   });
+  const toggleLoading = useToggleStore((s) => s.toggle);
 
   const onSubmit = () => {
+    toggleLoading(true);
+    // [TODO] 제출!!
+    //
     console.log("submit");
   };
 
   const onErrorSubmit = () => {
+    // [TODO] 스크롤 이동하는거!!
     console.log("error submit");
   };
 
@@ -86,7 +91,7 @@ const WTCreateSeriesFormFn = ({ children }: WTCreateSeriesFormFnProps) => {
 
 // ----------------------------------------------------------------------
 
-type WTUpdateSeriesFormFnProps = {
+type WtUpdateSeriesFormFnProps = {
   data: {
     image?: string;
     status: Status;
@@ -98,7 +103,7 @@ type WTUpdateSeriesFormFnProps = {
   children?: React.ReactNode;
 };
 
-const WTUpdateSeriesFormFn = ({ children, data }: WTUpdateSeriesFormFnProps) => {
+const WtUpdateSeriesFormFn = ({ children, data }: WtUpdateSeriesFormFnProps) => {
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -134,7 +139,7 @@ const WTUpdateSeriesFormFn = ({ children, data }: WTUpdateSeriesFormFnProps) => 
 type CreateSubmitFnProps = Omit<ButtonProps, "children">;
 
 const CreateSubmitFn = (rest: CreateSubmitFnProps) => {
-  const [loading, toggleLoading] = useToggle(false);
+  const loading = useToggleStore((s) => s.bool);
 
   return (
     <LoadingButton loading={loading} type="submit" variant="contained" color="primary" {...rest}>
@@ -161,7 +166,7 @@ const UpdateSubmitFn = (rest: UpdateSubmitFnProps) => {
 
 const ImageFn = () => {
   const theme = useTheme();
-  const { control } = useWTSeriesFormContext();
+  const { control } = useWtSeriesFormContext();
   const {
     field: { value, onChange },
   } = useController({ control, name: "image" });
@@ -180,6 +185,7 @@ const ImageFn = () => {
         }
 
         toggleLoading(true);
+        // [TODO] api 적용해야 한다.
         const res = await getUploadImageUrl({
           contentLength: picker.files[0].size,
           contentType: picker.files[0].type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
@@ -202,9 +208,8 @@ const ImageFn = () => {
       <Stack sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Box
           component="img"
-          src={value.length ? value : process.env["NEXT_PUBLIC_LOGO"]}
+          src={value.length ? value : process.env["NEXT_PUBLIC_TEXT_LOGO"]}
           sx={{
-            flexShrink: 0,
             width: "260px",
             aspectRatio: 16 / 9,
             borderRadius: 1,
@@ -212,6 +217,7 @@ const ImageFn = () => {
             objectFit: "cover",
           }}
         />
+
         <Stack alignItems="center" gap={0.5}>
           <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 1 }}>
             <LoadingButton variant="soft" color="primary" loading={loading} onClick={upload}>
@@ -237,7 +243,7 @@ const ImageFn = () => {
 // ----------------------------------------------------------------------
 
 const StatusFn = () => {
-  const { control } = useWTSeriesFormContext();
+  const { control } = useWtSeriesFormContext();
   const entries = useMemo(() => objectEntries(STATUS_LABEL), []);
 
   return (
@@ -246,7 +252,7 @@ const StatusFn = () => {
       name="status"
       render={({ field }) => (
         <Stack spacing={1}>
-          <Typography variant="subtitle2">연재 상태</Typography>
+          <Typography variant="subtitle2">연재 상태*</Typography>
           <RadioGroup {...field}>
             <Grid container spacing={1}>
               {entries.map(([value, label]) => (
@@ -265,7 +271,7 @@ const StatusFn = () => {
 // ----------------------------------------------------------------------
 
 const GenreFn = () => {
-  const { control } = useWTSeriesFormContext();
+  const { control } = useWtSeriesFormContext();
   const genreLabels = objectEntries(GENRE_LABEL);
 
   return (
@@ -275,6 +281,7 @@ const GenreFn = () => {
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
+          variant="filled"
           label="장르"
           required
           select
@@ -299,7 +306,7 @@ const GenreFn = () => {
 type TitleFnProps = TextFieldProps;
 
 const TitleFn = (rest: TitleFnProps) => {
-  const { control } = useWTSeriesFormContext();
+  const { control } = useWtSeriesFormContext();
 
   return (
     <Controller
@@ -308,7 +315,7 @@ const TitleFn = (rest: TitleFnProps) => {
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
-          variant="outlined"
+          variant="filled"
           {...rest}
           label="시리즈 제목"
           type="text"
@@ -333,7 +340,7 @@ const TitleFn = (rest: TitleFnProps) => {
 type DescriptionFnProps = TextFieldProps;
 
 const DescriptionFn = (rest: DescriptionFnProps) => {
-  const { control } = useWTSeriesFormContext();
+  const { control } = useWtSeriesFormContext();
 
   return (
     <Controller
@@ -342,8 +349,9 @@ const DescriptionFn = (rest: DescriptionFnProps) => {
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
-          variant="outlined"
           {...rest}
+          variant="filled"
+          required
           fullWidth
           multiline
           minRows={2}
@@ -375,7 +383,7 @@ const DescriptionFn = (rest: DescriptionFnProps) => {
 // ----------------------------------------------------------------------
 
 const KeywordsFn = () => {
-  const { control } = useWTSeriesFormContext();
+  const { control } = useWtSeriesFormContext();
   const {
     field: { value, onChange },
   } = useController({ control, name: "keywords" });
@@ -460,7 +468,7 @@ const KeywordsFn = () => {
     <Stack spacing={1}>
       <Typography variant="subtitle2">키워드</Typography>
       <TextField
-        variant="outlined"
+        variant="filled"
         fullWidth
         value={keyword}
         error={!!keywordError}
@@ -504,12 +512,19 @@ const KeywordsFn = () => {
 
 // ----------------------------------------------------------------------
 
-export const WTSeriesForm = Object.assign(WTCreateSeriesFormFn, {
-  Image: ImageFn,
-  Status: StatusFn,
-  Genre: GenreFn,
-  title: TitleFn,
-  description: DescriptionFn,
-  keywords: KeywordsFn,
-  CreateSubmit: CreateSubmitFn,
-});
+export const WtSeriesForm = Object.assign(
+  (props: WtCreateSeriesFormFnProps) => (
+    <ToggleStoreProvider>
+      <WtCreateSeriesFormFn {...props} />
+    </ToggleStoreProvider>
+  ),
+  {
+    Image: ImageFn,
+    Status: StatusFn,
+    Genre: GenreFn,
+    title: TitleFn,
+    description: DescriptionFn,
+    keywords: KeywordsFn,
+    CreateSubmit: CreateSubmitFn,
+  },
+);
