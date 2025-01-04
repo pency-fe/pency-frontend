@@ -129,9 +129,7 @@ const SubmitButtonFn = ({ submitErrorHandler, ...rest }: SubmitFnProps) => {
         if (error instanceof QueryError && error.code === "ENTITY_NOT_FOUND") {
           toast.error("잘못된 채널 URL이에요.");
         }
-        if (error instanceof QueryError && error.code === "ACCESS_DENIED") {
-          toast.error("권한이 없어요.");
-        }
+
         toggleLoading(false);
         return;
       }
@@ -147,9 +145,6 @@ const SubmitButtonFn = ({ submitErrorHandler, ...rest }: SubmitFnProps) => {
         onError: (error) => {
           if (error.code === "ENTITY_NOT_FOUND") {
             toast.error("잘못된 채널 URL이에요.");
-          }
-          if (error.code === "ACCESS_DENIED") {
-            toast.error("권한이 없어요.");
           }
         },
         onSettled: () => {
@@ -209,9 +204,7 @@ const SaveButtonFn = () => {
         if (error instanceof QueryError && error.code === "ENTITY_NOT_FOUND") {
           toast.error("잘못된 채널 URL이에요.");
         }
-        if (error instanceof QueryError && error.code === "ACCESS_DENIED") {
-          toast.error("권한이 없어요.");
-        }
+
         toggleLoading(false);
         return;
       }
@@ -230,9 +223,6 @@ const SaveButtonFn = () => {
           }
           if (error.code === "SAVED_POST_FORBIDDEN") {
             toast.error("이미 발행된 포스트는 임시 저장할 수 없어요.");
-          }
-          if (error.code === "ACCESS_DENIED") {
-            toast.error("권한이 없어요.");
           }
         },
         onSettled: () => {

@@ -37,7 +37,7 @@ export const update = async ({ id, ...rest }: UpdateReq) => {
 
 type UpdateOrderReq = Array<number>;
 
-export const updateOrder = async (req: UpdateOrderReq) => {
+export const updateOrderSeries = async (req: UpdateOrderReq) => {
   return await apiClient.post(`webtoon/series/me/order`, { json: req }).json();
 };
 

@@ -1,4 +1,5 @@
 import { getUploadImageUrl } from "@/entities/channel-me";
+import { create } from "@/entities/wt-series-me";
 import { Genre, GENRE_LABEL, Status, STATUS_LABEL } from "@/shared/config/webtoon/const";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@mui/lab";
@@ -24,6 +25,10 @@ import ky from "ky";
 import { ChangeEventHandler, KeyboardEventHandler, useMemo, useState } from "react";
 import { Controller, FormProvider, useController, useForm, useFormContext } from "react-hook-form";
 import { z, ZodError } from "zod";
+import { useCreate } from "../model/use-create-series";
+import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
+import { useRouter } from "next/navigation";
+import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
 
 // ----------------------------------------------------------------------
 
@@ -49,11 +54,11 @@ const useWtSeriesFormContext = () => useFormContext<Schema>();
 
 // ----------------------------------------------------------------------
 
-type WtCreateSeriesFormFnProps = {
+type WtCreateFormFnProps = {
   children?: React.ReactNode;
 };
 
-const WtCreateSeriesFormFn = ({ children }: WtCreateSeriesFormFnProps) => {
+const WtCreateFormFn = ({ children }: WtCreateFormFnProps) => {
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -68,11 +73,29 @@ const WtCreateSeriesFormFn = ({ children }: WtCreateSeriesFormFnProps) => {
   });
   const toggleLoading = useToggleStore((s) => s.toggle);
 
-  const onSubmit = () => {
+  const { mutate } = useCreate();
+  const router = useRouter();
+  const channelUrl = useChannelUrlParam();
+
+  const onSubmit = (data: Schema) => {
     toggleLoading(true);
-    // [TODO] 제출!!
-    //
-    console.log("submit");
+    mutate(
+      { channelUrl: formatChannelUrl(channelUrl, { prefix: false }), ...data },
+      {
+        onSuccess: () => {
+          router.push(`/studio/${formatChannelUrl(channelUrl)}/webtoon/series`);
+        },
+        onError: (error) => {
+          if (error.code === "EXCEEDED_WT_SERIES_CREATION") {
+            toast.error("최대 40개까지 시리즈를 만들 수 있어요.");
+          }
+
+          if (error.code === "ENTITY_NOT_FOUND") {
+            toast.error("존재하지 않는 채널 URL이에요.");
+          }
+        },
+      },
+    );
   };
 
   const onErrorSubmit = () => {
@@ -357,7 +380,7 @@ const DescriptionFn = (rest: DescriptionFnProps) => {
           minRows={2}
           maxRows={7}
           type="text"
-          label="채널 설명"
+          label="시리즈 설명"
           helperText={error ? error.message : "최대 100자 이내로 입력해 주세요."}
           error={!!error}
           sx={{
@@ -513,9 +536,9 @@ const KeywordsFn = () => {
 // ----------------------------------------------------------------------
 
 export const WtSeriesForm = Object.assign(
-  (props: WtCreateSeriesFormFnProps) => (
+  (props: WtCreateFormFnProps) => (
     <ToggleStoreProvider>
-      <WtCreateSeriesFormFn {...props} />
+      <WtCreateFormFn {...props} />
     </ToggleStoreProvider>
   ),
   {
