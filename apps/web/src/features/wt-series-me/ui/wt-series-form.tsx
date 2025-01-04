@@ -1,5 +1,3 @@
-import { getUploadImageUrl } from "@/entities/channel-me";
-import { create } from "@/entities/wt-series-me";
 import { Genre, GENRE_LABEL, Status, STATUS_LABEL } from "@/shared/config/webtoon/const";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@mui/lab";
@@ -20,15 +18,16 @@ import {
   useTheme,
 } from "@mui/material";
 import { RadioButton, toast } from "@pency/ui/components";
-import { objectEntries, ToggleStoreProvider, useToggle, useToggleStore, zodObjectKeys } from "@pency/util";
+import { objectEntries, objectKeys, ToggleStoreProvider, useToggle, useToggleStore, zodObjectKeys } from "@pency/util";
 import ky from "ky";
 import { ChangeEventHandler, KeyboardEventHandler, useMemo, useState } from "react";
-import { Controller, FormProvider, useController, useForm, useFormContext } from "react-hook-form";
+import { Controller, FormProvider, SubmitErrorHandler, useController, useForm, useFormContext } from "react-hook-form";
 import { z, ZodError } from "zod";
 import { useCreate } from "../model/use-create-series";
 import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
 import { useRouter } from "next/navigation";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
+import { getUploadImageUrl } from "@/entities/wt-series-me";
 
 // ----------------------------------------------------------------------
 
@@ -101,9 +100,11 @@ const WtCreateFormFn = ({ children }: WtCreateFormFnProps) => {
     );
   };
 
-  const onErrorSubmit = () => {
-    // [TODO] 스크롤 이동하는거!!
-    console.log("error submit");
+  const onErrorSubmit: SubmitErrorHandler<Schema> = (errors) => {
+    const names = objectKeys(errors);
+    if (names[0]) {
+      document.getElementsByName(names[0])[0]?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   };
 
   return (
@@ -211,7 +212,6 @@ const ImageFn = () => {
         }
 
         toggleLoading(true);
-        // [TODO] api 적용해야 한다.
         const res = await getUploadImageUrl({
           contentLength: picker.files[0].size,
           contentType: picker.files[0].type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
