@@ -4,7 +4,7 @@ import NextLink from "next/link";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
-import { WtSeriesOrderForm } from "@/features/wt-series-me";
+import { SeriesOrderSection } from "./series-order-section";
 
 export const StudioWtSeriesPage = () => {
   const channelUrl = useChannelUrlParam();
@@ -31,25 +31,8 @@ export const StudioWtSeriesPage = () => {
           </Button>
         </Box>
 
-        <Stack spacing={3}>
-          <WtSeriesOrderForm
-            series={[
-              { id: 2, image: null, title: "시리즈 제목1", postCount: 1 },
-              { id: 1, image: null, title: "시리즈 제목2", postCount: 2 },
-              { id: 3, image: null, title: "시리즈 제목3", postCount: 3 },
-              { id: 4, image: null, title: "시리즈 제목4", postCount: 4 },
-            ]}
-          >
-            <Stack spacing={1}>
-              <Typography variant="subtitle2">시리즈 순서 설정</Typography>
-              <WtSeriesOrderForm.Editor />
-            </Stack>
-            <WtSeriesOrderForm.SubmitButton sx={{ alignSelf: "flex-end" }} />
-          </WtSeriesOrderForm>
-        </Stack>
+        <SeriesOrderSection />
       </Stack>
     </>
   );
 };
-
-const WtSeriesOrderSection = () => {};

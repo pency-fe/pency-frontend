@@ -34,9 +34,11 @@ type GetWtSeriesMeListRes = Array<{
 }>;
 
 export const getWtSeriesMeList = async ({ channelUrl }: GetWtSeriesMeListReq) => {
-  return await apiClient.get<GetWtSeriesMeListRes>(
-    `webtoon/series/me/list${createSearchParamString({
-      channelUrl: formatChannelUrl(channelUrl, { prefix: false }),
-    })}`,
-  );
+  return await apiClient
+    .get<GetWtSeriesMeListRes>(
+      `webtoon/series/me/list${createSearchParamString({
+        channelUrl: formatChannelUrl(channelUrl, { prefix: false }),
+      })}`,
+    )
+    .json();
 };

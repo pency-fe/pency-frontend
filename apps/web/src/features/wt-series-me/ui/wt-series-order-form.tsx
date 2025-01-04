@@ -17,11 +17,13 @@ import { CSS } from "@dnd-kit/utilities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton, LoadingButtonProps } from "@mui/lab";
 import { Box, IconButton, Portal, Stack, SxProps } from "@mui/material";
-import { ListItemx, NimbusDragDotsIcon } from "@pency/ui/components";
+import { ListItemx, NimbusDragDotsIcon, toast } from "@pency/ui/components";
+import { useToggle } from "@pency/util";
 import { usePathname } from "next/navigation";
 import { memo, useMemo, useState } from "react";
-import { FormProvider, useController, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, SubmitHandler, useController, useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
+import { useUpdateOrder } from "../model/useUpdateOrder";
 
 const schema = z.object({
   series: z.array(
@@ -67,11 +69,40 @@ const SubmitButtonFn = (rest: LoadingButtonProps) => {
     formState: { isDirty },
     handleSubmit,
   } = useFormContext<Schema>();
+  const { mutate } = useUpdateOrder();
+  const [loading, toggleLoading] = useToggle(false);
 
-  // handleSubmit, 데이터 불러오기. loading, 없으면 ui제거
+  const onSubmit: SubmitHandler<Schema> = (data) => {
+    toggleLoading(true);
+    const req = data.series.map(({ id }) => id);
+    mutate(req, {
+      onSuccess: () => {
+        toast.success("시리즈 순서를 수정했어요.");
+      },
+      onError: (error) => {
+        if (error.code === "ENTITY_NOT_FOUND") {
+          toast.error("존재하지 않는 시리즈가 있어요.");
+        }
+
+        if (error.code === "ACCESS_DENIED") {
+          toast.error("권한이 없어요.");
+        }
+      },
+      onSettled: () => {
+        toggleLoading(false);
+      },
+    });
+  };
 
   return (
-    <LoadingButton disabled={!isDirty} variant="contained" color="primary" {...rest}>
+    <LoadingButton
+      disabled={!isDirty}
+      loading={loading}
+      variant="contained"
+      color="primary"
+      {...rest}
+      onClick={handleSubmit(onSubmit)}
+    >
       시리즈 순서 저장
     </LoadingButton>
   );

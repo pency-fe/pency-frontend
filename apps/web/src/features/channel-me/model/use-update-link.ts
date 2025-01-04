@@ -1,3 +1,5 @@
+"use client";
+
 import { updateLink } from "@/entities/channel-me";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
 import { useMutation } from "@tanstack/react-query";
