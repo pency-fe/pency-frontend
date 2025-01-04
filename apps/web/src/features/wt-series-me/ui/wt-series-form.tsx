@@ -501,3 +501,14 @@ const KeywordsFn = () => {
     </Stack>
   );
 };
+
+// ----------------------------------------------------------------------
+
+export const WTSeriesForm = Object.assign(WTCreateSeriesFormFn, {
+  Image: ImageFn,
+  Status: StatusFn,
+  Genre: GenreFn,
+  title: TitleFn,
+  description: DescriptionFn,
+  keywords: KeywordsFn,
+});
