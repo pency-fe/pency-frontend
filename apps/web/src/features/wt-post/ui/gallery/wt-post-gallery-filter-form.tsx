@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentProps, useMemo } from "react";
+import { ComponentProps, useMemo, useState } from "react";
 import { Box, Button, Collapse, IconButton, NoSsr, Stack, Typography, useTheme } from "@mui/material";
 import { z } from "zod";
 import { Controller, FormProvider, SubmitHandler, useForm, useFormContext } from "react-hook-form";
@@ -9,9 +9,21 @@ import { objectEntries, zodObjectKeys } from "@pency/util";
 import { CheckboxButton, IcRoundRefreshIcon } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { CREATION_TYPE_LABEL, PAIR_LABEL } from "@/shared/config/webtoon/const";
-import { useCreationTypes } from "../../model/creation-types-provider";
-import { FilterFormToggleProvider, useFilterFormToggle } from "../../model/filter-form-toggle-provider";
-import { usePairs } from "../../model/pairs-provider";
+import { useCreationTypes } from "../../model/creation-types-context";
+import {
+  createFilterFormToggleStore,
+  FilterFormToggleContext,
+  useFilterFormToggle,
+} from "../../model/filter-form-toggle-context";
+import { usePairs } from "../../model/pairs-context";
+
+// ----------------------------------------------------------------------
+
+const FilterFormToggleProvider = ({ children }: { children?: React.ReactNode }) => {
+  const [filterFormToggleStore] = useState(createFilterFormToggleStore);
+
+  return <FilterFormToggleContext.Provider value={filterFormToggleStore}>{children}</FilterFormToggleContext.Provider>;
+};
 
 // ----------------------------------------------------------------------
 
@@ -21,10 +33,6 @@ const schema = z.object({
 });
 
 type Schema = z.infer<typeof schema>;
-
-// ----------------------------------------------------------------------
-
-const useFilterFormContext = () => useFormContext<Schema>();
 
 // ----------------------------------------------------------------------
 
@@ -69,7 +77,7 @@ type ResetProps = {
 };
 
 const Reset = ({ onReset }: ResetProps) => {
-  const { handleSubmit, setValue } = useFilterFormContext();
+  const { handleSubmit, setValue } = useFormContext<Schema>();
 
   return (
     <IconButton
@@ -91,7 +99,7 @@ const Reset = ({ onReset }: ResetProps) => {
 // ----------------------------------------------------------------------
 
 const CreationTypesField = () => {
-  const { control } = useFilterFormContext();
+  const { control } = useFormContext<Schema>();
 
   const creationTypeEntries = useMemo(() => objectEntries(CREATION_TYPE_LABEL), []);
 
@@ -131,7 +139,7 @@ const CreationTypesField = () => {
 // ----------------------------------------------------------------------
 
 const PairsField = () => {
-  const { control } = useFilterFormContext();
+  const { control } = useFormContext<Schema>();
 
   const pairEntries = useMemo(() => objectEntries(PAIR_LABEL), []);
 

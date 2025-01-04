@@ -9,6 +9,7 @@ import {
   WtPostGalleryGenre,
   WtPostGalleryPairs,
   WtPostGallerySort,
+  WtPostMenu,
 } from "@/features/wt-post";
 
 export function WtPostListPage() {
@@ -51,7 +52,7 @@ export function WtPostListPage() {
                 </WtPostGalleryFilterForm>
 
                 <WtPostGallery>
-                  <WtPostGallery.Panel />
+                  <WtPostGallery.Panel Menu={WtPostMenu} />
                   <Box sx={{ margin: "auto", mt: 3 }}>
                     <WtPostGallery.Pagination />
                   </Box>

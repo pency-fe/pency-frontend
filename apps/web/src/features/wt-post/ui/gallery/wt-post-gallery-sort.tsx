@@ -1,20 +1,63 @@
 "use client";
 
-import { ComponentProps, useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
 import NextLink from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { MenuItem } from "@mui/material";
 import { FilterChip, Menux, useMenuxState } from "@pency/ui/components";
-import { createQueryString, objectEntries } from "@pency/util";
-import { SortProvider, useSort } from "../../model/sort-provider";
+import { arrayIncludes, createQueryString, objectEntries, objectKeys } from "@pency/util";
+import { Sort, SortContext, useSort } from "../../model/sort-context";
 
-const WtPostGallerySortFn = (rest: ComponentProps<typeof SortProvider>) => {
-  return <SortProvider {...rest} />;
+// ----------------------------------------------------------------------
+
+type SortProviderProps = {
+  sorts: Sort[];
+  children?: React.ReactNode;
 };
 
+function SortProvider({ sorts, children }: SortProviderProps) {
+  const sortParam = useSearchParams().get("sort");
+
+  const sort = useMemo(() => {
+    if (sortParam && arrayIncludes(sorts, sortParam)) {
+      return sortParam as Sort;
+    }
+    return "LATEST" as Sort;
+  }, [sortParam, sorts]);
+
+  return <SortContext.Provider value={{ sort }}>{children}</SortContext.Provider>;
+}
+
+// ----------------------------------------------------------------------
+
+type SortLabel = Partial<Record<Sort, string>>;
+
+const DataContext = createContext<{ sortLabel: SortLabel } | undefined>(undefined);
+
+function useData() {
+  const context = useContext(DataContext);
+
+  if (!context) throw new Error(`부모로 <WtPostGallerySort /> 컴포넌트가 있어야 합니다.`);
+
+  return context;
+}
+
+// ----------------------------------------------------------------------
+
+const WtPostGallerySortFn = ({ sortLabel, children }: { sortLabel: SortLabel; children?: React.ReactNode }) => {
+  return (
+    <SortProvider sorts={objectKeys(sortLabel)}>
+      <DataContext.Provider value={{ sortLabel }}>{children}</DataContext.Provider>
+    </SortProvider>
+  );
+};
+
+// ----------------------------------------------------------------------
+
 const FilterChipFn = () => {
-  const { sort, sortLabel } = useSort();
-  if (!sort || !sortLabel) {
+  const { sort } = useSort();
+  const { sortLabel } = useData();
+  if (!sort) {
     throw new Error(`<부모로 <WtPostSortProvider /> 컴포넌트가 있어야 합니다.`);
   }
 

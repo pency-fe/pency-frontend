@@ -7,12 +7,31 @@ import { RadioGroup } from "@mui/material";
 import { RadioButton } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { createQueryString, objectEntries } from "@pency/util";
-import { GENRE_LABEL } from "@/shared/config/webtoon/const";
-import { GenreProvider, useGenre } from "../../model/genre-provider";
+import { Genre, GENRE_LABEL } from "@/shared/config/webtoon/const";
+import { GenreContext, useGenre } from "../../model/genre-context";
+
+// ----------------------------------------------------------------------
+
+const GenreProvider = ({ children }: { children?: React.ReactNode }) => {
+  const genreParam = useSearchParams().get("genre");
+
+  const genre = useMemo(() => {
+    if (genreParam && Object.keys(GENRE_LABEL).includes(genreParam)) {
+      return genreParam as Genre;
+    }
+    return "ALL" as const;
+  }, [genreParam]);
+
+  return <GenreContext.Provider value={{ genre }}>{children}</GenreContext.Provider>;
+};
+
+// ----------------------------------------------------------------------
 
 const WtPostGalleryGenreFn = (rest: ComponentProps<typeof GenreProvider>) => {
   return <GenreProvider {...rest} />;
 };
+
+// ----------------------------------------------------------------------
 
 const RadioButtonsFn = () => {
   const { genre } = useGenre();
@@ -62,6 +81,8 @@ const RadioButtonsFn = () => {
     </RadioGroup>
   );
 };
+
+// ----------------------------------------------------------------------
 
 export const WtPostGalleryGenre = Object.assign(WtPostGalleryGenreFn, {
   RadioButtons: RadioButtonsFn,

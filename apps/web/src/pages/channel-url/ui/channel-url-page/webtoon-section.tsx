@@ -7,7 +7,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { createQueryString, objectEntries } from "@pency/util";
 import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
-import { WtPostRichCardCarousel } from "@/features/wt-post";
+import { WtPostMenu, WtPostRichCardCarousel } from "@/features/wt-post";
 
 // ----------------------------------------------------------------------
 
@@ -78,7 +78,7 @@ export function WebtoonSection() {
         ),
       }}
     >
-      <WtPostRichCardCarousel.Panel channelUrl={channelUrl} sort="LATEST" />
+      <WtPostRichCardCarousel.Panel channelUrl={channelUrl} sort="LATEST" Menu={WtPostMenu} />
     </CardTabCarouselTemplate>
   );
 }

@@ -2,14 +2,32 @@
 
 import { useMemo } from "react";
 import { NoSsr } from "@mui/material";
+import { useSessionStorage } from "@pency/util";
 import { FilterChip } from "@pency/ui/components";
-import { CREATION_TYPE_LABEL } from "@/shared/config/webtoon/const";
-import {
-  CreationTypesProvider,
-  CreationTypesStorageProvider,
-  useCreationTypes,
-} from "../../model/creation-types-provider";
-import { useFilterFormToggle } from "../../model/filter-form-toggle-provider";
+import { CREATION_TYPE_LABEL, CreationType } from "@/shared/config/webtoon/const";
+import { CreationTypesContext, useCreationTypes } from "../../model/creation-types-context";
+import { useFilterFormToggle } from "../../model/filter-form-toggle-context";
+
+// ----------------------------------------------------------------------
+
+function CreationTypesProvider({ children }: { children?: React.ReactNode }) {
+  // [TODO]
+  return <>{children}</>;
+}
+
+// ----------------------------------------------------------------------
+
+function CreationTypesStorageProvider({ children }: { children?: React.ReactNode }) {
+  const [creationTypes, setCreationTypes] = useSessionStorage<CreationType[]>("wt-post-creation-types", []);
+
+  return (
+    <CreationTypesContext.Provider value={{ creationTypes, setCreationTypes }}>
+      {children}
+    </CreationTypesContext.Provider>
+  );
+}
+
+// ----------------------------------------------------------------------
 
 type WtPostGalleryCreationTypesFnProps = {
   variant?: "searchParam" | "storage";

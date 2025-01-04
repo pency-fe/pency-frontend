@@ -7,7 +7,7 @@ import { createQueryString, objectEntries } from "@pency/util";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
-import { WtPostGallery, WtPostGallerySort } from "@/features/wt-post";
+import { WtPostGallery, WtPostGallerySort, WtPostMenu } from "@/features/wt-post";
 
 // ----------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ export function ChannelUrlWebtoonPage() {
           </Grid>
           <Grid item xs={12}>
             <WtPostGallery channelUrl={channelUrl}>
-              <WtPostGallery.Panel />
+              <WtPostGallery.Panel Menu={WtPostMenu} />
               <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
                 <WtPostGallery.Pagination />
               </Box>

@@ -6,3 +6,4 @@ export * from "./ui/gallery/wt-post-gallery-filter-form";
 export * from "./ui/gallery/wt-post-gallery-genre";
 export * from "./ui/gallery/wt-post-gallery-pairs";
 export * from "./ui/gallery/wt-post-gallery-sort";
+export * from "./ui/menu/wt-post-menu";

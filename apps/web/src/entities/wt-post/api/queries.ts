@@ -16,7 +16,7 @@ export const wtPostKeys = {
           page,
           creationTypes,
           pairs,
-          channelUrl: channelUrl ? formatChannelUrl(channelUrl) : channelUrl,
+          channelUrl: channelUrl ? formatChannelUrl(channelUrl, { prefix: false }) : channelUrl,
         },
       ],
       queryFn: () => getWebtoonPostPage({ genre, sort, page, creationTypes, pairs, channelUrl }),

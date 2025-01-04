@@ -2,10 +2,28 @@
 
 import { useMemo } from "react";
 import { NoSsr } from "@mui/material";
+import { useSessionStorage } from "@pency/util";
 import { FilterChip } from "@pency/ui/components";
-import { PAIR_LABEL } from "@/shared/config/webtoon/const";
-import { useFilterFormToggle } from "../../model/filter-form-toggle-provider";
-import { PairsProvider, PairsStorageProvider, usePairs } from "../../model/pairs-provider";
+import { Pair, PAIR_LABEL } from "@/shared/config/webtoon/const";
+import { useFilterFormToggle } from "../../model/filter-form-toggle-context";
+import { PairsContext, usePairs } from "../../model/pairs-context";
+
+// ----------------------------------------------------------------------
+
+function PairsProvider({ children }: { children?: React.ReactNode }) {
+  // [TODO]
+  return children;
+}
+
+// ----------------------------------------------------------------------
+
+function PairsStorageProvider({ children }: { children?: React.ReactNode }) {
+  const [pairs, setPairs] = useSessionStorage<Pair[]>("wt-post-pairs", []);
+
+  return <PairsContext.Provider value={{ pairs, setPairs }}>{children}</PairsContext.Provider>;
+}
+
+// ----------------------------------------------------------------------
 
 type WtPostGalleryPairsFnProps = {
   variant?: "searchParam" | "storage";
