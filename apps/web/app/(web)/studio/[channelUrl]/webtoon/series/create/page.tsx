@@ -1,5 +1,11 @@
+import { StudioWtSeriesCreatePage } from "@/pages/studio-wt-series";
 import { StudioHeaderTitle } from "@/widgets/layout";
 
 export default function Page() {
-  return <StudioHeaderTitle title="새 웹툰 시리즈 만들기" back />;
+  return (
+    <>
+      <StudioHeaderTitle title="새 웹툰 시리즈 만들기" back />
+      <StudioWtSeriesCreatePage />
+    </>
+  );
 }
