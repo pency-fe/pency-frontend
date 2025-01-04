@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Container, useTheme } from "@mui/material";
+import { Box, Container, Stack, useTheme } from "@mui/material";
 import { dashboardHeaderTokens } from "../header";
 import { dashboardSidebarTokens } from "../sidebar";
 
@@ -44,7 +44,15 @@ export const DashboardSidebarMain = ({ slots, children }: DashboardSidebarMainPr
           pb: theme.spacing(8),
         }}
       >
-        {children}
+        <Stack
+          sx={{
+            [theme.breakpoints.up("sm")]: {
+              padding: "20px",
+            },
+          }}
+        >
+          {children}
+        </Stack>
       </Container>
 
       {slots?.footer}
