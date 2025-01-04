@@ -94,6 +94,9 @@ const WtCreateFormFn = ({ children }: WtCreateFormFnProps) => {
             toast.error("존재하지 않는 채널 URL이에요.");
           }
         },
+        onSettled: () => {
+          toggleLoading(false);
+        },
       },
     );
   };
