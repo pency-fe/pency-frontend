@@ -1,12 +1,18 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
-import { unbookmark } from "@/entities/wt-post";
+import { unbookmark, wtPostKeys } from "@/entities/wt-post";
 import { useAuthContext } from "@/entities/@auth";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
 import { toast } from "@pency/ui/components";
+import { useGenre } from "./genre-context";
+import { useSort } from "./sort-context";
+import { usePage } from "./page-context";
+import { useCreationTypes } from "./creation-types-context";
+import { usePairs } from "./pairs-context";
+import { useChannelUrl } from "./channel-url-context";
+import { produce } from "immer";
 
 export const useUnbookmark = () => {
   const { mutate } = useMutation<
@@ -17,27 +23,40 @@ export const useUnbookmark = () => {
     mutationFn: unbookmark,
   });
   const { isLoggedIn } = useAuthContext();
+
+  const { genre } = useGenre();
+  const { sort } = useSort();
+  const { page } = usePage();
+  const { creationTypes } = useCreationTypes();
+  const { pairs } = usePairs();
+  const { channelUrl } = useChannelUrl();
+
+  const queryClient = useQueryClient();
   const router = useRouter();
 
-  return useCallback(
-    (req: Parameters<typeof unbookmark>[0], onSuccess?: () => void) => {
-      if (!isLoggedIn) {
-        router.push("/login");
-        return;
-      }
+  return (req: Parameters<typeof unbookmark>[0]) => {
+    if (!isLoggedIn) {
+      router.push("/login");
+      return;
+    }
 
-      mutate(req, {
-        onSuccess: () => {
-          onSuccess?.();
-          toast.success("북마크에서 제외했어요.");
-        },
-        onError: (error) => {
-          if (error.code === "ALREADY_PROCESSED_REQUEST") {
-            toast.error("이미 북마크에서 제외했어요.");
-          }
-        },
-      });
-    },
-    [isLoggedIn, router, mutate],
-  );
+    mutate(req, {
+      onSuccess: () => {
+        queryClient.setQueryData(
+          wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
+          (oldData) =>
+            oldData &&
+            produce(oldData, (draft) => {
+              draft.posts.find((post) => post.id === req.id)!.bookmark = false;
+            }),
+        );
+        toast.success("북마크에서 제외했어요.");
+      },
+      onError: (error) => {
+        if (error.code === "ALREADY_PROCESSED_REQUEST") {
+          toast.error("이미 북마크에서 제외했어요.");
+        }
+      },
+    });
+  };
 };

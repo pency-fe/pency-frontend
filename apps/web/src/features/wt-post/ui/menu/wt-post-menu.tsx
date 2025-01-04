@@ -9,29 +9,13 @@ import {
   Menux,
 } from "@pency/ui/components";
 import { useChannelMeListContext } from "@/entities/channel-me";
-import { wtPostKeys, WtPostRichCard } from "@/entities/wt-post";
-import { useQueryClient } from "@tanstack/react-query";
+import { WtPostRichCard } from "@/entities/wt-post";
 import { useBookmark } from "../../model/use-bookmark";
 import { useUnbookmark } from "../../model/use-unbookmark";
 import { useBlock } from "../../model/use-block";
 import { useUnblock } from "../../model/use-unblock";
-import { produce } from "immer";
-import { useGenre } from "../../model/genre-context";
-import { useSort } from "../../model/sort-context";
-import { useCreationTypes } from "../../model/creation-types-context";
-import { usePairs } from "../../model/pairs-context";
-import { usePage } from "../../model/page-context";
-import { useChannelUrl } from "../../model/channel-url-context";
 
 export const WtPostMenu: ComponentProps<typeof WtPostRichCard>["Menu"] = ({ data, ...rest }) => {
-  const { genre } = useGenre();
-  const { sort } = useSort();
-  const { page } = usePage();
-  const { creationTypes } = useCreationTypes();
-  const { pairs } = usePairs();
-  const { channelUrl } = useChannelUrl();
-
-  const queryClient = useQueryClient();
   const channelMeList = useChannelMeListContext();
 
   const bookmark = useBookmark();
@@ -48,55 +32,18 @@ export const WtPostMenu: ComponentProps<typeof WtPostRichCard>["Menu"] = ({ data
   }, [channelMeList, data]);
 
   const handleBookmark = () => {
-    console.log(genre, sort, page, creationTypes, pairs, channelUrl);
     if (data.bookmark) {
-      unbookmark({ id: data.id }, () => {
-        queryClient.setQueryData(
-          wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
-          (oldData) =>
-            oldData &&
-            produce(oldData, (draft) => {
-              draft.posts.find((post) => post.id === data.id)!.bookmark = false;
-            }),
-        );
-      });
+      unbookmark({ id: data.id });
     } else {
-      bookmark({ id: data.id }, () => {
-        queryClient.setQueryData(
-          wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
-          (oldData) =>
-            oldData &&
-            produce(oldData, (draft) => {
-              draft.posts.find((post) => post.id === data.id)!.bookmark = true;
-            }),
-        );
-      });
+      bookmark({ id: data.id });
     }
   };
 
   const handleBlock = () => {
     if (data.block) {
-      unblock({ id: data.channel.id }, () => {
-        queryClient.setQueryData(
-          wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
-          (oldData) =>
-            oldData &&
-            produce(oldData, (draft) => {
-              draft.posts.find((post) => post.id === data.id)!.block = false;
-            }),
-        );
-      });
+      unblock({ id: data.channel.id });
     } else {
-      block({ id: data.channel.id }, () => {
-        queryClient.setQueryData(
-          wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
-          (oldData) =>
-            oldData &&
-            produce(oldData, (draft) => {
-              draft.posts.find((post) => post.id === data.id)!.block = true;
-            }),
-        );
-      });
+      block({ id: data.channel.id });
     }
   };
 
