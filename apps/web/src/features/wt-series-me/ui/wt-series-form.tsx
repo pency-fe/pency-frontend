@@ -122,7 +122,7 @@ const WtCreateFormFn = ({ children }: WtCreateFormFnProps) => {
 
 type WtUpdateFormFnProps = {
   data: {
-    image: string;
+    image: string | null;
     status: Status;
     genre: Genre;
     title: string;
@@ -150,8 +150,9 @@ const WtUpdateFormFn = ({ children, data }: WtUpdateFormFnProps) => {
 
   const { mutate } = useUpdate();
   const router = useRouter();
-  const { postId } = useParams();
-  const id = Number(postId);
+  const { seriesId } = useParams();
+  const id = Number(seriesId);
+  const channelUrl = useChannelUrlParam();
 
   const onSubmit = (data: Schema) => {
     toggleLoading(true);
@@ -160,7 +161,7 @@ const WtUpdateFormFn = ({ children, data }: WtUpdateFormFnProps) => {
       {
         onSuccess: () => {
           toast.success("시리즈 정보를 수정했어요.");
-          router.push(`/webtoon/series/me/${id}`);
+          router.push(`/studio/${formatChannelUrl(channelUrl)}/webtoon/series`);
         },
         onError: (error) => {
           if (error.code === "ENTITY_NOT_FOUND") {
@@ -563,7 +564,6 @@ const KeywordsFn = () => {
 };
 
 // ----------------------------------------------------------------------
-// [TODO] WtSeriesCreateForm
 export const WtSeriesCreateForm = Object.assign(
   (props: WtCreateFormFnProps) => (
     <ToggleStoreProvider>
@@ -581,8 +581,6 @@ export const WtSeriesCreateForm = Object.assign(
   },
 );
 
-// [TODO] 추가하기
-// [TODO] WtSeriesUpdateForm
 export const WtSeriesUpdateForm = Object.assign(
   (props: WtUpdateFormFnProps) => (
     <ToggleStoreProvider>

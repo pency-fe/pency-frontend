@@ -1,37 +1,48 @@
 "use client";
 
-import { WtUpdateFormFn } from "@/features/wt-series-me";
+import { wtSeriesMeKeys } from "@/entities/wt-series-me";
+import { WtSeriesUpdateForm } from "@/features/wt-series-me";
 import { Box, Grid, Skeleton, Stack } from "@mui/material";
+import { withAsyncBoundary } from "@pency/util";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 
-export const StudioWtSeriesUpdatePage = () => {
-  return (
-    <WtUpdateFormFn>
-      <Stack spacing={3}>
-        <Grid container spacing={4}>
-          <Grid item xs={12} md="auto">
-            <Stack spacing={1} sx={{ alignItems: "center" }}>
-              <WtUpdateFormFn.Image />
-            </Stack>
-          </Grid>
-          <Grid item xs={12} md>
-            <Stack spacing={4}>
-              <WtUpdateFormFn.Status />
-              <WtUpdateFormFn.Genre />
-              <WtUpdateFormFn.title />
-              <WtUpdateFormFn.description />
-              <WtUpdateFormFn.keywords />
-            </Stack>
-          </Grid>
-        </Grid>
-        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
-          <WtUpdateFormFn.CreateSubmit />
-        </Box>
-      </Stack>
-    </WtUpdateFormFn>
-  );
-};
+export const StudioWtSeriesUpdatePage = withAsyncBoundary(
+  () => {
+    const { seriesId } = useParams();
+    const id = Number(seriesId);
+    const { data } = useSuspenseQuery(wtSeriesMeKeys.detail({ id }));
 
-const Loading = () => {
+    return (
+      <WtSeriesUpdateForm data={data}>
+        <Stack spacing={3}>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md="auto">
+              <Stack spacing={1} sx={{ alignItems: "center" }}>
+                <WtSeriesUpdateForm.Image />
+              </Stack>
+            </Grid>
+            <Grid item xs={12} md>
+              <Stack spacing={4}>
+                <WtSeriesUpdateForm.Status />
+                <WtSeriesUpdateForm.Genre />
+                <WtSeriesUpdateForm.title />
+                <WtSeriesUpdateForm.description />
+                <WtSeriesUpdateForm.keywords />
+              </Stack>
+            </Grid>
+          </Grid>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+            <WtSeriesUpdateForm.UpdateSubmit />
+          </Box>
+        </Stack>
+      </WtSeriesUpdateForm>
+    );
+  },
+  { errorBoundary: { fallback: <Loading /> }, suspense: { fallback: <Loading /> } },
+);
+
+function Loading() {
   return (
     <Stack spacing={3}>
       <Grid container spacing={4}>
@@ -55,4 +66,4 @@ const Loading = () => {
       </Box>
     </Stack>
   );
-};
+}
