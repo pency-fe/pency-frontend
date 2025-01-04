@@ -23,7 +23,7 @@ import { usePathname } from "next/navigation";
 import { memo, useMemo, useState } from "react";
 import { FormProvider, SubmitHandler, useController, useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
-import { useUpdateOrder } from "../model/useUpdateOrder";
+import { useUpdateOrder } from "../model/use-update-order";
 
 const schema = z.object({
   series: z.array(
@@ -82,10 +82,6 @@ const SubmitButtonFn = (rest: LoadingButtonProps) => {
       onError: (error) => {
         if (error.code === "ENTITY_NOT_FOUND") {
           toast.error("존재하지 않는 시리즈가 있어요.");
-        }
-
-        if (error.code === "ACCESS_DENIED") {
-          toast.error("권한이 없어요.");
         }
       },
       onSettled: () => {
