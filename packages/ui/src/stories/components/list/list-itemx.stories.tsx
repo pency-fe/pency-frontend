@@ -7,6 +7,8 @@ const meta: Meta = {
 
 export default meta;
 
+// [내일 하자]
+
 const postData = {
   id: 123,
   thumbnail:

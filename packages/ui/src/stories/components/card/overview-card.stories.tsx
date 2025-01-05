@@ -7,6 +7,17 @@ const meta: Meta = {
 
 export default meta;
 
+// ----------------------------------------------------------------------
+
+// [TODO] 현지
+// 기존꺼는 살려놓으셈
+// export const WtSeriesOverviewCard
+// 시리즈 썸네일(연령)
+// 장르(primary), 창작유형(secondary), 페어(warning), 연재상태(warning)
+// 채널 아바타, 시리즈명, 채널명
+
+// ----------------------------------------------------------------------
+
 export const PostOverviewCard = () => {
   const postData = {
     id: 123,
@@ -48,7 +59,7 @@ export const PostOverviewCard = () => {
             {postData.price && (
               <OverviewCard.Label
                 variant="soft"
-                color="success"
+                color="primary"
                 slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
               >
                 {postData.price}P

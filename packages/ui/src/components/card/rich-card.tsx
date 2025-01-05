@@ -176,8 +176,10 @@ const OverlayAnchorFn = forwardRef<HTMLAnchorElement, OverlayAnchorFnProps>((res
 type ThumbnailFnProps = Omit<
   {
     slots: {
+      // ImageFn 또는 GradientImageFn
       image: ReactElement;
       topEnds?: ReactElement | null;
+      // 여기에 ThumbnailBlockFn 들어가겠지. 옵션으로
     };
   } & BoxProps,
   "children"
@@ -248,6 +250,22 @@ const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, re
     />
   );
 });
+
+// ----------------------------------------------------------------------
+
+// [TODO] 현지
+// const GradientImageFn
+// 새로 컴포넌트 파고 작업을 해.
+
+// ----------------------------------------------------------------------
+
+// [TODO] 현지
+// ThumbnailBlockFn
+// 새로 컴포넌트 파고 작업을 해.
+// 사용자 입장에서 children으로 무엇이 들어오든 상관 안할거임.
+// 블록에 너비는 썸네일 너비 다 차지한다.
+// 높이는 설정하지 않는다.
+// 패딩은 설정해야 한다.(좌우 아래만.... 이겠지??)
 
 // ----------------------------------------------------------------------
 
