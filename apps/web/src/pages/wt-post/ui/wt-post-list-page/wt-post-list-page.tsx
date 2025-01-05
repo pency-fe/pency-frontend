@@ -10,6 +10,7 @@ import {
   WtPostGalleryPairs,
   WtPostGallerySort,
   WtPostMenu,
+  WtPostViewMenu,
 } from "@/features/wt-post";
 
 export function WtPostListPage() {
@@ -50,10 +51,10 @@ export function WtPostListPage() {
                 </WtPostGalleryFilterForm>
 
                 <WtPostGallery>
-                  {/* [TODO현지] 테스트하고 원래대로 꼭 돌려놔 */}
-                  <WtPostGallery.Panel Menu={WtPostMenu} />
-
+                  {/* [TODO] 현지] 테스트하고 원래대로 꼭 돌려놔 */}
                   {/* <WtPostGallery.Panel Menu={WtPostMenu} /> */}
+                  <WtPostGallery.Panel Menu={WtPostViewMenu} />
+
                   <Box sx={{ margin: "auto", mt: 3 }}>
                     <WtPostGallery.Pagination />
                   </Box>
