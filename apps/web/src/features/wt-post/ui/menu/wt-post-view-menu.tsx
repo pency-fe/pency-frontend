@@ -11,7 +11,6 @@ import {
 } from "@pency/ui/components";
 import { ListItemIcon, MenuItem, Typography, useTheme } from "@mui/material";
 
-// [TODO] 현지 디자인만 하셈
 export const WtPostViewMenu: ComponentProps<typeof WtPostRichCard>["Menu"] = ({ ...rest }) => {
   const theme = useTheme();
 
@@ -48,7 +47,6 @@ export const WtPostViewMenu: ComponentProps<typeof WtPostRichCard>["Menu"] = ({ 
         <ListItemIcon sx={{ color: theme.vars.palette.error.main }}>
           <MingcuteDelete3LineIcon />
         </ListItemIcon>
-        {/* {data.block ? "채널차단 해제" : "채널차단"} */}
         <Typography color={theme.vars.palette.error.main}>최근 목록에서 삭제</Typography>
       </MenuItem>
     </Menux>
