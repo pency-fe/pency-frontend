@@ -140,37 +140,10 @@ const SeriesSection = () => {
         paddingX: 3,
         paddingY: 2,
         overflow: "hidden",
-        borderTopLeftRadius: "16px",
-        borderTopRightRadius: "16px",
+        borderRadius: 2,
+        bgcolor: theme.vars.palette.background.paper,
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          inset: 0,
-        }}
-      >
-        <Box
-          src={
-            "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1"
-          }
-          component={LazyLoadImage}
-          sx={{
-            width: 1,
-            objectFit: "cover",
-            filter: "blur(16px)",
-          }}
-        />
-
-        <Box
-          sx={{
-            position: "absolute",
-            inset: 0,
-            background: `linear-gradient(to bottom, rgba(0, 0, 0, 0) 25%, ${theme.vars.palette.background.default} 50%)`,
-          }}
-        />
-      </Box>
-
       <Box
         sx={{
           flexShrink: 0,
@@ -209,7 +182,7 @@ const SeriesSection = () => {
         </Box>
       </Box>
 
-      <Stack sx={{ alignItems: "center", gap: 0.5, zIndex: 1 }}>
+      <Stack sx={{ alignItems: "center", gap: 0.5 }}>
         <Typography variant="h5">천재 궁수의 스트리밍</Typography>
         {/* [TODO] href */}
         <Link
