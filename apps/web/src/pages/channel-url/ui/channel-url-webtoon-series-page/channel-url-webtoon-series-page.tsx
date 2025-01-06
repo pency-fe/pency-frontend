@@ -9,7 +9,6 @@ import {
   AppBar,
   Box,
   Button,
-  Checkbox,
   Chip,
   Grid,
   IconButton,
@@ -22,7 +21,6 @@ import {
   useTheme,
 } from "@mui/material";
 import {
-  CheckboxButton,
   EvaArrowIosBackFillIcon,
   EvaArrowIosDownwardFillIcon,
   EvaBookmarkOutlineIcon,
@@ -43,7 +41,6 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { usePaginationx } from "@pency/ui/hooks";
-import { createQueryString } from "@pency/util";
 
 // ----------------------------------------------------------------------
 
@@ -353,7 +350,7 @@ const EpisodeSection = () => {
               </ListItemx.Attribute>
             ),
             trailing: (
-              <Typography variant="body2" color={theme.vars.palette.text.secondary}>
+              <Typography variant="caption" color={theme.vars.palette.text.secondary}>
                 {postData.createdAt}
               </Typography>
             ),
