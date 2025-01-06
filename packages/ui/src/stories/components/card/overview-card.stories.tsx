@@ -9,12 +9,72 @@ export default meta;
 
 // ----------------------------------------------------------------------
 
-// [TODO] 현지
-// 기존꺼는 살려놓으셈
-// export const WtSeriesOverviewCard
-// 시리즈 썸네일(연령)
-// 장르(primary), 창작유형(secondary), 페어(warning), 연재상태(warning)
-// 채널 아바타, 시리즈명, 채널명
+// [TODO] 현지 WtSeriesOverviewCard
+export const WtSeriesOverviewCard = () => {
+  const seriesData = {
+    seriesId: "series-id-123",
+    thumbnail:
+      "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+    age: "NINETEEN",
+    genre: "액션",
+    creationType: "2차창작",
+    pair: "BL",
+    status: "연재",
+    title: "천재 궁수의 스트리밍",
+    channel: {
+      channelUrl: "channel-id-123",
+      avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
+      name: "김천재의 채널",
+    },
+  };
+  return (
+    <OverviewCard
+      slots={{
+        overlayElement: <OverviewCard.OverlayAnchor href={`/webtoon/series/${seriesData.seriesId}`} />,
+        thumbnail: (
+          <OverviewCard.Thumbnail
+            slots={{
+              image: <OverviewCard.Thumbnail.Image src={seriesData.thumbnail} />,
+              // image: <OverviewCard.Thumbnail.Image src={null} />,
+              topEnds: seriesData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+            }}
+            sx={{ aspectRatio: "16/9" }}
+          />
+        ),
+        labels: (
+          <>
+            <OverviewCard.Label variant="soft" color="primary">
+              {seriesData.genre}
+            </OverviewCard.Label>
+            <OverviewCard.Label variant="soft" color="secondary">
+              {seriesData.creationType}
+            </OverviewCard.Label>
+            <OverviewCard.Label variant="soft" color="warning">
+              {seriesData.pair}
+            </OverviewCard.Label>
+            <OverviewCard.Label variant="soft" color="warning">
+              {seriesData.status}
+            </OverviewCard.Label>
+          </>
+        ),
+        avatarLink: (
+          <OverviewCard.AvatarLink
+            href={`/@${seriesData.channel.channelUrl}`}
+            slots={{
+              avatar: <OverviewCard.AvatarLink.Avatar src={seriesData.channel.avatar} />,
+            }}
+          />
+        ),
+        title: <OverviewCard.Title>{seriesData.title}</OverviewCard.Title>,
+        nameLink: (
+          <OverviewCard.NameLink href={`/@${seriesData.channel.channelUrl}`}>
+            {seriesData.channel.name}
+          </OverviewCard.NameLink>
+        ),
+      }}
+    />
+  );
+};
 
 // ----------------------------------------------------------------------
 
@@ -104,7 +164,7 @@ export const SeriesOverviewCard = () => {
     thumbnail:
       "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
     genre: "액션",
-    completionState: "연재",
+    status: "연재",
     title: "천재 궁수의 스트리밍",
     channel: {
       channelUrl: "channel-id-123",
@@ -131,7 +191,7 @@ export const SeriesOverviewCard = () => {
               {seriesData.genre}
             </OverviewCard.Label>
             <OverviewCard.Label variant="soft" color="info">
-              {seriesData.completionState}
+              {seriesData.status}
             </OverviewCard.Label>
           </>
         ),

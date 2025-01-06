@@ -216,7 +216,7 @@ const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...re
           {slots.topEnds}
         </Box>
       )}
-      {/* [TODO] 현지 */}
+      {/* [TODO] 현지 thumbnailBlock*/}
       {slots.thumbnailBlock && (
         <Box
           sx={{
@@ -268,7 +268,7 @@ const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, re
 
 // ----------------------------------------------------------------------
 
-// [TODO] 현지
+// [TODO] 현지 GradientImageFn
 const GradientImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, ref) => {
   const { hover } = useValue("OverviewCard.Thumbnail.Image");
   const theme = useTheme();
