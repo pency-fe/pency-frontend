@@ -6,6 +6,7 @@ import {
   accordionClasses,
   AccordionDetails,
   AccordionSummary,
+  accordionSummaryClasses,
   AppBar,
   Box,
   Button,
@@ -131,18 +132,45 @@ const SeriesSection = () => {
   return (
     <Stack
       sx={{
+        position: "sticky",
+        top: "120px",
         alignItems: "center",
         gap: 4,
         width: 1,
-        backgroundColor: theme.vars.palette.background.paper,
-        borderRadius: 3,
         paddingX: 3,
         paddingY: 2,
-        position: "sticky",
-        top: "120px",
-        zIndex: 1,
+        overflow: "hidden",
+        borderTopLeftRadius: "16px",
+        borderTopRightRadius: "16px",
       }}
     >
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+        }}
+      >
+        <Box
+          src={
+            "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1"
+          }
+          component={LazyLoadImage}
+          sx={{
+            width: 1,
+            objectFit: "cover",
+            filter: "blur(16px)",
+          }}
+        />
+
+        <Box
+          sx={{
+            position: "absolute",
+            inset: 0,
+            background: `linear-gradient(to bottom, rgba(0, 0, 0, 0) 25%, ${theme.vars.palette.background.default} 50%)`,
+          }}
+        />
+      </Box>
+
       <Box
         sx={{
           flexShrink: 0,
@@ -181,7 +209,7 @@ const SeriesSection = () => {
         </Box>
       </Box>
 
-      <Stack sx={{ alignItems: "center", gap: 0.5 }}>
+      <Stack sx={{ alignItems: "center", gap: 0.5, zIndex: 1 }}>
         <Typography variant="h5">천재 궁수의 스트리밍</Typography>
         {/* [TODO] href */}
         <Link
@@ -190,13 +218,21 @@ const SeriesSection = () => {
           variant="overline"
           sx={{
             "&:hover": {
-              textDecoration: "none", // 호버 시 밑줄 제거
+              textDecoration: "none",
             },
           }}
         >
           김천재
         </Link>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, color: theme.vars.palette.text.secondary }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 0.5,
+            color: theme.vars.palette.text.secondary,
+            wordBreak: "keep-all",
+          }}
+        >
           <Typography variant="caption">연재/15화</Typography>
 
           <Typography variant="caption">•</Typography>
@@ -238,7 +274,15 @@ const SeriesSection = () => {
           },
         }}
       >
-        <AccordionSummary expandIcon={<EvaArrowIosDownwardFillIcon />}>
+        <AccordionSummary
+          expandIcon={<EvaArrowIosDownwardFillIcon />}
+          sx={{
+            minHeight: "fit-content",
+            [`& .${accordionSummaryClasses.content}`]: {
+              my: "6px",
+            },
+          }}
+        >
           <Typography>정보</Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -280,7 +324,7 @@ const EpisodeSection = () => {
   const paginations = usePaginationx({ pageCount: 20, currentPage: pageParam });
 
   return (
-    <Stack sx={{ width: 1, backgroundColor: theme.vars.palette.background.paper, borderRadius: 3, padding: 2 }}>
+    <Stack>
       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
         <Button startIcon={<SolarCheckCircleLinearIcon />}>선택 구매</Button>
 
