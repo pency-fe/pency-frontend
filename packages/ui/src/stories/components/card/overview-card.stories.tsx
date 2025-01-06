@@ -42,14 +42,14 @@ export const WtSeriesOverviewCard = () => {
         ),
         labels: (
           <>
-            <OverviewCard.Label variant="soft" color="primary">
-              {seriesData.genre}
-            </OverviewCard.Label>
             <OverviewCard.Label variant="soft" color="secondary">
               {seriesData.creationType}
             </OverviewCard.Label>
-            <OverviewCard.Label variant="soft" color="warning">
+            <OverviewCard.Label variant="soft" color="primary">
               {seriesData.pair}
+            </OverviewCard.Label>
+            <OverviewCard.Label variant="soft" color="warning">
+              {seriesData.genre}
             </OverviewCard.Label>
             <OverviewCard.Label variant="soft" color="warning">
               {seriesData.status}

@@ -77,14 +77,14 @@ export const WtSeriesRichCard = () => {
           ),
           labels: (
             <>
-              <RichCard.Label variant="soft" color="primary">
-                {postData.genre}
-              </RichCard.Label>
               <RichCard.Label variant="soft" color="secondary">
                 {postData.creationType}
               </RichCard.Label>
-              <RichCard.Label variant="soft" color="warning">
+              <RichCard.Label variant="soft" color="primary">
                 {postData.pair}
+              </RichCard.Label>
+              <RichCard.Label variant="soft" color="warning">
+                {postData.genre}
               </RichCard.Label>
               <RichCard.Label variant="soft" color="warning">
                 {postData.status}
@@ -204,14 +204,14 @@ export const WtSeriesGradientRichCard = () => {
           ),
           labels: (
             <>
-              <RichCard.Label variant="soft" color="primary">
-                {postData.genre}
-              </RichCard.Label>
               <RichCard.Label variant="soft" color="secondary">
                 {postData.creationType}
               </RichCard.Label>
-              <RichCard.Label variant="soft" color="warning">
+              <RichCard.Label variant="soft" color="primary">
                 {postData.pair}
+              </RichCard.Label>
+              <RichCard.Label variant="soft" color="warning">
+                {postData.genre}
               </RichCard.Label>
               <RichCard.Label variant="soft" color="warning">
                 {postData.status}
