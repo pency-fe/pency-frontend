@@ -43,7 +43,6 @@ export const WtEpisodeItem = () => {
   return (
     <>
       <ListItemx
-        labels
         slots={{
           overlayElement: (
             <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`} />

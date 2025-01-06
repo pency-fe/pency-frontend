@@ -20,7 +20,6 @@ import { iconAlignCenter, maxLine } from "../../../util";
 // ----------------------------------------------------------------------
 
 type ListItemxFnProps = {
-  labels?: boolean;
   slots: {
     overlayElement: ReactElement;
     leadingLabel?: ReactElement | null;
@@ -34,7 +33,7 @@ type ListItemxFnProps = {
   };
 } & BoxProps;
 
-const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ labels = false, slots, ...rest }, ref) => {
+const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...rest }, ref) => {
   const theme = useTheme();
 
   return (
@@ -49,7 +48,7 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ labels = fal
           alignItems: "center",
           gap: 1,
           width: 1,
-          height: labels ? theme.spacing(10) : theme.spacing(8),
+          height: slots.labels ? theme.spacing(10) : theme.spacing(8),
           padding: "4px",
           borderRadius: 1,
           overflow: "hidden",
