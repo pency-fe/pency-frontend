@@ -28,7 +28,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useToggle } from "@pency/util";
-import { createContext, forwardRef, ReactElement, useContext, useMemo } from "react";
+import React, { createContext, forwardRef, ReactElement, useContext, useMemo } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImageProps, LazyLoadImage } from "react-lazy-load-image-component";
 import { Label } from "../label";
@@ -176,10 +176,9 @@ const OverlayAnchorFn = forwardRef<HTMLAnchorElement, OverlayAnchorFnProps>((res
 type ThumbnailFnProps = Omit<
   {
     slots: {
-      // ImageFn 또는 GradientImageFn
       image: ReactElement;
       topEnds?: ReactElement | null;
-      // 여기에 ThumbnailBlockFn 들어가겠지. 옵션으로
+      thumbnailBlock?: ReactElement | null;
     };
   } & BoxProps,
   "children"
@@ -204,7 +203,6 @@ const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...re
       }}
     >
       {slots.image}
-
       {slots.topEnds && (
         <Box
           sx={{
@@ -218,9 +216,26 @@ const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...re
           {slots.topEnds}
         </Box>
       )}
+      {/* [TODO] 현지 */}
+      {slots.thumbnailBlock && (
+        <Box
+          sx={{
+            position: "absolute",
+            right: 0,
+            left: 0,
+            bottom: 0,
+            paddingX: theme.spacing(0.75),
+            pb: theme.spacing(0.75),
+          }}
+        >
+          {slots.thumbnailBlock}
+        </Box>
+      )}
     </Box>
   );
 });
+
+// ----------------------------------------------------------------------
 
 type ImageFnProps = Omit<BoxProps<"img", LazyLoadImageProps>, "children" | "src"> & { src?: string | null };
 
@@ -254,18 +269,48 @@ const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, re
 // ----------------------------------------------------------------------
 
 // [TODO] 현지
-// const GradientImageFn
-// 새로 컴포넌트 파고 작업을 해.
+const GradientImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, ref) => {
+  const { hover } = useValue("OverviewCard.Thumbnail.Image");
+  const theme = useTheme();
+
+  return (
+    <>
+      <Box
+        ref={ref}
+        component={LazyLoadImage}
+        src={src ?? process.env["NEXT_PUBLIC_TEXT_LOGO"]}
+        {...rest}
+        sx={{
+          position: "relative",
+          width: 1,
+          height: 1,
+          objectFit: "cover",
+          transition: theme.transitions.create("transform", {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.shorter,
+          }),
+          ...(hover && {
+            transform: "scale(1.05)",
+          }),
+          ...rest.sx,
+        }}
+      />
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          background: `linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, ${theme.vars.palette.background.default} 100%)`,
+          pointerEvents: "none",
+        }}
+      />
+    </>
+  );
+});
 
 // ----------------------------------------------------------------------
-
-// [TODO] 현지
-// ThumbnailBlockFn
-// 새로 컴포넌트 파고 작업을 해.
-// 사용자 입장에서 children으로 무엇이 들어오든 상관 안할거임.
-// 블록에 너비는 썸네일 너비 다 차지한다.
-// 높이는 설정하지 않는다.
-// 패딩은 설정해야 한다.(좌우 아래만.... 이겠지??)
 
 // ----------------------------------------------------------------------
 
@@ -470,7 +515,7 @@ const DetailsFn = forwardRef<HTMLDivElement, DetailsFnProps>((rest, ref) => {
 export const RichCard = Object.assign(RichCardFn, {
   OverlayAnchor: OverlayAnchorFn,
   OverlayButton: OverlayButtonFn,
-  Thumbnail: Object.assign(ThumbnailFn, { Image: ImageFn }),
+  Thumbnail: Object.assign(ThumbnailFn, { Image: ImageFn, GradientImage: GradientImageFn }),
   Label: Label,
   AvatarLink: Object.assign(AvatarLinkFn, { Avatar: AvatarFn }),
   Title: TitleFn,

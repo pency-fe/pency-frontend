@@ -14,7 +14,7 @@ import {
 } from "../../../components";
 import { maxLine } from "../../../util";
 
-import { Box, ListItemIcon, MenuItem } from "@mui/material";
+import { Box, Button, ListItemIcon, MenuItem } from "@mui/material";
 import { Meta } from "@storybook/react";
 
 // ----------------------------------------------------------------------
@@ -27,37 +27,18 @@ export default meta;
 
 // ----------------------------------------------------------------------
 
-// [TODO] 현지
-// 기존꺼는 살려놓으셈
-// export const WtSeriesRichCard
-// 시리즈 썸네일(연령)
-// 장르(primary), 창작유형(secondary), 페어(warning), 연재상태(warning)
-// 채널 아바타, 시리즈명, 채널명, 총 13화, 좋아요 개수(아이콘 포함)
-// 태그
-
-// ----------------------------------------------------------------------
-
-// [TODO] 현지
-// 기존꺼는 살려놓으셈
-// export const WtSeriesGradientRichCard
-// 시리즈 썸네일(연령), 그라데이션 입히기, 버튼(EP.200 다시보기, 다음화 보기) 넣어보기(사이즈는 small(이상하면 찬우한테 전화), 색은 알아서 잘..)
-// 장르(primary), 창작유형(secondary), 페어(warning), 연재상태(warning)
-// 채널 아바타, 시리즈명, 채널명, 총 13화, 좋아요 개수(아이콘 포함)
-// 태그
-
-// ----------------------------------------------------------------------
-
 const postData = {
   id: 123,
-  // thumbnail:
-  //   "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
-  thumbnail: null,
+  thumbnail:
+    "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
+  // thumbnail: null,
   age: "NINETEEN",
   price: 300,
   purchased: true,
   creationType: "2차창작",
   pair: "BL",
   genre: "액션",
+  status: "연재",
   title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
   // title: "천재 궁수의 스트리밍",
   channel: {
@@ -65,11 +46,256 @@ const postData = {
     avatar: "https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png",
     name: "김천재의 채널",
   },
+  episodeCount: 15,
   likeCount: 100,
   publishedAt: 1730535831,
   keywords: ["BL", "**공", "**수", "판타지", "학원물", "고수위", "후방주의", "유혈"],
   preview:
     "선수권 대회 최연소 우승, 양궁 유망주.\n\n승승장구 하는 줄 알았으나 비운의 사고로 \n다시는 활을 쥘 수 없게 된 몰락한 천재 양궁 선수 유상현!\n\n낙하산으로 들어간 회사에서마저 잘린 그는,\n먹고살기 위해 게임 스트리머, 아몬드가 되는데...\n\n[활을 선택하셨습니다.]\n\n피융! 푸욱!\n\n[헤드샷!]\n\n“보스 원래 한 방이에요?”\n\n미친 재능이 다시금 빛을 발한다!\n\n28살. 고졸. 백수.\n특기는 양궁.\n\n방송 천재가 되어 돌아온, 그의 유쾌한 반란이 시작된다?!\n\n[천재 궁수의 스트리밍]",
+};
+
+// ----------------------------------------------------------------------
+
+// [TODO] 현지
+export const WtSeriesRichCard = () => {
+  const { anchorRef, isOpen, close, toggle } = useMenuxState();
+
+  return (
+    <>
+      <RichCard
+        slots={{
+          overlayElement: (
+            <RichCard.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`} />
+          ),
+          thumbnail: (
+            <RichCard.Thumbnail
+              slots={{
+                image: <RichCard.Thumbnail.Image src={postData.thumbnail} />,
+                topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+              }}
+              sx={{ aspectRatio: "16/9" }}
+            />
+          ),
+          labels: (
+            <>
+              <RichCard.Label variant="soft" color="primary">
+                {postData.genre}
+              </RichCard.Label>
+              <RichCard.Label variant="soft" color="secondary">
+                {postData.creationType}
+              </RichCard.Label>
+              <RichCard.Label variant="soft" color="warning">
+                {postData.pair}
+              </RichCard.Label>
+              <RichCard.Label variant="soft" color="warning">
+                {postData.status}
+              </RichCard.Label>
+            </>
+          ),
+          avatarLink: (
+            <RichCard.AvatarLink
+              href={`/@${postData.channel.channelUrl}`}
+              slots={{
+                avatar: <RichCard.AvatarLink.Avatar src={postData.channel.avatar} />,
+              }}
+            />
+          ),
+          title: <RichCard.Title>{postData.title}</RichCard.Title>,
+          nameLink: (
+            <RichCard.NameLink href={`/@${postData.channel.channelUrl}`}>{postData.channel.name}</RichCard.NameLink>
+          ),
+          attributes: (
+            <>
+              <RichCard.AttributeDot />
+              <RichCard.Attribute>총 {postData.episodeCount}화</RichCard.Attribute>
+              <RichCard.AttributeDot />
+              <RichCard.Attribute>
+                <EvaHeartOutlineIcon />
+                {postData.likeCount}
+              </RichCard.Attribute>
+            </>
+          ),
+          feedbackButton: (
+            <>
+              <RichCard.FeedbackButton ref={anchorRef} onClick={toggle}>
+                <EvaMoreVerticalOutlineIcon />
+              </RichCard.FeedbackButton>
+
+              <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
+                <MenuItem>
+                  <ListItemIcon>
+                    <EvaBookmarkOutlineIcon />
+                  </ListItemIcon>
+                  북마크
+                </MenuItem>
+
+                <MenuItem>
+                  <ListItemIcon>
+                    <FluentShare24RegularIcon />
+                  </ListItemIcon>
+                  공유하기
+                </MenuItem>
+
+                <MenuItem>
+                  <ListItemIcon>
+                    <MaterialSymbolsBlockIcon />
+                  </ListItemIcon>
+                  차단하기
+                </MenuItem>
+
+                <MenuItem>
+                  <ListItemIcon>
+                    <MaterialSymbolsReportOutlineIcon />
+                  </ListItemIcon>
+                  신고하기
+                </MenuItem>
+              </Menux>
+            </>
+          ),
+          chips: (
+            <>
+              {Array.from(postData.keywords, (keyword, i) => (
+                <RichCard.Chip
+                  key={i}
+                  label={keyword}
+                  variant="soft"
+                  size="small"
+                  href={`/search?keyword=${keyword}`}
+                />
+              ))}
+            </>
+          ),
+        }}
+      />
+    </>
+  );
+};
+
+// ----------------------------------------------------------------------
+
+// [TODO] 현지
+export const WtSeriesGradientRichCard = () => {
+  const { anchorRef, isOpen, close, toggle } = useMenuxState();
+
+  return (
+    <>
+      <RichCard
+        slots={{
+          overlayElement: (
+            <RichCard.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`} />
+          ),
+          thumbnail: (
+            <RichCard.Thumbnail
+              slots={{
+                image: <RichCard.Thumbnail.GradientImage src={postData.thumbnail} />,
+                topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+                thumbnailBlock: (
+                  <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+                    <Button variant="soft" size="small">
+                      다시보기
+                    </Button>
+                    <Button variant="soft" color="primary" size="small">
+                      다음화 보기
+                    </Button>
+                  </Box>
+                ),
+              }}
+              sx={{ aspectRatio: "16/9" }}
+            />
+          ),
+          labels: (
+            <>
+              <RichCard.Label variant="soft" color="primary">
+                {postData.genre}
+              </RichCard.Label>
+              <RichCard.Label variant="soft" color="secondary">
+                {postData.creationType}
+              </RichCard.Label>
+              <RichCard.Label variant="soft" color="warning">
+                {postData.pair}
+              </RichCard.Label>
+              <RichCard.Label variant="soft" color="warning">
+                {postData.status}
+              </RichCard.Label>
+            </>
+          ),
+          avatarLink: (
+            <RichCard.AvatarLink
+              href={`/@${postData.channel.channelUrl}`}
+              slots={{
+                avatar: <RichCard.AvatarLink.Avatar src={postData.channel.avatar} />,
+              }}
+            />
+          ),
+          title: <RichCard.Title>{postData.title}</RichCard.Title>,
+          nameLink: (
+            <RichCard.NameLink href={`/@${postData.channel.channelUrl}`}>{postData.channel.name}</RichCard.NameLink>
+          ),
+          attributes: (
+            <>
+              <RichCard.AttributeDot />
+              <RichCard.Attribute>총 {postData.episodeCount}화</RichCard.Attribute>
+              <RichCard.AttributeDot />
+              <RichCard.Attribute>
+                <EvaHeartOutlineIcon />
+                {postData.likeCount}
+              </RichCard.Attribute>
+            </>
+          ),
+          feedbackButton: (
+            <>
+              <RichCard.FeedbackButton ref={anchorRef} onClick={toggle}>
+                <EvaMoreVerticalOutlineIcon />
+              </RichCard.FeedbackButton>
+
+              <Menux open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close}>
+                <MenuItem>
+                  <ListItemIcon>
+                    <EvaBookmarkOutlineIcon />
+                  </ListItemIcon>
+                  북마크
+                </MenuItem>
+
+                <MenuItem>
+                  <ListItemIcon>
+                    <FluentShare24RegularIcon />
+                  </ListItemIcon>
+                  공유하기
+                </MenuItem>
+
+                <MenuItem>
+                  <ListItemIcon>
+                    <MaterialSymbolsBlockIcon />
+                  </ListItemIcon>
+                  차단하기
+                </MenuItem>
+
+                <MenuItem>
+                  <ListItemIcon>
+                    <MaterialSymbolsReportOutlineIcon />
+                  </ListItemIcon>
+                  신고하기
+                </MenuItem>
+              </Menux>
+            </>
+          ),
+          chips: (
+            <>
+              {Array.from(postData.keywords, (keyword, i) => (
+                <RichCard.Chip
+                  key={i}
+                  label={keyword}
+                  variant="soft"
+                  size="small"
+                  href={`/search?keyword=${keyword}`}
+                />
+              ))}
+            </>
+          ),
+        }}
+      />
+    </>
+  );
 };
 
 // ----------------------------------------------------------------------
@@ -211,6 +437,8 @@ export const PostRichCard = () => {
     </>
   );
 };
+
+// ----------------------------------------------------------------------
 
 export const PostRichCards = () => {
   return (
