@@ -9,6 +9,7 @@ import {
   AppBar,
   Box,
   Button,
+  Checkbox,
   Chip,
   Grid,
   IconButton,
@@ -21,6 +22,7 @@ import {
   useTheme,
 } from "@mui/material";
 import {
+  CheckboxButton,
   EvaArrowIosBackFillIcon,
   EvaArrowIosDownwardFillIcon,
   EvaBookmarkOutlineIcon,
@@ -34,6 +36,7 @@ import {
   Menux,
   MingcuteNotificationLineIcon,
   NineteenCircleIcon,
+  SolarCheckCircleLinearIcon,
   useMenuxState,
 } from "@pency/ui/components";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -69,7 +72,11 @@ export const ChannelUrlWebtoonSeriesPage = () => {
   // 여기 부분은 구조 잡는 부분 (Grid)
   return (
     <Grid container>
-      <Grid item xs={12}>
+      <Grid
+        item
+        xs={12}
+        sx={{ position: "sticky", top: "56px", bgcolor: theme.vars.palette.background.default, zIndex: 2 }}
+      >
         <Header />
       </Grid>
       <Grid item xs={12} md={4}>
@@ -77,7 +84,7 @@ export const ChannelUrlWebtoonSeriesPage = () => {
       </Grid>
       <Grid
         item
-        md
+        xs
         sx={{
           [theme.breakpoints.up("md")]: {
             ml: 1,
@@ -134,6 +141,9 @@ const SeriesSection = () => {
         borderRadius: 1,
         paddingX: 3,
         paddingY: 2,
+        position: "sticky",
+        top: "120px",
+        zIndex: 1,
       }}
     >
       <Box
@@ -274,7 +284,9 @@ const EpisodeSection = () => {
 
   return (
     <Stack sx={{ width: 1, backgroundColor: theme.vars.palette.background.paper, borderRadius: 1, padding: 2 }}>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 1 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
+        <Button startIcon={<SolarCheckCircleLinearIcon />}>선택 구매</Button>
+
         <FilterChip ref={anchorRef} label={"최신순"} open={isOpen} onClick={toggle} />
       </Box>
       <Menux
