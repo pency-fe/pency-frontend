@@ -135,7 +135,7 @@ const SeriesSection = () => {
         gap: 4,
         width: 1,
         backgroundColor: theme.vars.palette.background.paper,
-        borderRadius: 1,
+        borderRadius: 3,
         paddingX: 3,
         paddingY: 2,
         position: "sticky",
@@ -280,7 +280,7 @@ const EpisodeSection = () => {
   const paginations = usePaginationx({ pageCount: 20, currentPage: pageParam });
 
   return (
-    <Stack sx={{ width: 1, backgroundColor: theme.vars.palette.background.paper, borderRadius: 1, padding: 2 }}>
+    <Stack sx={{ width: 1, backgroundColor: theme.vars.palette.background.paper, borderRadius: 3, padding: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
         <Button startIcon={<SolarCheckCircleLinearIcon />}>선택 구매</Button>
 
