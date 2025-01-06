@@ -28,7 +28,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useToggle } from "@pency/util";
-import React, { createContext, forwardRef, ReactElement, useContext, useMemo } from "react";
+import { createContext, forwardRef, ReactElement, useContext, useMemo } from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { LazyLoadImageProps, LazyLoadImage } from "react-lazy-load-image-component";
 import { Label } from "../label";
@@ -175,6 +175,7 @@ const OverlayAnchorFn = forwardRef<HTMLAnchorElement, OverlayAnchorFnProps>((res
 
 type ThumbnailFnProps = Omit<
   {
+    gradient?: boolean;
     slots: {
       image: ReactElement;
       topEnds?: ReactElement | null;
@@ -184,7 +185,7 @@ type ThumbnailFnProps = Omit<
   "children"
 >;
 
-const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...rest }, ref) => {
+const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ gradient = false, slots, ...rest }, ref) => {
   const theme = useTheme();
 
   return (
@@ -193,16 +194,32 @@ const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...re
       {...rest}
       sx={{
         position: "relative",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
         width: 1,
-        borderRadius: 2,
-        overflow: "hidden",
         ...rest.sx,
       }}
     >
-      {slots.image}
+      <Box
+        sx={{
+          width: 1,
+          height: 1,
+          borderRadius: 2,
+          overflow: "hidden",
+        }}
+      >
+        {slots.image}
+      </Box>
+
+      {gradient ? (
+        <Box
+          sx={{
+            position: "absolute",
+            inset: 0,
+            background: `linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, ${theme.vars.palette.background.default} 100%)`,
+            pointerEvents: "none",
+          }}
+        />
+      ) : null}
+
       {slots.topEnds && (
         <Box
           sx={{
@@ -216,7 +233,7 @@ const ThumbnailFn = forwardRef<HTMLDivElement, ThumbnailFnProps>(({ slots, ...re
           {slots.topEnds}
         </Box>
       )}
-      {/* [TODO] 현지 thumbnailBlock*/}
+
       {slots.thumbnailBlock && (
         <Box
           sx={{
@@ -265,52 +282,6 @@ const ImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, re
     />
   );
 });
-
-// ----------------------------------------------------------------------
-
-// [TODO] 현지 GradientImageFn
-const GradientImageFn = forwardRef<HTMLImageElement, ImageFnProps>(({ src, ...rest }, ref) => {
-  const { hover } = useValue("OverviewCard.Thumbnail.Image");
-  const theme = useTheme();
-
-  return (
-    <>
-      <Box
-        ref={ref}
-        component={LazyLoadImage}
-        src={src ?? process.env["NEXT_PUBLIC_TEXT_LOGO"]}
-        {...rest}
-        sx={{
-          position: "relative",
-          width: 1,
-          height: 1,
-          objectFit: "cover",
-          transition: theme.transitions.create("transform", {
-            easing: theme.transitions.easing.easeInOut,
-            duration: theme.transitions.duration.shorter,
-          }),
-          ...(hover && {
-            transform: "scale(1.05)",
-          }),
-          ...rest.sx,
-        }}
-      />
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          background: `linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, ${theme.vars.palette.background.default} 100%)`,
-          pointerEvents: "none",
-        }}
-      />
-    </>
-  );
-});
-
-// ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
 
@@ -515,7 +486,7 @@ const DetailsFn = forwardRef<HTMLDivElement, DetailsFnProps>((rest, ref) => {
 export const RichCard = Object.assign(RichCardFn, {
   OverlayAnchor: OverlayAnchorFn,
   OverlayButton: OverlayButtonFn,
-  Thumbnail: Object.assign(ThumbnailFn, { Image: ImageFn, GradientImage: GradientImageFn }),
+  Thumbnail: Object.assign(ThumbnailFn, { Image: ImageFn }),
   Label: Label,
   AvatarLink: Object.assign(AvatarLinkFn, { Avatar: AvatarFn }),
   Title: TitleFn,

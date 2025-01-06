@@ -186,15 +186,16 @@ export const WtSeriesGradientRichCard = () => {
           ),
           thumbnail: (
             <RichCard.Thumbnail
+              gradient
               slots={{
-                image: <RichCard.Thumbnail.GradientImage src={postData.thumbnail} />,
+                image: <RichCard.Thumbnail.Image src={postData.thumbnail} />,
                 topEnds: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
                 thumbnailBlock: (
                   <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
-                    <Button variant="soft" size="small">
-                      다시보기
+                    <Button variant="soft" size="small" sx={{ zIndex: 1 }}>
+                      EP200. 다시보기
                     </Button>
-                    <Button variant="soft" color="primary" size="small">
+                    <Button variant="soft" color="primary" size="small" sx={{ zIndex: 1 }}>
                       다음화 보기
                     </Button>
                   </Box>
