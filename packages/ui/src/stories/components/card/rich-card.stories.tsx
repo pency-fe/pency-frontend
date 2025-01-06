@@ -56,7 +56,6 @@ const postData = {
 
 // ----------------------------------------------------------------------
 
-// [TODO] 현지 WtSeriesRichCard
 export const WtSeriesRichCard = () => {
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
@@ -173,7 +172,6 @@ export const WtSeriesRichCard = () => {
 
 // ----------------------------------------------------------------------
 
-// [TODO] 현지 WtSeriesGradientRichCard
 export const WtSeriesGradientRichCard = () => {
   const { anchorRef, isOpen, close, toggle } = useMenuxState();
 

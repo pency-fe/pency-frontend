@@ -1,4 +1,12 @@
-import { EvaHeartOutlineIcon, ListItemx, NineteenCircleIcon } from "../../../components";
+import { Typography, useTheme } from "@mui/material";
+import {
+  EvaEyeOutlineIcon,
+  EvaHeartOutlineIcon,
+  GravityUiCircleCheckFillIcon,
+  ListItemx,
+  MaterialSymbolsChatBubbleOutlineIcon,
+  NineteenCircleIcon,
+} from "../../../components";
 import { Meta } from "@storybook/react";
 
 const meta: Meta = {
@@ -7,27 +15,95 @@ const meta: Meta = {
 
 export default meta;
 
-// [TODO][현지]
-// WtEpisodeItem
-// 썸네일(연령),
-// 첫 줄에 무료, 포인트, 포인트 체크 표시 라벨 (primary) 달고
-// 두번 줄에 제목
-// 세번 째 줄에 조회수, 댓글 수, 좋아요 수
-// 오른쪽 마지막에 업로드 날짜
+// ----------------------------------------------------------------------
 
 const postData = {
   id: 123,
   thumbnail:
     "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
   age: "NINETEEN",
+  price: 300,
+  purchased: true,
   // title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
   title: "천재 궁수의 스트리밍",
   channel: {
     channelUrl: "dddddd",
     name: "김천재의 채널",
   },
+  viewCount: 120,
   likeCount: 100,
+  commentCount: 80,
+  createdAt: "24.05.13",
 };
+
+// ----------------------------------------------------------------------
+
+// [TODO][현지]
+// WtEpisodeItem
+// 첫 줄에 무료, 포인트, 포인트 체크 표시 라벨 (primary) 달고
+// 두번 줄에 제목
+// 세번 째 줄에 조회수,  좋아요 수, 댓글 수,
+// 오른쪽 마지막에 업로드 날짜
+
+export const WtEpisodeItem = () => {
+  const theme = useTheme();
+  return (
+    <>
+      <ListItemx
+        labels
+        slots={{
+          overlayElement: (
+            <ListItemx.OverlayAnchor href={`/@${postData.channel.channelUrl}/webtoon/post/${postData.id}`} />
+          ),
+          thumbnail: (
+            <ListItemx.Thumbnail
+              slots={{
+                image: <ListItemx.Thumbnail.Image src={null} />,
+                topEnd: postData.age === "NINETEEN" ? <NineteenCircleIcon fontSize="small" /> : null,
+              }}
+              sx={{ aspectRatio: "16/9" }}
+            />
+          ),
+          labels: (
+            <>
+              {postData.price && (
+                <ListItemx.Labels
+                  variant="soft"
+                  color="primary"
+                  slots={{ startIcon: postData.purchased ? <GravityUiCircleCheckFillIcon /> : null }}
+                >
+                  {postData.price}P
+                </ListItemx.Labels>
+              )}
+            </>
+          ),
+          title: <ListItemx.Title>{postData.title}</ListItemx.Title>,
+          attribute: (
+            <ListItemx.Attribute>
+              {postData.channel.name}
+              <ListItemx.Attribute.Dot />
+              <EvaEyeOutlineIcon />
+              {postData.viewCount}
+              <ListItemx.Attribute.Dot />
+              <EvaHeartOutlineIcon />
+              {postData.likeCount}
+              <ListItemx.Attribute.Dot />
+              <MaterialSymbolsChatBubbleOutlineIcon />
+              {postData.commentCount}
+            </ListItemx.Attribute>
+          ),
+          trailing: (
+            <Typography variant="body2" color={theme.vars.palette.text.secondary}>
+              {postData.createdAt}
+            </Typography>
+          ),
+        }}
+      />
+    </>
+  );
+};
+
+// ----------------------------------------------------------------------
 
 export const PostListItemx = () => {
   return (
@@ -66,6 +142,8 @@ export const PostListItemx = () => {
     </>
   );
 };
+
+// ----------------------------------------------------------------------
 
 export const PostListItemxs = () => {
   return (

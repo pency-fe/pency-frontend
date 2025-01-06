@@ -9,7 +9,6 @@ export default meta;
 
 // ----------------------------------------------------------------------
 
-// [TODO] 현지 WtSeriesOverviewCard
 export const WtSeriesOverviewCard = () => {
   const seriesData = {
     seriesId: "series-id-123",

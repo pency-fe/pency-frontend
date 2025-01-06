@@ -20,11 +20,13 @@ import { iconAlignCenter, maxLine } from "../../../util";
 // ----------------------------------------------------------------------
 
 type ListItemxFnProps = {
+  labels?: boolean;
   slots: {
     overlayElement: ReactElement;
     leadingLabel?: ReactElement | null;
     thumbnail: ReactElement;
     order?: ReactElement | null;
+    labels?: ReactElement | null;
     title: ReactElement;
     attribute?: ReactElement | null;
     trailing?: ReactElement | null;
@@ -32,7 +34,7 @@ type ListItemxFnProps = {
   };
 } & BoxProps;
 
-const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...rest }, ref) => {
+const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ labels = false, slots, ...rest }, ref) => {
   const theme = useTheme();
 
   return (
@@ -47,7 +49,7 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...re
           alignItems: "center",
           gap: 1,
           width: 1,
-          height: "60px",
+          height: labels ? theme.spacing(10) : theme.spacing(8),
           padding: "4px",
           borderRadius: 1,
           overflow: "hidden",
@@ -65,10 +67,11 @@ const ListItemxFn = forwardRef<HTMLDivElement, ListItemxFnProps>(({ slots, ...re
 
         {slots.order}
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
+        <Stack spacing={0.25}>
+          <Box>{slots.labels}</Box>
           {slots.title}
           {slots.attribute}
-        </Box>
+        </Stack>
 
         <Box sx={{ ml: "auto" }}>{slots.trailing}</Box>
       </Box>
@@ -300,6 +303,7 @@ export const ListItemx = Object.assign(ListItemxFn, {
   LeadingLabel: LeadingLabelFn,
   Thumbnail: Object.assign(ThumbnailFn, { Image: ImageFn }),
   Order: Label,
+  Labels: Label,
   Title: TitleFn,
   Attribute: Object.assign(AttributeFn, { Dot: DotFn }),
   Trailing: Object.assign(TrailingFn),
