@@ -38,13 +38,6 @@ const postData = {
 
 // ----------------------------------------------------------------------
 
-// [TODO][현지]
-// WtEpisodeItem
-// 첫 줄에 무료, 포인트, 포인트 체크 표시 라벨 (primary) 달고
-// 두번 줄에 제목
-// 세번 째 줄에 조회수,  좋아요 수, 댓글 수,
-// 오른쪽 마지막에 업로드 날짜
-
 export const WtEpisodeItem = () => {
   const theme = useTheme();
   return (
