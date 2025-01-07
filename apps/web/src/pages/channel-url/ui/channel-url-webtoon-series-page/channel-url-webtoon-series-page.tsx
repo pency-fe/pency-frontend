@@ -7,7 +7,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   accordionSummaryClasses,
-  AppBar,
   Box,
   Button,
   Chip,
@@ -17,12 +16,10 @@ import {
   MenuItem,
   PaginationItem,
   Stack,
-  Toolbar,
   Typography,
   useTheme,
 } from "@mui/material";
 import {
-  EvaArrowIosBackFillIcon,
   EvaArrowIosDownwardFillIcon,
   EvaBookmarkOutlineIcon,
   EvaEyeOutlineIcon,
@@ -221,7 +218,6 @@ const Info = () => {
   return (
     <Stack sx={{ alignItems: "center", gap: 0.5, zIndex: 1 }}>
       <Typography variant="h5">천재 궁수의 스트리밍</Typography>
-      {/* [TODO] href */}
       <Link
         component={NextLink}
         href={`/${channelUrl}`}
