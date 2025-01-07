@@ -321,11 +321,18 @@ const Description = () => {
       >
         <Typography>정보</Typography>
       </AccordionSummary>
-      <AccordionDetails>
+      <AccordionDetails sx={{ maxHeight: 320, overflow: "scroll" }}>
         <Stack spacing={3}>
           <Typography>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit
-            leo lobortis eget.
+            leo lobortis eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+            sit amet blandit leo lobortis eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor sit amet, consectetur adipiscing
+            elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
+            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
+            eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet
+            blandit leo lobortis eget.
           </Typography>
           <Stack spacing={1}>
             <Typography>키워드</Typography>
