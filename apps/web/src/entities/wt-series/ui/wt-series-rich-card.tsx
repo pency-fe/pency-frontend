@@ -12,7 +12,6 @@ import {
   SeriesType,
 } from "@/shared/config/webtoon/const";
 import { formatCount } from "@/shared/lib/format/format-count";
-import { formatElapsedTime } from "@/shared/lib/format/format-elapsed-time";
 import { Box, Skeleton, Stack } from "@mui/material";
 import {
   EvaHeartOutlineIcon,
