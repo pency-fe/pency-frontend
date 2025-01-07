@@ -29,6 +29,7 @@ import { useParams, useRouter } from "next/navigation";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
 import { getUploadImageUrl } from "@/entities/wt-series-me";
 import { useUpdate } from "../model/use-update-series";
+import ColorThief, { RGBColor } from "colorthief";
 
 // ----------------------------------------------------------------------
 
@@ -235,20 +236,53 @@ const ImageFn = () => {
     picker.accept = ["image/jpeg", "image/png"].join(",");
     picker.multiple = false;
     picker.addEventListener("change", async () => {
-      if (picker.files?.[0]) {
-        if (picker.files[0].size > 10 * 1024 * 1024) {
+      const file = picker.files?.[0];
+      if (file) {
+        if (file.size > 10 * 1024 * 1024) {
           toast.error("최대 10MB 이미지만 업로드할 수 있어요.");
           return;
         }
 
         toggleLoading(true);
-        const res = await getUploadImageUrl({
-          contentLength: picker.files[0].size,
-          contentType: picker.files[0].type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
-        });
-        await ky.put(res.signedUploadUrl, { body: picker.files[0] });
-        onChange(res.url);
-        toggleLoading(false);
+
+        try {
+          const [dominantColor, url] = await Promise.all([
+            new Promise<RGBColor>((resolve, reject) => {
+              const img = new Image();
+              img.src = URL.createObjectURL(file);
+              img.onload = () => {
+                const colorThief = new ColorThief();
+                const dominantColor = colorThief.getColor(img);
+
+                if (!dominantColor) {
+                  reject();
+                  return;
+                }
+
+                URL.revokeObjectURL(img.src);
+                resolve(dominantColor);
+              };
+              img.onerror = () => {
+                reject();
+              };
+            }),
+            (async () => {
+              const res = await getUploadImageUrl({
+                contentLength: file.size,
+                contentType: file.type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
+              });
+              await ky.put(res.signedUploadUrl, { body: file });
+
+              return res.url;
+            })(),
+          ]);
+          console.log(dominantColor, url);
+          onChange(url);
+        } catch {
+          toast.error("썸네일 업로드에 실패했어요.");
+        } finally {
+          toggleLoading(false);
+        }
       }
     });
     picker.click();
