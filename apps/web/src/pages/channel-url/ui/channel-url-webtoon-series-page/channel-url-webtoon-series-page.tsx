@@ -42,6 +42,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { usePaginationx } from "@pency/ui/hooks";
+import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
 
 // ----------------------------------------------------------------------
 
@@ -73,7 +74,7 @@ export const ChannelUrlWebtoonSeriesPage = () => {
         <SeriesSection
           sx={{
             position: "sticky",
-            top: "64px",
+            top: "56px",
             alignItems: "center",
             gap: 3,
           }}
@@ -215,6 +216,7 @@ const ThumbnailGradient = () => {
 
 const Info = () => {
   const theme = useTheme();
+  const channelUrl = useChannelUrlParam();
 
   return (
     <Stack sx={{ alignItems: "center", gap: 0.5, zIndex: 1 }}>
@@ -222,7 +224,7 @@ const Info = () => {
       {/* [TODO] href */}
       <Link
         component={NextLink}
-        href={`/TODO/channelUrl`}
+        href={`/${channelUrl}`}
         variant="overline"
         sx={{
           "&:hover": {
@@ -350,23 +352,66 @@ const Description = () => {
 // ----------------------------------------------------------------------
 
 const EpisodeSection = () => {
-  const theme = useTheme();
-
-  const searchParams = useSearchParams();
-  const pageParam = useMemo(() => {
-    const param = Number(searchParams.get("page"));
-    if (param && !isNaN(param) && param >= 1) {
-      return param;
-    }
-    return 1;
-  }, [searchParams]);
-
-  const paginations = usePaginationx({ pageCount: 20, currentPage: pageParam });
-
   return (
     <Stack>
       <EpisodeListHeader />
+      <EpisodeList />
+      <EpisodePagination />
+    </Stack>
+  );
+};
 
+const EpisodeListHeader = () => {
+  const theme = useTheme();
+  const { anchorRef, isOpen, close, toggle } = useMenuxState<HTMLDivElement>();
+
+  return (
+    <>
+      <Box
+        sx={{
+          position: "sticky",
+          top: "52px",
+          display: "flex",
+          justifyContent: "space-between",
+          mb: 1,
+          bgcolor: theme.vars.palette.background.default,
+          zIndex: 1,
+          [theme.breakpoints.up("sm")]: {
+            top: "55px",
+          },
+        }}
+      >
+        <Button startIcon={<SolarCheckCircleLinearIcon />}>선택 구매</Button>
+
+        <FilterChip ref={anchorRef} label={"최신순"} open={isOpen} onClick={toggle} />
+      </Box>
+      <Menux
+        open={isOpen}
+        anchorEl={anchorRef.current}
+        placement="bottom-start"
+        onClose={close}
+        modifiers={[
+          {
+            name: "offset",
+            options: {
+              offset: [0, 6],
+            },
+          },
+        ]}
+        sx={{ width: "150px" }}
+      >
+        <MenuItem>최신순</MenuItem>
+        <MenuItem>첫화부터</MenuItem>
+      </Menux>
+    </>
+  );
+};
+
+const EpisodeList = () => {
+  const theme = useTheme();
+
+  return (
+    <>
       {Array.from({ length: 18 }, (_, i) => (
         <ListItemx
           key={i}
@@ -419,47 +464,29 @@ const EpisodeSection = () => {
           }}
         />
       ))}
-
-      <Box sx={{ margin: "auto", mt: 3 }}>
-        {paginations.map((pagination) => {
-          const params = new URLSearchParams(searchParams.toString());
-          params.set("page", `${pagination.page}`);
-          return <PaginationItem component={NextLink} href={`/TODO`} {...pagination} />;
-        })}
-      </Box>
-    </Stack>
+    </>
   );
 };
 
-const EpisodeListHeader = () => {
-  const theme = useTheme();
-  const { anchorRef, isOpen, close, toggle } = useMenuxState<HTMLDivElement>();
+const EpisodePagination = () => {
+  const searchParams = useSearchParams();
+  const pageParam = useMemo(() => {
+    const param = Number(searchParams.get("page"));
+    if (param && !isNaN(param) && param >= 1) {
+      return param;
+    }
+    return 1;
+  }, [searchParams]);
+
+  const paginations = usePaginationx({ pageCount: 20, currentPage: pageParam });
 
   return (
-    <>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-        <Button startIcon={<SolarCheckCircleLinearIcon />}>선택 구매</Button>
-
-        <FilterChip ref={anchorRef} label={"최신순"} open={isOpen} onClick={toggle} />
-      </Box>
-      <Menux
-        open={isOpen}
-        anchorEl={anchorRef.current}
-        placement="bottom-start"
-        onClose={close}
-        modifiers={[
-          {
-            name: "offset",
-            options: {
-              offset: [0, 6],
-            },
-          },
-        ]}
-        sx={{ width: "150px" }}
-      >
-        <MenuItem>최신순</MenuItem>
-        <MenuItem>첫화부터</MenuItem>
-      </Menux>
-    </>
+    <Box sx={{ margin: "auto", mt: 3 }}>
+      {paginations.map((pagination) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("page", `${pagination.page}`);
+        return <PaginationItem component={NextLink} href={`/TODO`} {...pagination} />;
+      })}
+    </Box>
   );
 };
