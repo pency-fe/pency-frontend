@@ -103,22 +103,10 @@ export const ChannelUrlWebtoonSeriesPage = () => {
 const Header = () => {
   return (
     <AppBar position="static">
-      <Toolbar sx={{ justifyContent: "space-between" }}>
+      <Toolbar>
         <IconButton edge="start" sx={{ mr: 2 }}>
           <EvaArrowIosBackFillIcon />
         </IconButton>
-
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <IconButton>
-            <EvaBookmarkOutlineIcon />
-          </IconButton>
-          <IconButton>
-            <MingcuteNotificationLineIcon />
-          </IconButton>
-          <IconButton>
-            <EvaMoreVerticalOutlineIcon />
-          </IconButton>
-        </Box>
       </Toolbar>
     </AppBar>
   );
@@ -221,6 +209,18 @@ const SeriesSection = () => {
           <Typography variant="caption">1.3천</Typography>
         </Box>
       </Stack>
+
+      <Box sx={{ display: "flex", gap: 1 }}>
+        <IconButton>
+          <EvaBookmarkOutlineIcon />
+        </IconButton>
+        <IconButton>
+          <MingcuteNotificationLineIcon />
+        </IconButton>
+        <IconButton>
+          <EvaMoreVerticalOutlineIcon />
+        </IconButton>
+      </Box>
 
       {/* [TODO] 자신의 시리즈일 때는 신규회차 등록 버튼 한개만 존재 */}
       <Box sx={{ display: "flex", gap: 1, width: 1 }}>
