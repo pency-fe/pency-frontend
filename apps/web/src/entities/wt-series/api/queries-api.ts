@@ -23,7 +23,7 @@ type GetWebtoonSeriesPageRes = {
     id: number;
     thumbnail: string | null;
     age: Age;
-    creationType: CreationType | "ALL";
+    creationType: CreationType;
     pair: Pair;
     genre: Genre;
     seriesType: SeriesType;
@@ -36,7 +36,6 @@ type GetWebtoonSeriesPageRes = {
     };
     likeCount: number;
     episodeCount: number;
-    // [?] 성인 빈 배열
     keywords: Array<string>;
     bookmark: boolean | null;
     block: boolean | null;
