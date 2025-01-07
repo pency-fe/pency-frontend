@@ -1,4 +1,3 @@
-import { Age } from "@/shared/config/webtoon/const";
 import { apiClient } from "@/shared/lib/ky/api-client";
 
 // ----------------------------------------------------------------------
