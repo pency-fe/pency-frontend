@@ -13,7 +13,9 @@ import {
 } from "@/shared/config/webtoon/const";
 import { Box, Skeleton, Stack } from "@mui/material";
 
-type WtPostOverviewCardFnProps = {
+// ----------------------------------------------------------------------
+
+type WtEpisodeOverviewCardFnProps = {
   data: {
     id: number;
     thumbnail: string;
@@ -34,13 +36,13 @@ type WtPostOverviewCardFnProps = {
   hideGenre?: boolean;
 };
 
-const WtPostOverviewCardFn = forwardRef<HTMLDivElement, WtPostOverviewCardFnProps>(
+const WtEpisodeOverviewCardFn = forwardRef<HTMLDivElement, WtEpisodeOverviewCardFnProps>(
   ({ data, hideGenre = false }, ref) => {
     return (
       <OverviewCard
         ref={ref}
         slots={{
-          overlayElement: <OverviewCard.OverlayAnchor href={`/@${data.channel.url}/webtoon/post/${data.id}`} />,
+          overlayElement: <OverviewCard.OverlayAnchor href={`/@${data.channel.url}/webtoon/episode/${data.id}`} />,
           thumbnail: (
             <OverviewCard.Thumbnail
               slots={{
@@ -93,6 +95,8 @@ const WtPostOverviewCardFn = forwardRef<HTMLDivElement, WtPostOverviewCardFnProp
   },
 );
 
+// ----------------------------------------------------------------------
+
 const LoadingFn = () => {
   return (
     <Stack gap={1.5}>
@@ -108,6 +112,8 @@ const LoadingFn = () => {
   );
 };
 
-export const WtPostOverviewCard = Object.assign(WtPostOverviewCardFn, {
+// ----------------------------------------------------------------------
+
+export const WtEpisodeOverviewCard = Object.assign(WtEpisodeOverviewCardFn, {
   Loading: LoadingFn,
 });
