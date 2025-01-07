@@ -1,41 +1,44 @@
-import { Genre, Status } from "@/shared/config/webtoon/const";
+import { Age, CreationType, Genre, Pair, SeriesType } from "@/shared/config/webtoon/const";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
 import { apiClient } from "@/shared/lib/ky/api-client";
 import { createSearchParamString } from "@pency/util";
 
-type GetWtSeriesMeReq = {
+type GetWebtoonSeriesMeReq = {
   id: number;
 };
 
-type GetWtSeriesMeRes = {
-  image: string | null;
-  status: Status;
+type GetWebtoonSeriesMeRes = {
+  thumbnail: string | null;
+  age: Age;
+  creationType: CreationType;
+  pair: Pair;
   genre: Genre;
+  seriesType: SeriesType;
   title: string;
   description: string;
   keywords: string[];
 };
 
-export const getWtSeriesMe = async ({ id }: GetWtSeriesMeReq) => {
-  return await apiClient.get<GetWtSeriesMeRes>(`webtoon/series/me/${id}`).json();
+export const getWebtoonSeriesMe = async ({ id }: GetWebtoonSeriesMeReq) => {
+  return await apiClient.get<GetWebtoonSeriesMeRes>(`webtoon/series/me/${id}`).json();
 };
 
 // ----------------------------------------------------------------------
 
-type GetWtSeriesMeListReq = {
+type GetWebtoonSeriesMeListReq = {
   channelUrl: string;
 };
 
-type GetWtSeriesMeListRes = Array<{
+type GetWebtoonSeriesMeListRes = Array<{
   id: number;
-  image: string | null;
+  thumbnail: string | null;
   title: string;
-  postCount: number;
+  episodeCount: number;
 }>;
 
-export const getWtSeriesMeList = async ({ channelUrl }: GetWtSeriesMeListReq) => {
+export const getWebtoonSeriesMeList = async ({ channelUrl }: GetWebtoonSeriesMeListReq) => {
   return await apiClient
-    .get<GetWtSeriesMeListRes>(
+    .get<GetWebtoonSeriesMeListRes>(
       `webtoon/series/me/list${createSearchParamString({
         channelUrl: formatChannelUrl(channelUrl, { prefix: false }),
       })}`,

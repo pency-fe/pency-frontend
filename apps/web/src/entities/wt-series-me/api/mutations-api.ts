@@ -1,13 +1,16 @@
-import { Genre, Status } from "@/shared/config/webtoon/const";
+import { Age, CreationType, Genre, Pair, SeriesType } from "@/shared/config/webtoon/const";
 import { apiClient } from "@/shared/lib/ky/api-client";
 
 // ----------------------------------------------------------------------
 
 type CreateReq = {
   channelUrl: string;
-  image?: string;
-  status: Status;
+  thumbnail?: string;
+  age: Age;
+  creationType: CreationType;
+  pair: Pair;
   genre: Genre;
+  seriesType: SeriesType;
   title: string;
   description: string;
   keywords?: string[];
@@ -21,9 +24,12 @@ export const create = async (req: CreateReq) => {
 
 type UpdateReq = {
   id: number;
-  image?: string;
-  status: Status;
+  thumbnail?: string;
+  age: Age;
+  creationType: CreationType;
+  pair: Pair;
   genre: Genre;
+  seriesType: SeriesType;
   title: string;
   description: string;
   keywords?: string[];
@@ -43,16 +49,16 @@ export const updateOrder = async (req: UpdateOrderReq) => {
 
 // ----------------------------------------------------------------------
 
-type GetUploadImageUrlReq = {
+type GetUploadThumbnailUrlReq = {
   contentLength: number;
   contentType: "image/jpeg" | "image/png";
 };
 
-type GetUploadImageUrlRes = {
+type GetUploadThumbnailUrlRes = {
   signedUploadUrl: string;
   url: string;
 };
 
-export const getUploadImageUrl = async (req: GetUploadImageUrlReq) => {
-  return await apiClient.post<GetUploadImageUrlRes>(`webtoon/series/me/image`, { json: req }).json();
+export const getUploadThumbnailUrl = async (req: GetUploadThumbnailUrlReq) => {
+  return await apiClient.post<GetUploadThumbnailUrlRes>(`webtoon/series/me/image`, { json: req }).json();
 };
