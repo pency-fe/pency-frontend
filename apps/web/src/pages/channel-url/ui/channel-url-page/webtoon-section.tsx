@@ -7,7 +7,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { createQueryString, objectEntries } from "@pency/util";
 import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
-import { WtPostMenu, WtPostRichCardCarousel } from "@/features/wt-episode";
+import { WtPostMenu, WtEpisodeRichCardCarousel } from "@/features/wt-episode";
 
 // ----------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ export function WebtoonSection() {
 
   return (
     <CardTabCarouselTemplate
-      CardCarousel={WtPostRichCardCarousel}
+      CardCarousel={WtEpisodeRichCardCarousel}
       slots={{
         title: <CardTabCarouselTemplate.Title>웹툰</CardTabCarouselTemplate.Title>,
         tabs: (
@@ -72,13 +72,13 @@ export function WebtoonSection() {
         ),
         prevNextNav: (
           <>
-            <WtPostRichCardCarousel.PrevNav />
-            <WtPostRichCardCarousel.NextNav />
+            <WtEpisodeRichCardCarousel.PrevNav />
+            <WtEpisodeRichCardCarousel.NextNav />
           </>
         ),
       }}
     >
-      <WtPostRichCardCarousel.Panel channelUrl={channelUrl} sort="LATEST" Menu={WtPostMenu} />
+      <WtEpisodeRichCardCarousel.Panel channelUrl={channelUrl} sort="LATEST" Menu={WtPostMenu} />
     </CardTabCarouselTemplate>
   );
 }

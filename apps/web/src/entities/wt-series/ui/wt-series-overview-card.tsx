@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Age,
   CREATION_TYPE_LABEL,
@@ -68,7 +70,7 @@ const WtSeriesOverviewCardFn = forwardRef<HTMLDivElement, WtSeriesOverviewCardFn
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`/${data.channel.channelUrl}`}
+            href={`/@${data.channel.channelUrl}`}
             slots={{
               avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.avatar} />,
             }}
@@ -102,6 +104,6 @@ const LoadingFn = () => {
 
 // ----------------------------------------------------------------------
 
-export const WtEpisodeOverviewCard = Object.assign(WtSeriesOverviewCardFn, {
+export const WtSeriesOverviewCar = Object.assign(WtSeriesOverviewCardFn, {
   Loading: LoadingFn,
 });

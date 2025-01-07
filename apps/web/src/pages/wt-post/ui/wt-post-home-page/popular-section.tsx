@@ -2,7 +2,7 @@
 
 import NextLink from "next/link";
 import { CardCarouselTemplate } from "@pency/ui/components";
-import { WtPostOverviewCardCarousel } from "@/features/wt-episode";
+import { WtEpisodeOverviewCardCarousel } from "@/features/wt-episode";
 import { useGenreParam } from "../../model/wt-post-home/use-genre-param";
 
 export function PopularSection() {
@@ -10,7 +10,7 @@ export function PopularSection() {
 
   return (
     <CardCarouselTemplate
-      CardCarousel={WtPostOverviewCardCarousel}
+      CardCarousel={WtEpisodeOverviewCardCarousel}
       slots={{
         title: <CardCarouselTemplate.Title>전체 인기 포스트</CardCarouselTemplate.Title>,
         moreButton: (
@@ -23,13 +23,13 @@ export function PopularSection() {
         ),
         prevNextNav: (
           <>
-            <WtPostOverviewCardCarousel.PrevNav />
-            <WtPostOverviewCardCarousel.NextNav />
+            <WtEpisodeOverviewCardCarousel.PrevNav />
+            <WtEpisodeOverviewCardCarousel.NextNav />
           </>
         ),
       }}
     >
-      <WtPostOverviewCardCarousel.Panel genre={genre} sort="POPULAR" />
+      <WtEpisodeOverviewCardCarousel.Panel genre={genre} sort="POPULAR" />
     </CardCarouselTemplate>
   );
 }

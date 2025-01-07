@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { createQueryString, objectEntries } from "@pency/util";
 import { RadioButton } from "@pency/ui/components";
-import { WtPostRichCard } from "@/entities/wt-episode";
+import { WtEpisodeRichCard } from "@/entities/wt-episode";
 
 // ----------------------------------------------------------------------
 
@@ -88,7 +88,7 @@ function WebtoonPostRichCard() {
       <Grid container spacing={1}>
         {Array.from({ length: 18 }, (_, i) => (
           <Grid item key={i} xs={12} sm={6} md={4}>
-            <WtPostRichCard
+            <WtEpisodeRichCard
               data={{
                 id: 1,
                 thumbnail:

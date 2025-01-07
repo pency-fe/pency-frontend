@@ -4,13 +4,13 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { RichCardCarousel } from "@pency/ui/components";
 import { withAsyncBoundary } from "@pency/util";
-import { wtEpisodeKeys, WtPostRichCard } from "@/entities/wt-episode";
+import { wtEpisodeKeys, WtEpisodeRichCard } from "@/entities/wt-episode";
 import { ComponentProps } from "react";
 import { ChannelUrlContext } from "../../model/channel-url-context";
 import { GenreContext } from "../../model/genre-context";
 import { SortContext } from "../../model/sort-context";
 
-type PanelFnProps = { Menu: ComponentProps<typeof WtPostRichCard>["Menu"] } & Pick<
+type PanelFnProps = { Menu: ComponentProps<typeof WtEpisodeRichCard>["Menu"] } & Pick<
   Exclude<Parameters<typeof wtEpisodeKeys.page>[0], undefined>,
   "genre" | "sort" | "channelUrl"
 >;
@@ -25,7 +25,7 @@ const PanelFn = ({ Menu, genre, sort, channelUrl }: PanelFnProps) => {
           <RichCardCarousel.Panel>
             {data.posts.map((post, i) => (
               <RichCardCarousel.Slide key={i}>
-                <WtPostRichCard data={post} Menu={Menu} />
+                <WtEpisodeRichCard data={post} Menu={Menu} />
               </RichCardCarousel.Slide>
             ))}
           </RichCardCarousel.Panel>
@@ -40,14 +40,14 @@ const Loading = () => {
     <RichCardCarousel.Panel>
       {Array.from({ length: 18 }, (_, i) => (
         <RichCardCarousel.Slide key={i}>
-          <WtPostRichCard.Loading />
+          <WtEpisodeRichCard.Loading />
         </RichCardCarousel.Slide>
       ))}
     </RichCardCarousel.Panel>
   );
 };
 
-export const WtPostRichCardCarousel = Object.assign(
+export const WtEpisodeRichCardCarousel = Object.assign(
   (props: ComponentProps<typeof RichCardCarousel>) => <RichCardCarousel {...props} />,
   {
     ...RichCardCarousel,

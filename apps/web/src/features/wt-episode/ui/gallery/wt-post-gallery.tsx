@@ -7,7 +7,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Grid, PaginationItem } from "@mui/material";
 import { usePaginationx } from "@pency/ui/hooks";
 import { AsyncBoundary, createQueryString } from "@pency/util";
-import { wtEpisodeKeys, WtPostRichCard } from "@/entities/wt-episode";
+import { wtEpisodeKeys, WtEpisodeRichCard } from "@/entities/wt-episode";
 import { useGenre } from "../../model/genre-context";
 import { useSort } from "../../model/sort-context";
 import { useCreationTypes } from "../../model/creation-types-context";
@@ -80,7 +80,7 @@ const Gallery = ({ channelUrl, children }: GalleryProps) => {
 // ----------------------------------------------------------------------
 
 type PanelFnProps = {
-  Menu: ComponentProps<typeof WtPostRichCard>["Menu"];
+  Menu: ComponentProps<typeof WtEpisodeRichCard>["Menu"];
 };
 
 const PanelFn = ({ Menu }: PanelFnProps) => {
@@ -91,7 +91,7 @@ const PanelFn = ({ Menu }: PanelFnProps) => {
     <Grid container spacing={{ xs: 1, sm: 1 }}>
       {data.posts.map((post, i) => (
         <Grid item key={i} xs={12} sm={6} md={4}>
-          <WtPostRichCard data={post} Menu={Menu} hideGenre={genre !== "ALL"} />
+          <WtEpisodeRichCard data={post} Menu={Menu} hideGenre={genre !== "ALL"} />
         </Grid>
       ))}
     </Grid>
@@ -105,7 +105,7 @@ const Loading = () => {
     <Grid container spacing={{ xs: 1, sm: 1 }}>
       {Array.from({ length: 18 }, (_, i) => (
         <Grid item key={i} xs={12} sm={6} md={4}>
-          <WtPostRichCard.Loading />
+          <WtEpisodeRichCard.Loading />
         </Grid>
       ))}
     </Grid>

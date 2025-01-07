@@ -9,13 +9,13 @@ import {
   Menux,
 } from "@pency/ui/components";
 import { useChannelMeListContext } from "@/entities/channel-me";
-import { WtPostRichCard } from "@/entities/wt-episode";
+import { WtEpisodeRichCard } from "@/entities/wt-episode";
 import { useLike } from "../../model/use-like";
 import { useUnlike } from "../../model/use-unlike";
 import { useBlock } from "../../model/use-block";
 import { useUnblock } from "../../model/use-unblock";
 
-export const WtPostMenu: ComponentProps<typeof WtPostRichCard>["Menu"] = ({ data, ...rest }) => {
+export const WtPostMenu: ComponentProps<typeof WtEpisodeRichCard>["Menu"] = ({ data, ...rest }) => {
   const channelMeList = useChannelMeListContext();
 
   const bookmark = useLike();

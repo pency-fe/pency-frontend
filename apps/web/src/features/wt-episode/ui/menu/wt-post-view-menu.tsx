@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentProps } from "react";
-import { WtPostRichCard } from "@/entities/wt-episode";
+import { WtEpisodeRichCard } from "@/entities/wt-episode";
 import {
   EvaBookmarkOutlineIcon,
   FluentShare24RegularIcon,
@@ -11,7 +11,7 @@ import {
 } from "@pency/ui/components";
 import { ListItemIcon, MenuItem, Typography, useTheme } from "@mui/material";
 
-export const WtPostViewMenu: ComponentProps<typeof WtPostRichCard>["Menu"] = ({ ...rest }) => {
+export const WtPostViewMenu: ComponentProps<typeof WtEpisodeRichCard>["Menu"] = ({ ...rest }) => {
   const theme = useTheme();
 
   return (
