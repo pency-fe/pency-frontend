@@ -10,7 +10,7 @@ import {
   WtPostGalleryPairs,
   WtPostGallerySort,
   WtPostMenu,
-} from "@/features/wt-post";
+} from "@/features/wt-episode";
 
 export function WtPostListPage() {
   return (

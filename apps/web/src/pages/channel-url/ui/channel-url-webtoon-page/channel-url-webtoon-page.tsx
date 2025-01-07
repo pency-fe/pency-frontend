@@ -7,7 +7,7 @@ import { createQueryString, objectEntries } from "@pency/util";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
-import { WtPostGallery, WtPostGallerySort, WtPostMenu } from "@/features/wt-post";
+import { WtPostGallery, WtPostGallerySort, WtPostMenu } from "@/features/wt-episode";
 
 // ----------------------------------------------------------------------
 

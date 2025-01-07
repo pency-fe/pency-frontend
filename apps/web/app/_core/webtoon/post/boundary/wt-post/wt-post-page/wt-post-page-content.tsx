@@ -7,7 +7,7 @@ import { useQueryClient, UseQueryResult, useSuspenseQuery } from "@tanstack/reac
 import { Grid, PaginationItem } from "@mui/material";
 import { usePaginationx } from "@pency/ui/hooks";
 import { createQueryString, withAsyncBoundary } from "@pency/util";
-import { wtPostKeys } from "_core/webtoon/post/query";
+import { wtEpisodeKeys } from "_core/webtoon/post/query";
 import { WT_Post_RichCard } from "_core/webtoon/post/ui";
 import { useTabData } from "./wt-post-page-tab";
 import { useOrderData } from "./wt-post-page-order";
@@ -19,7 +19,9 @@ import { produce } from "immer";
 const PageContentDataContext = createContext<
   | {
       data: Exclude<
-        UseQueryResult<Awaited<ReturnType<Exclude<ReturnType<typeof wtPostKeys.page>["queryFn"], undefined>>>>["data"],
+        UseQueryResult<
+          Awaited<ReturnType<Exclude<ReturnType<typeof wtEpisodeKeys.page>["queryFn"], undefined>>>
+        >["data"],
         undefined
       >;
       channelUrl?: string;
@@ -55,7 +57,7 @@ const PageContentProvider = withAsyncBoundary(
       return 1;
     }, [pageParam]);
 
-    const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }));
+    const { data } = useSuspenseQuery(wtEpisodeKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }));
 
     return <PageContentDataContext.Provider value={{ data, channelUrl }}>{children}</PageContentDataContext.Provider>;
   },
@@ -95,7 +97,7 @@ const PageFn = () => {
 
   const handleBookmark = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
+      wtEpisodeKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
@@ -106,7 +108,7 @@ const PageFn = () => {
 
   const handleUnbookmark = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
+      wtEpisodeKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
@@ -117,7 +119,7 @@ const PageFn = () => {
 
   const handleBlock = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
+      wtEpisodeKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
@@ -128,7 +130,7 @@ const PageFn = () => {
 
   const handleUnblock = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
+      wtEpisodeKeys.page({ genre, sort, page: data.currentPage, creationTypes, pairs, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {

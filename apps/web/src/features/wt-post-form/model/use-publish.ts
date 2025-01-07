@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { publish } from "@/entities/wt-post-me";
+import { publish } from "@/entities/wt-episode-me";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
 
 export const usePublish = () => {

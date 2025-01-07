@@ -6,7 +6,7 @@ import { Box, Skeleton, Stack } from "@mui/material";
 import { withAsyncBoundary } from "@pency/util";
 import { OverviewCardCarousel } from "@pency/ui/components";
 import { WT_Post_OverviewCard } from "../../ui";
-import { wtPostKeys } from "../../query";
+import { wtEpisodeKeys } from "../../query";
 
 export const WT_Post_OverviewCarousel = Object.assign(
   (props: ComponentProps<typeof OverviewCardCarousel>) => <OverviewCardCarousel {...props} />,
@@ -24,12 +24,12 @@ export const WT_Post_OverviewCarousel = Object.assign(
 );
 
 type WT_Post_OverviewCarousel_Fn_Props = Omit<
-  Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>,
+  Exclude<Parameters<typeof wtEpisodeKeys.page>[0], undefined>,
   "page" | "creationTypes" | "pairs"
 >;
 
 function WT_Post_OverviewCarousel_Fn({ genre, sort, channelUrl }: WT_Post_OverviewCarousel_Fn_Props) {
-  const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, channelUrl }));
+  const { data } = useSuspenseQuery(wtEpisodeKeys.page({ genre, sort, channelUrl }));
 
   return (
     <OverviewCardCarousel.Container

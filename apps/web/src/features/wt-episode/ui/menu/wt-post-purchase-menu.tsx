@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentProps } from "react";
-import { WtPostRichCard } from "@/entities/wt-post";
+import { WtPostRichCard } from "@/entities/wt-episode";
 import { ListItemIcon, MenuItem, Typography, useTheme } from "@mui/material";
 import { EvaEyeOutlineIcon, Menux, MingcuteDelete3LineIcon } from "@pency/ui/components";
 

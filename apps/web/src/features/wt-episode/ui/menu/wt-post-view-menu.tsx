@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentProps } from "react";
-import { WtPostRichCard } from "@/entities/wt-post";
+import { WtPostRichCard } from "@/entities/wt-episode";
 import {
   EvaBookmarkOutlineIcon,
   FluentShare24RegularIcon,

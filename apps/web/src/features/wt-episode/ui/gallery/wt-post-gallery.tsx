@@ -7,7 +7,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Grid, PaginationItem } from "@mui/material";
 import { usePaginationx } from "@pency/ui/hooks";
 import { AsyncBoundary, createQueryString } from "@pency/util";
-import { wtPostKeys, WtPostRichCard } from "@/entities/wt-post";
+import { wtEpisodeKeys, WtPostRichCard } from "@/entities/wt-episode";
 import { useGenre } from "../../model/genre-context";
 import { useSort } from "../../model/sort-context";
 import { useCreationTypes } from "../../model/creation-types-context";
@@ -18,7 +18,7 @@ import { ChannelUrlContext } from "../../model/channel-url-context";
 
 const DataContext = createContext<
   | {
-      data: PickQueryOptionsData<ReturnType<typeof wtPostKeys.page>>;
+      data: PickQueryOptionsData<ReturnType<typeof wtEpisodeKeys.page>>;
     }
   | undefined
 >(undefined);
@@ -66,7 +66,7 @@ const Gallery = ({ channelUrl, children }: GalleryProps) => {
   const { creationTypes } = useCreationTypes();
   const { pairs } = usePairs();
 
-  const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }));
+  const { data } = useSuspenseQuery(wtEpisodeKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }));
 
   return (
     <ChannelUrlContext.Provider value={{ channelUrl }}>

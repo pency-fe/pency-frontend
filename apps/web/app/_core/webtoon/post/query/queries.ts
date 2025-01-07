@@ -6,13 +6,13 @@ import { Options } from "ky";
 
 // ----------------------------------------------------------------------
 
-export const wtPostKeys = {
+export const wtEpisodeKeys = {
   all: ["wt", "post"],
-  pages: () => [...wtPostKeys.all, "page"],
+  pages: () => [...wtEpisodeKeys.all, "page"],
   page: ({ genre, sort, page, creationTypes, pairs, channelUrl }: Parameters<typeof getWebtoonPostPage>[0] = {}) =>
     queryOptions<Awaited<ReturnType<typeof getWebtoonPostPage>>>({
       queryKey: [
-        ...wtPostKeys.pages(),
+        ...wtEpisodeKeys.pages(),
         {
           genre,
           sort,

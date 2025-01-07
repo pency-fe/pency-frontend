@@ -6,7 +6,7 @@ import { Box, Skeleton, Stack } from "@mui/material";
 import { RichCardCarousel } from "@pency/ui/components";
 import { withAsyncBoundary } from "@pency/util";
 import { WT_Post_RichCard } from "../../ui";
-import { wtPostKeys } from "../../query";
+import { wtEpisodeKeys } from "../../query";
 import { produce } from "immer";
 
 export const WT_Post_RichCarousel = Object.assign(
@@ -25,17 +25,17 @@ export const WT_Post_RichCarousel = Object.assign(
 );
 
 type WT_Post_RichCarousel_Fn_Props = Omit<
-  Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>,
+  Exclude<Parameters<typeof wtEpisodeKeys.page>[0], undefined>,
   "page" | "creationTypes" | "pairs"
 >;
 
 function WT_Post_RichCarousel_Fn({ genre, sort, channelUrl }: WT_Post_RichCarousel_Fn_Props) {
-  const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, channelUrl }));
+  const { data } = useSuspenseQuery(wtEpisodeKeys.page({ genre, sort, channelUrl }));
   const queryClient = useQueryClient();
 
   const handleBookmark = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, channelUrl }).queryKey,
+      wtEpisodeKeys.page({ genre, sort, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
@@ -46,7 +46,7 @@ function WT_Post_RichCarousel_Fn({ genre, sort, channelUrl }: WT_Post_RichCarous
 
   const handleUnbookmark = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, channelUrl }).queryKey,
+      wtEpisodeKeys.page({ genre, sort, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
@@ -57,7 +57,7 @@ function WT_Post_RichCarousel_Fn({ genre, sort, channelUrl }: WT_Post_RichCarous
 
   const handleBlock = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, channelUrl }).queryKey,
+      wtEpisodeKeys.page({ genre, sort, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {
@@ -68,7 +68,7 @@ function WT_Post_RichCarousel_Fn({ genre, sort, channelUrl }: WT_Post_RichCarous
 
   const handleUnblock = (id: number) => {
     queryClient.setQueryData(
-      wtPostKeys.page({ genre, sort, channelUrl }).queryKey,
+      wtEpisodeKeys.page({ genre, sort, channelUrl }).queryKey,
       (oldData) =>
         oldData &&
         produce(oldData, (draft) => {

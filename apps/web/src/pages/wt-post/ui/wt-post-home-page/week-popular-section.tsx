@@ -3,7 +3,7 @@
 import NextLink from "next/link";
 import { CardCarouselTemplate } from "@pency/ui/components";
 import { useGenreParam } from "../../model/wt-post-home/use-genre-param";
-import { WtPostOverviewCardCarousel } from "@/features/wt-post";
+import { WtPostOverviewCardCarousel } from "@/features/wt-episode";
 
 export function WeekPopularSection() {
   const genre = useGenreParam();

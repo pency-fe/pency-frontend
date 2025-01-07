@@ -8,7 +8,7 @@ import { useMemo } from "react";
 import { createQueryString, objectEntries } from "@pency/util";
 
 import { usePaginationx } from "@pency/ui/hooks";
-import { WtPostRichCard } from "@/entities/wt-post";
+import { WtPostRichCard } from "@/entities/wt-episode";
 
 // ----------------------------------------------------------------------
 

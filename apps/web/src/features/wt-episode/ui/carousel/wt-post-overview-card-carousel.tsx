@@ -3,13 +3,13 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { OverviewCardCarousel } from "@pency/ui/components";
 import { withAsyncBoundary } from "@pency/util";
-import { WtPostOverviewCard, wtPostKeys } from "@/entities/wt-post";
+import { WtPostOverviewCard, wtEpisodeKeys } from "@/entities/wt-episode";
 import { ComponentProps } from "react";
 
-type PanelFnProps = Pick<Exclude<Parameters<typeof wtPostKeys.page>[0], undefined>, "genre" | "sort" | "channelUrl">;
+type PanelFnProps = Pick<Exclude<Parameters<typeof wtEpisodeKeys.page>[0], undefined>, "genre" | "sort" | "channelUrl">;
 
 const PanelFn = ({ genre, sort, channelUrl }: PanelFnProps) => {
-  const { data } = useSuspenseQuery(wtPostKeys.page({ genre, sort, channelUrl }));
+  const { data } = useSuspenseQuery(wtEpisodeKeys.page({ genre, sort, channelUrl }));
 
   return (
     <OverviewCardCarousel.Panel>

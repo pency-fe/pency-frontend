@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
-import { save } from "@/entities/wt-post-me";
+import { save } from "@/entities/wt-episode-me";
 
 export const useSave = () => {
   return useMutation<

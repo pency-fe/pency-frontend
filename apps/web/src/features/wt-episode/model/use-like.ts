@@ -2,29 +2,29 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
-import { unblock } from "@/entities/channel";
-import { useCallback } from "react";
-import { toast } from "@pency/ui/components";
+import { like, wtEpisodeKeys } from "@/entities/wt-episode";
 import { useAuthContext } from "@/entities/@auth";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
+import { toast } from "@pency/ui/components";
 import { useGenre } from "./genre-context";
 import { useSort } from "./sort-context";
 import { usePage } from "./page-context";
 import { useCreationTypes } from "./creation-types-context";
 import { usePairs } from "./pairs-context";
 import { useChannelUrl } from "./channel-url-context";
-import { wtPostKeys } from "@/entities/wt-post";
 import { produce } from "immer";
 
-export const useUnblock = () => {
+export const useLike = () => {
   const { mutate } = useMutation<
-    Awaited<ReturnType<typeof unblock>>,
-    QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">>,
-    Parameters<typeof unblock>[0]
-  >({
-    mutationFn: unblock,
-  });
+    Awaited<ReturnType<typeof like>>,
+    | QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">>
+    | QueryError<FailureRes<403, "SELF_FORBIDDEN">>
+    | QueryError<FailureRes<404, "ENTITY_NOT_FOUND">>,
+    Parameters<typeof like>[0]
+  >({ mutationFn: like });
   const { isLoggedIn } = useAuthContext();
+
   const { genre } = useGenre();
   const { sort } = useSort();
   const { page } = usePage();
@@ -36,7 +36,7 @@ export const useUnblock = () => {
   const router = useRouter();
 
   return useCallback(
-    (req: Parameters<typeof unblock>[0]) => {
+    (req: Parameters<typeof like>[0]) => {
       if (!isLoggedIn) {
         router.push("/login");
         return;
@@ -45,22 +45,26 @@ export const useUnblock = () => {
       mutate(req, {
         onSuccess: () => {
           queryClient.setQueryData(
-            wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
+            wtEpisodeKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
             (oldData) =>
               oldData &&
               produce(oldData, (draft) => {
-                for (const post of draft.posts) {
-                  if (post.channel.id === req.id) {
-                    post.block = false;
-                  }
-                }
+                draft.episodes.find((episode) => episode.id === req.id)!.like = true;
               }),
           );
-          toast.success("채널 차단을 해제했어요.");
+          toast.success("에피소드에 좋아요를 눌렀어요.");
         },
         onError: (error) => {
           if (error.code === "ALREADY_PROCESSED_REQUEST") {
-            toast.error("이미 채널 차단을 해제했어요.");
+            toast.error("이미 좋아요한 에피소드예요.");
+          }
+
+          if (error.code === "SELF_FORBIDDEN") {
+            toast.error("내 에피소드는 좋아요를 할 수 없어요.");
+          }
+
+          if (error.code === "ENTITY_NOT_FOUND") {
+            toast.error("삭제된 에피소드예요.");
           }
         },
       });

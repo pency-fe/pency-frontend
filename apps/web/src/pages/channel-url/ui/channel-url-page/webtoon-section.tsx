@@ -7,7 +7,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { createQueryString, objectEntries } from "@pency/util";
 import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
-import { WtPostMenu, WtPostRichCardCarousel } from "@/features/wt-post";
+import { WtPostMenu, WtPostRichCardCarousel } from "@/features/wt-episode";
 
 // ----------------------------------------------------------------------
 

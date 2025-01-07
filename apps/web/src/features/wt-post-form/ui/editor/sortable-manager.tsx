@@ -13,7 +13,7 @@ import { LoadingButton } from "@mui/lab";
 import { toast } from "@pency/ui/components";
 import ky from "ky";
 import { FormSchema } from "../../model/form-schema";
-import { getUploadCutImageUrl } from "@/entities/wt-post-me";
+import { getUploadCutImageUrl } from "@/entities/wt-episode-me";
 
 // ----------------------------------------------------------------------
 

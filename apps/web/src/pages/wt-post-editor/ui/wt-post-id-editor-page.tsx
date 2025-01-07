@@ -6,7 +6,7 @@ import { Header, Main } from "@pency/ui/layouts";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { withAsyncBoundary } from "@pency/util";
 import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
-import { wtPostMeKeys } from "@/entities/wt-post-me";
+import { wtPostMeKeys } from "@/entities/wt-episode-me";
 import { HeaderLayout } from "./header-layout";
 import { WtPostForm } from "@/features/wt-post-form";
 import { EvaArrowIosBackFillIcon } from "@pency/ui/components";

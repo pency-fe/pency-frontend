@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { createQueryString, objectEntries } from "@pency/util";
 import { RadioButton } from "@pency/ui/components";
-import { WtPostRichCard } from "@/entities/wt-post";
+import { WtPostRichCard } from "@/entities/wt-episode";
 
 // ----------------------------------------------------------------------
 

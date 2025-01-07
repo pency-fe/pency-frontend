@@ -2,7 +2,7 @@
 
 import NextLink from "next/link";
 import { CardCarouselTemplate } from "@pency/ui/components";
-import { WtPostOverviewCardCarousel } from "@/features/wt-post";
+import { WtPostOverviewCardCarousel } from "@/features/wt-episode";
 import { useGenreParam } from "../../model/wt-post-home/use-genre-param";
 
 export function PopularSection() {

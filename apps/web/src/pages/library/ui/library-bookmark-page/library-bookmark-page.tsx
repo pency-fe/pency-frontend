@@ -10,7 +10,7 @@ import {
   WtPostGalleryFilterForm,
   WtPostGalleryPairs,
   WtPostMenu,
-} from "@/features/wt-post";
+} from "@/features/wt-episode";
 
 const LibraryBookmarkPageFn = () => {
   const { platform } = usePlatform();

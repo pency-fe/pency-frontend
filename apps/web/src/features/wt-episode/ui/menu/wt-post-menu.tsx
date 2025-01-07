@@ -9,17 +9,17 @@ import {
   Menux,
 } from "@pency/ui/components";
 import { useChannelMeListContext } from "@/entities/channel-me";
-import { WtPostRichCard } from "@/entities/wt-post";
-import { useBookmark } from "../../model/use-bookmark";
-import { useUnbookmark } from "../../model/use-unbookmark";
+import { WtPostRichCard } from "@/entities/wt-episode";
+import { useLike } from "../../model/use-like";
+import { useUnlike } from "../../model/use-unlike";
 import { useBlock } from "../../model/use-block";
 import { useUnblock } from "../../model/use-unblock";
 
 export const WtPostMenu: ComponentProps<typeof WtPostRichCard>["Menu"] = ({ data, ...rest }) => {
   const channelMeList = useChannelMeListContext();
 
-  const bookmark = useBookmark();
-  const unbookmark = useUnbookmark();
+  const bookmark = useLike();
+  const unbookmark = useUnlike();
   const block = useBlock();
   const unblock = useUnblock();
 

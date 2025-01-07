@@ -51,7 +51,7 @@ import { usePublish } from "../../model/use-publish";
 import { useProvision } from "../../model/use-provision";
 import { useSave } from "../../model/use-save";
 import { keywordSchema } from "../../model/keyword-schema";
-import { getUploadThumbnailUrl } from "@/entities/wt-post-me";
+import { getUploadThumbnailUrl } from "@/entities/wt-episode-me";
 
 // ----------------------------------------------------------------------
 

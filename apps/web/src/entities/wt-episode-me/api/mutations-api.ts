@@ -1,4 +1,4 @@
-import { Age, CreationType, Genre, Pair } from "@/shared/config/webtoon/const";
+import { Age } from "@/shared/config/webtoon/const";
 import { apiClient } from "@/shared/lib/ky/api-client";
 
 type ProvisionReq = {
@@ -10,7 +10,7 @@ type ProvisionRes = {
 };
 
 export const provision = async (req: ProvisionReq) => {
-  return await apiClient.post<ProvisionRes>("webtoon/post/me/provision", { json: req }).json();
+  return await apiClient.post<ProvisionRes>("webtoon/episode/me/provision", { json: req }).json();
 };
 
 // ----------------------------------------------------------------------
@@ -18,21 +18,20 @@ export const provision = async (req: ProvisionReq) => {
 type SaveReq = {
   id: number;
   title: string;
-  genre: Genre;
-  price: number;
-  free: Array<{
+  free?: Array<{
     name: string;
     src: string;
   }>;
-  paid: Array<{
+  paid?: Array<{
     name: string;
     src: string;
   }>;
+  price?: number;
 };
 
 export const save = async ({ id, ...rest }: SaveReq) => {
   return await apiClient
-    .post(`webtoon/post/me/${id}/save`, {
+    .post(`webtoon/episode/me/${id}/save`, {
       json: rest,
     })
     .json();
@@ -51,7 +50,7 @@ type GetUploadCutImageUrlRes = {
 };
 
 export const getUploadCutImageUrl = async (req: GetUploadCutImageUrlReq) => {
-  return await apiClient.post<GetUploadCutImageUrlRes>("webtoon/post/me/cut-image", { json: req }).json();
+  return await apiClient.post<GetUploadCutImageUrlRes>("webtoon/episode/me/cut-image", { json: req }).json();
 };
 
 // ----------------------------------------------------------------------
@@ -67,7 +66,7 @@ type GetUploadThumbnailUrlRes = {
 };
 
 export const getUploadThumbnailUrl = async (req: GetUploadThumbnailUrlReq) => {
-  return await apiClient.post<GetUploadThumbnailUrlRes>("webtoon/post/me/thumbnail", { json: req }).json();
+  return await apiClient.post<GetUploadThumbnailUrlRes>("webtoon/episode/me/thumbnail", { json: req }).json();
 };
 
 // ----------------------------------------------------------------------
@@ -75,15 +74,12 @@ export const getUploadThumbnailUrl = async (req: GetUploadThumbnailUrlReq) => {
 type PublishReq = {
   id: number;
   title: string;
-  genre: Genre;
+  free?: Array<{ name: string; src: string }>;
+  paid?: Array<{ name: string; src: string }>;
   price?: number;
-  free: Array<{ name: string; src: string }>;
-  paid: Array<{ name: string; src: string }>;
-  thumbnail?: string;
-  creationType: CreationType;
-  pair: Pair;
-  keywords?: string[];
+  seriesId: number;
   age: Age;
+  thumbnail?: string;
   authorTalk?: string;
   precaution?: string;
 };
@@ -93,5 +89,5 @@ type PublishRes = {
 };
 
 export const publish = async ({ id, ...rest }: PublishReq) => {
-  return await apiClient.post<PublishRes>(`webtoon/post/me/${id}/publish`, { json: rest }).json();
+  return await apiClient.post<PublishRes>(`webtoon/episode/me/${id}/publish`, { json: rest }).json();
 };

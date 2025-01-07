@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { RadioGroup } from "@mui/material";
 import { CardTabCarouselTemplate, RadioButton } from "@pency/ui/components";
 import { createQueryString, objectEntries } from "@pency/util";
-import { WtPostOverviewCardCarousel } from "@/features/wt-post";
+import { WtPostOverviewCardCarousel } from "@/features/wt-episode";
 
 // ----------------------------------------------------------------------
 

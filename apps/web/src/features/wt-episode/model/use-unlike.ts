@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FailureRes, QueryError } from "@/shared/lib/ky/api-client";
-import { unbookmark, wtPostKeys } from "@/entities/wt-post";
+import { unlike, wtEpisodeKeys } from "@/entities/wt-episode";
 import { useAuthContext } from "@/entities/@auth";
 import { useRouter } from "next/navigation";
 import { toast } from "@pency/ui/components";
@@ -14,13 +14,13 @@ import { usePairs } from "./pairs-context";
 import { useChannelUrl } from "./channel-url-context";
 import { produce } from "immer";
 
-export const useUnbookmark = () => {
+export const useUnlike = () => {
   const { mutate } = useMutation<
-    Awaited<ReturnType<typeof unbookmark>>,
+    Awaited<ReturnType<typeof unlike>>,
     QueryError<FailureRes<409, "ALREADY_PROCESSED_REQUEST">>,
-    Parameters<typeof unbookmark>[0]
+    Parameters<typeof unlike>[0]
   >({
-    mutationFn: unbookmark,
+    mutationFn: unlike,
   });
   const { isLoggedIn } = useAuthContext();
 
@@ -34,7 +34,7 @@ export const useUnbookmark = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  return (req: Parameters<typeof unbookmark>[0]) => {
+  return (req: Parameters<typeof unlike>[0]) => {
     if (!isLoggedIn) {
       router.push("/login");
       return;
@@ -43,18 +43,18 @@ export const useUnbookmark = () => {
     mutate(req, {
       onSuccess: () => {
         queryClient.setQueryData(
-          wtPostKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
+          wtEpisodeKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
           (oldData) =>
             oldData &&
             produce(oldData, (draft) => {
               draft.posts.find((post) => post.id === req.id)!.bookmark = false;
             }),
         );
-        toast.success("북마크에서 제외했어요.");
+        toast.success("에피소드에 좋아요를 취소했어요.");
       },
       onError: (error) => {
         if (error.code === "ALREADY_PROCESSED_REQUEST") {
-          toast.error("이미 북마크에서 제외했어요.");
+          toast.error("이미 좋아요 취소한 에피소드예요.");
         }
       },
     });
