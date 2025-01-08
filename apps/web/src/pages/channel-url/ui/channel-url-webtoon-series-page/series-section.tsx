@@ -28,22 +28,10 @@ import {
   EvaArrowIosDownwardFillIcon,
 } from "@pency/ui/components";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { ReactElement } from "react";
 
 // ----------------------------------------------------------------------
 
-type SeriesSectionFnProps = {
-  slots: {
-    thumbnailGradient: ReactElement;
-    thumbnail: ReactElement;
-    info: ReactElement;
-    actionButtons: ReactElement;
-    viewButtons: ReactElement;
-    description: ReactElement;
-  };
-};
-
-export const SeriesSection = ({ ...rest }) => {
+export const SeriesSection = () => {
   const theme = useTheme();
 
   return (
@@ -53,7 +41,6 @@ export const SeriesSection = ({ ...rest }) => {
         borderStartEndRadius: 16,
         overflow: "hidden",
         [theme.breakpoints.down("md")]: { borderRadius: 0 },
-        ...rest.sx,
       }}
     >
       <Stack spacing={3} sx={{ position: "relative", pt: 2.5, paddingX: 3 }}>
