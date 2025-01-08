@@ -6,12 +6,12 @@ export const wtSeriesKeys = {
   all: ["wt", "series"],
   pages: () => [...wtSeriesKeys.all, "page"],
   page: ({
-    genres = ["ALL"],
-    creationTypes = ["ALL"],
-    pairs = ["ALL"],
-    seriesTypes = ["ALL"],
-    page = 1,
-    pageType = "DEFAULT",
+    genres,
+    creationTypes,
+    pairs,
+    seriesTypes,
+    page,
+    pageType,
     sort,
     channelUrl = undefined,
   }: Parameters<typeof getWebtoonSeriesPage>[0]) =>

@@ -12,14 +12,13 @@ import { useSearchParams } from "next/navigation";
 // ----------------------------------------------------------------------
 
 function PairsProvider({ children }: { children?: React.ReactNode }) {
-  const searchParams = useSearchParams();
+  const pairParams = useSearchParams().getAll("pairs");
 
   const pairs = useMemo(() => {
-    const params = searchParams.getAll("pairs");
     const pairKeys = objectKeys(PAIR_LABEL);
 
-    return params.filter((param) => arrayIncludes(pairKeys, param));
-  }, [searchParams]);
+    return pairParams.filter((pairParam) => arrayIncludes(pairKeys, pairParam));
+  }, [pairParams]);
 
   return <PairsContext.Provider value={{ pairs, setPairs: undefined }}>{children}</PairsContext.Provider>;
 }

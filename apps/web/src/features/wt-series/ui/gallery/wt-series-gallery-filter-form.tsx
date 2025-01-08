@@ -179,7 +179,7 @@ const PairsField = () => {
 
 // ----------------------------------------------------------------------
 
-const WtPostGalleryFilterFormFn = (rest: ComponentProps<typeof FilterFormToggleProvider>) => {
+const WtSeriesGalleryFilterFormFn = (rest: ComponentProps<typeof FilterFormToggleProvider>) => {
   return <FilterFormToggleProvider {...rest} />;
 };
 
@@ -192,11 +192,11 @@ const CollapseFormFn = (rest: CollapseProps) => {
   const router = useRouter();
 
   if (!creationTypes) {
-    throw new Error(`<부모로 <WtPostCreationTypes /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(`<부모로 <WtSeriesCreationTypes /> 컴포넌트가 있어야 합니다.`);
   }
 
   if (!pairs) {
-    throw new Error(`<부모로 <WtPostPairs /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(`<부모로 <WtSeriesPairs /> 컴포넌트가 있어야 합니다.`);
   }
 
   const isOpen = useFilterFormToggle((s) => s.isOpen);
@@ -273,6 +273,6 @@ const CollapseFormFn = (rest: CollapseProps) => {
   );
 };
 
-export const WtPostGalleryFilterForm = Object.assign(WtPostGalleryFilterFormFn, {
+export const WtSeriesGalleryFilterForm = Object.assign(WtSeriesGalleryFilterFormFn, {
   CollapseForm: CollapseFormFn,
 });

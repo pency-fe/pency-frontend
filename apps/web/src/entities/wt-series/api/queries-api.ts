@@ -6,10 +6,10 @@ import { apiClient } from "@/shared/lib/ky/api-client";
 // ----------------------------------------------------------------------
 
 type GetWebtoonSeriesPageReq = {
-  genres?: Array<Genre | "ALL">;
-  creationTypes?: Array<CreationType | "ALL">;
-  pairs?: Array<Pair | "ALL">;
-  seriesTypes?: Array<SeriesType | "ALL">;
+  genres?: Array<Genre>;
+  creationTypes?: Array<CreationType>;
+  pairs?: Array<Pair>;
+  seriesTypes?: Array<SeriesType>;
   page?: number;
   pageType?: "DEFAULT" | "CHANNEL" | "BOOKMARK" | "VIEW";
   sort?: "DEFAULT" | "UPDATE" | "POPULAR" | "WPOPULAR";
@@ -43,12 +43,12 @@ type GetWebtoonSeriesPageRes = {
 };
 
 export const getWebtoonSeriesPage = async ({
-  genres = ["ALL"],
-  creationTypes = ["ALL"],
-  pairs = ["ALL"],
-  seriesTypes = ["ALL"],
-  page = 1,
-  pageType = "DEFAULT",
+  genres,
+  creationTypes,
+  pairs,
+  seriesTypes,
+  page,
+  pageType,
   sort,
   channelUrl = undefined,
 }: GetWebtoonSeriesPageReq) => {

@@ -31,7 +31,7 @@ function CreationTypesProvider({ children }: { children?: React.ReactNode }) {
 // ----------------------------------------------------------------------
 
 function CreationTypesStorageProvider({ children }: { children?: React.ReactNode }) {
-  const [creationTypes, setCreationTypes] = useSessionStorage<CreationType[]>("wt-post-creation-types", []);
+  const [creationTypes, setCreationTypes] = useSessionStorage<CreationType[]>("wt-series-creation-types", []);
 
   return (
     <CreationTypesContext.Provider value={{ creationTypes, setCreationTypes }}>
@@ -42,12 +42,15 @@ function CreationTypesStorageProvider({ children }: { children?: React.ReactNode
 
 // ----------------------------------------------------------------------
 
-type WtPostGalleryCreationTypesFnProps = {
+type WtSeriesGalleryCreationTypesFnProps = {
   variant?: "searchParams" | "storage";
   children?: React.ReactNode;
 };
 
-const WtPostGalleryCreationTypesFn = ({ variant = "searchParams", children }: WtPostGalleryCreationTypesFnProps) => {
+const WtSeriesGalleryCreationTypesFn = ({
+  variant = "searchParams",
+  children,
+}: WtSeriesGalleryCreationTypesFnProps) => {
   const Provider = useMemo(() => {
     if (variant === "storage") {
       return CreationTypesStorageProvider;
@@ -62,7 +65,7 @@ const WtPostGalleryCreationTypesFn = ({ variant = "searchParams", children }: Wt
 export const FilterChipFn = () => {
   const { creationTypes, setCreationTypes } = useCreationTypes();
   if (!creationTypes) {
-    throw new Error(`<부모로 <WtPostGalleryCreationTypes /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(`<부모로 <WtSeriesGalleryCreationTypes /> 컴포넌트가 있어야 합니다.`);
   }
   const isOpen = useFilterFormToggle((s) => s.isOpen);
   const toggle = useFilterFormToggle((s) => s.toggle);
@@ -91,6 +94,6 @@ export const FilterChipFn = () => {
   );
 };
 
-export const WtPostGalleryCreationTypes = Object.assign(WtPostGalleryCreationTypesFn, {
+export const WtSeriesGalleryCreationTypes = Object.assign(WtSeriesGalleryCreationTypesFn, {
   FilterChip: FilterChipFn,
 });

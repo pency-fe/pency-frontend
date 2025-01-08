@@ -6,9 +6,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { RadioGroup } from "@mui/material";
 import { RadioButton } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
-import { createQueryString, objectEntries } from "@pency/util";
-import { Genre, GENRE_LABEL } from "@/shared/config/webtoon/const";
-import { GenreContext, useGenre } from "../../model/genres-context";
+import { arrayIncludes, createQueryString, objectEntries, objectKeys } from "@pency/util";
+import { GENRE_LABEL } from "@/shared/config/webtoon/const";
+import { GenresContext, useGenres } from "../../model/genres-context";
 
 // ----------------------------------------------------------------------
 
@@ -16,27 +16,27 @@ const GenreProvider = ({ children }: { children?: React.ReactNode }) => {
   const genreParam = useSearchParams().get("genre");
 
   const genre = useMemo(() => {
-    if (genreParam && Object.keys(GENRE_LABEL).includes(genreParam)) {
-      return genreParam as Genre;
+    if (genreParam && arrayIncludes(objectKeys(GENRE_LABEL), genreParam)) {
+      return genreParam;
     }
-    return "ALL" as const;
+    return undefined;
   }, [genreParam]);
 
-  return <GenreContext.Provider value={{ genre }}>{children}</GenreContext.Provider>;
+  return <GenresContext.Provider value={{ genres: genre ? [genre] : [] }}>{children}</GenresContext.Provider>;
 };
 
 // ----------------------------------------------------------------------
 
-const WtPostGalleryGenreFn = (rest: ComponentProps<typeof GenreProvider>) => {
+const WtSeriesGalleryGenreFn = (rest: ComponentProps<typeof GenreProvider>) => {
   return <GenreProvider {...rest} />;
 };
 
 // ----------------------------------------------------------------------
 
 const RadioButtonsFn = () => {
-  const { genre } = useGenre();
-  if (!genre) {
-    throw new Error(`<부모로 <WtPostGalleryGenre /> 컴포넌트가 있어야 합니다.`);
+  const { genres } = useGenres();
+  if (!genres) {
+    throw new Error(`<부모로 <WtSeriesGalleryGenre /> 컴포넌트가 있어야 합니다.`);
   }
 
   const searchParams = useSearchParams();
@@ -46,7 +46,7 @@ const RadioButtonsFn = () => {
 
   return (
     <RadioGroup
-      value={genre}
+      value={genres[0]}
       sx={{ flexDirection: "row", flexWrap: "nowrap", gap: 1, overflowX: "scroll", ...hideScrollX }}
     >
       <RadioButton
@@ -84,6 +84,6 @@ const RadioButtonsFn = () => {
 
 // ----------------------------------------------------------------------
 
-export const WtPostGalleryGenre = Object.assign(WtPostGalleryGenreFn, {
+export const WtSeriesGalleryGenre = Object.assign(WtSeriesGalleryGenreFn, {
   RadioButtons: RadioButtonsFn,
 });

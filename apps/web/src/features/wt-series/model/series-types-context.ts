@@ -6,8 +6,8 @@ import { SeriesType } from "@/shared/config/webtoon/const";
 // ----------------------------------------------------------------------
 
 export const SeriesTypesContext = createContext<{
-  seriesTypes: Array<SeriesType | "ALL"> | undefined;
-  setSeriesTypes: ((value: Array<SeriesType | "ALL">) => void) | undefined;
+  seriesTypes: Array<SeriesType> | undefined;
+  setSeriesTypes: ((value: Array<SeriesType>) => void) | undefined;
 }>({ seriesTypes: undefined, setSeriesTypes: undefined });
 
 export function useSeriesTypes() {

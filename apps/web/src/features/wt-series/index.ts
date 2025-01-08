@@ -3,7 +3,7 @@ export * from "./ui/carousel/wt-series-rich-card-carousel";
 export * from "./ui/gallery/wt-series-gallery";
 export * from "./ui/gallery/wt-series-gallery-creation-types";
 export * from "./ui/gallery/wt-series-gallery-filter-form";
-export * from "./ui/gallery/wt-series-gallery-genre";
+export * from "./ui/gallery/wt-series-gallery-genres";
 export * from "./ui/gallery/wt-series-gallery-pairs";
 export * from "./ui/gallery/wt-series-gallery-sort";
 export * from "./ui/feedback-button/wt-series-feedback-button";
