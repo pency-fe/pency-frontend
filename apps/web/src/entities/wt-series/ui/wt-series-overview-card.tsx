@@ -21,7 +21,7 @@ import { forwardRef } from "react";
 type WtSeriesOverviewCardFnProps = {
   data: {
     id: number;
-    thumbnail: string;
+    thumbnail: string | null;
     age: Age;
     creationType: CreationType;
     pair: Pair;
@@ -29,9 +29,9 @@ type WtSeriesOverviewCardFnProps = {
     seriesType: SeriesType;
     title: string;
     channel: {
-      channelUrl: string;
-      avatar: string;
-      name: string;
+      url: string;
+      image: string | null;
+      title: string;
     };
   };
 };
@@ -42,7 +42,7 @@ const WtSeriesOverviewCardFn = forwardRef<HTMLDivElement, WtSeriesOverviewCardFn
       ref={ref}
       slots={{
         overlayElement: (
-          <OverviewCard.OverlayAnchor href={`/${formatChannelUrl(data.channel.channelUrl)}/webtoon/${data.id}`} />
+          <OverviewCard.OverlayAnchor href={`/${formatChannelUrl(data.channel.url)}/webtoon/${data.id}`} />
         ),
         thumbnail: (
           <OverviewCard.Thumbnail
@@ -73,16 +73,16 @@ const WtSeriesOverviewCardFn = forwardRef<HTMLDivElement, WtSeriesOverviewCardFn
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`/${formatChannelUrl(data.channel.channelUrl)}`}
+            href={`/${formatChannelUrl(data.channel.url)}`}
             slots={{
-              avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.avatar} />,
+              avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.image} />,
             }}
           />
         ),
         title: <OverviewCard.Title>{data.title}</OverviewCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/${formatChannelUrl(data.channel.channelUrl)}`}>
-            {data.channel.name}
+          <OverviewCard.NameLink href={`/${formatChannelUrl(data.channel.url)}`}>
+            {data.channel.title}
           </OverviewCard.NameLink>
         ),
       }}
@@ -109,6 +109,6 @@ const LoadingFn = () => {
 
 // ----------------------------------------------------------------------
 
-export const WtSeriesOverviewCar = Object.assign(WtSeriesOverviewCardFn, {
+export const WtSeriesOverviewCard = Object.assign(WtSeriesOverviewCardFn, {
   Loading: LoadingFn,
 });

@@ -6,8 +6,8 @@ import { CreationType } from "@/shared/config/webtoon/const";
 // ----------------------------------------------------------------------
 
 export const CreationTypesContext = createContext<{
-  creationTypes: CreationType[] | undefined;
-  setCreationTypes: ((value: CreationType[]) => void) | undefined;
+  creationTypes: Array<CreationType | "ALL"> | undefined;
+  setCreationTypes: ((value: Array<CreationType | "ALL">) => void) | undefined;
 }>({ creationTypes: undefined, setCreationTypes: undefined });
 
 export function useCreationTypes() {

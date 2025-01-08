@@ -12,7 +12,7 @@ type GetWebtoonSeriesPageReq = {
   seriesTypes?: Array<SeriesType | "ALL">;
   page?: number;
   pageType?: "DEFAULT" | "CHANNEL" | "BOOKMARK" | "VIEW";
-  sort: "DEFAULT" | "UPDATE" | "POPULAR" | "WPOPULAR";
+  sort?: "DEFAULT" | "UPDATE" | "POPULAR" | "WPOPULAR";
   channelUrl?: string;
 };
 
@@ -52,16 +52,18 @@ export const getWebtoonSeriesPage = async ({
   sort,
   channelUrl = undefined,
 }: GetWebtoonSeriesPageReq) => {
-  return await apiClient.get<GetWebtoonSeriesPageRes>(
-    `webtoon/series/page${createSearchParamString({
-      genres,
-      creationTypes,
-      pairs,
-      seriesTypes,
-      page,
-      pageType,
-      sort,
-      channelUrl: channelUrl ? formatChannelUrl(channelUrl, { prefix: false }) : channelUrl,
-    })}`,
-  );
+  return await apiClient
+    .get<GetWebtoonSeriesPageRes>(
+      `webtoon/series/page${createSearchParamString({
+        genres,
+        creationTypes,
+        pairs,
+        seriesTypes,
+        page,
+        pageType,
+        sort,
+        channelUrl: channelUrl ? formatChannelUrl(channelUrl, { prefix: false }) : channelUrl,
+      })}`,
+    )
+    .json();
 };

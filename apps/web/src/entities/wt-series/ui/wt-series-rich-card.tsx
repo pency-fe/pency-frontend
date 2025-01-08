@@ -14,23 +14,15 @@ import {
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
 import { formatCount } from "@/shared/lib/format/format-count";
 import { Box, Skeleton, Stack } from "@mui/material";
-import {
-  EvaHeartOutlineIcon,
-  EvaMoreVerticalOutlineIcon,
-  Menux,
-  NineteenCircleIcon,
-  RichCard,
-  toast,
-  useMenuxState,
-} from "@pency/ui/components";
-import { ComponentProps, ComponentType, forwardRef } from "react";
+import { EvaHeartOutlineIcon, NineteenCircleIcon, RichCard, toast } from "@pency/ui/components";
+import { forwardRef } from "react";
 
 // ----------------------------------------------------------------------
 
 type WtSeriesRichCardFnProps = {
   data: {
     id: number;
-    thumbnail: string;
+    thumbnail: string | null;
     age: Age;
     creationType: CreationType;
     pair: Pair;
@@ -38,9 +30,9 @@ type WtSeriesRichCardFnProps = {
     seriesType: SeriesType;
     title: string;
     channel: {
-      channelUrl: string;
-      avatar: string;
-      name: string;
+      url: string;
+      image: string | null;
+      title: string;
     };
     episodeCount: number;
     likeCount: number;
@@ -50,15 +42,11 @@ type WtSeriesRichCardFnProps = {
 };
 
 const WtSeriesRichCardFn = forwardRef<HTMLDivElement, WtSeriesRichCardFnProps>(({ data, feedbackButton }, ref) => {
-  // const { anchorRef, isOpen, close, toggle } = useMenuxState();
-
   return (
     <RichCard
       ref={ref}
       slots={{
-        overlayElement: (
-          <RichCard.OverlayAnchor href={`/${formatChannelUrl(data.channel.channelUrl)}/webtoon/${data.id}`} />
-        ),
+        overlayElement: <RichCard.OverlayAnchor href={`/${formatChannelUrl(data.channel.url)}/webtoon/${data.id}`} />,
         thumbnail: (
           <RichCard.Thumbnail
             slots={{
@@ -88,17 +76,15 @@ const WtSeriesRichCardFn = forwardRef<HTMLDivElement, WtSeriesRichCardFnProps>((
         ),
         avatarLink: (
           <RichCard.AvatarLink
-            href={`/${formatChannelUrl(data.channel.channelUrl)}`}
+            href={`/${formatChannelUrl(data.channel.url)}`}
             slots={{
-              avatar: <RichCard.AvatarLink.Avatar src={data.channel.avatar} />,
+              avatar: <RichCard.AvatarLink.Avatar src={data.channel.image} />,
             }}
           />
         ),
         title: <RichCard.Title>{data.title}</RichCard.Title>,
         nameLink: (
-          <RichCard.NameLink href={`/${formatChannelUrl(data.channel.channelUrl)}`}>
-            {data.channel.name}
-          </RichCard.NameLink>
+          <RichCard.NameLink href={`/${formatChannelUrl(data.channel.url)}`}>{data.channel.title}</RichCard.NameLink>
         ),
         attributes: (
           <>
@@ -112,14 +98,6 @@ const WtSeriesRichCardFn = forwardRef<HTMLDivElement, WtSeriesRichCardFnProps>((
           </>
         ),
         feedbackButton,
-        // feedbackButton: (
-        //   <>
-        //     <RichCard.FeedbackButton ref={anchorRef} onClick={toggle}>
-        //       <EvaMoreVerticalOutlineIcon />
-        //     </RichCard.FeedbackButton>
-        //     <Menu data={data} open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close} />
-        //   </>
-        // ),
         chips: (
           <>
             {data.keywords.length

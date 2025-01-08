@@ -7,7 +7,7 @@ import { block } from "@/entities/channel";
 import { useCallback } from "react";
 import { useAuthContext } from "@/entities/@auth";
 import { useRouter } from "next/navigation";
-import { useGenre } from "./genres-context";
+import { useGenres } from "./genres-context";
 import { useSort } from "./sort-context";
 import { usePage } from "./page-context";
 import { useCreationTypes } from "./creation-types-context";
@@ -15,6 +15,8 @@ import { usePairs } from "./pairs-context";
 import { useChannelUrl } from "./channel-url-context";
 import { produce } from "immer";
 import { wtSeriesKeys } from "@/entities/wt-series";
+import { useSeriesTypes } from "./series-types-context";
+import { usePageType } from "./page-type-context";
 
 export const useBlock = () => {
   const { mutate } = useMutation<
@@ -25,11 +27,13 @@ export const useBlock = () => {
     Parameters<typeof block>[0]
   >({ mutationFn: block });
   const { isLoggedIn } = useAuthContext();
-  const { genre } = useGenre();
-  const { sort } = useSort();
-  const { page } = usePage();
+  const { genres } = useGenres();
   const { creationTypes } = useCreationTypes();
   const { pairs } = usePairs();
+  const { seriesTypes } = useSeriesTypes();
+  const { page } = usePage();
+  const { pageType } = usePageType();
+  const { sort } = useSort();
   const { channelUrl } = useChannelUrl();
 
   const queryClient = useQueryClient();
@@ -45,13 +49,13 @@ export const useBlock = () => {
       mutate(req, {
         onSuccess: () => {
           queryClient.setQueryData(
-            wtSeriesKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
+            wtSeriesKeys.page({ genres, creationTypes, pairs, seriesTypes, page, pageType, sort, channelUrl }).queryKey,
             (oldData) =>
               oldData &&
               produce(oldData, (draft) => {
-                for (const post of draft.posts) {
-                  if (post.channel.id === req.id) {
-                    post.block = true;
+                for (const series of draft.serieses) {
+                  if (series.channel.id === req.id) {
+                    series.block = true;
                   }
                 }
               }),

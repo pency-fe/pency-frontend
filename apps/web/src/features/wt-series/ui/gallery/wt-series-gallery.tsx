@@ -1,24 +1,25 @@
 "use client";
 
-import { ComponentProps, createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
 import NextLink from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Grid, PaginationItem } from "@mui/material";
 import { usePaginationx } from "@pency/ui/hooks";
 import { AsyncBoundary, createQueryString } from "@pency/util";
-import { wtEpisodeKeys, WtEpisodeRichCard } from "@/entities/wt-episode";
-import { useGenre } from "../../model/genres-context";
+import { useGenres } from "../../model/genres-context";
 import { useSort } from "../../model/sort-context";
 import { useCreationTypes } from "../../model/creation-types-context";
 import { usePairs } from "../../model/pairs-context";
 import { PickQueryOptionsData } from "@/shared/lib/react-query/types";
 import { PageContext, usePage } from "../../model/page-context";
 import { ChannelUrlContext } from "../../model/channel-url-context";
+import { wtSeriesKeys, WtSeriesRichCard } from "@/entities/wt-series";
+import { FeedbackButtonComponent } from "../../model/feedback-button-types";
 
 const DataContext = createContext<
   | {
-      data: PickQueryOptionsData<ReturnType<typeof wtEpisodeKeys.page>>;
+      data: PickQueryOptionsData<ReturnType<typeof wtSeriesKeys.page>>;
     }
   | undefined
 >(undefined);
@@ -26,16 +27,16 @@ const DataContext = createContext<
 const useData = () => {
   const context = useContext(DataContext);
 
-  if (!context) throw new Error(`부모로 <WtPostGallery /> 컴포넌트가 있어야 합니다.`);
+  if (!context) throw new Error(`부모로 <WtSeriesGallery /> 컴포넌트가 있어야 합니다.`);
 
   return context;
 };
 
 // ----------------------------------------------------------------------
 
-type WtPostGalleryFnProps = GalleryProps;
+type WtSeriesGalleryFnProps = GalleryProps;
 
-const WtPostGalleryFn = (rest: WtPostGalleryFnProps) => {
+const WtSeriesGalleryFn = (rest: WtSeriesGalleryFnProps) => {
   return (
     <AsyncBoundary errorBoundary={{ fallback: <Loading /> }} suspense={{ fallback: <Loading /> }}>
       <Gallery {...rest} />
@@ -51,7 +52,9 @@ type GalleryProps = {
 };
 
 const Gallery = ({ channelUrl, children }: GalleryProps) => {
-  const { genre } = useGenre();
+  const { genres } = useGenres();
+  const { creationTypes } = useCreationTypes();
+  const { pairs } = usePairs();
   const { sort } = useSort();
 
   const pageParam = useSearchParams().get("page");
@@ -63,10 +66,7 @@ const Gallery = ({ channelUrl, children }: GalleryProps) => {
     return 1;
   }, [pageParam]);
 
-  const { creationTypes } = useCreationTypes();
-  const { pairs } = usePairs();
-
-  const { data } = useSuspenseQuery(wtEpisodeKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }));
+  const { data } = useSuspenseQuery(wtSeriesKeys.page({ genres, creationTypes, pairs, sort, page, channelUrl }));
 
   return (
     <ChannelUrlContext.Provider value={{ channelUrl }}>
@@ -80,18 +80,17 @@ const Gallery = ({ channelUrl, children }: GalleryProps) => {
 // ----------------------------------------------------------------------
 
 type PanelFnProps = {
-  Menu: ComponentProps<typeof WtEpisodeRichCard>["Menu"];
+  FeedbackButton: FeedbackButtonComponent;
 };
 
-const PanelFn = ({ Menu }: PanelFnProps) => {
+const PanelFn = ({ FeedbackButton }: PanelFnProps) => {
   const { data } = useData();
-  const { genre } = useGenre();
 
   return (
     <Grid container spacing={{ xs: 1, sm: 1 }}>
-      {data.posts.map((post, i) => (
+      {data.serieses.map((series, i) => (
         <Grid item key={i} xs={12} sm={6} md={4}>
-          <WtEpisodeRichCard data={post} Menu={Menu} hideGenre={genre !== "ALL"} />
+          <WtSeriesRichCard data={series} feedbackButton={<FeedbackButton data={series} />} />
         </Grid>
       ))}
     </Grid>
@@ -105,7 +104,7 @@ const Loading = () => {
     <Grid container spacing={{ xs: 1, sm: 1 }}>
       {Array.from({ length: 18 }, (_, i) => (
         <Grid item key={i} xs={12} sm={6} md={4}>
-          <WtEpisodeRichCard.Loading />
+          <WtSeriesRichCard.Loading />
         </Grid>
       ))}
     </Grid>
@@ -121,7 +120,7 @@ const PaginationFn = () => {
   const { page } = usePage();
 
   if (!page) {
-    throw new Error(`<부모로 <WtPostGallery /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(`<부모로 <WtSeriesGallery /> 컴포넌트가 있어야 합니다.`);
   }
 
   const paginations = usePaginationx({ pageCount, currentPage: page });
@@ -148,7 +147,7 @@ const PaginationFn = () => {
 
 // ----------------------------------------------------------------------
 
-export const WtPostGallery = Object.assign(WtPostGalleryFn, {
+export const WtSeriesGallery = Object.assign(WtSeriesGalleryFn, {
   Panel: PanelFn,
   Pagination: PaginationFn,
 });

@@ -27,19 +27,19 @@ function PairsProvider({ children }: { children?: React.ReactNode }) {
 // ----------------------------------------------------------------------
 
 function PairsStorageProvider({ children }: { children?: React.ReactNode }) {
-  const [pairs, setPairs] = useSessionStorage<Pair[]>("wt-post-pairs", []);
+  const [pairs, setPairs] = useSessionStorage<Pair[]>("wt-series-pairs", []);
 
   return <PairsContext.Provider value={{ pairs, setPairs }}>{children}</PairsContext.Provider>;
 }
 
 // ----------------------------------------------------------------------
 
-type WtPostGalleryPairsFnProps = {
+type WtSeriesGalleryPairsFnProps = {
   variant?: "searchParam" | "storage";
   children?: React.ReactNode;
 };
 
-const WtPostGalleryPairsFn = ({ variant = "searchParam", children }: WtPostGalleryPairsFnProps) => {
+const WtSeriesGalleryPairsFn = ({ variant = "searchParam", children }: WtSeriesGalleryPairsFnProps) => {
   const Provider = useMemo(() => {
     if (variant === "storage") {
       return PairsStorageProvider;
@@ -54,7 +54,7 @@ const WtPostGalleryPairsFn = ({ variant = "searchParam", children }: WtPostGalle
 const FilterChipFn = () => {
   const { pairs, setPairs } = usePairs();
   if (!pairs) {
-    throw new Error(`<부모로 <WtPostGalleryPairs /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(`<부모로 <WtSeriesGalleryPairs /> 컴포넌트가 있어야 합니다.`);
   }
   const isOpen = useFilterFormToggle((s) => s.isOpen);
   const toggle = useFilterFormToggle((s) => s.toggle);
@@ -83,6 +83,6 @@ const FilterChipFn = () => {
   );
 };
 
-export const WtPostGalleryPairs = Object.assign(WtPostGalleryPairsFn, {
+export const WtSeriesGalleryPairs = Object.assign(WtSeriesGalleryPairsFn, {
   FilterChip: FilterChipFn,
 });

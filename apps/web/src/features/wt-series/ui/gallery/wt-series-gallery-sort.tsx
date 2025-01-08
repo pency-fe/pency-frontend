@@ -37,14 +37,14 @@ const DataContext = createContext<{ sortLabel: SortLabel } | undefined>(undefine
 function useData() {
   const context = useContext(DataContext);
 
-  if (!context) throw new Error(`부모로 <WtPostGallerySort /> 컴포넌트가 있어야 합니다.`);
+  if (!context) throw new Error(`부모로 <WtSeriesGallerySort /> 컴포넌트가 있어야 합니다.`);
 
   return context;
 }
 
 // ----------------------------------------------------------------------
 
-const WtPostGallerySortFn = ({ sortLabel, children }: { sortLabel: SortLabel; children?: React.ReactNode }) => {
+const WtSeriesGallerySortFn = ({ sortLabel, children }: { sortLabel: SortLabel; children?: React.ReactNode }) => {
   return (
     <SortProvider sorts={objectKeys(sortLabel)}>
       <DataContext.Provider value={{ sortLabel }}>{children}</DataContext.Provider>
@@ -58,7 +58,7 @@ const FilterChipFn = () => {
   const { sort } = useSort();
   const { sortLabel } = useData();
   if (!sort) {
-    throw new Error(`<부모로 <WtPostSortProvider /> 컴포넌트가 있어야 합니다.`);
+    throw new Error(`<부모로 <WtSeriesSortProvider /> 컴포넌트가 있어야 합니다.`);
   }
 
   const { anchorRef, isOpen, close, toggle } = useMenuxState<HTMLDivElement>();
@@ -105,6 +105,6 @@ const FilterChipFn = () => {
   );
 };
 
-export const WtPostGallerySort = Object.assign(WtPostGallerySortFn, {
+export const WtSeriesGallerySort = Object.assign(WtSeriesGallerySortFn, {
   FilterChip: FilterChipFn,
 });
