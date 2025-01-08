@@ -16,6 +16,10 @@ import { PageContext, usePage } from "../../model/page-context";
 import { ChannelUrlContext } from "../../model/channel-url-context";
 import { wtSeriesKeys, WtSeriesRichCard } from "@/entities/wt-series";
 import { FeedbackButtonComponent } from "../../model/feedback-button-types";
+import { useSeriesTypes } from "../../model/series-types-context";
+import { PageTypeContext } from "../../model/page-type-context";
+
+// ----------------------------------------------------------------------
 
 const DataContext = createContext<
   | {
@@ -47,13 +51,15 @@ const WtSeriesGalleryFn = (rest: WtSeriesGalleryFnProps) => {
 // ----------------------------------------------------------------------
 
 type GalleryProps = {
+  pageType: Exclude<Parameters<typeof wtSeriesKeys.page>[0]["pageType"], undefined>;
   channelUrl?: string;
   children?: React.ReactNode;
 };
 
-const Gallery = ({ channelUrl, children }: GalleryProps) => {
+const Gallery = ({ pageType, channelUrl, children }: GalleryProps) => {
   const { genres } = useGenres();
   const { creationTypes } = useCreationTypes();
+  const { seriesTypes } = useSeriesTypes();
   const { pairs } = usePairs();
   const { sort } = useSort();
 
@@ -66,14 +72,18 @@ const Gallery = ({ channelUrl, children }: GalleryProps) => {
     return 1;
   }, [pageParam]);
 
-  const { data } = useSuspenseQuery(wtSeriesKeys.page({ genres, creationTypes, pairs, sort, page, channelUrl }));
+  const { data } = useSuspenseQuery(
+    wtSeriesKeys.page({ genres, creationTypes, pairs, seriesTypes, page, pageType, sort, channelUrl }),
+  );
 
   return (
-    <ChannelUrlContext.Provider value={{ channelUrl }}>
-      <PageContext.Provider value={{ page }}>
-        <DataContext.Provider value={{ data }}>{children}</DataContext.Provider>
-      </PageContext.Provider>
-    </ChannelUrlContext.Provider>
+    <PageTypeContext.Provider value={{ pageType }}>
+      <ChannelUrlContext.Provider value={{ channelUrl }}>
+        <PageContext.Provider value={{ page }}>
+          <DataContext.Provider value={{ data }}>{children}</DataContext.Provider>
+        </PageContext.Provider>
+      </ChannelUrlContext.Provider>
+    </PageTypeContext.Provider>
   );
 };
 
