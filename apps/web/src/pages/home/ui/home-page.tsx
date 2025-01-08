@@ -3,7 +3,6 @@
 import { Grid, Stack } from "@mui/material";
 import { BannerSection } from "./banner-section";
 import { WPopularSeriesSection } from "./week-popular-series-section";
-import { WPopularPostSection } from "./week-popular-post-section";
 
 export function HomePage() {
   return (
@@ -15,7 +14,6 @@ export function HomePage() {
         <Grid item xs={12}>
           <Stack spacing={4}>
             <WPopularSeriesSection />
-            <WPopularPostSection />
           </Stack>
         </Grid>
       </Grid>

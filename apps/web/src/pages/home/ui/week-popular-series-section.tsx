@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { RadioGroup } from "@mui/material";
 import { CardTabCarouselTemplate, RadioButton } from "@pency/ui/components";
 import { createQueryString, objectEntries } from "@pency/util";
-import { WtEpisodeOverviewCardCarousel } from "@/features/wt-episode";
+import { WtSeriesOverviewCardCarousel } from "@/features/wt-series";
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ export function WPopularSeriesSection() {
 
   // [TODO] 웹소설 추가후 수정
   const OverviewCardCarousel = useMemo(
-    () => (platform === "WEBTOON" ? WtEpisodeOverviewCardCarousel : WtEpisodeOverviewCardCarousel),
+    () => (platform === "WEBTOON" ? WtSeriesOverviewCardCarousel : WtSeriesOverviewCardCarousel),
     [platform],
   );
 
@@ -84,7 +84,7 @@ export function WPopularSeriesSection() {
         ),
       }}
     >
-      <OverviewCardCarousel.Panel genre="ALL" sort="WPOPULAR" />
+      <OverviewCardCarousel.Panel sort="WPOPULAR" />
     </CardTabCarouselTemplate>
   );
 }
