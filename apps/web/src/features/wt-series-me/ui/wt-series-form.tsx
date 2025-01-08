@@ -1,4 +1,15 @@
-import { Genre, GENRE_LABEL, Status, STATUS_LABEL } from "@/shared/config/webtoon/const";
+import {
+  Genre,
+  GENRE_LABEL,
+  SERIES_TYPE_LABEL,
+  AGE_LABEL,
+  CREATION_TYPE_LABEL,
+  PAIR_LABEL,
+  CreationType,
+  Age,
+  Pair,
+  SeriesType,
+} from "@/shared/config/webtoon/const";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -27,8 +38,9 @@ import { useCreate } from "../model/use-create-series";
 import { useChannelUrlParam } from "@/shared/lib/hooks/use-channel-url-param";
 import { useParams, useRouter } from "next/navigation";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
-import { getUploadImageUrl } from "@/entities/wt-series-me";
 import { useUpdate } from "../model/use-update-series";
+import { getUploadThumbnailUrl } from "@/entities/wt-series-me";
+import ColorThief, { RGBColor } from "colorthief";
 
 // ----------------------------------------------------------------------
 
@@ -38,8 +50,12 @@ const keywordSchema = z
   .max(20, "키워드는 20자 이내로 입력해 주세요.");
 
 const schema = z.object({
-  image: z.string(),
-  status: z.enum(zodObjectKeys(STATUS_LABEL), { message: "연재 상태를 선택해 주세요." }),
+  thumbnail: z.string(),
+  dominantColor: z.array(z.number().min(0).max(255)).max(3),
+  age: z.enum(zodObjectKeys(AGE_LABEL)),
+  creationType: z.enum(zodObjectKeys(CREATION_TYPE_LABEL)),
+  pair: z.enum(zodObjectKeys(PAIR_LABEL)),
+  seriesType: z.enum(zodObjectKeys(SERIES_TYPE_LABEL), { message: "연재 상태를 선택해 주세요." }),
   genre: z.enum(zodObjectKeys(GENRE_LABEL), { message: "장르를 선택해 주세요." }),
   title: z.string().min(1, "제목을 입력해 주세요.").max(40, "최대 40자 이내로 입력해 주세요."),
   description: z.string().min(1, "설명을 입력해 주세요.").max(100, "최대 100자 이내로 입력해 주세요."),
@@ -47,10 +63,6 @@ const schema = z.object({
 });
 
 type Schema = z.infer<typeof schema>;
-
-// ----------------------------------------------------------------------
-
-const useWtSeriesFormContext = () => useFormContext<Schema>();
 
 // ----------------------------------------------------------------------
 
@@ -62,8 +74,12 @@ const WtCreateFormFn = ({ children }: WtCreateFormFnProps) => {
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
-      image: "",
-      status: "SERIAL",
+      thumbnail: "",
+      dominantColor: [],
+      age: "ALL",
+      creationType: "PRIMARY",
+      pair: "NONE",
+      seriesType: "SERIAL",
       genre: "" as Genre,
       title: "",
       description: "",
@@ -122,11 +138,15 @@ const WtCreateFormFn = ({ children }: WtCreateFormFnProps) => {
 
 type WtUpdateFormFnProps = {
   data: {
-    image: string | null;
-    status: Status;
+    thumbnail: string | null;
+    dominantColor: number[] | null;
+    age: Age;
+    creationType: CreationType;
+    pair: Pair;
+    seriesType: SeriesType;
     genre: Genre;
     title: string;
-    description?: string;
+    description: string;
     keywords?: string[];
   };
   children?: React.ReactNode;
@@ -136,11 +156,15 @@ const WtUpdateFormFn = ({ children, data }: WtUpdateFormFnProps) => {
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
-      image: data.image ?? "",
-      status: data.status ?? "SERIAL",
-      genre: data.genre ?? ("" as Genre),
-      title: data.title ?? "",
-      description: data.description ?? "",
+      thumbnail: data.thumbnail ?? "",
+      dominantColor: data.dominantColor ?? [],
+      age: data.age,
+      creationType: data.creationType,
+      pair: data.pair,
+      seriesType: data.seriesType,
+      genre: data.genre,
+      title: data.title,
+      description: data.description,
       keywords: data.keywords ?? [],
     },
     mode: "onTouched",
@@ -221,13 +245,101 @@ const UpdateSubmitFn = (rest: UpdateSubmitFnProps) => {
 
 // ----------------------------------------------------------------------
 
-const ImageFn = () => {
-  const theme = useTheme();
-  const { control } = useWtSeriesFormContext();
+const AgeFn = () => {
+  const { control } = useFormContext<Schema>();
+  const ageLabels = objectEntries(AGE_LABEL);
+
+  return (
+    <Controller
+      control={control}
+      name="age"
+      render={({ field }) => (
+        <Stack spacing={1}>
+          <Typography variant="subtitle2">연령</Typography>
+          <RadioGroup {...field}>
+            <Grid container spacing={1}>
+              {ageLabels.map(([value, label]) => (
+                <Grid item key={value}>
+                  <RadioButton value={value}>{label}</RadioButton>
+                </Grid>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Stack>
+      )}
+    />
+  );
+};
+
+// ----------------------------------------------------------------------
+
+const CreationTypeFn = () => {
+  const { control } = useFormContext<Schema>();
+  const entries = useMemo(() => objectEntries(CREATION_TYPE_LABEL), []);
+
+  return (
+    <Controller
+      control={control}
+      name="creationType"
+      render={({ field }) => (
+        <Stack spacing={1}>
+          <Typography variant="subtitle2">창작 유형</Typography>
+          <RadioGroup {...field}>
+            <Grid container spacing={1}>
+              {entries.map(([value, label]) => (
+                <Grid item key={value}>
+                  <RadioButton value={value}>{label}</RadioButton>
+                </Grid>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Stack>
+      )}
+    />
+  );
+};
+
+// ----------------------------------------------------------------------
+
+const PairFn = () => {
+  const { control } = useFormContext<Schema>();
+  const entries = objectEntries(PAIR_LABEL);
+
+  return (
+    <Controller
+      control={control}
+      name="pair"
+      render={({ field }) => (
+        <Stack spacing={1}>
+          <Typography variant="subtitle2">페어</Typography>
+          <RadioGroup {...field}>
+            <Grid container spacing={1}>
+              {entries.map(([value, label]) => (
+                <Grid item key={value}>
+                  <RadioButton value={value}>{label}</RadioButton>
+                </Grid>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Stack>
+      )}
+    />
+  );
+};
+
+// ----------------------------------------------------------------------
+
+const ThumbnailFn = () => {
+  const { control } = useFormContext<Schema>();
   const {
-    field: { value, onChange },
-  } = useController({ control, name: "image" });
+    field: { value: thumbnail, onChange: changeThumbnail },
+  } = useController({ control, name: "thumbnail" });
+  const {
+    field: { onChange: changeDominantColor },
+  } = useController({ control, name: "dominantColor" });
+
   const [loading, toggleLoading] = useToggle(false);
+  const theme = useTheme();
 
   const upload = () => {
     const picker = document.createElement("input");
@@ -235,36 +347,71 @@ const ImageFn = () => {
     picker.accept = ["image/jpeg", "image/png"].join(",");
     picker.multiple = false;
     picker.addEventListener("change", async () => {
-      if (picker.files?.[0]) {
-        if (picker.files[0].size > 10 * 1024 * 1024) {
+      const file = picker.files?.[0];
+      if (file) {
+        if (file.size > 10 * 1024 * 1024) {
           toast.error("최대 10MB 이미지만 업로드할 수 있어요.");
           return;
         }
 
         toggleLoading(true);
-        const res = await getUploadImageUrl({
-          contentLength: picker.files[0].size,
-          contentType: picker.files[0].type as Parameters<typeof getUploadImageUrl>[0]["contentType"],
-        });
-        await ky.put(res.signedUploadUrl, { body: picker.files[0] });
-        onChange(res.url);
-        toggleLoading(false);
+
+        try {
+          const [dominantColor, url] = await Promise.all([
+            new Promise<RGBColor>((resolve, reject) => {
+              const img = new Image();
+              img.src = URL.createObjectURL(file);
+              img.onload = () => {
+                const colorThief = new ColorThief();
+                const dominantColor = colorThief.getColor(img);
+
+                if (!dominantColor) {
+                  reject();
+                  return;
+                }
+
+                URL.revokeObjectURL(img.src);
+                resolve(dominantColor);
+              };
+              img.onerror = () => {
+                reject();
+              };
+            }),
+            (async () => {
+              const res = await getUploadThumbnailUrl({
+                contentLength: file.size,
+                contentType: file.type as Parameters<typeof getUploadThumbnailUrl>[0]["contentType"],
+              });
+              await ky.put(res.signedUploadUrl, { body: file });
+
+              return res.url;
+            })(),
+          ]);
+
+          changeThumbnail(url);
+          changeDominantColor(dominantColor);
+        } catch {
+          toast.error("썸네일 업로드에 실패했어요.");
+        } finally {
+          toggleLoading(false);
+        }
       }
     });
     picker.click();
   };
 
   const remove = () => {
-    onChange("");
+    changeThumbnail("");
+    changeDominantColor([]);
   };
 
   return (
     <Stack spacing={1}>
-      <Typography variant="subtitle2">시리즈 썸네일 이미지</Typography>
+      <Typography variant="subtitle2">썸네일</Typography>
       <Stack sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Box
           component="img"
-          src={value.length ? value : process.env["NEXT_PUBLIC_TEXT_LOGO"]}
+          src={thumbnail.length ? thumbnail : process.env["NEXT_PUBLIC_TEXT_LOGO"]}
           sx={{
             width: "260px",
             aspectRatio: 16 / 9,
@@ -280,7 +427,7 @@ const ImageFn = () => {
               업로드
             </LoadingButton>
 
-            {value && (
+            {thumbnail && (
               <Button variant="soft" color="error" sx={{ mr: 1 }} onClick={remove}>
                 삭제
               </Button>
@@ -298,14 +445,14 @@ const ImageFn = () => {
 
 // ----------------------------------------------------------------------
 
-const StatusFn = () => {
-  const { control } = useWtSeriesFormContext();
-  const entries = useMemo(() => objectEntries(STATUS_LABEL), []);
+const SeriesTypeFn = () => {
+  const { control } = useFormContext<Schema>();
+  const entries = useMemo(() => objectEntries(SERIES_TYPE_LABEL), []);
 
   return (
     <Controller
       control={control}
-      name="status"
+      name="seriesType"
       render={({ field }) => (
         <Stack spacing={1}>
           <Typography variant="subtitle2">연재 상태*</Typography>
@@ -327,7 +474,7 @@ const StatusFn = () => {
 // ----------------------------------------------------------------------
 
 const GenreFn = () => {
-  const { control } = useWtSeriesFormContext();
+  const { control } = useFormContext<Schema>();
   const genreLabels = objectEntries(GENRE_LABEL);
 
   return (
@@ -362,7 +509,7 @@ const GenreFn = () => {
 type TitleFnProps = TextFieldProps;
 
 const TitleFn = (rest: TitleFnProps) => {
-  const { control } = useWtSeriesFormContext();
+  const { control } = useFormContext<Schema>();
 
   return (
     <Controller
@@ -396,7 +543,7 @@ const TitleFn = (rest: TitleFnProps) => {
 type DescriptionFnProps = TextFieldProps;
 
 const DescriptionFn = (rest: DescriptionFnProps) => {
-  const { control } = useWtSeriesFormContext();
+  const { control } = useFormContext<Schema>();
 
   return (
     <Controller
@@ -439,7 +586,7 @@ const DescriptionFn = (rest: DescriptionFnProps) => {
 // ----------------------------------------------------------------------
 
 const KeywordsFn = () => {
-  const { control } = useWtSeriesFormContext();
+  const { control } = useFormContext<Schema>();
   const {
     field: { value, onChange },
   } = useController({ control, name: "keywords" });
@@ -575,8 +722,11 @@ export const WtSeriesCreateForm = Object.assign(
     </ToggleStoreProvider>
   ),
   {
-    Image: ImageFn,
-    Status: StatusFn,
+    Thumbnail: ThumbnailFn,
+    Age: AgeFn,
+    CreationType: CreationTypeFn,
+    Pair: PairFn,
+    SeriesType: SeriesTypeFn,
     Genre: GenreFn,
     title: TitleFn,
     description: DescriptionFn,
@@ -592,8 +742,11 @@ export const WtSeriesUpdateForm = Object.assign(
     </ToggleStoreProvider>
   ),
   {
-    Image: ImageFn,
-    Status: StatusFn,
+    Thumbnail: ThumbnailFn,
+    Age: AgeFn,
+    CreationType: CreationTypeFn,
+    Pair: PairFn,
+    SeriesType: SeriesTypeFn,
     Genre: GenreFn,
     title: TitleFn,
     description: DescriptionFn,

@@ -1,4 +1,4 @@
-import { AGE_LABEL, CREATION_TYPE_LABEL, GENRE_LABEL, PAIR_LABEL } from "@/shared/config/webtoon/const";
+import { AGE_LABEL } from "@/shared/config/webtoon/const";
 import { zodObjectKeys } from "@pency/util";
 import { z } from "zod";
 import { keywordSchema } from "./keyword-schema";
@@ -6,7 +6,6 @@ import { keywordSchema } from "./keyword-schema";
 export const formSchema = z
   .object({
     title: z.string().min(1, "제목을 입력해 주세요.").max(100, "최대 100자 이내로 입력해 주세요."),
-    genre: z.enum(zodObjectKeys(GENRE_LABEL), { message: "장르를 선택해 주세요." }),
     price: z.coerce.number(),
     content: z
       .object({
@@ -34,8 +33,6 @@ export const formSchema = z
         }
       }),
     thumbnail: z.string(),
-    creationType: z.enum(zodObjectKeys(CREATION_TYPE_LABEL)),
-    pair: z.enum(zodObjectKeys(PAIR_LABEL)),
     age: z.enum(zodObjectKeys(AGE_LABEL)),
     keywords: z.array(keywordSchema).max(10, "키워드는 최대 10개 이내로 입력해 주세요."),
     authorTalk: z.string().max(200, "작가의 말은 200자 이내로 입력해 주세요."),

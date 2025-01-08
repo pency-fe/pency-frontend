@@ -18,7 +18,7 @@ export const WtSeriesOverviewCard = () => {
     genre: "액션",
     creationType: "2차창작",
     pair: "BL",
-    status: "연재",
+    seriesType: "연재",
     title: "천재 궁수의 스트리밍",
     channel: {
       channelUrl: "channel-id-123",
@@ -52,7 +52,7 @@ export const WtSeriesOverviewCard = () => {
               {seriesData.genre}
             </OverviewCard.Label>
             <OverviewCard.Label variant="soft" color="warning">
-              {seriesData.status}
+              {seriesData.seriesType}
             </OverviewCard.Label>
           </>
         ),
@@ -163,7 +163,7 @@ export const SeriesOverviewCard = () => {
     thumbnail:
       "https://page-images.kakaoentcdn.com/download/resource?kid=b2PvT7/hAFPPPhF6U/e8nt8ArmKwQnOwsMS6TTFk&filename=o1",
     genre: "액션",
-    status: "연재",
+    seriesType: "연재",
     title: "천재 궁수의 스트리밍",
     channel: {
       channelUrl: "channel-id-123",
@@ -190,7 +190,7 @@ export const SeriesOverviewCard = () => {
               {seriesData.genre}
             </OverviewCard.Label>
             <OverviewCard.Label variant="soft" color="info">
-              {seriesData.status}
+              {seriesData.seriesType}
             </OverviewCard.Label>
           </>
         ),

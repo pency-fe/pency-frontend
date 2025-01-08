@@ -26,23 +26,14 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { ChangeEventHandler, ComponentProps, KeyboardEventHandler, useMemo, useState } from "react";
+import { ChangeEventHandler, ComponentProps, KeyboardEventHandler, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { objectEntries, useToggle } from "@pency/util";
 import { EvaMoreHorizontalOutlineIcon, Menux, RadioButton, toast, useMenuxState } from "@pency/ui/components";
 import ky from "ky";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/navigation";
-import {
-  Age,
-  AGE_LABEL,
-  CREATION_TYPE_LABEL,
-  CreationType,
-  Genre,
-  GENRE_LABEL,
-  Pair,
-  PAIR_LABEL,
-} from "@/shared/config/webtoon/const";
+import { Age, AGE_LABEL } from "@/shared/config/webtoon/const";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
 import { formSchema, FormSchema } from "../../model/form-schema";
 import { DataProvider, useData } from "../../model/data-provider";
@@ -57,13 +48,10 @@ import { getUploadThumbnailUrl } from "@/entities/wt-episode-me";
 
 type FormFnProps = {
   title?: string;
-  genre?: Genre;
   price?: number | null;
   free?: Array<{ name: string; src: string }> | null;
   paid?: Array<{ name: string; src: string }> | null;
   thumbnail?: string | null;
-  creationType?: CreationType;
-  pair?: Pair;
   age?: Age;
   keywords?: Array<string>;
   authorTalk?: string | null;
@@ -76,15 +64,12 @@ const FormFn = ({ id, publish, channelUrl, children, ...rest }: FormFnProps) => 
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: rest.title ?? "",
-      genre: rest.genre ?? ("" as Genre),
       price: rest.price ?? 0,
       content: {
         free: rest.free ?? [],
         paid: rest.paid ?? [],
       },
       thumbnail: rest.thumbnail ?? "",
-      creationType: rest.creationType ?? "PRIMARY",
-      pair: rest.pair ?? "NONE",
       age: rest.age ?? "ALL",
       keywords: rest.keywords ?? [],
       authorTalk: rest.authorTalk ?? "",
@@ -182,7 +167,7 @@ const SaveButtonFn = () => {
   const { mutateAsync: provisionPost } = useProvision();
 
   const handleClick = async () => {
-    const names = ["title", "genre", "content", "price"] as const;
+    const names = ["title", "content", "price"] as const;
 
     const isValidate = await trigger(names);
     if (!isValidate) {
@@ -210,9 +195,9 @@ const SaveButtonFn = () => {
       }
     }
 
-    const [title, genre, { free, paid }, price] = getValues(names);
+    const [title, { free, paid }, price] = getValues(names);
     savePost(
-      { id: postId, title, genre, price, free, paid },
+      { id: postId, title, price, free, paid },
       {
         onSuccess: () => {
           toast.success("포스트를 저장했어요.");
@@ -305,94 +290,6 @@ const TitleFn = () => {
             ),
           }}
         />
-      )}
-    />
-  );
-};
-
-// ----------------------------------------------------------------------
-
-const CreationTypeFn = () => {
-  const { control } = useFormContext<FormSchema>();
-  const entries = useMemo(() => objectEntries(CREATION_TYPE_LABEL), []);
-
-  return (
-    <Controller
-      control={control}
-      name="creationType"
-      render={({ field }) => (
-        <Stack spacing={1}>
-          <Typography variant="subtitle2">창작 유형</Typography>
-          <RadioGroup {...field}>
-            <Grid container spacing={1}>
-              {entries.map(([value, label]) => (
-                <Grid item key={value}>
-                  <RadioButton value={value}>{label}</RadioButton>
-                </Grid>
-              ))}
-            </Grid>
-          </RadioGroup>
-        </Stack>
-      )}
-    />
-  );
-};
-
-// ----------------------------------------------------------------------
-
-const PairFn = () => {
-  const { control } = useFormContext<FormSchema>();
-  const entries = objectEntries(PAIR_LABEL);
-
-  return (
-    <Controller
-      control={control}
-      name="pair"
-      render={({ field }) => (
-        <Stack spacing={1}>
-          <Typography variant="subtitle2">페어</Typography>
-          <RadioGroup {...field}>
-            <Grid container spacing={1}>
-              {entries.map(([value, label]) => (
-                <Grid item key={value}>
-                  <RadioButton value={value}>{label}</RadioButton>
-                </Grid>
-              ))}
-            </Grid>
-          </RadioGroup>
-        </Stack>
-      )}
-    />
-  );
-};
-
-// ----------------------------------------------------------------------
-
-const GenreFn = () => {
-  const { control } = useFormContext<FormSchema>();
-  const genreLabels = objectEntries(GENRE_LABEL);
-
-  return (
-    <Controller
-      control={control}
-      name="genre"
-      render={({ field, fieldState: { error } }) => (
-        <TextField
-          {...field}
-          label="장르"
-          required
-          select
-          defaultValue=""
-          error={!!error}
-          helperText={error ? error.message : ""}
-        >
-          <MenuItem value="" sx={{ display: "none" }}></MenuItem>
-          {genreLabels.map(([value, label]) => (
-            <MenuItem key={value} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </TextField>
       )}
     />
   );
@@ -721,9 +618,6 @@ export const Form = Object.assign(FormFn, {
   MoreIconButton: MoreIconButtonFn,
   SaveButton: SaveButtonFn,
   Title: TitleFn,
-  Genre: GenreFn,
-  CreationType: CreationTypeFn,
-  Pair: PairFn,
   Age: AgeFn,
   Keywords: KeywordsFn,
   AuthorTalk: AuthorTalkFn,

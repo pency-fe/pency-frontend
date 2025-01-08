@@ -38,7 +38,7 @@ const postData = {
   creationType: "2차창작",
   pair: "BL",
   genre: "액션",
-  status: "연재",
+  seriesType: "연재",
   title: "천재 궁수의 스트리밍1 천재 궁수의 스트리밍2 천재 궁수의 스트리밍3 천재 궁수의 스트리밍4",
   // title: "천재 궁수의 스트리밍",
   channel: {
@@ -87,7 +87,7 @@ export const WtSeriesRichCard = () => {
                 {postData.genre}
               </RichCard.Label>
               <RichCard.Label variant="soft" color="warning">
-                {postData.status}
+                {postData.seriesType}
               </RichCard.Label>
             </>
           ),
@@ -214,7 +214,7 @@ export const WtSeriesGradientRichCard = () => {
                 {postData.genre}
               </RichCard.Label>
               <RichCard.Label variant="soft" color="warning">
-                {postData.status}
+                {postData.seriesType}
               </RichCard.Label>
             </>
           ),
