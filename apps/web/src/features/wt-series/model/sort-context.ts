@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from "react";
 
-export type Sort = "UPDATE" | "POPULAR" | "WPOPULAR";
+export type Sort = "DEFAULT" | "UPDATE" | "POPULAR" | "WPOPULAR";
 
 export const SortContext = createContext<{ sort: Sort | undefined }>({ sort: undefined });
 

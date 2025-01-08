@@ -11,6 +11,7 @@ import {
   SERIES_TYPE_LABEL,
   SeriesType,
 } from "@/shared/config/webtoon/const";
+import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
 import { formatCount } from "@/shared/lib/format/format-count";
 import { Box, Skeleton, Stack } from "@mui/material";
 import {
@@ -19,6 +20,7 @@ import {
   Menux,
   NineteenCircleIcon,
   RichCard,
+  toast,
   useMenuxState,
 } from "@pency/ui/components";
 import { ComponentProps, ComponentType, forwardRef } from "react";
@@ -44,17 +46,19 @@ type WtSeriesRichCardFnProps = {
     likeCount: number;
     keywords: string[];
   };
-  Menu: ComponentType<{ data: WtSeriesRichCardFnProps["data"] } & ComponentProps<typeof Menux>>;
+  feedbackButton: React.ReactElement;
 };
 
-const WtSeriesRichCardFn = forwardRef<HTMLDivElement, WtSeriesRichCardFnProps>(({ data, Menu }, ref) => {
-  const { anchorRef, isOpen, close, toggle } = useMenuxState();
+const WtSeriesRichCardFn = forwardRef<HTMLDivElement, WtSeriesRichCardFnProps>(({ data, feedbackButton }, ref) => {
+  // const { anchorRef, isOpen, close, toggle } = useMenuxState();
 
   return (
     <RichCard
       ref={ref}
       slots={{
-        overlayElement: <RichCard.OverlayAnchor href={`/${data.channel.channelUrl}/webtoon/${data.id}`} />,
+        overlayElement: (
+          <RichCard.OverlayAnchor href={`/${formatChannelUrl(data.channel.channelUrl)}/webtoon/${data.id}`} />
+        ),
         thumbnail: (
           <RichCard.Thumbnail
             slots={{
@@ -84,14 +88,18 @@ const WtSeriesRichCardFn = forwardRef<HTMLDivElement, WtSeriesRichCardFnProps>((
         ),
         avatarLink: (
           <RichCard.AvatarLink
-            href={`/${data.channel.channelUrl}`}
+            href={`/${formatChannelUrl(data.channel.channelUrl)}`}
             slots={{
               avatar: <RichCard.AvatarLink.Avatar src={data.channel.avatar} />,
             }}
           />
         ),
         title: <RichCard.Title>{data.title}</RichCard.Title>,
-        nameLink: <RichCard.NameLink href={`/${data.channel.channelUrl}`}>{data.channel.name}</RichCard.NameLink>,
+        nameLink: (
+          <RichCard.NameLink href={`/${formatChannelUrl(data.channel.channelUrl)}`}>
+            {data.channel.name}
+          </RichCard.NameLink>
+        ),
         attributes: (
           <>
             <RichCard.AttributeDot />
@@ -103,19 +111,30 @@ const WtSeriesRichCardFn = forwardRef<HTMLDivElement, WtSeriesRichCardFnProps>((
             </RichCard.Attribute>
           </>
         ),
-        feedbackButton: (
-          <>
-            <RichCard.FeedbackButton ref={anchorRef} onClick={toggle}>
-              <EvaMoreVerticalOutlineIcon />
-            </RichCard.FeedbackButton>
-            <Menu data={data} open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close} />
-          </>
-        ),
+        feedbackButton,
+        // feedbackButton: (
+        //   <>
+        //     <RichCard.FeedbackButton ref={anchorRef} onClick={toggle}>
+        //       <EvaMoreVerticalOutlineIcon />
+        //     </RichCard.FeedbackButton>
+        //     <Menu data={data} open={isOpen} anchorEl={anchorRef.current} placement="left-start" onClose={close} />
+        //   </>
+        // ),
         chips: (
           <>
             {data.keywords.length
               ? data.keywords.map((keyword, i) => (
-                  <RichCard.Chip key={i} label={keyword} variant="soft" size="small" href={`/[TODO]키워드_검색`} />
+                  <RichCard.Chip
+                    key={i}
+                    label={keyword}
+                    variant="soft"
+                    size="small"
+                    href="/"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toast.warning("TODO");
+                    }}
+                  />
                 ))
               : null}
           </>

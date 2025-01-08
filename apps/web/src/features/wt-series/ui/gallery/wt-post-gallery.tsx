@@ -8,7 +8,7 @@ import { Grid, PaginationItem } from "@mui/material";
 import { usePaginationx } from "@pency/ui/hooks";
 import { AsyncBoundary, createQueryString } from "@pency/util";
 import { wtEpisodeKeys, WtEpisodeRichCard } from "@/entities/wt-episode";
-import { useGenre } from "../../model/genre-context";
+import { useGenre } from "../../model/genres-context";
 import { useSort } from "../../model/sort-context";
 import { useCreationTypes } from "../../model/creation-types-context";
 import { usePairs } from "../../model/pairs-context";

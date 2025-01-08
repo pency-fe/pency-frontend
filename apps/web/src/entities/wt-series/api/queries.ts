@@ -6,28 +6,31 @@ export const wtSeriesKeys = {
   all: ["wt", "series"],
   pages: () => [...wtSeriesKeys.all, "page"],
   page: ({
-    genre,
+    genres = ["ALL"],
+    creationTypes = ["ALL"],
+    pairs = ["ALL"],
+    seriesTypes = ["ALL"],
+    page = 1,
+    pageType = "DEFAULT",
     sort,
-    page,
-    pair,
-    creationType,
-    seriesType,
-    channelUrl,
-  }: Parameters<typeof getWebtoonSeriesPage>[0] = {}) =>
+    channelUrl = undefined,
+  }: Parameters<typeof getWebtoonSeriesPage>[0]) =>
     queryOptions<Awaited<ReturnType<typeof getWebtoonSeriesPage>>>({
-      // [?]
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: [
         ...wtSeriesKeys.pages(),
         {
-          genre,
-          sort,
+          genres,
+          creationTypes,
+          pairs,
+          seriesTypes,
           page,
-          pair,
-          creationType,
-          seriesType,
+          pageType,
+          sort,
           channelUrl: channelUrl ? formatChannelUrl(channelUrl, { prefix: false }) : channelUrl,
         },
       ],
-      queryFn: () => getWebtoonSeriesPage({ genre, sort, page, pair, creationType, seriesType, channelUrl }),
+      queryFn: () =>
+        getWebtoonSeriesPage({ genres, creationTypes, pairs, seriesTypes, page, pageType, sort, channelUrl }),
     }),
 };

@@ -11,6 +11,7 @@ import {
   SERIES_TYPE_LABEL,
   SeriesType,
 } from "@/shared/config/webtoon/const";
+import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
 import { Box, Skeleton, Stack } from "@mui/material";
 import { NineteenCircleIcon, OverviewCard } from "@pency/ui/components";
 import { forwardRef } from "react";
@@ -40,7 +41,9 @@ const WtSeriesOverviewCardFn = forwardRef<HTMLDivElement, WtSeriesOverviewCardFn
     <OverviewCard
       ref={ref}
       slots={{
-        overlayElement: <OverviewCard.OverlayAnchor href={`/${data.channel.channelUrl}/webtoon/${data.id}`} />,
+        overlayElement: (
+          <OverviewCard.OverlayAnchor href={`/${formatChannelUrl(data.channel.channelUrl)}/webtoon/${data.id}`} />
+        ),
         thumbnail: (
           <OverviewCard.Thumbnail
             slots={{
@@ -70,7 +73,7 @@ const WtSeriesOverviewCardFn = forwardRef<HTMLDivElement, WtSeriesOverviewCardFn
         ),
         avatarLink: (
           <OverviewCard.AvatarLink
-            href={`/@${data.channel.channelUrl}`}
+            href={`/${formatChannelUrl(data.channel.channelUrl)}`}
             slots={{
               avatar: <OverviewCard.AvatarLink.Avatar src={data.channel.avatar} />,
             }}
@@ -78,7 +81,9 @@ const WtSeriesOverviewCardFn = forwardRef<HTMLDivElement, WtSeriesOverviewCardFn
         ),
         title: <OverviewCard.Title>{data.title}</OverviewCard.Title>,
         nameLink: (
-          <OverviewCard.NameLink href={`/@${data.channel.channelUrl}`}>{data.channel.name}</OverviewCard.NameLink>
+          <OverviewCard.NameLink href={`/${formatChannelUrl(data.channel.channelUrl)}`}>
+            {data.channel.name}
+          </OverviewCard.NameLink>
         ),
       }}
     />

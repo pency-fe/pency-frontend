@@ -1,18 +1,18 @@
-import { Sort } from "@/features/wt-episode/model/sort-context";
-import { Age, CreationType, Genre, Pair, SeriesType } from "@/shared/config/webtoon/const";
 import { createSearchParamString } from "@pency/util";
+import { Age, CreationType, Genre, Pair, SeriesType } from "@/shared/config/webtoon/const";
 import { formatChannelUrl } from "@/shared/lib/format/format-channel-url";
 import { apiClient } from "@/shared/lib/ky/api-client";
 
 // ----------------------------------------------------------------------
 
 type GetWebtoonSeriesPageReq = {
-  genre?: Genre | "ALL";
-  sort?: Sort;
+  genres?: Array<Genre | "ALL">;
+  creationTypes?: Array<CreationType | "ALL">;
+  pairs?: Array<Pair | "ALL">;
+  seriesTypes?: Array<SeriesType | "ALL">;
   page?: number;
-  pair?: Array<Pair | "ALL">;
-  creationType?: Array<CreationType | "ALL">;
-  seriesType?: Array<SeriesType | "ALL">;
+  pageType?: "DEFAULT" | "CHANNEL" | "BOOKMARK" | "VIEW";
+  sort: "DEFAULT" | "UPDATE" | "POPULAR" | "WPOPULAR";
   channelUrl?: string;
 };
 
@@ -34,8 +34,8 @@ type GetWebtoonSeriesPageRes = {
       image: string | null;
       title: string;
     };
-    likeCount: number;
     episodeCount: number;
+    likeCount: number;
     keywords: Array<string>;
     bookmark: boolean | null;
     block: boolean | null;
@@ -43,22 +43,24 @@ type GetWebtoonSeriesPageRes = {
 };
 
 export const getWebtoonSeriesPage = async ({
-  genre = "ALL",
-  sort = "UPDATE",
+  genres = ["ALL"],
+  creationTypes = ["ALL"],
+  pairs = ["ALL"],
+  seriesTypes = ["ALL"],
   page = 1,
-  pair = ["ALL"],
-  creationType = ["ALL"],
-  seriesType = ["ALL"],
+  pageType = "DEFAULT",
+  sort,
   channelUrl = undefined,
-}: GetWebtoonSeriesPageReq = {}) => {
+}: GetWebtoonSeriesPageReq) => {
   return await apiClient.get<GetWebtoonSeriesPageRes>(
     `webtoon/series/page${createSearchParamString({
-      genre,
-      sort,
+      genres,
+      creationTypes,
+      pairs,
+      seriesTypes,
       page,
-      pair,
-      creationType,
-      seriesType,
+      pageType,
+      sort,
       channelUrl: channelUrl ? formatChannelUrl(channelUrl, { prefix: false }) : channelUrl,
     })}`,
   );

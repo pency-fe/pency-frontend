@@ -7,14 +7,14 @@ import { block } from "@/entities/channel";
 import { useCallback } from "react";
 import { useAuthContext } from "@/entities/@auth";
 import { useRouter } from "next/navigation";
-import { useGenre } from "./genre-context";
+import { useGenre } from "./genres-context";
 import { useSort } from "./sort-context";
 import { usePage } from "./page-context";
 import { useCreationTypes } from "./creation-types-context";
 import { usePairs } from "./pairs-context";
 import { useChannelUrl } from "./channel-url-context";
-import { wtEpisodeKeys } from "@/entities/wt-episode";
 import { produce } from "immer";
+import { wtSeriesKeys } from "@/entities/wt-series";
 
 export const useBlock = () => {
   const { mutate } = useMutation<
@@ -45,7 +45,7 @@ export const useBlock = () => {
       mutate(req, {
         onSuccess: () => {
           queryClient.setQueryData(
-            wtEpisodeKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
+            wtSeriesKeys.page({ genre, sort, page, creationTypes, pairs, channelUrl }).queryKey,
             (oldData) =>
               oldData &&
               produce(oldData, (draft) => {

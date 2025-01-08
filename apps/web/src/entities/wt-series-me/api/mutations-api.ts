@@ -6,6 +6,7 @@ import { apiClient } from "@/shared/lib/ky/api-client";
 type CreateReq = {
   channelUrl: string;
   thumbnail?: string;
+  dominantColor?: number[];
   age: Age;
   creationType: CreationType;
   pair: Pair;
@@ -25,6 +26,7 @@ export const create = async (req: CreateReq) => {
 type UpdateReq = {
   id: number;
   thumbnail?: string;
+  dominantColor?: number[];
   age: Age;
   creationType: CreationType;
   pair: Pair;

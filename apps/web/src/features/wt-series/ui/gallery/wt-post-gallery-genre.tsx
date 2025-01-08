@@ -8,7 +8,7 @@ import { RadioButton } from "@pency/ui/components";
 import { hideScrollX } from "@pency/ui/util";
 import { createQueryString, objectEntries } from "@pency/util";
 import { Genre, GENRE_LABEL } from "@/shared/config/webtoon/const";
-import { GenreContext, useGenre } from "../../model/genre-context";
+import { GenreContext, useGenre } from "../../model/genres-context";
 
 // ----------------------------------------------------------------------
 

@@ -290,7 +290,7 @@ const TitleFn = () => {
 
 const AttributeFn = () => {
   const theme = useTheme();
-  const { userProfile, subscriberCount, wtPostCount } = useDetail();
+  const { userProfile, subscriberCount, wtSeriesCount } = useDetail();
 
   return (
     <Box
@@ -323,7 +323,7 @@ const AttributeFn = () => {
       <Typography>•</Typography>
       <Typography sx={{ minWidth: "max-content" }}>구독자 {formatCount(subscriberCount)}명</Typography>
       <Typography>•</Typography>
-      <Typography sx={{ minWidth: "max-content" }}>포스트 {formatCount(wtPostCount)}개</Typography>
+      <Typography sx={{ minWidth: "max-content" }}>웹툰 {formatCount(wtSeriesCount)}개</Typography>
     </Box>
   );
 };
@@ -443,7 +443,7 @@ function ChannelDetailDialog({ open, onClose }: ChannelDetailDialogProps) {
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
             <EvaInfoOutlineIcon sx={{ fontSize: 24, mx: "8px" }} />
             <Typography variant="body2">
-              구독자 {data.subscriberCount}명 • 포스트 {data.wtPostCount}개
+              구독자 {data.subscriberCount}명 • 웹툰 {data.wtSeriesCount}개
             </Typography>
           </Box>
         </Stack>

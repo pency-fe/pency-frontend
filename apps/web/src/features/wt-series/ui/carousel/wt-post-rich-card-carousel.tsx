@@ -7,7 +7,7 @@ import { withAsyncBoundary } from "@pency/util";
 import { wtEpisodeKeys, WtEpisodeRichCard } from "@/entities/wt-episode";
 import { ComponentProps } from "react";
 import { ChannelUrlContext } from "../../model/channel-url-context";
-import { GenreContext } from "../../model/genre-context";
+import { GenreContext } from "../../model/genres-context";
 import { SortContext } from "../../model/sort-context";
 
 type PanelFnProps = { Menu: ComponentProps<typeof WtEpisodeRichCard>["Menu"] } & Pick<
